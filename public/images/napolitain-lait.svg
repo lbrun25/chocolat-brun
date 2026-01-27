@@ -1,0 +1,16 @@
+<svg width="600" height="600" xmlns="http://www.w3.org/2000/svg">
+  <rect width="600" height="600" fill="#F5E6C8"/>
+  <g filter="sepia(20%)">
+    <rect x="150" y="200" width="300" height="300" rx="10" fill="#D2691E" opacity="0.6"/>
+    <text x="300" y="550" font-family="Georgia, serif" font-size="28" fill="#3B1E12" text-anchor="middle">
+      Chocolat au lait
+    </text>
+  </g>
+</svg>
+
+
+
+
+
+
+

@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://www.chocolat-brun.fr/sitemap.xml
+
+
+
+
+
+
+

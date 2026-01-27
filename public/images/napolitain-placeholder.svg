@@ -1,0 +1,21 @@
+<svg width="1200" height="630" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <filter id="sepia">
+      <feColorMatrix type="sepia" values="0.3"/>
+    </filter>
+  </defs>
+  <rect width="1200" height="630" fill="#F5E6C8"/>
+  <text x="600" y="300" font-family="Georgia, serif" font-size="48" fill="#3B1E12" text-anchor="middle" filter="url(#sepia)">
+    Napolitain Artisanal
+  </text>
+  <text x="600" y="360" font-family="Georgia, serif" font-size="24" fill="#8B4513" text-anchor="middle" filter="url(#sepia)">
+    Chocolat BRUN - Placeholder Image
+  </text>
+</svg>
+
+
+
+
+
+
+

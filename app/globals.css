@@ -1,0 +1,45 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Police Chocolate */
+@font-face {
+  font-family: 'Chocolate';
+  src: url('/font%20/chocolate_5/Chocolate.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@layer base {
+  body {
+    @apply bg-chocolate-light text-chocolate-dark;
+    font-family: 'Georgia', serif;
+  }
+  
+  :root {
+    --font-dancing-script: 'Dancing Script', cursive;
+    --font-chocolate: 'Chocolate', cursive;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+/* Styles personnalisés pour l'ambiance artisanale */
+.artisan-texture {
+  background-image: 
+    radial-gradient(circle at 1px 1px, rgba(59, 30, 18, 0.05) 1px, transparent 0);
+  background-size: 20px 20px;
+}
+
+.paper-texture {
+  background: 
+    linear-gradient(90deg, rgba(245, 230, 200, 0.1) 0%, rgba(245, 230, 200, 0.05) 100%),
+    radial-gradient(circle at 50% 50%, rgba(139, 69, 19, 0.1) 0%, transparent 50%);
+}
+
+

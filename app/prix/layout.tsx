@@ -1,0 +1,16 @@
+import { Metadata } from 'next'
+import { ReactNode } from 'react'
+
+export const metadata: Metadata = {
+  title: 'Prix & Conditionnements – Napolitains Chocolat BRUN',
+  description: 'Découvrez nos tarifs et conditionnements pour les napolitains artisanaux. Conditionnements de 100 ou 150 pièces. Prix HT, TVA 5,5%.',
+}
+
+export default function PrixLayout({
+  children,
+}: {
+  children: ReactNode
+}) {
+  return <>{children}</>
+}
+
