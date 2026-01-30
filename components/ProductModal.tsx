@@ -12,6 +12,7 @@ interface ProductModalProps {
   description: string
   notes?: string
   ingredients?: string
+  allergens?: string
   imageSrc: string
   fallbackSrc: string
   imageAlt: string
@@ -24,6 +25,7 @@ export default function ProductModal({
   description,
   notes,
   ingredients,
+  allergens,
   imageSrc,
   fallbackSrc,
   imageAlt,
@@ -220,11 +222,22 @@ export default function ProductModal({
                       </div>
                     )}
 
-                    {/* Ingrédients */}
-                    {ingredients && (
+                    {/* Composition */}
+                    {(ingredients || allergens) && (
                       <div>
-                        <h3 className="text-3xl font-bold text-chocolate-dark mb-4 font-serif">Ingrédients</h3>
-                        <p className="text-xl text-chocolate-dark/80 leading-relaxed font-sans">{ingredients}</p>
+                        <h3 className="text-3xl font-bold text-chocolate-dark mb-4 font-serif">Composition</h3>
+                        {ingredients && (
+                          <div className="mb-4">
+                            <h4 className="text-xl font-semibold text-chocolate-dark mb-2 font-serif">Ingrédients</h4>
+                            <p className="text-xl text-chocolate-dark/80 leading-relaxed font-sans">{ingredients}</p>
+                          </div>
+                        )}
+                        {allergens && (
+                          <div>
+                            <h4 className="text-xl font-semibold text-chocolate-dark mb-2 font-serif">Allergènes</h4>
+                            <p className="text-xl text-chocolate-dark/80 leading-relaxed font-sans font-medium">{allergens}</p>
+                          </div>
+                        )}
                       </div>
                     )}
 

@@ -1,129 +1,561 @@
 'use client'
 
 import Link from 'next/link'
-import dynamic from 'next/dynamic'
-import { motion } from 'framer-motion'
+import { motion, useMotionValue, useSpring, useTransform, useAnimation } from 'framer-motion'
 import NapolitainCard from '@/components/NapolitainCard'
 import SafeImage from '@/components/SafeImage'
+import Image from 'next/image'
+import { useEffect, useState, useRef, RefObject } from 'react'
+import { products } from '@/lib/products'
 
-// Import dynamique pour éviter les erreurs SSR avec Three.js
-const ChocolateWrapper3D = dynamic(() => import('@/components/ChocolateWrapper3D'), {
-  ssr: false,
-  loading: () => (
-    <div className="w-full h-full flex items-center justify-center">
-      <div className="animate-pulse text-chocolate-dark/50">Chargement 3D...</div>
+function ChocolateSachet() {
+  const ref = useRef<HTMLDivElement>(null)
+
+  // Motion values pour les rotations fluides
+  const rotateX = useMotionValue(0)
+  const rotateY = useMotionValue(0)
+  const springRotateX = useSpring(rotateX, { stiffness: 150, damping: 15 })
+  const springRotateY = useSpring(rotateY, { stiffness: 150, damping: 15 })
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      if (ref.current) {
+        const rect = ref.current.getBoundingClientRect()
+        const centerX = rect.left + rect.width / 2
+        const centerY = rect.top + rect.height / 2
+        
+        const deltaX = e.clientX - centerX
+        const deltaY = e.clientY - centerY
+        const maxRotation = 15
+        
+        // Calculer les rotations normalisées
+        const normalizedX = Math.max(-1, Math.min(1, deltaX / (rect.width / 2)))
+        const normalizedY = Math.max(-1, Math.min(1, deltaY / (rect.height / 2)))
+        
+        rotateX.set(normalizedY * -maxRotation)
+        rotateY.set(normalizedX * maxRotation)
+      }
+    }
+
+    window.addEventListener('mousemove', handleMouseMove)
+    
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove)
+    }
+  }, [rotateX, rotateY])
+
+  return (
+    <div 
+      ref={ref}
+      className="relative w-full max-w-xs md:max-w-md lg:max-w-lg h-[200px] md:h-[300px] lg:h-[400px]"
+      style={{ perspective: '1000px' }}
+    >
+      <motion.div
+        style={{
+          rotateX: springRotateX,
+          rotateY: springRotateY,
+          transformStyle: 'preserve-3d',
+          perspective: '1000px',
+        }}
+        className="w-full h-full"
+      >
+        <Image
+          src="/images/chocolat_sachet_transparent_bg.png"
+          alt="Sachet de napolitains artisanaux Chocolat BRUN"
+          fill
+          className="object-contain drop-shadow-2xl"
+          priority
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 60vw"
+        />
+      </motion.div>
     </div>
-  ),
-})
+  )
+}
 
-const napolitains = [
-  {
-    name: 'Chocolat noir au café',
-    description: 'Un chocolat noir intense sublimé par des notes de café finement torréfié, offrant une dégustation profonde et élégante.',
-    notes: 'Cacao intense • Café torréfié • Légère amertume',
-    ingredients: 'Fèves de cacao, sucre, beurre de cacao, café, émulsifiant : lécithine de tournesol, vanille naturelle.',
-    imageSrc: '/images/chocolat noir café .JPG',
-    fallbackSrc: '/images/napolitain-cafe.svg',
-    imageAlt: 'Napolitain chocolat noir au café',
-  },
-  {
-    name: 'Chocolat noir',
-    description: 'Un chocolat noir pur et équilibré, révélant toute la richesse aromatique du cacao dans une dégustation authentique et raffinée.',
-    notes: 'Cacao puissant • Notes boisées • Finale longue',
-    ingredients: 'Fèves de cacao, sucre, beurre de cacao, émulsifiant : lécithine de tournesol, vanille naturelle.',
-    imageSrc: '/images/chocolat noir café .JPG',
-    fallbackSrc: '/images/napolitain-noir.svg',
-    imageAlt: 'Napolitain chocolat noir',
-  },
-  {
-    name: 'Chocolat au lait',
-    description: 'Un chocolat au lait fondant et généreux, alliant douceur lactée et intensité cacaotée dans un parfait équilibre.',
-    notes: 'Lait • Cacao • Douceur gourmande',
-    ingredients: 'Sucre, beurre de cacao, fèves de cacao, lait entier en poudre, émulsifiant : lécithine de tournesol, vanille naturelle.',
-    imageSrc: '/images/chocolat au lait.JPG',
-    fallbackSrc: '/images/napolitain-lait.svg',
-    imageAlt: 'Napolitain chocolat au lait',
-  },
-  {
-    name: 'Chocolat blanc',
-    description: 'Un chocolat blanc onctueux et délicat, aux notes de lait frais et de vanille naturelle, pour une dégustation tout en douceur.',
-    notes: 'Lait frais • Vanille • Rondeur',
-    ingredients: 'Sucre, beurre de cacao, lait entier en poudre, émulsifiant : lécithine de tournesol, vanille naturelle.',
-    imageSrc: '/images/chocolat blanc.JPG',
-    fallbackSrc: '/images/napolitain-blanc.svg',
-    imageAlt: 'Napolitain chocolat blanc',
-  },
-  {
-    name: 'Chocolat Dulcey',
-    description: 'Un chocolat blond aux saveurs uniques de biscuit et de caramel, signature d\'une gourmandise intense et raffinée.',
-    notes: 'Biscuit • Caramel • Céréales toastées',
-    ingredients: 'Beurre de cacao, sucre, lait entier et écrémé en poudre, lactosérum (lait), beurre (lait), émulsifiant : lécithine de tournesol, vanille naturelle.',
-    imageSrc: '/images/chocolat dulcey .JPG',
-    fallbackSrc: '/images/napolitain-dulcey.svg',
-    imageAlt: 'Napolitain chocolat Dulcey',
-  },
-]
+function FloatingChocolate({ 
+  src, 
+  alt, 
+  initialXPercent, 
+  initialYPercent, 
+  size, 
+  delay = 0,
+  opacity = 1.0,
+  containerRef,
+  zone = 'left' // 'left' ou 'right'
+}: { 
+  src: string
+  alt: string
+  initialXPercent: number
+  initialYPercent: number
+  size: { width: number; height: number }
+  delay?: number
+  opacity?: number
+  containerRef: RefObject<HTMLDivElement>
+  zone?: 'left' | 'right'
+}) {
+  // Utiliser useMotionValue pour un mouvement fluide
+  const x = useMotionValue(0)
+  const y = useMotionValue(0)
+  const rotate = useMotionValue(Math.random() * 360)
+  
+  // Spring pour un mouvement fluide
+  const springX = useSpring(x, { stiffness: 30, damping: 20 })
+  const springY = useSpring(y, { stiffness: 30, damping: 20 })
+  
+  // Générer une direction normalisée pour un mouvement plus smooth
+  const generateNormalizedDirection = () => {
+    const angle = Math.random() * Math.PI * 2
+    return {
+      x: Math.cos(angle),
+      y: Math.sin(angle),
+    }
+  }
+  
+  const [direction, setDirection] = useState(generateNormalizedDirection())
+  const [speed] = useState(0.3 + Math.random() * 0.3) // Vitesse variable entre 0.3 et 0.6
+  const [rotationSpeed] = useState((Math.random() - 0.5) * 1.5)
+  const [isMounted, setIsMounted] = useState(false)
+
+  useEffect(() => {
+    setIsMounted(true)
+    if (containerRef.current) {
+      const rect = containerRef.current.getBoundingClientRect()
+      const initialX = (rect.width * initialXPercent) / 100
+      const initialY = (rect.height * initialYPercent) / 100
+      x.set(initialX)
+      y.set(initialY)
+      rotate.set(Math.random() * 360)
+    }
+  }, [initialXPercent, initialYPercent, containerRef, x, y, rotate])
+
+  useEffect(() => {
+    if (!isMounted || !containerRef.current) return
+
+    const boundaryPadding = 30 // Padding pour éviter que les chocolats sortent de la zone
+    const avgSize = 128
+
+    const animate = () => {
+      if (!containerRef.current) return
+      
+      const rect = containerRef.current.getBoundingClientRect()
+      
+      // Utiliser une taille moyenne plus grande pour les calculs (200px pour les chocolats plus gros)
+      const avgSize = 200
+      
+      // Définir les limites selon la zone (gauche ou droite) - zones plus étroites pour éviter le texte
+      let minX: number
+      let maxX: number
+      
+      if (zone === 'left') {
+        // Zone gauche : 0 à 30% de la largeur (au lieu de 40%)
+        minX = boundaryPadding
+        maxX = (rect.width * 0.3) - avgSize - boundaryPadding
+      } else {
+        // Zone droite : 70% à 100% de la largeur (au lieu de 60%)
+        minX = (rect.width * 0.7) + boundaryPadding
+        maxX = rect.width - avgSize - boundaryPadding
+      }
+      
+      const minY = 100 // Zone de sécurité en haut pour les ondulations
+      const maxY = rect.height - avgSize - boundaryPadding
+
+      // Obtenir les positions actuelles
+      const currentX = x.get()
+      const currentY = y.get()
+      const currentRotate = rotate.get()
+
+      // Calculer les nouvelles positions
+      let newX = currentX + direction.x * speed
+      let newY = currentY + direction.y * speed
+      let newDirection = { ...direction }
+      let newRotate = currentRotate + rotationSpeed
+
+      // Rebondir sur les bords horizontaux de la zone avec changement de direction smooth
+      if (newX < minX || newX > maxX) {
+        newDirection.x = -direction.x
+        newX = Math.max(minX, Math.min(maxX, currentX))
+        // Légère variation pour éviter les mouvements trop prévisibles
+        const angleVariation = (Math.random() - 0.5) * 0.3
+        const currentAngle = Math.atan2(newDirection.y, newDirection.x)
+        newDirection.x = Math.cos(currentAngle + angleVariation)
+        newDirection.y = Math.sin(currentAngle + angleVariation)
+      }
+
+      // Rebondir sur les bords verticaux
+      if (newY < minY || newY > maxY) {
+        newDirection.y = -direction.y
+        newY = Math.max(minY, Math.min(maxY, currentY))
+        // Légère variation pour éviter les mouvements trop prévisibles
+        const angleVariation = (Math.random() - 0.5) * 0.3
+        const currentAngle = Math.atan2(newDirection.y, newDirection.x)
+        newDirection.x = Math.cos(currentAngle + angleVariation)
+        newDirection.y = Math.sin(currentAngle + angleVariation)
+      }
+
+      // Mettre à jour les directions si nécessaire
+      if (newDirection.x !== direction.x || newDirection.y !== direction.y) {
+        setDirection(newDirection)
+      }
+
+      // Mettre à jour les positions avec useMotionValue pour un mouvement fluide
+      x.set(newX)
+      y.set(newY)
+      rotate.set(newRotate)
+    }
+
+    const interval = setInterval(animate, 16) // ~60fps
+
+    return () => clearInterval(interval)
+  }, [direction, speed, rotationSpeed, isMounted, containerRef, zone, x, y, rotate])
+
+  if (!isMounted) {
+    return null
+  }
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, scale: 0.8 }}
+      animate={{ 
+        opacity: opacity,
+        scale: 1,
+      }}
+      transition={{ 
+        duration: 0.8,
+        delay: delay,
+        opacity: { duration: 1 },
+        scale: { duration: 0.8 },
+      }}
+      style={{
+        x: springX,
+        y: springY,
+        rotate: rotate,
+        position: 'absolute',
+        left: 0,
+        top: 0,
+        width: '176px',
+        height: '176px',
+        pointerEvents: 'none',
+      }}
+      className="relative md:w-52 md:h-52 lg:w-60 lg:h-60"
+    >
+      <Image
+        src={src}
+        alt={alt}
+        fill
+        className="object-contain"
+        sizes="(max-width: 768px) 176px, (max-width: 1024px) 208px, 240px"
+      />
+    </motion.div>
+  )
+}
+
+function FloatingChocolates() {
+  const containerRef = useRef<HTMLDivElement>(null)
+  
+  // Chocolats pour la zone gauche (0-30% de la largeur)
+  const leftChocolates = [
+    {
+      src: '/images/chocolate_transparent/chocolat_blanc_ia_transparent.png',
+      alt: '',
+      initialXPercent: 5,
+      initialYPercent: 20,
+      size: { width: 120, height: 120 },
+      delay: 0,
+      opacity: 1.0,
+      zone: 'left' as const,
+    },
+    {
+      src: '/images/chocolate_transparent/chocolat_dulcey_ia_transparent.png',
+      alt: '',
+      initialXPercent: 12,
+      initialYPercent: 60,
+      size: { width: 130, height: 130 },
+      delay: 0.3,
+      opacity: 1.0,
+      zone: 'left' as const,
+    },
+    {
+      src: '/images/chocolate_transparent/chocolat_noir_ia_transparent.png',
+      alt: '',
+      initialXPercent: 8,
+      initialYPercent: 80,
+      size: { width: 110, height: 110 },
+      delay: 0.6,
+      opacity: 1.0,
+      zone: 'left' as const,
+    },
+    {
+      src: '/images/chocolate_transparent/chocolat_lait_ia_transparent.png',
+      alt: '',
+      initialXPercent: 15,
+      initialYPercent: 40,
+      size: { width: 125, height: 125 },
+      delay: 0.9,
+      opacity: 1.0,
+      zone: 'left' as const,
+    },
+  ]
+
+  // Chocolats pour la zone droite (70-100% de la largeur)
+  const rightChocolates = [
+    {
+      src: '/images/chocolate_transparent/chocolat_lait_ia_transparent.png',
+      alt: '',
+      initialXPercent: 75,
+      initialYPercent: 25,
+      size: { width: 140, height: 140 },
+      delay: 0.2,
+      opacity: 1.0,
+      zone: 'right' as const,
+    },
+    {
+      src: '/images/chocolate_transparent/chocolat_blanc_ia_transparent.png',
+      alt: '',
+      initialXPercent: 85,
+      initialYPercent: 65,
+      size: { width: 120, height: 120 },
+      delay: 0.5,
+      opacity: 1.0,
+      zone: 'right' as const,
+    },
+    {
+      src: '/images/chocolate_transparent/chocolat_dulcey_ia_transparent.png',
+      alt: '',
+      initialXPercent: 90,
+      initialYPercent: 85,
+      size: { width: 125, height: 125 },
+      delay: 0.8,
+      opacity: 1.0,
+      zone: 'right' as const,
+    },
+    {
+      src: '/images/chocolate_transparent/chocolat_noir_ia_transparent.png',
+      alt: '',
+      initialXPercent: 72,
+      initialYPercent: 45,
+      size: { width: 115, height: 115 },
+      delay: 1.1,
+      opacity: 1.0,
+      zone: 'right' as const,
+    },
+  ]
+
+  const allChocolates = [...leftChocolates, ...rightChocolates]
+
+  return (
+    <div ref={containerRef} className="absolute inset-0 overflow-hidden pointer-events-none">
+      {allChocolates.map((chocolate, index) => (
+        <FloatingChocolate
+          key={`${chocolate.src}-${chocolate.zone}-${index}`}
+          {...chocolate}
+          containerRef={containerRef}
+        />
+      ))}
+    </div>
+  )
+}
 
 export default function Home() {
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
+  const [isHovering, setIsHovering] = useState(true)
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      setMousePosition({ x: e.clientX, y: e.clientY })
+      setIsHovering(true)
+    }
+
+    const handleMouseLeave = (e: MouseEvent) => {
+      // Vérifier si la souris quitte vraiment la fenêtre
+      if (!e.relatedTarget && e.clientY <= 0) {
+        setIsHovering(false)
+      }
+    }
+
+    // Initialiser avec la position actuelle de la souris
+    const handleMouseEnter = () => {
+      setIsHovering(true)
+    }
+
+    window.addEventListener('mousemove', handleMouseMove)
+    document.addEventListener('mouseleave', handleMouseLeave)
+    document.addEventListener('mouseenter', handleMouseEnter)
+
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove)
+      document.removeEventListener('mouseleave', handleMouseLeave)
+      document.removeEventListener('mouseenter', handleMouseEnter)
+    }
+  }, [])
+
   return (
     <div className="artisan-texture">
-      {/* Hero Section */}
-      <section className="relative min-h-[80vh] flex items-center justify-center bg-gradient-to-b from-chocolate-light to-chocolate-light/80">
-        <div className="container mx-auto px-4 py-20">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-            <motion.div
-              initial={{ opacity: 0, x: -50 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, ease: 'easeOut' }}
-              className="text-center md:text-left"
-            >
-              <h1 className="text-5xl md:text-6xl font-bold text-chocolate-dark mb-6 font-serif">
-                Napolitains Artisanaux
-                <br />
-            
-              </h1>
-              <p className="text-xl text-chocolate-dark/80 mb-8 font-sans">
-                Fabrication artisanale à Charquemont depuis 1999
-              </p>
-              <Link
-                href="/prix"
-                className="inline-block bg-chocolate-dark text-chocolate-light px-8 py-4 rounded-lg text-lg font-semibold hover:bg-chocolate-dark/90 transition-colors shadow-lg mb-8"
-              >
-                Voir nos assortiments
-              </Link>
-            </motion.div>
+      {/* Section 1 : Le chocolat, c'est le bonheur */}
+      <section className="relative flex items-center justify-center overflow-hidden bg-white">
+        {/* Deux grandes images de chocolat - gauche et droite */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          {/* Chocolat à gauche */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8, rotate: -35 }}
+            animate={{ opacity: 1, scale: 1, rotate: -30 }}
+            transition={{ duration: 1, delay: 0.3 }}
+            className="absolute left-0 top-1/2 -translate-y-1/2 w-64 md:w-80 lg:w-96 xl:w-[500px]"
+          >
+            <Image
+              src="/images/chocolate_transparent/chocolat_noir_ia_transparent.png"
+              alt=""
+              width={500}
+              height={500}
+              className="object-contain drop-shadow-2xl"
+            />
+          </motion.div>
 
+          {/* Chocolat à droite */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8, rotate: 35 }}
+            animate={{ opacity: 1, scale: 1, rotate: 30 }}
+            transition={{ duration: 1, delay: 0.5 }}
+            className="absolute right-0 top-1/2 -translate-y-1/2 w-64 md:w-80 lg:w-96 xl:w-[500px]"
+          >
+            <Image
+              src="/images/chocolate_transparent/chocolat_lait_ia_transparent.png"
+              alt=""
+              width={500}
+              height={500}
+              className="object-contain drop-shadow-2xl"
+            />
+          </motion.div>
+        </div>
+
+        <div className="container mx-auto px-4 py-12 md:py-20 relative z-10">
+          <div className="max-w-4xl mx-auto text-center">
             <motion.div
-              initial={{ opacity: 0, x: 50 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.2, ease: 'easeOut' }}
-              className="relative h-96 md:h-[500px]"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, ease: 'easeOut' }}
             >
-              <div className="relative w-full h-full rounded-lg overflow-hidden">
-                <ChocolateWrapper3D />
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                className="inline-block mb-4"
+              >
+                <span className="text-sm md:text-base font-semibold text-chocolate-dark/70 uppercase tracking-wider">
+                  Artisan Chocolatier depuis 1999
+                </span>
+              </motion.div>
+              
+              <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-chocolate-dark mb-6 font-serif leading-tight">
+                Napolitains
+                <br />
+                <span className="text-chocolate-medium">Artisanaux</span>
+              </h1>
+              
+              <p className="text-lg md:text-xl lg:text-2xl text-chocolate-dark/80 mb-6 font-sans leading-relaxed">
+                Fabrication artisanale à Charquemont
+              </p>
+              
+              <p className="text-base md:text-lg text-chocolate-dark/70 mb-8 font-sans max-w-xl mx-auto">
+                Des petits carrés de chocolat de 5 grammes, parfaits pour accompagner votre café ou votre thé. 
+                Idéaux pour les cafés, restaurants, hôtels et entreprises.
+              </p>
+              
+              <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
+                <Link
+                  href="/prix"
+                  className="group inline-flex items-center justify-center bg-chocolate-dark text-chocolate-light px-8 py-4 rounded-lg text-lg font-semibold hover:bg-chocolate-dark/90 transition-all duration-300 shadow-xl hover:shadow-2xl hover:scale-105"
+                >
+                  Voir nos assortiments
+                  <svg className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                </Link>
+                <Link
+                  href="/devis"
+                  className="inline-flex items-center justify-center bg-transparent border-2 border-chocolate-dark text-chocolate-dark px-8 py-4 rounded-lg text-lg font-semibold hover:bg-chocolate-dark hover:text-chocolate-light transition-all duration-300"
+                >
+                  Demander un devis
+                </Link>
               </div>
+
+              {/* Image du sachet de chocolat */}
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.6, ease: 'easeOut' }}
+                className="flex justify-center"
+              >
+                <ChocolateSachet />
+              </motion.div>
+
+              {/* Phrase d'accroche améliorée */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.8, ease: 'easeOut' }}
+              >
+                <div className="relative">
+                  <div className="absolute left-1/2 top-0 -translate-x-1/2 w-24 h-px bg-gradient-to-r from-transparent via-chocolate-dark/30 to-transparent" />
+                  <p className="text-lg md:text-xl lg:text-2xl text-chocolate-dark leading-relaxed font-medium italic relative px-4 md:px-8 mt-8 font-serif">
+                    <span className="text-chocolate-dark/50 text-xl md:text-2xl mr-3">✦</span>
+                    Parce que le plaisir se partage, nos napolitains artisanaux subliment vos pauses, 
+                    créent des sourires et donnent à chaque moment du quotidien une saveur unique et réconfortante.
+                    <span className="text-chocolate-dark/50 text-xl md:text-2xl ml-3">✦</span>
+                  </p>
+                </div>
+              </motion.div>
             </motion.div>
           </div>
-          
-          {/* Phrase d'accroche */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4, ease: 'easeOut' }}
-            className="mt-12 text-center max-w-4xl mx-auto"
-          >
-            <p className="text-[18px] md:text-[20px] lg:text-[22px] text-black leading-relaxed font-bold italic relative px-8 font-sans">
-              <span className="text-chocolate-dark/60 text-lg md:text-xl">✦</span>
-              <span className="mx-2">Parce que le plaisir se partage, nos napolitains artisanaux subliment vos pauses, créent des sourires et donnent à chaque moment du quotidien une saveur unique et réconfortante.</span>
-              <span className="text-chocolate-dark/60 text-lg md:text-xl">✦</span>
-            </p>
-          </motion.div>
         </div>
       </section>
 
-      {/* Section : Qu'est-ce qu'un napolitain ? */}
-      <section className="py-20 bg-white">
-        <div className="container mx-auto px-4">
+      {/* Section 2 : Le chocolat, c'est comme un câlin de l'intérieur */}
+      <section className="relative py-24 md:py-40 bg-chocolate-dark text-white overflow-hidden">
+        {/* Bordure ondulée en haut */}
+        <div className="absolute top-0 left-0 w-full h-24 md:h-40 overflow-hidden pointer-events-none">
+          <svg
+            className="absolute top-0 w-full h-full"
+            viewBox="0 0 1440 160"
+            preserveAspectRatio="none"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M0,80 C180,20 360,140 540,80 C720,20 900,140 1080,80 C1260,20 1320,140 1440,80 L1440,160 L0,160 Z"
+              fill="#3B1E12"
+            />
+            <path
+              d="M0,80 C180,140 360,20 540,80 C720,140 900,20 1080,80 C1260,140 1320,20 1440,80 L1440,0 L0,0 Z"
+              fill="white"
+            />
+          </svg>
+        </div>
+
+        {/* Bordure ondulée en bas */}
+        <div className="absolute bottom-0 left-0 w-full h-24 md:h-40 overflow-hidden pointer-events-none">
+          <svg
+            className="absolute bottom-0 w-full h-full"
+            viewBox="0 0 1440 160"
+            preserveAspectRatio="none"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            style={{ transform: 'scaleY(-1)' }}
+          >
+            <path
+              d="M0,80 C180,20 360,140 540,80 C720,20 900,140 1080,80 C1260,20 1320,140 1440,80 L1440,160 L0,160 Z"
+              fill="#3B1E12"
+            />
+            <path
+              d="M0,80 C180,140 360,20 540,80 C720,140 900,20 1080,80 C1260,140 1320,20 1440,80 L1440,0 L0,0 Z"
+              fill="white"
+            />
+          </svg>
+        </div>
+
+        {/* Images de chocolat transparentes avec mouvement libre */}
+        <FloatingChocolates />
+
+        <div className="container mx-auto px-4 relative z-10 pt-20 md:pt-32">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -131,10 +563,10 @@ export default function Home() {
             transition={{ duration: 0.6, ease: 'easeOut' }}
             className="max-w-3xl mx-auto text-center"
           >
-            <h2 className="text-4xl font-bold text-chocolate-dark mb-6 font-serif">
+            <h2 className="text-4xl font-bold text-white mb-6 font-serif">
               Qu'est-ce qu'un napolitain ?
             </h2>
-            <div className="space-y-4 text-lg text-chocolate-dark/80 font-sans">
+            <div className="space-y-4 text-lg text-white/90 font-sans">
               <p>
                 Le napolitain est un petit carré de chocolat de <strong>5 grammes</strong>, 
                 parfait pour accompagner votre café ou votre thé.
@@ -154,7 +586,7 @@ export default function Home() {
       </section>
 
       {/* Section : Nos goûts disponibles */}
-      <section className="py-20 bg-chocolate-light/30">
+      <section id="nos-gouts" className="py-20 bg-chocolate-light/30">
         <div className="container mx-auto px-4">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -171,18 +603,13 @@ export default function Home() {
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {napolitains.map((napolitain, index) => (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 max-w-7xl mx-auto">
+            {products.map((product, index) => (
               <NapolitainCard
-                key={napolitain.name}
-                name={napolitain.name}
-                description={napolitain.description}
-                notes={napolitain.notes}
-                ingredients={napolitain.ingredients}
-                imageSrc={napolitain.imageSrc}
-                fallbackSrc={napolitain.fallbackSrc}
-                imageAlt={napolitain.imageAlt}
+                key={product.id}
+                product={product}
                 delay={index * 0.1}
+                simple={true}
               />
             ))}
           </div>

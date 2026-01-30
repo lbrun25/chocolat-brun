@@ -4,6 +4,7 @@ import './globals.css'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import CookieBanner from '@/components/CookieBanner'
+import { CartProvider } from '@/contexts/CartContext'
 
 const inter = Inter({ subsets: ['latin'] })
 const dancingScript = Dancing_Script({ 
@@ -86,10 +87,12 @@ export default function RootLayout({
         />
       </head>
       <body className={`${inter.className} ${dancingScript.variable}`}>
-        <Header />
-        <main className="min-h-screen">{children}</main>
-        <Footer />
-        <CookieBanner />
+        <CartProvider>
+          <Header />
+          <main className="min-h-screen">{children}</main>
+          <Footer />
+          <CookieBanner />
+        </CartProvider>
       </body>
     </html>
   )

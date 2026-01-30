@@ -1,8 +1,8 @@
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Politique de confidentialité – Chocolat BRUN',
-  description: 'Politique de confidentialité et gestion des cookies de Chocolat BRUN.',
+  title: 'Politique de confidentialité – PATISSERIE BRUN CEDRIC',
+  description: 'Politique de confidentialité et gestion des cookies de PATISSERIE BRUN CEDRIC.',
 }
 
 export default function PolitiqueConfidentialitePage() {
@@ -20,7 +20,7 @@ export default function PolitiqueConfidentialitePage() {
                 Collecte des données
               </h2>
               <p className="font-sans">
-                Chocolat BRUN s'engage à protéger votre vie privée. Nous collectons uniquement les données 
+                PATISSERIE BRUN CEDRIC s'engage à protéger votre vie privée. Nous collectons uniquement les données 
                 nécessaires au fonctionnement du site et à l'amélioration de votre expérience.
               </p>
             </section>
@@ -76,7 +76,7 @@ export default function PolitiqueConfidentialitePage() {
                 Pour toute question concernant vos données personnelles, vous pouvez nous contacter :
               </p>
               <address className="not-italic mt-4 font-sans">
-                <p><strong>Chocolat BRUN</strong></p>
+                <p><strong>PATISSERIE BRUN CEDRIC</strong></p>
                 <p>2 rue du Chalet</p>
                 <p>25140 Charquemont</p>
                 <p>

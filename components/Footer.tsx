@@ -6,7 +6,7 @@ export default function Footer() {
       <div className="container mx-auto px-4 py-12">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div>
-            <h3 className="text-xl font-bold mb-4">Chocolat Cédric BRUN</h3>
+            <h3 className="text-xl font-bold mb-4">Cédric BRUN</h3>
             <p className="text-chocolate-light/80">
               Fabrication artisanale depuis 1999
             </p>
@@ -57,8 +57,19 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="mt-8 pt-8 border-t border-chocolate-light/20 text-center text-chocolate-light/60">
-          <p>&copy; {new Date().getFullYear()} Chocolat BRUN. Tous droits réservés.</p>
+        <div className="mt-8 pt-8 border-t border-chocolate-light/20">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-chocolate-light/60">
+            <p>&copy; {new Date().getFullYear()} PATISSERIE BRUN CEDRIC. Tous droits réservés.</p>
+            <div className="flex gap-4 text-sm">
+              <Link href="/mentions-legales" className="hover:text-chocolate-light transition-colors">
+                Mentions légales
+              </Link>
+              <span className="text-chocolate-light/40">|</span>
+              <Link href="/politique-confidentialite" className="hover:text-chocolate-light transition-colors">
+                Politique de confidentialité
+              </Link>
+            </div>
+          </div>
         </div>
       </div>
     </footer>
