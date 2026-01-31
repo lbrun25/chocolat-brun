@@ -63,7 +63,20 @@
   min-height: calc(100vh - 6rem);
 }
 
-/* Feuillages décoratifs autour du livre */
+/* Cadre décoratif type livre (bordure ocre + motif botanique) */
+.book-frame {
+  --book-frame-ochre: #c4a035;
+  --book-frame-maroon: #6b2d2d;
+  padding: clamp(1rem, 3vw, 2rem);
+  background-color: var(--book-frame-ochre);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Cpath fill='%236b2d2d' fill-opacity='0.35' d='M20 4q-2 4 2 8t-2 8q2-4-2-8t2-8zm0 24q2-4-2-8t2-8q-2 4 2 8t-2 8zm4-12q-4 2-8-2t-8 2q4-2 8 2t8-2zm-8 0q4-2 8 2t8-2q-4 2-8-2t-8 2z'/%3E%3Cpath fill='%236b2d2d' fill-opacity='0.25' d='M8 12v2h2v-2H8zm22 14v2h2v-2h-2zm0-14v2h2v-2h-2z'/%3E%3C/svg%3E");
+  box-shadow:
+    0 0 0 1px rgba(107, 45, 45, 0.2),
+    0 4px 16px rgba(59, 30, 18, 0.15),
+    0 20px 48px rgba(59, 30, 18, 0.12);
+}
+
+/* Feuillages décoratifs autour du livre (cachés quand cadre actif) */
 .book-foliage {
   position: absolute;
   inset: -0.5rem;
@@ -82,33 +95,23 @@
   margin-left: auto;
   margin-right: auto;
   min-height: calc(100vh - 8rem);
-  border-radius: 6px;
+  border-radius: 0;
   overflow: visible;
-  /* Bord inférieur orange type couverture */
-  border-bottom: 8px solid #d4692b;
   box-shadow:
-    0 0 0 1px rgba(210, 105, 43, 0.2),
-    0 4px 12px rgba(59, 30, 18, 0.08),
-    0 16px 40px rgba(59, 30, 18, 0.12);
+    0 0 0 1px rgba(59, 30, 18, 0.08),
+    0 2px 8px rgba(59, 30, 18, 0.06);
 }
 
-/* Pages : gris clair, effet pile de feuilles, hauteur pleine page */
+/* Colonnes latérales : même décor que le cadre (ocre + motif) */
 .book-page-outer-left {
   grid-column: 1;
   grid-row: 1;
   min-height: calc(100vh - 10rem);
   height: 100%;
-  background: linear-gradient(180deg, #ebe8e2 0%, #e2ddd5 50%, #ebe8e2 100%);
-  background-color: #e5e2dc;
-  border-radius: 4px 0 0 0;
-  border: 1px solid rgba(0, 0, 0, 0.06);
-  border-right: none;
-  border-bottom: none;
-  box-shadow:
-    inset 1px 0 0 rgba(255, 255, 255, 0.5),
-    inset 0 -2px 0 rgba(255, 255, 255, 0.8),
-    inset 0 -4px 0 rgba(0, 0, 0, 0.04),
-    inset 0 -6px 0 rgba(255, 255, 255, 0.6);
+  background-color: #c4a035;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Cpath fill='%236b2d2d' fill-opacity='0.35' d='M20 4q-2 4 2 8t-2 8q2-4-2-8t2-8zm0 24q2-4-2-8t2-8q-2 4 2 8t-2 8z'/%3E%3C/svg%3E");
+  border: none;
+  box-shadow: none;
 }
 
 .book-page-left {
@@ -116,40 +119,30 @@
   grid-row: 1;
   min-height: calc(100vh - 10rem);
   height: 100%;
-  background: linear-gradient(180deg, #edebe6 0%, #e5e0d8 50%, #edebe6 100%);
-  background-color: #e8e4df;
-  border: 1px solid rgba(0, 0, 0, 0.06);
+  background: linear-gradient(180deg, #faf8f4 0%, #f2eee6 50%, #faf8f4 100%);
+  background-color: #f5f1ea;
+  border: 1px solid rgba(59, 30, 18, 0.08);
   border-right: none;
   border-bottom: none;
   box-shadow:
-    inset 1px 0 0 rgba(255, 255, 255, 0.6),
-    inset 0 -2px 0 rgba(255, 255, 255, 0.9),
-    inset 0 -4px 0 rgba(0, 0, 0, 0.03),
-    inset 0 -6px 0 rgba(255, 255, 255, 0.5);
+    inset 1px 0 0 rgba(255, 255, 255, 0.8),
+    inset 0 -2px 0 rgba(255, 255, 255, 0.6),
+    inset 0 -4px 0 rgba(0, 0, 0, 0.02);
 }
 
-/* Reliure orange vif (type image) */
+/* Reliure centrale : même décor que le cadre (ocre + motif botanique) */
 .book-spine {
   grid-column: 3;
   grid-row: 1;
   width: 24px;
   min-height: calc(100vh - 10rem);
   height: 100%;
-  background: linear-gradient(
-    90deg,
-    #c45a1f 0%,
-    #d4692b 20%,
-    #e07c3c 50%,
-    #d4692b 80%,
-    #c45a1f 100%
-  );
-  border-radius: 0 2px 2px 0;
+  background-color: #a8822e;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='40' viewBox='0 0 24 40'%3E%3Cpath fill='%236b2d2d' fill-opacity='0.4' d='M8 4v2h2V4H8zm6 12v2h2v-2h-2zm-6 12v2h2v-2H8z'/%3E%3C/svg%3E");
   border: none;
-  border-bottom: none;
   box-shadow:
-    inset -2px 0 6px rgba(0, 0, 0, 0.25),
-    inset 2px 0 6px rgba(0, 0, 0, 0.25),
-    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    inset -1px 0 4px rgba(0, 0, 0, 0.15),
+    inset 1px 0 4px rgba(0, 0, 0, 0.15);
   flex-shrink: 0;
 }
 
@@ -158,16 +151,15 @@
   grid-row: 1;
   min-height: calc(100vh - 10rem);
   height: 100%;
-  background: linear-gradient(180deg, #edebe6 0%, #e5e0d8 50%, #edebe6 100%);
-  background-color: #e8e4df;
-  border: 1px solid rgba(0, 0, 0, 0.06);
+  background: linear-gradient(180deg, #faf8f4 0%, #f2eee6 50%, #faf8f4 100%);
+  background-color: #f5f1ea;
+  border: 1px solid rgba(59, 30, 18, 0.08);
   border-left: none;
   border-bottom: none;
   box-shadow:
-    inset -1px 0 0 rgba(255, 255, 255, 0.6),
-    inset 0 -2px 0 rgba(255, 255, 255, 0.9),
-    inset 0 -4px 0 rgba(0, 0, 0, 0.03),
-    inset 0 -6px 0 rgba(255, 255, 255, 0.5);
+    inset -1px 0 0 rgba(255, 255, 255, 0.8),
+    inset 0 -2px 0 rgba(255, 255, 255, 0.6),
+    inset 0 -4px 0 rgba(0, 0, 0, 0.02);
 }
 
 .book-page-outer-right {
@@ -175,17 +167,10 @@
   grid-row: 1;
   min-height: calc(100vh - 10rem);
   height: 100%;
-  background: linear-gradient(180deg, #ebe8e2 0%, #e2ddd5 50%, #ebe8e2 100%);
-  background-color: #e5e2dc;
-  border-radius: 0 4px 0 0;
-  border: 1px solid rgba(0, 0, 0, 0.06);
-  border-left: none;
-  border-bottom: none;
-  box-shadow:
-    inset -1px 0 0 rgba(255, 255, 255, 0.5),
-    inset 0 -2px 0 rgba(255, 255, 255, 0.8),
-    inset 0 -4px 0 rgba(0, 0, 0, 0.04),
-    inset 0 -6px 0 rgba(255, 255, 255, 0.6);
+  background-color: #c4a035;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Cpath fill='%236b2d2d' fill-opacity='0.35' d='M20 4q-2 4 2 8t-2 8q2-4-2-8t2-8zm0 24q2-4-2-8t2-8q-2 4 2 8t-2 8z'/%3E%3C/svg%3E");
+  border: none;
+  box-shadow: none;
 }
 
 /* Marque-page rouge (ruban) en haut à droite de la page droite */
