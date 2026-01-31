@@ -58,6 +58,11 @@ export default function Footer() {
                   Livraison
                 </Link>
               </li>
+              <li>
+                <Link href="/histoire" className="text-chocolate-light/80 hover:text-chocolate-light transition-colors">
+                  Histoire
+                </Link>
+              </li>
             </ul>
           </div>
         </div>
