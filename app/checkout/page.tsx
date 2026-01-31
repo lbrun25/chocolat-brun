@@ -6,11 +6,8 @@ import { useCart } from '@/contexts/CartContext'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import SafeImage from '@/components/SafeImage'
-import { loadStripe } from '@stripe/stripe-js'
 import { getPackagingPrices } from '@/types/product'
 import { calculateShippingCost, FREE_SHIPPING_THRESHOLD } from '@/lib/shipping'
-
-const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || '')
 
 interface FormData {
   firstName: string
@@ -117,17 +114,10 @@ export default function CheckoutPage() {
         throw new Error(data.error)
       }
 
-      const stripe = await stripePromise
-      if (!stripe) {
-        throw new Error('Stripe n\'est pas initialisé')
-      }
-
-      const { error: stripeError } = await stripe.redirectToCheckout({
-        sessionId: data.sessionId,
-      })
-
-      if (stripeError) {
-        throw new Error(stripeError.message)
+      if (data.url) {
+        window.location.href = data.url
+      } else {
+        throw new Error('URL de paiement non reçue')
       }
     } catch (error) {
       console.error('Erreur lors de la création de la session de paiement:', error)
