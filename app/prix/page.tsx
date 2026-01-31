@@ -7,12 +7,12 @@ const prixCafe = [
   {
     name: 'Chocolat noir au café',
     weight: '5 g',
-    pieces100: '33,00 € HT',
+    pieces100: '26,00 € HT',
     pieces100Weight: '(500 g)',
-    pieces150: '49,50 € HT',
-    pieces150Weight: '(750 g)',
-    unitPrice: '0,33 €',
-    pricePerKg: '66 €/kg',
+    pieces200: '52,00 € HT',
+    pieces200Weight: '(1000 g)',
+    unitPrice: '0,26 €',
+    pricePerKg: '52 €/kg',
   },
 ]
 
@@ -20,42 +20,42 @@ const prixStandard = [
   {
     name: 'Chocolat noir',
     weight: '5 g',
-    pieces100: '28,00 € HT',
+    pieces100: '22,00 € HT',
     pieces100Weight: '(500 g)',
-    pieces150: '42,00 € HT',
-    pieces150Weight: '(750 g)',
-    unitPrice: '0,28 €',
-    pricePerKg: '56 €/kg',
+    pieces200: '44,00 € HT',
+    pieces200Weight: '(1000 g)',
+    unitPrice: '0,22 €',
+    pricePerKg: '44 €/kg',
   },
   {
     name: 'Chocolat au lait',
     weight: '5 g',
-    pieces100: '28,00 € HT',
+    pieces100: '22,00 € HT',
     pieces100Weight: '(500 g)',
-    pieces150: '42,00 € HT',
-    pieces150Weight: '(750 g)',
-    unitPrice: '0,28 €',
-    pricePerKg: '56 €/kg',
+    pieces200: '44,00 € HT',
+    pieces200Weight: '(1000 g)',
+    unitPrice: '0,22 €',
+    pricePerKg: '44 €/kg',
   },
   {
     name: 'Chocolat blanc',
     weight: '5 g',
-    pieces100: '28,00 € HT',
+    pieces100: '22,00 € HT',
     pieces100Weight: '(500 g)',
-    pieces150: '42,00 € HT',
-    pieces150Weight: '(750 g)',
-    unitPrice: '0,28 €',
-    pricePerKg: '56 €/kg',
+    pieces200: '44,00 € HT',
+    pieces200Weight: '(1000 g)',
+    unitPrice: '0,22 €',
+    pricePerKg: '44 €/kg',
   },
   {
     name: 'Chocolat Dulcey',
     weight: '5 g',
-    pieces100: '28,00 € HT',
+    pieces100: '22,00 € HT',
     pieces100Weight: '(500 g)',
-    pieces150: '42,00 € HT',
-    pieces150Weight: '(750 g)',
-    unitPrice: '0,28 €',
-    pricePerKg: '56 €/kg',
+    pieces200: '44,00 € HT',
+    pieces200Weight: '(1000 g)',
+    unitPrice: '0,22 €',
+    pricePerKg: '44 €/kg',
   },
 ]
 
@@ -64,8 +64,8 @@ interface PriceRow {
   weight: string
   pieces100: string
   pieces100Weight: string
-  pieces150: string
-  pieces150Weight: string
+  pieces200: string
+  pieces200Weight: string
   unitPrice: string
   pricePerKg: string
 }
@@ -111,13 +111,13 @@ function PriceCard({ row, index }: PriceCardProps) {
             <span className="text-sm text-chocolate-dark/70">{row.pieces100Weight}</span>
           </div>
 
-          {/* 150 pièces */}
+          {/* 200 pièces */}
           <div className="flex flex-col">
             <span className="text-xs uppercase tracking-wider text-chocolate-dark/60 font-semibold mb-2">
-              150 pièces
+              200 pièces
             </span>
-            <span className="text-xl font-bold text-chocolate-dark mb-1">{row.pieces150}</span>
-            <span className="text-sm text-chocolate-dark/70">{row.pieces150Weight}</span>
+            <span className="text-xl font-bold text-chocolate-dark mb-1">{row.pieces200}</span>
+            <span className="text-sm text-chocolate-dark/70">{row.pieces200Weight}</span>
           </div>
 
           {/* Prix unitaire */}
@@ -233,7 +233,7 @@ export default function PrixPage() {
               </li>
               <li className="flex items-start">
                 <span className="text-chocolate-medium mr-3 text-xl">•</span>
-                <span>Conditionnements disponibles : <strong className="text-chocolate-dark">100 pièces (500 g)</strong> ou <strong className="text-chocolate-dark">150 pièces (750 g)</strong></span>
+                <span>Conditionnements disponibles : <strong className="text-chocolate-dark">100 pièces (500 g)</strong> ou <strong className="text-chocolate-dark">200 pièces (1000 g)</strong></span>
               </li>
             </ul>
             <ul className="space-y-4 text-chocolate-dark/80">
