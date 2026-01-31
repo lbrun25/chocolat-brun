@@ -8,6 +8,8 @@ import Link from 'next/link'
 import SafeImage from '@/components/SafeImage'
 import { getProductBySlug } from '@/lib/products'
 import { useCart } from '@/contexts/CartContext'
+import { PackagingType, getPackagingPrices } from '@/types/product'
+import PackagingSelector from '@/components/PackagingSelector'
 
 interface ProductPageProps {
   params: { slug: string }
@@ -19,21 +21,22 @@ export default function ProductPage({ params }: ProductPageProps) {
   const { addToCart } = useCart()
   const [quantity, setQuantity] = useState(1)
   const [showSuccess, setShowSuccess] = useState(false)
+  const [selectedPackaging, setSelectedPackaging] = useState<PackagingType>('40')
 
   if (!product) {
     notFound()
   }
 
   const handleAddToCart = () => {
-    addToCart(product, '40', quantity)
+    addToCart(product, selectedPackaging, quantity)
     setShowSuccess(true)
     setTimeout(() => setShowSuccess(false), 3000)
   }
 
-  const priceForPackaging = product.priceHT // Prix pour 40 pièces (200g)
-  const priceTTCPackaging = priceForPackaging * 1.055
-  const totalHT = priceForPackaging * quantity
-  const totalTTC = totalHT * 1.055
+  const packagingInfo = getPackagingPrices(product)[selectedPackaging]
+  const priceTTCPackaging = packagingInfo.priceTTC
+  const totalTTC = priceTTCPackaging * quantity
+  const totalHT = totalTTC / 1.055
 
   return (
     <div className="min-h-screen bg-white">
@@ -77,13 +80,30 @@ export default function ProductPage({ params }: ProductPageProps) {
               <h1 className="text-4xl md:text-5xl font-bold text-chocolate-dark mb-4 font-serif">
                 {product.name}
               </h1>
-              <div className="flex items-center gap-4 mb-6">
+              <div className="flex items-center gap-4 mb-3">
                 <span className="text-3xl font-bold text-chocolate-medium">
-                  {priceForPackaging.toFixed(2)} € HT
+                  {priceTTCPackaging.toFixed(2)} € TTC
                 </span>
-                <span className="text-xl text-chocolate-dark/70">
-                  ({priceTTCPackaging.toFixed(2)} € TTC)
-                </span>
+              </div>
+              <div className="flex items-center gap-3 mb-4">
+                <div className={`inline-flex items-center gap-2 border rounded-lg px-4 py-2 ${
+                  selectedPackaging === '100' 
+                    ? 'bg-green-50 border-green-300' 
+                    : 'bg-chocolate-light/50 border-chocolate-light'
+                }`}>
+                  <svg className={`w-5 h-5 ${selectedPackaging === '100' ? 'text-green-700' : 'text-chocolate-medium'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+                  </svg>
+                  <span className={`text-base font-semibold ${selectedPackaging === '100' ? 'text-green-700' : 'text-chocolate-dark'}`}>
+                    {packagingInfo.pricePerKgTTC.toFixed(2)} € / kg TTC
+                    {selectedPackaging === '100' && (
+                      <span className="ml-2 text-sm font-bold">(remisé)</span>
+                    )}
+                  </span>
+                </div>
+              </div>
+              <div className="text-sm text-chocolate-dark/60 mb-4">
+                Pour {packagingInfo.pieces} pièces ({packagingInfo.weight}g net)
               </div>
             </div>
 
@@ -131,18 +151,14 @@ export default function ProductPage({ params }: ProductPageProps) {
 
             {/* Conditionnement */}
             <div className="pt-6 border-t border-chocolate-dark/10">
-              <h3 className="text-xl font-bold text-chocolate-dark mb-4 font-serif">Conditionnement</h3>
-              <div className="bg-chocolate-light/30 rounded-lg p-4 mb-6">
-                <div className="text-center">
-                  <div className="font-bold text-2xl text-chocolate-dark mb-2">40 pièces</div>
-                  <div className="text-lg text-chocolate-dark/70 mb-3">200 g net</div>
-                  <div className="text-xl font-bold text-chocolate-medium">{product.priceHT.toFixed(2)} € HT</div>
-                  <div className="text-sm text-chocolate-dark/70">({priceTTCPackaging.toFixed(2)} € TTC)</div>
-                </div>
-              </div>
+              <PackagingSelector
+                product={product}
+                selectedPackaging={selectedPackaging}
+                onPackagingChange={setSelectedPackaging}
+              />
 
               {/* Quantité */}
-              <div className="mb-6">
+              <div className="mt-6 mb-6">
                 <label className="block text-lg font-semibold text-chocolate-dark mb-3">Quantité</label>
                 <div className="flex items-center gap-4">
                   <button
@@ -174,15 +190,7 @@ export default function ProductPage({ params }: ProductPageProps) {
 
               {/* Total */}
               <div className="bg-chocolate-light/30 rounded-lg p-4 mb-6">
-                <div className="flex justify-between items-center mb-2">
-                  <span className="text-lg font-semibold text-chocolate-dark">Total HT</span>
-                  <span className="text-xl font-bold text-chocolate-dark">{totalHT.toFixed(2)} €</span>
-                </div>
-                <div className="flex justify-between items-center text-sm text-chocolate-dark/70 mb-2">
-                  <span>TVA (5.5%)</span>
-                  <span>{(totalHT * 0.055).toFixed(2)} €</span>
-                </div>
-                <div className="flex justify-between items-center pt-2 border-t border-chocolate-dark/20">
+                <div className="flex justify-between items-center pt-2">
                   <span className="text-xl font-bold text-chocolate-dark">Total TTC</span>
                   <span className="text-2xl font-bold text-chocolate-medium">{totalTTC.toFixed(2)} €</span>
                 </div>

@@ -35,8 +35,8 @@ const illustrations = [
 ]
 
 export const metadata: Metadata = {
-  title: 'Galerie – Napolitains Chocolat BRUN',
-  description: 'Découvrez nos illustrations et croquis de napolitains artisanaux, emballages et créations Chocolat BRUN.',
+  title: 'Galerie – Napolitains Cédric BRUN',
+  description: 'Découvrez nos illustrations et croquis de napolitains artisanaux, emballages et créations Cédric BRUN.',
 }
 
 export default function GaleriePage() {
@@ -66,7 +66,7 @@ export default function GaleriePage() {
 
         <div className="mt-12 text-center text-chocolate-dark/70">
           <p className="text-lg font-sans">
-            Toutes nos illustrations reflètent l'âme artisanale et traditionnelle de Chocolat BRUN
+            Toutes nos illustrations reflètent l'âme artisanale et traditionnelle de Cédric BRUN
           </p>
         </div>
       </div>

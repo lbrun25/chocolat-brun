@@ -20,6 +20,16 @@
   :root {
     --font-dancing-script: 'Dancing Script', cursive;
     --font-chocolate: 'Chocolate', cursive;
+    --font-great-vibes: 'Great Vibes', 'Brush Script MT', cursive;
+    --font-cinzel: 'Cinzel', 'Times New Roman', serif;
+  }
+  
+  /* Amélioration du rendu des accents */
+  .font-great-vibes,
+  .font-cinzel {
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 }
 

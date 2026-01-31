@@ -6,10 +6,17 @@ import Image from 'next/image'
 import { useCart } from '@/contexts/CartContext'
 import SafeImage from '@/components/SafeImage'
 import { useRouter } from 'next/navigation'
+import { getPackagingPrices } from '@/types/product'
+import { calculateShippingCost, FREE_SHIPPING_THRESHOLD } from '@/lib/shipping'
 
 export default function CartPage() {
   const { cart, updateQuantity, removeFromCart, clearCart } = useCart()
   const router = useRouter()
+  
+  // Calcul des frais de port
+  const shippingCost = calculateShippingCost(cart.totalWeight, cart.totalTTC)
+  const totalWithShipping = cart.totalTTC + shippingCost
+  const remainingForFreeShipping = Math.max(0, FREE_SHIPPING_THRESHOLD - cart.totalTTC)
 
   if (cart.items.length === 0) {
     return (
@@ -78,11 +85,11 @@ export default function CartPage() {
             {/* Liste des articles */}
             <div className="lg:col-span-2 space-y-4">
               {cart.items.map((item, index) => {
-                const priceForPackaging = item.product.priceHT // Prix pour 40 pièces (200g)
-                const priceTTCPackaging = priceForPackaging * 1.055
-                const totalHT = priceForPackaging * item.quantity
-                const totalTTC = totalHT * 1.055
-                const pieces = 40 // 40 pièces = 200g
+                const packagingInfo = getPackagingPrices(item.product)[item.packaging]
+                const priceTTCPackaging = packagingInfo.priceTTC
+                const totalTTC = priceTTCPackaging * item.quantity
+                const pieces = packagingInfo.pieces
+                const weight = packagingInfo.weight
 
                 return (
                   <motion.div
@@ -116,12 +123,10 @@ export default function CartPage() {
                               </h3>
                             </Link>
                             <p className="text-chocolate-dark/70 mb-2">
-                              Conditionnement : <span className="font-semibold">{pieces} pièces</span> ({pieces * item.product.weight}g net)
+                              Conditionnement : <span className="font-semibold">{pieces} pièces</span> ({weight}g net)
                             </p>
                             <div className="flex items-center gap-4 text-sm text-chocolate-dark/70">
-                              <span>{priceForPackaging.toFixed(2)} € HT / unité</span>
-                              <span>•</span>
-                              <span>{priceTTCPackaging.toFixed(2)} € TTC / unité</span>
+                              <span className="font-semibold">{priceTTCPackaging.toFixed(2)} € TTC / unité</span>
                             </div>
                           </div>
 
@@ -156,9 +161,6 @@ export default function CartPage() {
                             <div className="text-right">
                               <div className="text-lg font-bold text-chocolate-dark">
                                 {totalTTC.toFixed(2)} € TTC
-                              </div>
-                              <div className="text-sm text-chocolate-dark/70">
-                                {totalHT.toFixed(2)} € HT
                               </div>
                             </div>
                           </div>
@@ -205,18 +207,37 @@ export default function CartPage() {
                 </h2>
 
                 <div className="space-y-4 mb-6">
-                  <div className="flex justify-between text-chocolate-dark/70">
-                    <span>Sous-total HT</span>
-                    <span className="font-semibold">{cart.totalHT.toFixed(2)} €</span>
+                  {/* Sous-total */}
+                  <div className="flex justify-between items-center text-chocolate-dark/80">
+                    <span>Sous-total TTC</span>
+                    <span className="font-semibold">{cart.totalTTC.toFixed(2)} €</span>
                   </div>
-                  <div className="flex justify-between text-chocolate-dark/70">
-                    <span>TVA (5.5%)</span>
-                    <span className="font-semibold">{(cart.totalHT * 0.055).toFixed(2)} €</span>
+
+                  {/* Frais de port */}
+                  <div className="flex justify-between items-center text-chocolate-dark/80 border-t border-chocolate-dark/10 pt-4">
+                    <span>Frais de port</span>
+                    <span className="font-semibold">
+                      {shippingCost === 0 ? (
+                        <span className="text-green-600">Gratuit</span>
+                      ) : (
+                        `${shippingCost.toFixed(2)} €`
+                      )}
+                    </span>
                   </div>
-                  <div className="pt-4 border-t border-chocolate-dark/20">
+
+                  {/* Message pour livraison gratuite */}
+                  {shippingCost > 0 && remainingForFreeShipping > 0 && (
+                    <div className="bg-chocolate-light/30 rounded-lg p-3 text-sm text-chocolate-dark/70">
+                      <p className="font-semibold mb-1">Livraison gratuite dès {FREE_SHIPPING_THRESHOLD}€</p>
+                      <p>Il vous manque {remainingForFreeShipping.toFixed(2)} €</p>
+                    </div>
+                  )}
+
+                  {/* Total */}
+                  <div className="pt-4 border-t-2 border-chocolate-dark/20">
                     <div className="flex justify-between items-center">
                       <span className="text-xl font-bold text-chocolate-dark">Total TTC</span>
-                      <span className="text-2xl font-bold text-chocolate-medium">{cart.totalTTC.toFixed(2)} €</span>
+                      <span className="text-2xl font-bold text-chocolate-medium">{totalWithShipping.toFixed(2)} €</span>
                     </div>
                   </div>
                 </div>
@@ -224,7 +245,7 @@ export default function CartPage() {
                 <div className="mb-6 text-sm text-chocolate-dark/60">
                   <p className="mb-2">Poids total : {(cart.totalWeight / 1000).toFixed(2)} kg</p>
                   <p>Nombre de pièces : {cart.items.reduce((sum, item) => {
-                    const pieces = 40 // 40 pièces par conditionnement
+                    const pieces = getPackagingPrices(item.product)[item.packaging].pieces
                     return sum + pieces * item.quantity
                   }, 0)}</p>
                 </div>

@@ -19,6 +19,8 @@ const config: Config = {
         serif: ['Georgia', 'serif'],
         dancing: ['var(--font-dancing-script)', 'cursive'],
         chocolate: ['var(--font-chocolate)', 'cursive'],
+        'great-vibes': ['var(--font-great-vibes)', 'cursive'],
+        cinzel: ['var(--font-cinzel)', 'serif'],
       },
     },
   },

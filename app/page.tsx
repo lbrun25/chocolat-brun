@@ -7,6 +7,7 @@ import SafeImage from '@/components/SafeImage'
 import Image from 'next/image'
 import { useEffect, useState, useRef, RefObject } from 'react'
 import { products } from '@/lib/products'
+import ProductCarousel from '@/components/ProductCarousel'
 
 function ChocolateSachet() {
   const ref = useRef<HTMLDivElement>(null)
@@ -61,7 +62,7 @@ function ChocolateSachet() {
       >
         <Image
           src="/images/chocolat_sachet_transparent_bg.png"
-          alt="Sachet de napolitains artisanaux Chocolat BRUN"
+          alt="Sachet de napolitains artisanaux Cédric BRUN"
           fill
           className="object-contain drop-shadow-2xl"
           priority
@@ -531,7 +532,7 @@ export default function Home() {
           </svg>
         </div>
 
-        {/* Bordure ondulée en bas */}
+        {/* Bordure ondulée en bas - transition vers la couleur de la section Nos goûts */}
         <div className="absolute bottom-0 left-0 w-full h-24 md:h-40 overflow-hidden pointer-events-none">
           <svg
             className="absolute bottom-0 w-full h-full"
@@ -547,7 +548,7 @@ export default function Home() {
             />
             <path
               d="M0,80 C180,140 360,20 540,80 C720,140 900,20 1080,80 C1260,140 1320,20 1440,80 L1440,0 L0,0 Z"
-              fill="white"
+              fill="#F5E6C8"
             />
           </svg>
         </div>
@@ -603,15 +604,17 @@ export default function Home() {
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 max-w-7xl mx-auto">
-            {products.map((product, index) => (
-              <NapolitainCard
-                key={product.id}
-                product={product}
-                delay={index * 0.1}
-                simple={true}
-              />
-            ))}
+          {/* Carousel avec produits réorganisés : chocolat noir café en premier, chocolat noir en dernier */}
+          <div className="max-w-7xl mx-auto">
+            <ProductCarousel
+              products={[
+                products.find(p => p.id === 'chocolat-noir-cafe')!,
+                products.find(p => p.id === 'chocolat-lait')!,
+                products.find(p => p.id === 'chocolat-blanc')!,
+                products.find(p => p.id === 'chocolat-dulcey')!,
+                products.find(p => p.id === 'chocolat-noir')!,
+              ].filter(Boolean)}
+            />
           </div>
         </div>
       </section>

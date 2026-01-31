@@ -7,6 +7,8 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import SafeImage from '@/components/SafeImage'
 import { loadStripe } from '@stripe/stripe-js'
+import { getPackagingPrices } from '@/types/product'
+import { calculateShippingCost, FREE_SHIPPING_THRESHOLD } from '@/lib/shipping'
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || '')
 
@@ -27,6 +29,10 @@ export default function CheckoutPage() {
   const { cart } = useCart()
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)
+  
+  // Calcul des frais de port
+  const shippingCost = calculateShippingCost(cart.totalWeight, cart.totalTTC)
+  const totalWithShipping = cart.totalTTC + shippingCost
   const [formData, setFormData] = useState<FormData>({
     firstName: '',
     lastName: '',
@@ -95,11 +101,13 @@ export default function CheckoutPage() {
             productName: item.product.name,
             packaging: item.packaging,
             quantity: item.quantity,
-            priceHT: item.product.priceHT, // Prix pour 40 pièces (200g)
+            priceTTC: getPackagingPrices(item.product)[item.packaging].priceTTC,
           })),
           customerInfo: formData,
           totalHT: cart.totalHT,
           totalTTC: cart.totalTTC,
+          shippingCost: shippingCost,
+          totalWithShipping: totalWithShipping,
         }),
       })
 
@@ -369,10 +377,8 @@ export default function CheckoutPage() {
 
                 <div className="space-y-3 mb-6">
                   {cart.items.map((item) => {
-                    const pieces = 40 // 40 pièces = 200g pour les produits particuliers
-                    const priceForPackaging = item.product.priceHT // Prix pour 40 pièces (200g)
-                    const totalHT = priceForPackaging * item.quantity
-                    const totalTTC = totalHT * 1.055
+                    const packagingInfo = getPackagingPrices(item.product)[item.packaging]
+                    const totalTTC = packagingInfo.priceTTC * item.quantity
 
                     return (
                       <div key={`${item.product.id}-${item.packaging}`} className="flex gap-3 pb-3 border-b border-chocolate-dark/10">
@@ -390,7 +396,7 @@ export default function CheckoutPage() {
                             {item.product.name}
                           </p>
                           <p className="text-xs text-chocolate-dark/70">
-                            {item.packaging} pièces × {item.quantity}
+                            {packagingInfo.pieces} pièces × {item.quantity}
                           </p>
                           <p className="text-sm font-semibold text-chocolate-dark mt-1">
                             {totalTTC.toFixed(2)} € TTC
@@ -402,18 +408,37 @@ export default function CheckoutPage() {
                 </div>
 
                 <div className="space-y-3 mb-6 pt-4 border-t border-chocolate-dark/20">
-                  <div className="flex justify-between text-chocolate-dark/70">
-                    <span>Sous-total HT</span>
-                    <span className="font-semibold">{cart.totalHT.toFixed(2)} €</span>
+                  {/* Sous-total */}
+                  <div className="flex justify-between items-center text-chocolate-dark/80">
+                    <span>Sous-total TTC</span>
+                    <span className="font-semibold">{cart.totalTTC.toFixed(2)} €</span>
                   </div>
-                  <div className="flex justify-between text-chocolate-dark/70">
-                    <span>TVA (5.5%)</span>
-                    <span className="font-semibold">{(cart.totalHT * 0.055).toFixed(2)} €</span>
+
+                  {/* Frais de port */}
+                  <div className="flex justify-between items-center text-chocolate-dark/80">
+                    <span>Frais de port</span>
+                    <span className="font-semibold">
+                      {shippingCost === 0 ? (
+                        <span className="text-green-600">Gratuit</span>
+                      ) : (
+                        `${shippingCost.toFixed(2)} €`
+                      )}
+                    </span>
                   </div>
+
+                  {/* Message pour livraison gratuite */}
+                  {shippingCost > 0 && (FREE_SHIPPING_THRESHOLD - cart.totalTTC) > 0 && (
+                    <div className="bg-chocolate-light/30 rounded-lg p-3 text-xs text-chocolate-dark/70">
+                      <p className="font-semibold mb-1">Livraison gratuite dès {FREE_SHIPPING_THRESHOLD}€</p>
+                      <p>Il vous manque {(FREE_SHIPPING_THRESHOLD - cart.totalTTC).toFixed(2)} €</p>
+                    </div>
+                  )}
+
+                  {/* Total */}
                   <div className="pt-3 border-t border-chocolate-dark/20">
                     <div className="flex justify-between items-center">
                       <span className="text-xl font-bold text-chocolate-dark">Total TTC</span>
-                      <span className="text-2xl font-bold text-chocolate-medium">{cart.totalTTC.toFixed(2)} €</span>
+                      <span className="text-2xl font-bold text-chocolate-medium">{totalWithShipping.toFixed(2)} €</span>
                     </div>
                   </div>
                 </div>

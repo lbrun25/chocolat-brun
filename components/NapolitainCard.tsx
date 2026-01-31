@@ -3,9 +3,11 @@
 import { motion } from 'framer-motion'
 import { memo, useState } from 'react'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import SafeImage from './SafeImage'
-import { Product } from '@/types/product'
+import { Product, PackagingType, getPackagingPrices } from '@/types/product'
 import { useCart } from '@/contexts/CartContext'
+import PackagingSelector from './PackagingSelector'
 
 interface NapolitainCardProps {
   product: Product
@@ -18,13 +20,15 @@ function NapolitainCardComponent({
   delay = 0,
   simple = false,
 }: NapolitainCardProps) {
+  const router = useRouter()
   const { addToCart } = useCart()
   const [showSuccess, setShowSuccess] = useState(false)
+  const [selectedPackaging, setSelectedPackaging] = useState<PackagingType>('40')
 
   const handleQuickAdd = (e: React.MouseEvent) => {
     e.preventDefault()
     e.stopPropagation()
-    addToCart(product, '40', 1)
+    addToCart(product, selectedPackaging, 1)
     setShowSuccess(true)
     setTimeout(() => setShowSuccess(false), 2000)
   }
@@ -36,11 +40,11 @@ function NapolitainCardComponent({
       viewport={{ once: true, margin: '-100px' }}
       transition={{ duration: 0.5, delay, ease: 'easeOut' }}
       whileHover={{ y: -8, scale: 1.02 }}
-      className="group relative bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-2xl transition-all duration-300 border border-chocolate-light/50"
+      onClick={() => router.push(`/produits/${product.slug}`)}
+      className="group relative bg-white rounded-2xl overflow-hidden transition-all duration-300 border border-chocolate-light/50 cursor-pointer"
     >
-      <Link href={`/produits/${product.slug}`}>
-        {/* Image Container avec fond dégradé élégant - Ratio carré */}
-        <div className="relative aspect-square bg-gradient-to-br from-chocolate-light/30 via-white to-chocolate-light/20 overflow-hidden cursor-pointer">
+      {/* Image Container avec fond dégradé élégant - Ratio carré */}
+        <div className="relative aspect-square bg-gradient-to-br from-chocolate-light/30 via-white to-chocolate-light/20 overflow-hidden cursor-pointer shadow-md group-hover:shadow-lg transition-shadow duration-300">
           {/* Décoration subtile en arrière-plan */}
           <div className="absolute inset-0 opacity-5">
             <div className="absolute top-0 right-0 w-32 h-32 bg-chocolate-dark rounded-full blur-3xl"></div>
@@ -82,16 +86,13 @@ function NapolitainCardComponent({
             </div>
           </div>
         </div>
-      </Link>
 
       {/* Contenu de la carte */}
       <div className={`${simple ? 'p-4' : 'p-6'} space-y-4`}>
         {/* Titre */}
-        <Link href={`/produits/${product.slug}`}>
-          <h3 className={`${simple ? 'text-xl' : 'text-2xl'} font-bold text-chocolate-dark font-serif text-center group-hover:text-chocolate-medium transition-colors duration-300`}>
-            {product.name}
-          </h3>
-        </Link>
+        <h3 className={`${simple ? 'text-xl' : 'text-2xl'} font-bold text-chocolate-dark font-serif text-center group-hover:text-chocolate-medium transition-colors duration-300`}>
+          {product.name}
+        </h3>
 
         {/* Notes de dégustation */}
         {product.notes && (
@@ -107,9 +108,9 @@ function NapolitainCardComponent({
           </div>
         )}
 
-        {/* Bouton Ajouter au panier pour la version simple */}
+        {/* Bouton Ajouter au panier pour la version simple (sans sélecteur de conditionnement) */}
         {simple && (
-          <div className="pt-2">
+          <div className="pt-2" onClick={(e) => e.stopPropagation()}>
             <motion.button
               onClick={handleQuickAdd}
               whileHover={{ scale: 1.02 }}
@@ -141,8 +142,12 @@ function NapolitainCardComponent({
           <>
             {/* Prix */}
             <div className="text-center">
-              <span className="text-xl font-bold text-chocolate-medium">{product.priceHT.toFixed(2)} € HT</span>
-              <span className="text-sm text-chocolate-dark/70 ml-2">({(product.priceHT * 1.055).toFixed(2)} € TTC)</span>
+              {(() => {
+                const packagingInfo = getPackagingPrices(product)[selectedPackaging]
+                return (
+                  <span className="text-xl font-bold text-chocolate-medium">{packagingInfo.priceTTC.toFixed(2)} € TTC</span>
+                )
+              })()}
             </div>
 
             {/* Description courte */}
@@ -151,7 +156,12 @@ function NapolitainCardComponent({
             </p>
 
             {/* Ajout au panier */}
-            <div className="pt-2 space-y-3">
+            <div className="pt-2 space-y-3" onClick={(e) => e.stopPropagation()}>
+              <PackagingSelector
+                product={product}
+                selectedPackaging={selectedPackaging}
+                onPackagingChange={setSelectedPackaging}
+              />
               <motion.button
                 onClick={handleQuickAdd}
                 whileHover={{ scale: 1.02 }}
@@ -177,6 +187,7 @@ function NapolitainCardComponent({
               )}
               <Link
                 href={`/produits/${product.slug}`}
+                onClick={(e) => e.stopPropagation()}
                 className="w-full text-chocolate-medium hover:text-chocolate-dark font-semibold text-sm py-2 rounded-lg hover:bg-chocolate-light/30 transition-all duration-300 flex items-center justify-center gap-2 group/btn"
               >
                 En savoir plus

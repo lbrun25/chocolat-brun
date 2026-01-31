@@ -3,6 +3,7 @@
 import { useState, FormEvent } from 'react'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
+import { Sparkles, Sprout, Package, Truck } from 'lucide-react'
 
 const gouts = [
   'Chocolat noir au café',
@@ -14,22 +15,22 @@ const gouts = [
 
 const avantages = [
   {
-    icon: '✨',
+    icon: <Sparkles className="w-10 h-10 text-chocolate-dark" />,
     title: 'Fabrication artisanale',
     description: 'Chaque napolitain est fabriqué à la main avec passion et savoir-faire traditionnel',
   },
   {
-    icon: '🌱',
+    icon: <Sprout className="w-10 h-10 text-chocolate-dark" />,
     title: 'Ingrédients de qualité',
     description: 'Sélection rigoureuse de chocolats fins et d\'ingrédients naturels',
   },
   {
-    icon: '📦',
+    icon: <Package className="w-10 h-10 text-chocolate-dark" />,
     title: 'Emballage personnalisé',
     description: 'Possibilité d\'emballage sur mesure pour vos événements et cadeaux d\'affaires',
   },
   {
-    icon: '🚚',
+    icon: <Truck className="w-10 h-10 text-chocolate-dark" />,
     title: 'Livraison rapide',
     description: 'Service de livraison efficace pour répondre à vos besoins professionnels',
   },
@@ -160,7 +161,7 @@ export default function DevisPage() {
                   <div className="relative w-full h-full drop-shadow-2xl">
                     <Image
                       src="/images/chocolat_sachet_transparent_bg.png"
-                      alt="Sachet de napolitains artisanaux Chocolat BRUN"
+                      alt="Sachet de napolitains artisanaux Cédric BRUN"
                       fill
                       className="object-contain"
                       priority
@@ -207,7 +208,7 @@ export default function DevisPage() {
                 whileHover={{ y: -5 }}
                 className="bg-white/80 backdrop-blur-sm rounded-xl p-6 text-center hover:shadow-xl transition-all border border-chocolate-dark/10"
               >
-                <div className="text-4xl mb-4">{avantage.icon}</div>
+                <div className="flex justify-center mb-4 text-chocolate-dark">{avantage.icon}</div>
                 <h3 className="text-xl font-bold text-chocolate-dark mb-2 font-serif">
                   {avantage.title}
                 </h3>

@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation'
 import { motion } from 'framer-motion'
 import { memo } from 'react'
 import CartIcon from './CartIcon'
+import BrandLogo from './BrandLogo'
 
 const navItems = [
   { href: '/', label: 'Accueil' },
@@ -26,7 +27,7 @@ function HeaderComponent() {
       {/* Effet de brillance subtil en arrière-plan */}
       <div className="absolute inset-0 bg-gradient-to-r from-transparent via-chocolate-dark/5 to-transparent pointer-events-none" />
       
-      <nav className="container mx-auto px-4 md:px-6 lg:px-8 py-4 md:py-5 relative z-10">
+      <nav className="container mx-auto px-4 md:px-6 lg:px-8 relative z-10">
         <div className="flex items-center justify-between">
           {/* Logo/Brand */}
           <motion.div
@@ -35,13 +36,8 @@ function HeaderComponent() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="flex items-center"
           >
-            <Link href="/" className="group flex items-center space-x-2">
-              <div className="relative">
-                <div className="absolute inset-0 bg-chocolate-light/10 rounded-full blur-md group-hover:bg-chocolate-light/20 transition-colors" />
-                <span className="relative text-xl md:text-2xl font-bold text-chocolate-light font-serif">
-                  Chocolat BRUN
-                </span>
-              </div>
+            <Link href="/" className="group">
+              <BrandLogo />
             </Link>
           </motion.div>
 

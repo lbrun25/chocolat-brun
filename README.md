@@ -1,6 +1,6 @@
-# Chocolat BRUN - Site Vitrine
+# Cédric BRUN - Site Vitrine
 
-Site vitrine pour la société Chocolat BRUN, spécialisée dans la fabrication artisanale de napolitains à Charquemont (25140).
+Site vitrine pour la société Cédric BRUN, spécialisée dans la fabrication artisanale de napolitains à Charquemont (25140).
 
 ## 🚀 Technologies
 
@@ -107,13 +107,3 @@ Les images sont actuellement des placeholders SVG. Remplacez-les par vos vraies 
 - `emballage-*.svg` → Galerie
 - `logo-cacao.svg` → Galerie
 
-## 📞 Contact
-
-**Chocolat BRUN**
-- Adresse : 2 rue du Chalet, 25140 Charquemont
-- Téléphone : 03 81 44 07 36
-- Email : patisseriebrun-25@orange.fr
-
-## 📅 Licence
-
-Tous droits réservés - Chocolat BRUN
