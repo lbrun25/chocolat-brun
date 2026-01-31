@@ -1,11 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server'
 import Stripe from 'stripe'
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '', {
-  apiVersion: '2024-12-18.acacia',
-})
+export const dynamic = 'force-dynamic'
+
+function getStripe(): Stripe {
+  const key = process.env.STRIPE_SECRET_KEY
+  if (!key) throw new Error('STRIPE_SECRET_KEY is not set')
+  return new Stripe(key, { apiVersion: '2026-01-28.clover' })
+}
 
 export async function GET(request: NextRequest) {
+  const stripe = getStripe()
   const searchParams = request.nextUrl.searchParams
   const sessionId = searchParams.get('session_id')
 

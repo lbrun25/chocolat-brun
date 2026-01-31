@@ -1,15 +1,20 @@
 import { NextRequest, NextResponse } from 'next/server'
 import Stripe from 'stripe'
+
+export const dynamic = 'force-dynamic'
 import { getPackagingPrices } from '@/types/product'
 import { getProductById } from '@/lib/products'
 import { calculateShippingCost } from '@/lib/shipping'
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '', {
-  apiVersion: '2024-12-18.acacia',
-})
+function getStripe(): Stripe {
+  const key = process.env.STRIPE_SECRET_KEY
+  if (!key) throw new Error('STRIPE_SECRET_KEY is not set')
+  return new Stripe(key, { apiVersion: '2026-01-28.clover' })
+}
 
 export async function POST(request: NextRequest) {
   try {
+    const stripe = getStripe()
     const body = await request.json()
     const { cart, customerInfo, totalTTC, shippingCost, totalWithShipping } = body
 
@@ -90,7 +95,7 @@ export async function POST(request: NextRequest) {
       locale: 'fr',
     })
 
-    return NextResponse.json({ sessionId: session.id })
+    return NextResponse.json({ sessionId: session.id, url: session.url })
   } catch (error: any) {
     console.error('Erreur lors de la création de la session Stripe:', error)
     return NextResponse.json(
