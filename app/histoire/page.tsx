@@ -12,45 +12,6 @@ const paragraphs = [
 export default function HistoirePage() {
   return (
     <div className="min-h-screen relative overflow-hidden bg-chocolate-dark">
-      {/* Bordures ondulées en haut et en bas (comme "Qu'est-ce qu'un napolitain") */}
-      <div className="absolute top-0 left-0 w-full h-24 md:h-40 overflow-hidden pointer-events-none z-0">
-        <svg
-          className="absolute top-0 w-full h-full"
-          viewBox="0 0 1440 160"
-          preserveAspectRatio="none"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M0,80 C180,20 360,140 540,80 C720,20 900,140 1080,80 C1260,20 1320,140 1440,80 L1440,160 L0,160 Z"
-            fill="#3B1E12"
-          />
-          <path
-            d="M0,80 C180,140 360,20 540,80 C720,140 900,20 1080,80 C1260,140 1320,20 1440,80 L1440,0 L0,0 Z"
-            fill="white"
-          />
-        </svg>
-      </div>
-      <div className="absolute bottom-0 left-0 w-full h-24 md:h-40 overflow-hidden pointer-events-none z-0">
-        <svg
-          className="absolute bottom-0 w-full h-full"
-          viewBox="0 0 1440 160"
-          preserveAspectRatio="none"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          style={{ transform: 'scaleY(-1)' }}
-        >
-          <path
-            d="M0,80 C180,20 360,140 540,80 C720,20 900,140 1080,80 C1260,20 1320,140 1440,80 L1440,160 L0,160 Z"
-            fill="#3B1E12"
-          />
-          <path
-            d="M0,80 C180,140 360,20 540,80 C720,140 900,20 1080,80 C1260,140 1320,20 1440,80 L1440,0 L0,0 Z"
-            fill="white"
-          />
-        </svg>
-      </div>
-
       <motion.div
         className="relative z-10 min-h-screen flex flex-col py-6 md:py-8 px-3 md:px-6"
         initial={{ opacity: 0 }}
@@ -59,43 +20,8 @@ export default function HistoirePage() {
       >
         <div className="flex-1 w-full max-w-[1920px] mx-auto px-2 md:px-4">
           <div className="book-wrapper">
-            {/* Feuillages décoratifs en bas du livre uniquement (sans les deux au-dessus) */}
-            <div className="book-foliage" aria-hidden>
-              <svg className="absolute -left-2 bottom-4 w-16 h-16 opacity-80" viewBox="0 0 32 32" fill="none">
-                <path d="M8 28 Q16 16 24 28 Q16 20 8 28" fill="url(#leaf-warm)" />
-                <defs>
-                  <linearGradient id="leaf-warm" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stopColor="#ffb74d" />
-                    <stop offset="100%" stopColor="#e65100" />
-                  </linearGradient>
-                </defs>
-              </svg>
-              <svg className="absolute -right-2 bottom-6 w-20 h-20 opacity-80" viewBox="0 0 36 36" fill="none">
-                <ellipse cx="18" cy="20" rx="10" ry="12" fill="url(#leaf-forest)" transform="rotate(15 18 20)" />
-                <defs>
-                  <linearGradient id="leaf-forest" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stopColor="#a5d6a7" />
-                    <stop offset="100%" stopColor="#1b5e20" />
-                  </linearGradient>
-                </defs>
-              </svg>
-              {/* Petite fleur orange/jaune (style image) */}
-              <svg className="absolute -right-1 -top-1 w-10 h-10 opacity-95" viewBox="0 0 24 24" fill="none">
-                <circle cx="12" cy="12" r="3" fill="#ffeb3b" />
-                <ellipse cx="12" cy="8" rx="2.5" ry="4" fill="url(#petal)" />
-                <ellipse cx="16" cy="12" rx="2.5" ry="4" fill="url(#petal)" transform="rotate(90 16 12)" />
-                <ellipse cx="12" cy="16" rx="2.5" ry="4" fill="url(#petal)" transform="rotate(180 12 16)" />
-                <ellipse cx="8" cy="12" rx="2.5" ry="4" fill="url(#petal)" transform="rotate(-90 8 12)" />
-                <defs>
-                  <linearGradient id="petal" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stopColor="#ffcc80" />
-                    <stop offset="100%" stopColor="#ff9800" />
-                  </linearGradient>
-                </defs>
-              </svg>
-            </div>
-
-            {/* Livre ouvert : style image (pages gris clair, reliure orange) */}
+            {/* Cadre décoratif type livre (bordure ocre + motif botanique) */}
+            <div className="book-frame">
             <motion.article
               className="book-open"
               initial={{ opacity: 0, y: 32 }}
@@ -176,6 +102,7 @@ export default function HistoirePage() {
               </div>
             </div>
           </motion.article>
+            </div>
           </div>
         </div>
       </motion.div>
