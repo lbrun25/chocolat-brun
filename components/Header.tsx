@@ -2,8 +2,8 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { motion } from 'framer-motion'
-import { memo } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { memo, useState, useEffect } from 'react'
 import CartIcon from './CartIcon'
 import BrandLogo from './BrandLogo'
 
@@ -16,12 +16,52 @@ const navItems = [
 
 function HeaderComponent() {
   const pathname = usePathname()
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [isVisible, setIsVisible] = useState(true)
+  const [lastScrollY, setLastScrollY] = useState(0)
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY
+      
+      // Toujours afficher le header en haut de la page
+      if (currentScrollY < 10) {
+        setIsVisible(true)
+      } else {
+        // Masquer quand on scroll vers le bas, afficher quand on scroll vers le haut
+        setIsVisible(currentScrollY < lastScrollY)
+      }
+      
+      setLastScrollY(currentScrollY)
+    }
+
+    // Throttle pour améliorer les performances
+    let ticking = false
+    const throttledHandleScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          handleScroll()
+          ticking = false
+        })
+        ticking = true
+      }
+    }
+
+    window.addEventListener('scroll', throttledHandleScroll, { passive: true })
+    
+    return () => {
+      window.removeEventListener('scroll', throttledHandleScroll)
+    }
+  }, [lastScrollY])
 
   return (
     <motion.header
       initial={{ y: -100, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.6, ease: 'easeOut' }}
+      animate={{ 
+        y: isVisible ? 0 : -100, 
+        opacity: isVisible ? 1 : 0 
+      }}
+      transition={{ duration: 0.3, ease: 'easeInOut' }}
       className="sticky top-0 z-50 bg-chocolate-dark/95 backdrop-blur-md shadow-lg border-b border-chocolate-dark/20"
     >
       {/* Effet de brillance subtil en arrière-plan */}
@@ -41,8 +81,8 @@ function HeaderComponent() {
             </Link>
           </motion.div>
 
-          {/* Navigation */}
-          <div className="flex items-center space-x-1 md:space-x-2 lg:space-x-4">
+          {/* Navigation Desktop */}
+          <div className="hidden md:flex items-center space-x-1 md:space-x-2 lg:space-x-4">
             <ul className="flex items-center space-x-1 md:space-x-2 lg:space-x-4">
               {navItems.map((item, index) => {
                 const isActive = pathname === item.href
@@ -94,8 +134,82 @@ function HeaderComponent() {
               <CartIcon />
             </motion.div>
           </div>
+
+          {/* Mobile Menu Button & Cart */}
+          <div className="flex md:hidden items-center space-x-4">
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.5 }}
+            >
+              <CartIcon />
+            </motion.div>
+            <button
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="text-chocolate-light p-2 rounded-lg hover:bg-chocolate-dark/50 transition-colors"
+              aria-label="Toggle menu"
+              aria-expanded={isMobileMenuOpen}
+            >
+              <svg
+                className="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                {isMobileMenuOpen ? (
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                ) : (
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M4 6h16M4 12h16M4 18h16"
+                  />
+                )}
+              </svg>
+            </button>
+          </div>
         </div>
       </nav>
+
+      {/* Mobile Menu */}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.3 }}
+            className="md:hidden bg-chocolate-dark border-t border-chocolate-dark/20 overflow-hidden"
+          >
+            <ul className="flex flex-col">
+              {navItems.map((item, index) => {
+                const isActive = pathname === item.href
+                return (
+                  <li key={item.href}>
+                    <Link
+                      href={item.href}
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className={`block px-6 py-4 text-chocolate-light/90 transition-all duration-300 ${
+                        isActive 
+                          ? 'text-chocolate-light font-semibold bg-chocolate-dark/70' 
+                          : 'hover:text-chocolate-light hover:bg-chocolate-dark/50'
+                      }`}
+                    >
+                      {item.label}
+                    </Link>
+                  </li>
+                )
+              })}
+            </ul>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.header>
   )
 }

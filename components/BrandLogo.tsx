@@ -17,16 +17,16 @@ export default function BrandLogo() {
         />
       </div>
       {/* 2. Textes à droite */}
-      <div className="flex flex-col">
-        <div className="flex items-start flex-wrap">
+      <div className="flex flex-col md:flex-col justify-center md:justify-start">
+        <div className="flex items-center md:items-start flex-wrap">
           <span className="text-chocolate-light font-great-vibes text-xl md:text-2xl lg:text-3xl leading-[0.9]">
             Cédric Brun
           </span>
-          <span className="text-chocolate-light text-[10px] md:text-xs lg:text-sm font-cinzel uppercase tracking-wider whitespace-nowrap ml-2 md:ml-3 pt-1 md:pt-1.5">
+          <span className="hidden md:inline text-chocolate-light text-[10px] md:text-xs lg:text-sm font-cinzel uppercase tracking-wider whitespace-nowrap ml-2 md:ml-3 pt-1 md:pt-1.5">
             MAÎTRE ARTISAN
           </span>
         </div>
-        <p className="text-chocolate-light text-[10px] md:text-xs lg:text-sm font-cinzel uppercase tracking-wider">
+        <p className="hidden md:block text-chocolate-light text-[10px] md:text-xs lg:text-sm font-cinzel uppercase tracking-wider">
           PÂTISSIER CHOCOLATIER DEPUIS 1999
         </p>
       </div>

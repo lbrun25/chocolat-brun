@@ -100,10 +100,12 @@ export default function RootLayout({
       </head>
       <body className={`${inter.className} ${dancingScript.variable} ${greatVibes.variable} ${cinzel.variable}`}>
         <CartProvider>
-          <Header />
-          <main className="min-h-screen">{children}</main>
-          <Footer />
-          <CookieBanner />
+          <div className="overflow-x-hidden">
+            <Header />
+            <main className="min-h-screen">{children}</main>
+            <Footer />
+            <CookieBanner />
+          </div>
         </CartProvider>
       </body>
     </html>

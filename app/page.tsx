@@ -111,8 +111,8 @@ export default function Home() {
     <div className="artisan-texture">
       {/* Section 1 : Le chocolat, c'est le bonheur */}
       <section className="relative flex items-center justify-center overflow-hidden bg-white">
-        {/* Deux grandes images de chocolat - gauche et droite */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        {/* Deux grandes images de chocolat - gauche et droite - masquées sur mobile */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none hidden md:block">
           {/* Chocolat à gauche */}
           <motion.div
             initial={{ opacity: 0, scale: 0.8, rotate: -35 }}
@@ -229,9 +229,9 @@ export default function Home() {
       </section>
 
       {/* Section 2 : Le chocolat, c'est comme un câlin de l'intérieur */}
-      <section className="relative py-24 md:py-40 bg-chocolate-dark text-white overflow-hidden">
+      <section className="relative py-40 md:py-40 bg-chocolate-dark text-white overflow-x-hidden">
         {/* Bordure ondulée en haut */}
-        <div className="absolute top-0 left-0 w-full h-24 md:h-40 overflow-hidden pointer-events-none">
+        <div className="absolute top-0 left-0 w-full h-24 md:h-40 overflow-hidden pointer-events-none z-0">
           <svg
             className="absolute top-0 w-full h-full"
             viewBox="0 0 1440 160"
@@ -251,7 +251,7 @@ export default function Home() {
         </div>
 
         {/* Bordure ondulée en bas - transition vers la couleur de la section Nos goûts */}
-        <div className="absolute bottom-0 left-0 w-full h-24 md:h-40 overflow-hidden pointer-events-none">
+        <div className="absolute bottom-0 left-0 w-full h-24 md:h-40 overflow-hidden pointer-events-none z-0">
           <svg
             className="absolute bottom-0 w-full h-full"
             viewBox="0 0 1440 160"
@@ -274,7 +274,7 @@ export default function Home() {
         {/* Images de chocolat transparentes avec mouvement libre */}
         <FloatingChocolates />
 
-        <div className="container mx-auto px-4 relative z-10 pt-20 md:pt-32">
+        <div className="container mx-auto px-4 relative z-10 pt-24 pb-24 md:pt-32 md:pb-40">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}

@@ -14,7 +14,30 @@ export default function ProductCarousel({ products }: ProductCarouselProps) {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [isAutoPlaying, setIsAutoPlaying] = useState(true)
   const intervalRef = useRef<NodeJS.Timeout | null>(null)
+  const autoPlayTimeoutRef = useRef<NodeJS.Timeout | null>(null)
   const [isHovered, setIsHovered] = useState(false)
+  
+  // États pour le swipe tactile
+  const touchStartX = useRef<number | null>(null)
+  const touchEndX = useRef<number | null>(null)
+  const minSwipeDistance = 50 // Distance minimale en pixels pour déclencher un swipe
+  const [isSwiping, setIsSwiping] = useState(false)
+  const [isTouchDevice, setIsTouchDevice] = useState(false)
+
+  // Détecter si on est sur un appareil tactile
+  useEffect(() => {
+    const checkTouchDevice = () => {
+      setIsTouchDevice(
+        'ontouchstart' in window ||
+        navigator.maxTouchPoints > 0 ||
+        // @ts-ignore
+        navigator.msMaxTouchPoints > 0
+      )
+    }
+    checkTouchDevice()
+    window.addEventListener('resize', checkTouchDevice)
+    return () => window.removeEventListener('resize', checkTouchDevice)
+  }, [])
 
   // Nombre de produits visibles selon la taille d'écran
   const getVisibleCount = () => {
@@ -42,7 +65,7 @@ export default function ProductCarousel({ products }: ProductCarouselProps) {
 
   // Auto-play
   useEffect(() => {
-    if (isAutoPlaying && !isHovered && products.length > visibleCount) {
+    if (isAutoPlaying && !isHovered && !isSwiping && products.length > visibleCount) {
       intervalRef.current = setInterval(() => {
         setCurrentIndex((prev) => (prev + 1) % (products.length - visibleCount + 1))
       }, 4000) // Change toutes les 4 secondes
@@ -56,8 +79,11 @@ export default function ProductCarousel({ products }: ProductCarouselProps) {
       if (intervalRef.current) {
         clearInterval(intervalRef.current)
       }
+      if (autoPlayTimeoutRef.current) {
+        clearTimeout(autoPlayTimeoutRef.current)
+      }
     }
-  }, [isAutoPlaying, isHovered, products.length, visibleCount])
+  }, [isAutoPlaying, isHovered, isSwiping, products.length, visibleCount])
 
   const maxIndex = Math.max(0, products.length - visibleCount)
 
@@ -111,23 +137,96 @@ export default function ProductCarousel({ products }: ProductCarouselProps) {
   const goToPrevious = () => {
     setCurrentIndex((prev) => (prev === 0 ? maxIndex : prev - 1))
     setIsAutoPlaying(false)
+    // Nettoyer le timeout précédent s'il existe
+    if (autoPlayTimeoutRef.current) {
+      clearTimeout(autoPlayTimeoutRef.current)
+    }
+    // Réactiver l'auto-play après 5 secondes
+    autoPlayTimeoutRef.current = setTimeout(() => setIsAutoPlaying(true), 5000)
   }
 
   const goToNext = () => {
     setCurrentIndex((prev) => (prev === maxIndex ? 0 : prev + 1))
     setIsAutoPlaying(false)
+    // Nettoyer le timeout précédent s'il existe
+    if (autoPlayTimeoutRef.current) {
+      clearTimeout(autoPlayTimeoutRef.current)
+    }
+    // Réactiver l'auto-play après 5 secondes
+    autoPlayTimeoutRef.current = setTimeout(() => setIsAutoPlaying(true), 5000)
   }
 
   const goToSlide = (index: number) => {
     setCurrentIndex(index)
     setIsAutoPlaying(false)
+    // Nettoyer le timeout précédent s'il existe
+    if (autoPlayTimeoutRef.current) {
+      clearTimeout(autoPlayTimeoutRef.current)
+    }
+    // Réactiver l'auto-play après 5 secondes
+    autoPlayTimeoutRef.current = setTimeout(() => setIsAutoPlaying(true), 5000)
+  }
+
+  // Gestionnaires pour le swipe tactile
+  const onTouchStart = (e: React.TouchEvent) => {
+    touchEndX.current = null
+    touchStartX.current = e.targetTouches[0].clientX
+    setIsSwiping(true)
+  }
+
+  const onTouchMove = (e: React.TouchEvent) => {
+    if (touchStartX.current !== null) {
+      touchEndX.current = e.targetTouches[0].clientX
+      // Si on bouge significativement, on est en train de swiper
+      const distance = Math.abs(touchStartX.current - (touchEndX.current || touchStartX.current))
+      if (distance > 10) {
+        setIsSwiping(true)
+      }
+    }
+  }
+
+  const onTouchEnd = () => {
+    if (!touchStartX.current) {
+      setIsSwiping(false)
+      return
+    }
+    
+    if (touchEndX.current !== null) {
+      const distance = touchStartX.current - touchEndX.current
+      const isLeftSwipe = distance > minSwipeDistance
+      const isRightSwipe = distance < -minSwipeDistance
+
+      if (isLeftSwipe && currentIndex < maxIndex) {
+        goToNext()
+      }
+      if (isRightSwipe && currentIndex > 0) {
+        goToPrevious()
+      }
+    }
+
+    // Réinitialiser les valeurs
+    touchStartX.current = null
+    touchEndX.current = null
+    // Désactiver le flag de swipe après un délai pour éviter les hover
+    // Réactiver l'auto-play après le swipe
+    // Nettoyer le timeout précédent s'il existe
+    if (autoPlayTimeoutRef.current) {
+      clearTimeout(autoPlayTimeoutRef.current)
+    }
+    autoPlayTimeoutRef.current = setTimeout(() => {
+      setIsSwiping(false)
+      setIsAutoPlaying(true)
+    }, 300)
   }
 
   return (
     <div 
-      className="relative w-full"
+      className={`relative w-full ${isSwiping ? 'swiping' : ''}`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
+      onTouchStart={onTouchStart}
+      onTouchMove={onTouchMove}
+      onTouchEnd={onTouchEnd}
     >
       {/* Container du carousel - padding pour éviter que les shadows soient coupées */}
       <div 
@@ -160,6 +259,7 @@ export default function ProductCarousel({ products }: ProductCarouselProps) {
                 product={product}
                 delay={index * 0.05}
                 simple={true}
+                disableHover={isTouchDevice || isSwiping}
               />
             </div>
           ))}

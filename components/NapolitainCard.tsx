@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { memo, useState } from 'react'
+import { memo, useState, useEffect } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import SafeImage from './SafeImage'
@@ -13,17 +13,35 @@ interface NapolitainCardProps {
   product: Product
   delay?: number
   simple?: boolean
+  disableHover?: boolean
 }
 
 function NapolitainCardComponent({
   product,
   delay = 0,
   simple = false,
+  disableHover = false,
 }: NapolitainCardProps) {
   const router = useRouter()
   const { addToCart } = useCart()
   const [showSuccess, setShowSuccess] = useState(false)
   const [selectedPackaging, setSelectedPackaging] = useState<PackagingType>('40')
+  const [isTouchDevice, setIsTouchDevice] = useState(false)
+
+  // Détecter si on est sur un appareil tactile
+  useEffect(() => {
+    const checkTouchDevice = () => {
+      setIsTouchDevice(
+        'ontouchstart' in window ||
+        navigator.maxTouchPoints > 0 ||
+        // @ts-ignore
+        navigator.msMaxTouchPoints > 0
+      )
+    }
+    checkTouchDevice()
+    window.addEventListener('resize', checkTouchDevice)
+    return () => window.removeEventListener('resize', checkTouchDevice)
+  }, [])
 
   const handleQuickAdd = (e: React.MouseEvent) => {
     e.preventDefault()
@@ -33,18 +51,20 @@ function NapolitainCardComponent({
     setTimeout(() => setShowSuccess(false), 2000)
   }
 
+  const shouldDisableHover = disableHover || isTouchDevice
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-100px' }}
       transition={{ duration: 0.5, delay, ease: 'easeOut' }}
-      whileHover={{ y: -8, scale: 1.02 }}
+      whileHover={shouldDisableHover ? {} : { y: -8, scale: 1.02 }}
       onClick={() => router.push(`/produits/${product.slug}`)}
-      className="group relative bg-white rounded-2xl overflow-hidden transition-all duration-300 border border-chocolate-light/50 cursor-pointer"
+      className={`group relative bg-white rounded-2xl overflow-hidden transition-all duration-300 border border-chocolate-light/50 cursor-pointer ${shouldDisableHover ? 'no-hover' : ''}`}
     >
-      {/* Image Container avec fond dégradé élégant - Ratio carré */}
-        <div className="relative aspect-square bg-gradient-to-br from-chocolate-light/30 via-white to-chocolate-light/20 overflow-hidden cursor-pointer shadow-md group-hover:shadow-lg transition-shadow duration-300">
+        {/* Image Container avec fond dégradé élégant - Ratio carré sur desktop, plus petit sur mobile */}
+        <div className={`relative aspect-[4/3] md:aspect-square bg-gradient-to-br from-chocolate-light/30 via-white to-chocolate-light/20 overflow-hidden cursor-pointer shadow-md transition-shadow duration-300 ${shouldDisableHover ? '' : 'group-hover:shadow-lg'}`}>
           {/* Décoration subtile en arrière-plan */}
           <div className="absolute inset-0 opacity-5">
             <div className="absolute top-0 right-0 w-32 h-32 bg-chocolate-dark rounded-full blur-3xl"></div>
@@ -58,12 +78,12 @@ function NapolitainCardComponent({
               fallbackSrc={product.fallbackSrc}
               alt={product.imageAlt}
               fill
-              className="object-cover object-center scale-110 transition-transform duration-700 group-hover:scale-125"
+              className={`object-cover object-center scale-110 transition-transform duration-700 ${shouldDisableHover ? '' : 'group-hover:scale-125'}`}
             />
           </div>
 
           {/* Overlay avec indication au hover */}
-          <div className="absolute inset-0 bg-gradient-to-t from-chocolate-dark/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-end justify-center pb-6">
+          <div className={`absolute inset-0 bg-gradient-to-t from-chocolate-dark/80 via-transparent to-transparent transition-all duration-300 flex items-end justify-center pb-6 ${shouldDisableHover ? 'opacity-0' : 'opacity-0 group-hover:opacity-100'}`}>
             <motion.div 
               initial={{ y: 20, opacity: 0 }}
               whileHover={{ y: 0, opacity: 1 }}
@@ -80,7 +100,7 @@ function NapolitainCardComponent({
           </div>
 
           {/* Badge artisanal en haut à droite */}
-          <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          <div className={`absolute top-4 right-4 transition-opacity duration-300 ${shouldDisableHover ? 'opacity-0' : 'opacity-0 group-hover:opacity-100'}`}>
             <div className="bg-chocolate-dark/90 backdrop-blur-sm text-chocolate-light text-xs font-semibold px-3 py-1 rounded-full shadow-lg">
               ✦ Artisanal
             </div>
@@ -90,7 +110,7 @@ function NapolitainCardComponent({
       {/* Contenu de la carte */}
       <div className={`${simple ? 'p-4' : 'p-6'} space-y-4`}>
         {/* Titre */}
-        <h3 className={`${simple ? 'text-xl' : 'text-2xl'} font-bold text-chocolate-dark font-serif text-center group-hover:text-chocolate-medium transition-colors duration-300`}>
+        <h3 className={`${simple ? 'text-xl' : 'text-2xl'} font-bold text-chocolate-dark font-serif text-center transition-colors duration-300 ${shouldDisableHover ? '' : 'group-hover:text-chocolate-medium'}`}>
           {product.name}
         </h3>
 
@@ -206,7 +226,7 @@ function NapolitainCardComponent({
       </div>
 
       {/* Bordure décorative en bas */}
-      <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-chocolate-medium/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+      <div className={`absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-chocolate-medium/30 to-transparent transition-opacity duration-300 ${shouldDisableHover ? 'opacity-0' : 'opacity-0 group-hover:opacity-100'}`}></div>
     </motion.div>
   )
 }
