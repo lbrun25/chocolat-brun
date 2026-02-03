@@ -3,6 +3,7 @@
 import { Suspense, useEffect, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { motion } from 'framer-motion'
+import { Check } from 'lucide-react'
 import Link from 'next/link'
 import { useCart } from '@/contexts/CartContext'
 
@@ -139,15 +140,15 @@ function OrderSuccessContent() {
             </h3>
             <ul className="text-left space-y-2 text-chocolate-dark/70">
               <li className="flex items-start">
-                <span className="text-chocolate-medium mr-2">✓</span>
+                <Check className="w-5 h-5 text-chocolate-medium mr-2 flex-shrink-0 mt-0.5" aria-hidden="true" />
                 <span>Vous recevrez un email de confirmation dans les prochaines minutes</span>
               </li>
               <li className="flex items-start">
-                <span className="text-chocolate-medium mr-2">✓</span>
+                <Check className="w-5 h-5 text-chocolate-medium mr-2 flex-shrink-0 mt-0.5" aria-hidden="true" />
                 <span>Votre commande sera préparée et expédiée sous 2-3 jours ouvrés</span>
               </li>
               <li className="flex items-start">
-                <span className="text-chocolate-medium mr-2">✓</span>
+                <Check className="w-5 h-5 text-chocolate-medium mr-2 flex-shrink-0 mt-0.5" aria-hidden="true" />
                 <span>Vous recevrez un email avec le numéro de suivi dès l'expédition</span>
               </li>
             </ul>

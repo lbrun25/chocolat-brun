@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion'
 import { memo, useState, useEffect } from 'react'
+import { Check } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import SafeImage from './SafeImage'
@@ -151,7 +152,10 @@ function NapolitainCardComponent({
                 exit={{ opacity: 0 }}
                 className="text-center text-sm text-green-600 font-medium mt-2"
               >
-                ✓ Ajouté !
+                <div className="flex items-center justify-center gap-2">
+                  <Check className="w-4 h-4" aria-hidden="true" />
+                  <span>Ajouté !</span>
+                </div>
               </motion.div>
             )}
           </div>
@@ -200,9 +204,10 @@ function NapolitainCardComponent({
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0 }}
-                  className="text-center text-sm text-green-600 font-medium"
+                  className="text-center text-sm text-green-600 font-medium flex items-center justify-center gap-2"
                 >
-                  ✓ Ajouté !
+                  <Check className="w-4 h-4" aria-hidden="true" />
+                  <span>Ajouté !</span>
                 </motion.div>
               )}
               <Link

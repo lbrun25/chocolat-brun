@@ -176,7 +176,7 @@ export default function Home() {
               
               <p className="text-base md:text-lg text-chocolate-dark/70 mb-8 font-sans max-w-xl mx-auto">
                 Des petits carrés de chocolat de 5 grammes, parfaits pour accompagner votre café ou votre thé. 
-                Idéaux pour les cafés, restaurants, hôtels et entreprises.
+                L'idéal pour vos pauses gourmandes et pour offrir à vos proches.
               </p>
               
               <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
@@ -291,8 +291,8 @@ export default function Home() {
                 parfait pour accompagner votre café ou votre thé.
               </p>
               <p>
-                Idéal pour les <strong>cafés, restaurants, hôtels, entreprises</strong> ou 
-                comme <strong>cadeau d'affaires</strong>, nos napolitains sont fabriqués 
+                Parfait pour vos <strong>pauses gourmandes</strong>, pour accompagner votre café ou votre thé, 
+                ou comme <strong>cadeau gourmand</strong>, nos napolitains sont fabriqués 
                 artisanalement avec une sélection rigoureuse de chocolats fins.
               </p>
               <p>
@@ -320,6 +320,12 @@ export default function Home() {
             <p className="text-xl text-chocolate-dark/70 font-sans">
               Découvrez notre gamme de napolitains artisanaux
             </p>
+            <Link
+              href="/produits"
+              className="mt-6 inline-block text-chocolate-dark/70 hover:text-chocolate-dark text-sm font-medium underline-offset-4 hover:underline transition-colors"
+            >
+              Voir nos produits
+            </Link>
           </motion.div>
 
           {/* Carousel avec produits réorganisés : chocolat noir café en premier, chocolat noir en dernier */}
@@ -337,6 +343,36 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Section Vous êtes pro ? */}
+      <section className="py-16 md:py-20 bg-chocolate-light/20">
+        <div className="container mx-auto px-4">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-100px' }}
+            transition={{ duration: 0.6, ease: 'easeOut' }}
+            className="max-w-4xl mx-auto text-center"
+          >
+            <h2 className="text-3xl md:text-4xl font-bold text-chocolate-dark mb-4 font-serif">
+              Vous êtes professionnel ?
+            </h2>
+            <p className="text-lg md:text-xl text-chocolate-dark/70 mb-8 font-sans">
+              Cafés, restaurants, hôtels, entreprises... Découvrez nos solutions professionnelles 
+              avec emballages personnalisés et tarifs dégressifs.
+            </p>
+            <Link
+              href="/pro"
+              className="inline-flex items-center justify-center bg-chocolate-dark text-chocolate-light px-8 py-4 rounded-lg text-lg font-semibold hover:bg-chocolate-dark/90 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105"
+            >
+              Découvrir nos solutions Pro
+              <svg className="ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+            </Link>
+          </motion.div>
+        </div>
+      </section>
+
       {/* CTA Section */}
       <section className="py-20 bg-chocolate-dark text-chocolate-light">
         <div className="container mx-auto px-4 text-center">
@@ -350,14 +386,22 @@ export default function Home() {
               Prêt à commander ?
             </h2>
             <p className="text-xl mb-8 text-chocolate-light/90 font-sans">
-              Demandez un devis personnalisé pour vos besoins professionnels ou particuliers
+              Commandez directement en ligne ou demandez un devis personnalisé
             </p>
-            <Link
-              href="/devis"
-              className="inline-block bg-chocolate-light text-chocolate-dark px-8 py-4 rounded-lg text-lg font-semibold hover:bg-chocolate-light/90 transition-colors shadow-lg"
-            >
-              Demander un devis
-            </Link>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link
+                href="/prix"
+                className="inline-block bg-chocolate-light text-chocolate-dark px-8 py-4 rounded-lg text-lg font-semibold hover:bg-chocolate-light/90 transition-colors shadow-lg hover:shadow-xl hover:scale-105"
+              >
+                Commander maintenant
+              </Link>
+              <Link
+                href="/devis"
+                className="inline-block bg-transparent border-2 border-chocolate-light text-chocolate-light px-8 py-4 rounded-lg text-lg font-semibold hover:bg-chocolate-light hover:text-chocolate-dark transition-all duration-300"
+              >
+                Demander un devis
+              </Link>
+            </div>
           </motion.div>
         </div>
       </section>

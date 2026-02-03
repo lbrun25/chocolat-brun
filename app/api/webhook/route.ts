@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import Stripe from 'stripe'
+import { supabase } from '@/lib/supabase'
 
 export const dynamic = 'force-dynamic'
 
@@ -39,17 +40,141 @@ export async function POST(request: NextRequest) {
     case 'checkout.session.completed': {
       const session = event.data.object as Stripe.Checkout.Session
       
-      // Ici, vous pouvez :
-      // - Enregistrer la commande dans une base de données
-      // - Envoyer un email de confirmation
-      // - Mettre à jour le stock
-      // - etc.
-      
-      console.log('Paiement réussi pour la session:', session.id)
-      console.log('Métadonnées:', session.metadata)
-      
-      // Exemple : Envoyer un email de confirmation
-      // await sendOrderConfirmationEmail(session)
+      try {
+        const email = session.customer_email || session.metadata?.customerEmail || ''
+        const customerFirstName = session.metadata?.customerFirstName || ''
+        const customerLastName = session.metadata?.customerLastName || ''
+        const customerPhone = session.metadata?.customerPhone || ''
+        const customerCompany = session.metadata?.customerCompany || ''
+        const deliveryNotes = session.metadata?.deliveryNotes || ''
+        
+        // Récupérer les informations d'adresse depuis Stripe
+        const shippingAddress = session.shipping_details?.address
+        const shippingAddressLine = shippingAddress?.line1 || ''
+        const shippingCity = shippingAddress?.city || ''
+        const shippingPostalCode = shippingAddress?.postal_code || ''
+        const shippingCountry = shippingAddress?.country || 'France'
+        
+        // Parser les items de commande
+        const orderItems = session.metadata?.orderItems 
+          ? JSON.parse(session.metadata.orderItems)
+          : []
+        
+        const totalHT = parseFloat(session.metadata?.totalHT || '0')
+        const totalTTC = parseFloat(session.metadata?.totalTTC || '0')
+        const shippingCost = parseFloat(session.metadata?.shippingCost || '0')
+        const totalWithShipping = parseFloat(session.metadata?.totalWithShipping || '0')
+        
+        // 1. Créer ou récupérer le profil invité
+        let profileId: string | null = null
+        
+        if (email) {
+          // Vérifier si un profil existe déjà avec cet email
+          const { data: existingProfile } = await supabase
+            .from('profiles')
+            .select('id')
+            .eq('email', email)
+            .single()
+          
+          if (existingProfile) {
+            profileId = existingProfile.id
+            // Mettre à jour les informations si nécessaire
+            await supabase
+              .from('profiles')
+              .update({
+                first_name: customerFirstName || existingProfile.first_name,
+                last_name: customerLastName || existingProfile.last_name,
+                phone: customerPhone || existingProfile.phone,
+                company: customerCompany || existingProfile.company,
+                updated_at: new Date().toISOString(),
+              })
+              .eq('id', profileId)
+          } else {
+            // Créer un nouveau profil invité
+            const { data: newProfile, error: profileError } = await supabase
+              .from('profiles')
+              .insert({
+                email,
+                first_name: customerFirstName,
+                last_name: customerLastName,
+                phone: customerPhone,
+                company: customerCompany,
+                is_guest: true,
+                user_id: null,
+              })
+              .select('id')
+              .single()
+            
+            if (profileError) {
+              console.error('Erreur lors de la création du profil invité:', profileError)
+            } else if (newProfile) {
+              profileId = newProfile.id
+            }
+          }
+        }
+        
+        // 2. Créer la commande
+        const { data: order, error: orderError } = await supabase
+          .from('orders')
+          .insert({
+            user_id: profileId,
+            email,
+            stripe_session_id: session.id,
+            stripe_payment_intent_id: session.payment_intent as string,
+            status: 'paid',
+            customer_first_name: customerFirstName,
+            customer_last_name: customerLastName,
+            customer_phone: customerPhone,
+            customer_company: customerCompany,
+            shipping_address: shippingAddressLine,
+            shipping_city: shippingCity,
+            shipping_postal_code: shippingPostalCode,
+            shipping_country: shippingCountry,
+            delivery_notes: deliveryNotes,
+            total_ht: totalHT,
+            total_ttc: totalTTC,
+            shipping_cost: shippingCost,
+            total_with_shipping: totalWithShipping,
+          })
+          .select('id')
+          .single()
+        
+        if (orderError) {
+          console.error('Erreur lors de la création de la commande:', orderError)
+          throw orderError
+        }
+        
+        // 3. Créer les items de commande
+        if (order && orderItems.length > 0) {
+          const itemsToInsert = orderItems.map((item: any) => ({
+            order_id: order.id,
+            product_id: item.productId,
+            product_name: item.productName,
+            packaging: item.packaging,
+            quantity: item.quantity,
+            price_ttc: item.priceTTC,
+          }))
+          
+          const { error: itemsError } = await supabase
+            .from('order_items')
+            .insert(itemsToInsert)
+          
+          if (itemsError) {
+            console.error('Erreur lors de la création des items de commande:', itemsError)
+          }
+        }
+        
+        console.log('Commande créée avec succès:', order.id)
+        console.log('Profil invité:', profileId)
+        
+        // TODO: Envoyer un email de confirmation
+        // await sendOrderConfirmationEmail(session, order.id)
+        
+      } catch (error: any) {
+        console.error('Erreur lors du traitement de la commande:', error)
+        // Ne pas retourner d'erreur pour éviter que Stripe réessaie indéfiniment
+        // Vous pouvez logger l'erreur dans un service de monitoring
+      }
       
       break
     }

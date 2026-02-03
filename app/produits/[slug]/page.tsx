@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { notFound } from 'next/navigation'
 import { motion } from 'framer-motion'
+import { Check } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import SafeImage from '@/components/SafeImage'
@@ -216,9 +217,10 @@ export default function ProductPage({ params }: ProductPageProps) {
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0 }}
-                  className="mt-4 bg-green-500 text-white p-4 rounded-lg text-center"
+                  className="mt-4 bg-green-500 text-white p-4 rounded-lg text-center flex items-center justify-center gap-2"
                 >
-                  ✓ Produit ajouté au panier !
+                  <Check className="w-5 h-5" aria-hidden="true" />
+                  <span>Produit ajouté au panier !</span>
                 </motion.div>
               )}
             </div>

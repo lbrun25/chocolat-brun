@@ -3,9 +3,11 @@
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { useCart } from '@/contexts/CartContext'
+import { useAuth } from '@/contexts/AuthContext'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import SafeImage from '@/components/SafeImage'
+import CheckoutAuth from '@/components/CheckoutAuth'
 import { getPackagingPrices } from '@/types/product'
 import { calculateShippingCost, FREE_SHIPPING_THRESHOLD } from '@/lib/shipping'
 
@@ -24,18 +26,21 @@ interface FormData {
 
 export default function CheckoutPage() {
   const { cart } = useCart()
+  const { user, profile } = useAuth()
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)
+  const [showAuth, setShowAuth] = useState(true)
+  const [authCompleted, setAuthCompleted] = useState(false)
   
   // Calcul des frais de port
   const shippingCost = calculateShippingCost(cart.totalWeight, cart.totalTTC)
   const totalWithShipping = cart.totalTTC + shippingCost
   const [formData, setFormData] = useState<FormData>({
-    firstName: '',
-    lastName: '',
-    email: '',
-    phone: '',
-    company: '',
+    firstName: profile?.first_name || '',
+    lastName: profile?.last_name || '',
+    email: profile?.email || user?.email || '',
+    phone: profile?.phone || '',
+    company: profile?.company || '',
     address: '',
     city: '',
     postalCode: '',
@@ -49,6 +54,48 @@ export default function CheckoutPage() {
       router.push('/panier')
     }
   }, [cart.items.length, router])
+
+  // Si l'utilisateur est connecté, masquer l'auth et pré-remplir les données
+  useEffect(() => {
+    if (user && profile) {
+      setShowAuth(false)
+      setAuthCompleted(true)
+      setFormData(prev => ({
+        ...prev,
+        firstName: profile.first_name || prev.firstName,
+        lastName: profile.last_name || prev.lastName,
+        email: profile.email || prev.email,
+        phone: profile.phone || prev.phone,
+        company: profile.company || prev.company,
+      }))
+    }
+  }, [user, profile])
+
+  const handleGuestContinue = async () => {
+    // Créer ou récupérer le profil invité
+    try {
+      await fetch('/api/auth/guest', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: formData.email,
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          phone: formData.phone,
+          company: formData.company,
+        }),
+      })
+      setShowAuth(false)
+      setAuthCompleted(true)
+    } catch (error) {
+      console.error('Erreur lors de la création du profil invité:', error)
+    }
+  }
+
+  const handleAuthenticated = () => {
+    setShowAuth(false)
+    setAuthCompleted(true)
+  }
 
   const validateForm = (): boolean => {
     const newErrors: Partial<Record<keyof FormData, string>> = {}
@@ -145,7 +192,16 @@ export default function CheckoutPage() {
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {/* Formulaire */}
-            <div className="lg:col-span-2">
+            <div className="lg:col-span-2 space-y-6">
+              {/* Authentification (optionnel) */}
+              {showAuth && (
+                <CheckoutAuth
+                  onGuestContinue={handleGuestContinue}
+                  onAuthenticated={handleAuthenticated}
+                  defaultEmail={formData.email}
+                />
+              )}
+
               <motion.div
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}

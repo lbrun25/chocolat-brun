@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import { memo, useState, useEffect } from 'react'
+import { useAuth } from '@/contexts/AuthContext'
 import CartIcon from './CartIcon'
 import BrandLogo from './BrandLogo'
 
@@ -16,6 +17,7 @@ const navItems = [
 
 function HeaderComponent() {
   const pathname = usePathname()
+  const { user } = useAuth()
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [isVisible, setIsVisible] = useState(true)
   const [lastScrollY, setLastScrollY] = useState(0)
@@ -126,17 +128,37 @@ function HeaderComponent() {
                 )
               })}
             </ul>
-            <motion.div
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.5 }}
-            >
-              <CartIcon />
-            </motion.div>
+            <div className="flex items-center space-x-4">
+              {user && (
+                <Link
+                  href="/compte"
+                  className="px-3 md:px-4 py-2 text-sm md:text-base text-chocolate-light/90 hover:text-chocolate-light hover:bg-chocolate-dark/50 transition-all duration-300 rounded-lg"
+                >
+                  Mon compte
+                </Link>
+              )}
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.5 }}
+              >
+                <CartIcon />
+              </motion.div>
+            </div>
           </div>
 
           {/* Mobile Menu Button & Cart */}
           <div className="flex md:hidden items-center space-x-4">
+            {user && (
+              <Link
+                href="/compte"
+                className="text-chocolate-light/90 hover:text-chocolate-light p-2 rounded-lg hover:bg-chocolate-dark/50 transition-colors"
+              >
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                </svg>
+              </Link>
+            )}
             <motion.div
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
@@ -206,6 +228,21 @@ function HeaderComponent() {
                   </li>
                 )
               })}
+              {user && (
+                <li>
+                  <Link
+                    href="/compte"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className={`block px-6 py-4 text-chocolate-light/90 transition-all duration-300 ${
+                      pathname === '/compte'
+                        ? 'text-chocolate-light font-semibold bg-chocolate-dark/70' 
+                        : 'hover:text-chocolate-light hover:bg-chocolate-dark/50'
+                    }`}
+                  >
+                    Mon compte
+                  </Link>
+                </li>
+              )}
             </ul>
           </motion.div>
         )}

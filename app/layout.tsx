@@ -5,6 +5,7 @@ import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import CookieBanner from '@/components/CookieBanner'
 import { CartProvider } from '@/contexts/CartContext'
+import { AuthProvider } from '@/contexts/AuthContext'
 
 const inter = Inter({ subsets: ['latin'] })
 const dancingScript = Dancing_Script({ 
@@ -99,14 +100,16 @@ export default function RootLayout({
         />
       </head>
       <body className={`${inter.className} ${dancingScript.variable} ${greatVibes.variable} ${cinzel.variable}`}>
-        <CartProvider>
-          <div className="overflow-x-hidden">
-            <Header />
-            <main className="min-h-screen">{children}</main>
-            <Footer />
-            <CookieBanner />
-          </div>
-        </CartProvider>
+        <AuthProvider>
+          <CartProvider>
+            <div className="overflow-x-hidden">
+              <Header />
+              <main className="min-h-screen">{children}</main>
+              <Footer />
+              <CookieBanner />
+            </div>
+          </CartProvider>
+        </AuthProvider>
       </body>
     </html>
   )
