@@ -129,14 +129,19 @@ function HeaderComponent() {
               })}
             </ul>
             <div className="flex items-center space-x-4">
-              {user && (
-                <Link
-                  href="/compte"
-                  className="px-3 md:px-4 py-2 text-sm md:text-base text-chocolate-light/90 hover:text-chocolate-light hover:bg-chocolate-dark/50 transition-all duration-300 rounded-lg"
-                >
-                  Mon compte
-                </Link>
-              )}
+              <Link
+                href="/compte"
+                className="p-2 text-chocolate-light/90 hover:text-chocolate-light hover:bg-chocolate-dark/50 transition-all duration-300 rounded-lg"
+                aria-label={user ? 'Mon compte' : 'Se connecter'}
+              >
+                {user ? (
+                  <span className="text-sm md:text-base">Mon compte</span>
+                ) : (
+                  <svg className="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                  </svg>
+                )}
+              </Link>
               <motion.div
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -149,16 +154,14 @@ function HeaderComponent() {
 
           {/* Mobile Menu Button & Cart */}
           <div className="flex md:hidden items-center space-x-4">
-            {user && (
-              <Link
-                href="/compte"
-                className="text-chocolate-light/90 hover:text-chocolate-light p-2 rounded-lg hover:bg-chocolate-dark/50 transition-colors"
-              >
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                </svg>
-              </Link>
-            )}
+            <Link
+              href="/compte"
+              className="text-chocolate-light/90 hover:text-chocolate-light p-2 rounded-lg hover:bg-chocolate-dark/50 transition-colors"
+            >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+              </svg>
+            </Link>
             <motion.div
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
@@ -228,21 +231,23 @@ function HeaderComponent() {
                   </li>
                 )
               })}
-              {user && (
-                <li>
-                  <Link
-                    href="/compte"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                    className={`block px-6 py-4 text-chocolate-light/90 transition-all duration-300 ${
-                      pathname === '/compte'
-                        ? 'text-chocolate-light font-semibold bg-chocolate-dark/70' 
-                        : 'hover:text-chocolate-light hover:bg-chocolate-dark/50'
-                    }`}
-                  >
-                    Mon compte
-                  </Link>
-                </li>
-              )}
+              <li>
+                <Link
+                  href="/compte"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className={`flex items-center gap-3 px-6 py-4 text-chocolate-light/90 transition-all duration-300 ${
+                    pathname === '/compte'
+                      ? 'text-chocolate-light font-semibold bg-chocolate-dark/70' 
+                      : 'hover:text-chocolate-light hover:bg-chocolate-dark/50'
+                  }`}
+                  aria-label={user ? 'Mon compte' : 'Se connecter'}
+                >
+                  <svg className="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                  </svg>
+                  {user ? 'Mon compte' : null}
+                </Link>
+              </li>
             </ul>
           </motion.div>
         )}

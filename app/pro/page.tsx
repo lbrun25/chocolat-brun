@@ -20,11 +20,7 @@ const avantagesPro = [
     icon: <Briefcase className="w-12 h-12 text-chocolate-dark" />,
     title: 'Pour les entreprises',
     description: 'Cadeaux d\'affaires personnalisés, pauses gourmandes pour vos équipes. Emballage sur mesure avec votre logo possible.',
-  },
-  {
-    icon: <Package className="w-12 h-12 text-chocolate-dark" />,
-    title: 'Emballage personnalisé',
-    description: 'Possibilité d\'emballage sur mesure avec votre logo et vos couleurs pour renforcer votre image de marque.',
+
   },
   {
     icon: <Truck className="w-12 h-12 text-chocolate-dark" />,
@@ -73,12 +69,11 @@ export default function ProPage() {
               </h1>
               
               <p className="text-lg md:text-xl text-chocolate-light/90 mb-4 font-sans leading-relaxed">
-                Des solutions sur mesure pour cafés, restaurants, hôtels et entreprises
+          
               </p>
               
               <p className="text-base md:text-lg text-chocolate-light/80 font-sans mb-8">
-                Depuis 1999, nous accompagnons les professionnels avec des napolitains artisanaux de qualité, 
-                des emballages personnalisés et un service adapté à vos besoins.
+                Qualité artisanale et service sur mesure : des napolitains pensés pour les professionnels qui veulent se démarquer.
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4">
@@ -220,10 +215,6 @@ export default function ProPage() {
                       <span className="text-chocolate-medium mr-3 text-xl">•</span>
                       <span><strong className="text-chocolate-dark">200 pièces</strong> (1000 g) - Idéal pour les commandes régulières</span>
                     </li>
-                    <li className="flex items-start">
-                      <span className="text-chocolate-medium mr-3 text-xl">•</span>
-                      <span><strong className="text-chocolate-dark">Commandes sur mesure</strong> - Pour les volumes importants, tarifs dégressifs disponibles</span>
-                    </li>
                   </ul>
                 </div>
 
@@ -231,11 +222,8 @@ export default function ProPage() {
                   <h3 className="text-2xl font-bold text-chocolate-dark mb-4 font-serif">
                     Services professionnels
                   </h3>
+
                   <ul className="space-y-3 text-chocolate-dark/80 font-sans">
-                    <li className="flex items-start">
-                      <span className="text-chocolate-medium mr-3 text-xl">•</span>
-                      <span><strong className="text-chocolate-dark">Emballage personnalisé</strong> avec votre logo et vos couleurs</span>
-                    </li>
                     <li className="flex items-start">
                       <span className="text-chocolate-medium mr-3 text-xl">•</span>
                       <span><strong className="text-chocolate-dark">Livraison professionnelle</strong> avec suivi et flexibilité des dates</span>
@@ -271,7 +259,7 @@ export default function ProPage() {
             </h2>
             <p className="text-xl mb-8 text-chocolate-light/90 font-sans max-w-2xl mx-auto">
               Demandez un devis personnalisé adapté à vos besoins professionnels. 
-              Nous vous répondrons dans les plus brefs délais avec une proposition sur mesure.
+              Nous vous répondrons dans les plus brefs délais.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link

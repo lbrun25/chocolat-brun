@@ -6,10 +6,12 @@ import { motion } from 'framer-motion'
 import { Check } from 'lucide-react'
 import Link from 'next/link'
 import { useCart } from '@/contexts/CartContext'
+import { useAuth } from '@/contexts/AuthContext'
 
 function OrderSuccessContent() {
   const searchParams = useSearchParams()
   const { clearCart } = useCart()
+  const { user } = useAuth()
   const [session, setSession] = useState<any>(null)
   const [isLoading, setIsLoading] = useState(true)
   const sessionId = searchParams.get('session_id')
@@ -155,10 +157,16 @@ function OrderSuccessContent() {
           </motion.div>
 
           {/* Boutons d'action */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center flex-wrap">
+            <Link
+              href="/compte"
+              className="inline-block bg-chocolate-dark text-chocolate-light px-8 py-4 rounded-lg text-lg font-semibold hover:bg-chocolate-dark/90 transition-colors shadow-lg order-first w-full sm:w-auto"
+            >
+              {user ? 'Voir mon compte et mes commandes' : 'Accéder à mon compte pour voir mes commandes'}
+            </Link>
             <Link
               href="/"
-              className="inline-block bg-chocolate-dark text-chocolate-light px-8 py-4 rounded-lg text-lg font-semibold hover:bg-chocolate-dark/90 transition-colors shadow-lg"
+              className="inline-block bg-transparent border-2 border-chocolate-dark text-chocolate-dark px-8 py-4 rounded-lg text-lg font-semibold hover:bg-chocolate-dark hover:text-chocolate-light transition-all"
             >
               Retour à l'accueil
             </Link>

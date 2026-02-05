@@ -4,6 +4,7 @@ import './globals.css'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import CookieBanner from '@/components/CookieBanner'
+import ScrollToTop from '@/components/ScrollToTop'
 import { CartProvider } from '@/contexts/CartContext'
 import { AuthProvider } from '@/contexts/AuthContext'
 
@@ -102,6 +103,7 @@ export default function RootLayout({
       <body className={`${inter.className} ${dancingScript.variable} ${greatVibes.variable} ${cinzel.variable}`}>
         <AuthProvider>
           <CartProvider>
+            <ScrollToTop />
             <div className="overflow-x-hidden">
               <Header />
               <main className="min-h-screen">{children}</main>

@@ -7,6 +7,7 @@ import { useAuth } from '@/contexts/AuthContext'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { supabase } from '@/lib/supabase'
+import CheckoutAuth from '@/components/CheckoutAuth'
 
 interface Order {
   id: string
@@ -34,17 +35,15 @@ export default function ComptePage() {
   const [loading, setLoading] = useState(true)
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null)
 
-  useEffect(() => {
-    if (!authLoading && !user) {
-      router.push('/checkout')
-    }
-  }, [user, authLoading, router])
 
   useEffect(() => {
     if (user && profile) {
       loadOrders()
+    } else if (!user && !authLoading) {
+      // Utilisateur non connecté : pas besoin de charger les commandes
+      setLoading(false)
     }
-  }, [user, profile])
+  }, [user, profile, authLoading])
 
   const loadOrders = async () => {
     if (!profile) return
@@ -91,12 +90,38 @@ export default function ComptePage() {
     router.push('/')
   }
 
-  if (authLoading || loading) {
+  // Afficher le chargement uniquement : pendant l'auth, ou pendant le chargement des commandes (si connecté)
+  if (authLoading || (user && loading)) {
     return (
       <div className="min-h-screen bg-gradient-to-b from-chocolate-light/30 via-white to-chocolate-light/30 flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-chocolate-dark mx-auto mb-4"></div>
           <p className="text-chocolate-dark/70">Chargement...</p>
+        </div>
+      </div>
+    )
+  }
+
+  // Utilisateur non connecté : afficher le formulaire de connexion/inscription
+  if (!authLoading && !user) {
+    return (
+      <div className="min-h-screen bg-gradient-to-b from-chocolate-light/30 via-white to-chocolate-light/30 py-12 md:py-20">
+        <div className="container mx-auto px-4">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="max-w-2xl mx-auto"
+          >
+            <h1 className="text-4xl md:text-5xl font-bold text-chocolate-dark mb-8 font-serif">
+              Mon compte
+            </h1>
+            <CheckoutAuth
+              allowGuest={false}
+              onGuestContinue={() => {}}
+              onAuthenticated={() => {}}
+            />
+          </motion.div>
         </div>
       </div>
     )

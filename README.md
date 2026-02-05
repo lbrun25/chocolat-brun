@@ -88,6 +88,15 @@ Le site sera accessible sur [http://localhost:3000](http://localhost:3000)
 - Sitemap (à générer)
 - Robots.txt (à ajouter)
 
+## 🔐 Mot de passe oublié
+
+La réinitialisation du mot de passe envoie un email via Supabase. Pour que le lien fonctionne, ajoutez dans **Supabase** → **Authentication** → **URL Configuration** → **Redirect URLs** :
+
+- En dev : `http://localhost:3000/compte/reinitialiser-mot-de-passe`
+- En prod : `https://votre-domaine.com/compte/reinitialiser-mot-de-passe`
+
+Pensez à vérifier les **spams** si l’email n’arrive pas.
+
 ## 📝 API Route
 
 L'API route `/api/devis` reçoit les données du formulaire et les affiche dans la console. Pour la production, vous pouvez :

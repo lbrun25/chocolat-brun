@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import Stripe from 'stripe'
 import { supabase } from '@/lib/supabase'
+import { sendOrderConfirmationEmail } from '@/lib/order-confirmation-email'
 
 export const dynamic = 'force-dynamic'
 
@@ -166,10 +167,42 @@ export async function POST(request: NextRequest) {
         
         console.log('Commande créée avec succès:', order.id)
         console.log('Profil invité:', profileId)
-        
-        // TODO: Envoyer un email de confirmation
-        // await sendOrderConfirmationEmail(session, order.id)
-        
+
+        // Envoyer l'email de confirmation (si RESEND_API_KEY est défini)
+        const emailPayload = {
+          customerFirstName: customerFirstName || '',
+          customerLastName: customerLastName || '',
+          customerEmail: email,
+          customerPhone: customerPhone || undefined,
+          customerCompany: customerCompany || undefined,
+          shippingAddressLine: shippingAddressLine || '',
+          shippingCity: shippingCity || '',
+          shippingPostalCode: shippingPostalCode || '',
+          shippingCountry: shippingCountry || 'France',
+          deliveryNotes: deliveryNotes || undefined,
+          orderItems: orderItems.map((item: any) => ({
+            product_name: item.productName,
+            packaging: item.packaging,
+            quantity: item.quantity,
+            price_ttc: item.priceTTC,
+          })),
+          totalHT,
+          totalTTC,
+          shippingCost,
+          totalWithShipping,
+          orderReference: session.id?.substring(0, 24) || order.id,
+          orderDate: new Date().toLocaleDateString('fr-FR', {
+            weekday: 'long',
+            day: 'numeric',
+            month: 'long',
+            year: 'numeric',
+          }),
+        }
+        const emailResult = await sendOrderConfirmationEmail(emailPayload)
+        if (!emailResult.ok) {
+          console.error('Email de confirmation non envoyé:', emailResult.error)
+        }
+
       } catch (error: any) {
         console.error('Erreur lors du traitement de la commande:', error)
         // Ne pas retourner d'erreur pour éviter que Stripe réessaie indéfiniment

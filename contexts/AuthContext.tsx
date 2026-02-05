@@ -24,6 +24,8 @@ interface AuthContextType {
   loading: boolean
   signIn: (email: string, password: string) => Promise<{ error: Error | null }>
   signUp: (email: string, password: string, firstName?: string, lastName?: string) => Promise<{ error: Error | null }>
+  resetPasswordForEmail: (email: string) => Promise<{ error: Error | null }>
+  resendConfirmationEmail: (email: string) => Promise<{ error: Error | null }>
   signOut: () => Promise<void>
   convertGuestToStandard: (password: string) => Promise<{ error: Error | null }>
   refreshProfile: () => Promise<void>
@@ -218,6 +220,35 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   }, [])
 
+  const resetPasswordForEmail = useCallback(async (email: string) => {
+    try {
+      const redirectTo =
+        typeof window !== 'undefined'
+          ? `${window.location.origin}/compte/reinitialiser-mot-de-passe`
+          : ''
+      const { error: resetError } = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo,
+      })
+      if (resetError) return { error: resetError }
+      return { error: null }
+    } catch (error: any) {
+      return { error }
+    }
+  }, [])
+
+  const resendConfirmationEmail = useCallback(async (email: string) => {
+    try {
+      const { error: resendError } = await supabase.auth.resend({
+        email,
+        type: 'signup',
+      })
+      if (resendError) return { error: resendError }
+      return { error: null }
+    } catch (error: any) {
+      return { error }
+    }
+  }, [])
+
   const signOut = useCallback(async () => {
     await supabase.auth.signOut()
     setUser(null)
@@ -274,6 +305,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         loading,
         signIn,
         signUp,
+        resetPasswordForEmail,
+        resendConfirmationEmail,
         signOut,
         convertGuestToStandard,
         refreshProfile,

@@ -117,19 +117,16 @@ export default function DevisPage() {
                 className="inline-block mb-4"
               >
                 <span className="text-sm md:text-base font-semibold text-chocolate-dark/70 uppercase tracking-wider">
-                  Devis personnalisé
+                
                 </span>
               </motion.div>
               
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-chocolate-dark mb-6 font-serif leading-tight">
                 Demandez votre
                 <br />
-                <span className="text-chocolate-medium">devis sur mesure</span>
-              </h1>
-              
-              <p className="text-lg md:text-xl text-chocolate-dark/80 mb-4 font-sans leading-relaxed">
-                Obtenez un devis personnalisé pour vos napolitains artisanaux
-              </p>
+                <span className="text-chocolate-medium">devis</span>
+                                </h1>
+        
               
               <p className="text-base md:text-lg text-chocolate-dark/70 font-sans">
                 Que vous soyez un professionnel de la restauration, un hôtelier ou une entreprise, 

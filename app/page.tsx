@@ -170,8 +170,9 @@ export default function Home() {
                 <span className="text-chocolate-medium">Artisanaux</span>
               </h1>
               
-              <p className="text-lg md:text-xl lg:text-2xl text-chocolate-dark/80 mb-6 font-sans leading-relaxed">
-                Fabrication artisanale à Charquemont
+              <p className="text-lg md:text-xl lg:text-6xl text-chocolate-dark/80 mb-6 font-great-vibes leading-relaxed">
+            
+                Fabrication artisanale à Charquemont dans le Haut-Doubs
               </p>
               
               <p className="text-base md:text-lg text-chocolate-dark/70 mb-8 font-sans max-w-xl mx-auto">
@@ -296,8 +297,7 @@ export default function Home() {
                 artisanalement avec une sélection rigoureuse de chocolats fins.
               </p>
               <p>
-                Chaque pièce est le fruit d'un savoir-faire traditionnel, transmis depuis 
-                des générations, pour vous offrir une expérience gustative unique.
+                Chaque pièce est le fruit d'un savoir-faire traditionnel, pour vous offrir une expérience gustative unique.
               </p>
             </div>
           </motion.div>
