@@ -55,7 +55,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link href="/devis" className="text-chocolate-light/80 hover:text-chocolate-light transition-colors">
-                  Demande de devis
+                  Demande de commande (pro)
                 </Link>
               </li>
               <li>

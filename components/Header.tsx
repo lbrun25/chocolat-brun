@@ -12,7 +12,7 @@ const navItems = [
   { href: '/', label: 'Accueil' },
   { href: '/prix', label: 'Prix' },
   { href: '/galerie', label: 'Galerie' },
-  { href: '/devis', label: 'Devis' },
+  { href: '/devis', label: 'Commande pro' },
 ]
 
 function HeaderComponent() {

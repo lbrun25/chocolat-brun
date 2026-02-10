@@ -81,7 +81,7 @@ export default function ProPage() {
                   href="/devis"
                   className="group inline-flex items-center justify-center bg-chocolate-light text-chocolate-dark px-8 py-4 rounded-lg text-lg font-semibold hover:bg-chocolate-light/90 transition-all duration-300 shadow-xl hover:shadow-2xl hover:scale-105"
                 >
-                  Demander un devis
+                  Passer une commande
                   <svg className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                   </svg>
@@ -258,15 +258,14 @@ export default function ProPage() {
               Prêt à passer commande ?
             </h2>
             <p className="text-xl mb-8 text-chocolate-light/90 font-sans max-w-2xl mx-auto">
-              Demandez un devis personnalisé adapté à vos besoins professionnels. 
-              Nous vous répondrons dans les plus brefs délais.
+              Passez commande via le formulaire. Nous vous recontacterons pour confirmer et organiser la livraison.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
                 href="/devis"
                 className="inline-block bg-chocolate-light text-chocolate-dark px-8 py-4 rounded-lg text-lg font-semibold hover:bg-chocolate-light/90 transition-colors shadow-lg hover:shadow-xl hover:scale-105"
               >
-                Demander un devis
+                Passer une commande
               </Link>
               <Link
                 href="/prix"

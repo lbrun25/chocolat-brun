@@ -1,5 +1,6 @@
 import { Metadata } from 'next'
 import { ReactNode } from 'react'
+import { PrixLayoutClient } from './PrixLayoutClient'
 
 export const metadata: Metadata = {
   title: 'Prix & Conditionnements – Napolitains Cédric BRUN',
@@ -11,6 +12,6 @@ export default function PrixLayout({
 }: {
   children: ReactNode
 }) {
-  return <>{children}</>
+  return <PrixLayoutClient>{children}</PrixLayoutClient>
 }
 

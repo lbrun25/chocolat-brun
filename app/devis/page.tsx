@@ -122,15 +122,14 @@ export default function DevisPage() {
               </motion.div>
               
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-chocolate-dark mb-6 font-serif leading-tight">
-                Demandez votre
+                Passez votre
                 <br />
-                <span className="text-chocolate-medium">devis</span>
-                                </h1>
-        
-              
+                <span className="text-chocolate-medium">commande</span>
+              </h1>
+
               <p className="text-base md:text-lg text-chocolate-dark/70 font-sans">
-                Que vous soyez un professionnel de la restauration, un hôtelier ou une entreprise, 
-                nous vous accompagnons dans votre projet avec des solutions adaptées à vos besoins.
+                Que vous soyez un professionnel de la restauration, un hôtelier ou une entreprise,
+                envoyez-nous votre demande de commande. Nous vous recontacterons pour la confirmer et organiser la livraison.
               </p>
             </motion.div>
 
@@ -230,10 +229,10 @@ export default function DevisPage() {
               className="text-center mb-12"
             >
               <h2 className="text-3xl md:text-4xl font-bold text-chocolate-dark mb-4 font-serif">
-                Formulaire de demande
+                Formulaire de demande de commande
               </h2>
               <p className="text-lg md:text-xl text-chocolate-dark/70 font-sans">
-                Remplissez le formulaire ci-dessous et nous vous répondrons dans les plus brefs délais
+                Remplissez le formulaire ci-dessous. Nous vous recontacterons pour confirmer votre commande et convenir des modalités.
               </p>
             </motion.div>
 
@@ -256,8 +255,8 @@ export default function DevisPage() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
                   <div>
-                    <p className="font-semibold mb-1">Demande envoyée avec succès !</p>
-                    <p className="text-sm">Nous vous répondrons dans les plus brefs délais.</p>
+                    <p className="font-semibold mb-1">Demande de commande envoyée !</p>
+                    <p className="text-sm">Nous vous recontacterons rapidement pour confirmer votre commande.</p>
                   </div>
                 </motion.div>
               )}
@@ -401,7 +400,7 @@ export default function DevisPage() {
                   </>
                 ) : (
                   <>
-                    <span>Envoyer la demande de devis</span>
+                    <span>Envoyer la demande de commande</span>
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
                     </svg>

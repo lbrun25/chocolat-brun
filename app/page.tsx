@@ -194,7 +194,7 @@ export default function Home() {
                   href="/devis"
                   className="inline-flex items-center justify-center bg-transparent border-2 border-chocolate-dark text-chocolate-dark px-8 py-4 rounded-lg text-lg font-semibold hover:bg-chocolate-dark hover:text-chocolate-light transition-all duration-300"
                 >
-                  Demander un devis
+                  Commande pro
                 </Link>
               </div>
 
@@ -386,7 +386,7 @@ export default function Home() {
               Prêt à commander ?
             </h2>
             <p className="text-xl mb-8 text-chocolate-light/90 font-sans">
-              Commandez directement en ligne ou demandez un devis personnalisé
+              Commandez directement en ligne ou passez commande en tant que pro
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
@@ -399,7 +399,7 @@ export default function Home() {
                 href="/devis"
                 className="inline-block bg-transparent border-2 border-chocolate-light text-chocolate-light px-8 py-4 rounded-lg text-lg font-semibold hover:bg-chocolate-light hover:text-chocolate-dark transition-all duration-300"
               >
-                Demander un devis
+                Commande pro
               </Link>
             </div>
           </motion.div>

@@ -7,6 +7,7 @@ import CookieBanner from '@/components/CookieBanner'
 import ScrollToTop from '@/components/ScrollToTop'
 import { CartProvider } from '@/contexts/CartContext'
 import { AuthProvider } from '@/contexts/AuthContext'
+import { ProSiretProvider } from '@/contexts/ProSiretContext'
 
 const inter = Inter({ subsets: ['latin'] })
 const dancingScript = Dancing_Script({ 
@@ -102,6 +103,7 @@ export default function RootLayout({
       </head>
       <body className={`${inter.className} ${dancingScript.variable} ${greatVibes.variable} ${cinzel.variable}`}>
         <AuthProvider>
+          <ProSiretProvider>
           <CartProvider>
             <ScrollToTop />
             <div className="overflow-x-hidden">
@@ -111,6 +113,7 @@ export default function RootLayout({
               <CookieBanner />
             </div>
           </CartProvider>
+          </ProSiretProvider>
         </AuthProvider>
       </body>
     </html>
