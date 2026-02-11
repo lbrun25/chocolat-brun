@@ -1,7 +1,12 @@
 import { Metadata } from 'next'
 import IllustrationCard from '@/components/IllustrationCard'
 
-const illustrations = [
+const illustrations: Array<{
+  src: string
+  fallbackSrc: string
+  alt: string
+  cover?: boolean
+}> = [
   {
     src: '/images/Tasse + sachet chocolat.png',
     fallbackSrc: '/images/napolitain-tasse.svg',
@@ -32,6 +37,24 @@ const illustrations = [
     fallbackSrc: '/images/emballage-1.svg',
     alt: 'Sachet napolitain chocolat marron',
   },
+  {
+    src: '/images/galerie/chocolat-noir-cafe-trainee-or.png',
+    fallbackSrc: '/images/emballage-1.svg',
+    alt: 'Chocolats noirs et fèves de café sur plateau doré',
+    cover: true,
+  },
+  {
+    src: '/images/galerie/chocolat-blanc-barres.png',
+    fallbackSrc: '/images/emballage-1.svg',
+    alt: 'Barres de chocolat blanc Chocolat Brun',
+    cover: true,
+  },
+  {
+    src: '/images/galerie/chocolats-trainee-doree.png',
+    fallbackSrc: '/images/emballage-1.svg',
+    alt: 'Assortiment de chocolats sur plateau à bordure dorée',
+    cover: true,
+  },
 ]
 
 export const metadata: Metadata = {
@@ -52,16 +75,36 @@ export default function GaleriePage() {
           </p>
         </div>
 
+        {/* Les 3 photos produits en grand, cadre couvert */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto mb-12">
+          {illustrations
+            .filter((ill) => ill.cover)
+            .map((illustration, index) => (
+              <IllustrationCard
+                key={illustration.src}
+                src={illustration.src}
+                fallbackSrc={illustration.fallbackSrc}
+                alt={illustration.alt}
+                delay={index * 0.1}
+                cover
+                aspectRatio="square"
+              />
+            ))}
+        </div>
+
+        {/* Reste de la galerie */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
-          {illustrations.map((illustration, index) => (
-            <IllustrationCard
-              key={index}
-              src={illustration.src}
-              fallbackSrc={illustration.fallbackSrc}
-              alt={illustration.alt}
-              delay={index * 0.1}
-            />
-          ))}
+          {illustrations
+            .filter((ill) => !ill.cover)
+            .map((illustration, index) => (
+              <IllustrationCard
+                key={illustration.src}
+                src={illustration.src}
+                fallbackSrc={illustration.fallbackSrc}
+                alt={illustration.alt}
+                delay={index * 0.1}
+              />
+            ))}
         </div>
 
         <div className="mt-12 text-center text-chocolate-dark/70">

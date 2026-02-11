@@ -73,6 +73,18 @@ export default function ProductPage({ params }: ProductPageProps) {
                 />
               </div>
             </div>
+            {product.slug === 'chocolat-noir-cafe' && (
+              <div className="relative w-full aspect-[6/6] max-h-[550px] bg-chocolate-light/20 rounded-lg overflow-hidden mt-14">
+                <Image
+
+                  src="/images/galerie/chocolat-noir-cafe-trainee-or.png"
+                  alt="Chocolat noir café et grains de café sur plateau à bordure dorée"
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                />
+              </div>
+            )}
           </div>
 
           {/* Details Section */}

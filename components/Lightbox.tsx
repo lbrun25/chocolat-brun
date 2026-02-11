@@ -101,110 +101,96 @@ export default function Lightbox({
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.9 }}
             transition={{ duration: 0.3 }}
-            className="fixed inset-0 z-[101] flex items-center justify-center p-4"
+            className="fixed inset-0 z-[101] flex items-center justify-center"
             onClick={(e) => {
               if (e.target === e.currentTarget) onClose()
             }}
           >
-            <div className="relative w-full h-full max-w-7xl max-h-[90vh] flex flex-col">
-              {/* Header */}
-              <div className="flex items-center justify-between mb-4 text-white">
-                {title && (
-                  <h3 className="text-2xl font-bold font-serif">{title}</h3>
-                )}
-                <div className="flex items-center gap-4 ml-auto">
-                  {/* Zoom Controls */}
-                  <div className="flex items-center gap-2 bg-black/50 rounded-lg px-3 py-2">
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation()
-                        setZoom((z) => Math.max(0.5, z - 0.1))
-                      }}
-                      className="p-1 hover:bg-white/20 rounded transition-colors"
-                      aria-label="Zoom out"
-                    >
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                        <circle cx="11" cy="11" r="8" />
-                        <path d="m21 21-4.35-4.35" />
-                        <line x1="8" y1="11" x2="14" y2="11" />
-                      </svg>
-                    </button>
-                    <span className="text-sm font-semibold min-w-[3rem] text-center">
-                      {Math.round(zoom * 100)}%
-                    </span>
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation()
-                        setZoom((z) => Math.min(3, z + 0.1))
-                      }}
-                      className="p-1 hover:bg-white/20 rounded transition-colors"
-                      aria-label="Zoom in"
-                    >
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                        <circle cx="11" cy="11" r="8" />
-                        <path d="m21 21-4.35-4.35" />
-                        <line x1="11" y1="8" x2="11" y2="14" />
-                        <line x1="8" y1="11" x2="14" y2="11" />
-                      </svg>
-                    </button>
-                    {zoom !== 1 && (
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation()
-                          resetZoom()
-                        }}
-                        className="ml-2 px-2 py-1 text-xs bg-white/20 hover:bg-white/30 rounded transition-colors"
-                      >
-                        Réinitialiser
-                      </button>
-                    )}
-                  </div>
-                  <button
-                    onClick={onClose}
-                    className="p-2 hover:bg-white/20 rounded-full transition-colors"
-                    aria-label="Fermer"
-                  >
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                      <line x1="18" y1="6" x2="6" y2="18" />
-                      <line x1="6" y1="6" x2="18" y2="18" />
-                    </svg>
-                  </button>
-                </div>
-              </div>
-
-              {/* Image Container */}
-              <div
-                className="relative flex-1 bg-white rounded-lg overflow-hidden cursor-move"
-                onWheel={handleWheel}
-                onMouseDown={handleMouseDown}
-                onMouseMove={handleMouseMove}
-                onMouseUp={handleMouseUp}
-                onMouseLeave={handleMouseUp}
+            {/* Image en plein écran, pas de bordure ni de boîte */}
+            <div
+              className="absolute inset-0 cursor-move"
+              onWheel={handleWheel}
+              onMouseDown={handleMouseDown}
+              onMouseMove={handleMouseMove}
+              onMouseUp={handleMouseUp}
+              onMouseLeave={handleMouseUp}
+            >
+              <motion.div
+                style={{
+                  transform: `translate(${position.x}px, ${position.y}px) scale(${zoom})`,
+                }}
+                className="absolute inset-0"
+                transition={{ type: 'spring', stiffness: 300, damping: 30 }}
               >
-                <motion.div
-                  style={{
-                    transform: `translate(${position.x}px, ${position.y}px) scale(${zoom})`,
-                  }}
-                  className="absolute inset-0 flex items-center justify-center"
-                  transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-                >
-                  <div className="relative w-full h-full max-w-full max-h-full p-8">
-                    <SafeImage
-                      src={imageSrc}
-                      fallbackSrc={fallbackSrc}
-                      alt={alt}
-                      fill
-                      className="object-contain"
-                    />
-                  </div>
-                </motion.div>
-              </div>
-
-              {/* Instructions */}
-              <div className="mt-4 text-center text-white/70 text-sm">
-                <p>Utilisez la molette de la souris pour zoomer • Cliquez et glissez pour déplacer • Appuyez sur Échap pour fermer</p>
-              </div>
+                <SafeImage
+                  src={imageSrc}
+                  fallbackSrc={fallbackSrc}
+                  alt={alt}
+                  fill
+                  className="object-contain"
+                />
+              </motion.div>
             </div>
+
+            {/* Contrôles en overlay discret en haut à droite */}
+            <div className="absolute top-4 right-4 z-10 flex items-center gap-2 text-white">
+              <div className="flex items-center gap-1 bg-black/40 backdrop-blur rounded-full px-3 py-2">
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    setZoom((z) => Math.max(0.5, z - 0.1))
+                  }}
+                  className="p-1.5 hover:bg-white/20 rounded-full transition-colors"
+                  aria-label="Zoom arrière"
+                >
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <line x1="8" y1="11" x2="16" y2="11" />
+                  </svg>
+                </button>
+                <span className="text-xs font-medium min-w-[2.5rem] text-center tabular-nums">
+                  {Math.round(zoom * 100)}%
+                </span>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    setZoom((z) => Math.min(3, z + 0.1))
+                  }}
+                  className="p-1.5 hover:bg-white/20 rounded-full transition-colors"
+                  aria-label="Zoom avant"
+                >
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <line x1="12" y1="5" x2="12" y2="19" />
+                    <line x1="5" y1="12" x2="19" y2="12" />
+                  </svg>
+                </button>
+                {zoom !== 1 && (
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      resetZoom()
+                    }}
+                    className="ml-1 px-2 py-0.5 text-xs hover:bg-white/20 rounded-full transition-colors"
+                  >
+                    Réinit.
+                  </button>
+                )}
+              </div>
+              <button
+                onClick={onClose}
+                className="p-2.5 bg-black/40 backdrop-blur hover:bg-black/60 rounded-full transition-colors"
+                aria-label="Fermer"
+              >
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <line x1="18" y1="6" x2="6" y2="18" />
+                  <line x1="6" y1="6" x2="18" y2="18" />
+                </svg>
+              </button>
+            </div>
+
+            {/* Légende en bas, discrète */}
+            <p className="absolute bottom-4 left-1/2 -translate-x-1/2 text-white/50 text-xs pointer-events-none">
+              Molette pour zoomer • Glisser pour déplacer • Échap pour fermer
+            </p>
           </motion.div>
         </>
       )}

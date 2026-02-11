@@ -10,9 +10,19 @@ interface IllustrationCardProps {
   fallbackSrc: string
   alt: string
   delay?: number
+  /** Remplir tout le cadre (object-cover) au lieu de contenir l'image */
+  cover?: boolean
+  /** Ratio du cadre : square (défaut), video (16/9), 4/3 */
+  aspectRatio?: 'square' | 'video' | '4/3'
 }
 
-function IllustrationCardComponent({ src, fallbackSrc, alt, delay = 0 }: IllustrationCardProps) {
+const aspectClasses = {
+  square: 'aspect-square',
+  video: 'aspect-video',
+  '4/3': 'aspect-[4/3]',
+}
+
+function IllustrationCardComponent({ src, fallbackSrc, alt, delay = 0, cover = false, aspectRatio = 'square' }: IllustrationCardProps) {
   const [isLightboxOpen, setIsLightboxOpen] = useState(false)
 
   return (
@@ -24,15 +34,15 @@ function IllustrationCardComponent({ src, fallbackSrc, alt, delay = 0 }: Illustr
         transition={{ duration: 0.5, delay, ease: 'easeOut' }}
         whileHover={{ scale: 1.05 }}
         onClick={() => setIsLightboxOpen(true)}
-        className="relative overflow-hidden rounded-lg shadow-lg bg-chocolate-light/50 cursor-pointer group"
+        className={`relative overflow-hidden rounded-lg shadow-lg cursor-pointer group ${cover ? 'bg-chocolate-dark/10' : 'bg-chocolate-light/50'}`}
       >
-        <div className="relative aspect-square">
+        <div className={`relative overflow-hidden ${aspectClasses[aspectRatio]}`}>
           <SafeImage
             src={src}
             fallbackSrc={fallbackSrc}
             alt={alt}
             fill
-            className="object-contain p-4 transition-transform duration-300 group-hover:scale-110"
+            className={`transition-transform duration-300 group-hover:scale-110 ${cover ? '!object-cover !p-0 object-center' : 'object-contain p-4'}`}
             style={{ filter: 'sepia(15%) contrast(1.05)' }}
           />
         </div>
