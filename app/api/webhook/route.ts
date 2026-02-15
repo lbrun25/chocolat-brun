@@ -40,7 +40,10 @@ export async function POST(request: NextRequest) {
   switch (event.type) {
     case 'checkout.session.completed': {
       const session = event.data.object as Stripe.Checkout.Session
-      
+      const sessionWithShipping = session as Stripe.Checkout.Session & {
+        shipping_details?: { address?: { line1?: string; city?: string; postal_code?: string; country?: string } }
+      }
+
       try {
         const email = session.customer_email || session.metadata?.customerEmail || ''
         const customerFirstName = session.metadata?.customerFirstName || ''
@@ -50,7 +53,7 @@ export async function POST(request: NextRequest) {
         const deliveryNotes = session.metadata?.deliveryNotes || ''
         
         // Récupérer les informations d'adresse depuis Stripe
-        const shippingAddress = session.shipping_details?.address
+        const shippingAddress = sessionWithShipping.shipping_details?.address
         const shippingAddressLine = shippingAddress?.line1 || ''
         const shippingCity = shippingAddress?.city || ''
         const shippingPostalCode = shippingAddress?.postal_code || ''
@@ -73,7 +76,7 @@ export async function POST(request: NextRequest) {
           // Vérifier si un profil existe déjà avec cet email
           const { data: existingProfile } = await supabase
             .from('profiles')
-            .select('id')
+            .select('id, first_name, last_name, phone, company')
             .eq('email', email)
             .single()
           
@@ -83,10 +86,10 @@ export async function POST(request: NextRequest) {
             await supabase
               .from('profiles')
               .update({
-                first_name: customerFirstName || existingProfile.first_name,
-                last_name: customerLastName || existingProfile.last_name,
-                phone: customerPhone || existingProfile.phone,
-                company: customerCompany || existingProfile.company,
+                first_name: customerFirstName || existingProfile?.first_name,
+                last_name: customerLastName || existingProfile?.last_name,
+                phone: customerPhone || existingProfile?.phone,
+                company: customerCompany || existingProfile?.company,
                 updated_at: new Date().toISOString(),
               })
               .eq('id', profileId)

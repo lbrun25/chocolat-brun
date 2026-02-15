@@ -2,7 +2,7 @@ import Link from 'next/link'
 
 export default function Footer() {
   return (
-    <footer className="bg-chocolate-dark text-chocolate-light mt-20">
+    <footer className="bg-chocolate-dark text-chocolate-light">
       <div className="container mx-auto px-4 py-12">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div>
@@ -39,11 +39,6 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/prix" className="text-chocolate-light/80 hover:text-chocolate-light transition-colors">
-                  Prix & Conditionnements
-                </Link>
-              </li>
-              <li>
                 <Link href="/pro" className="text-chocolate-light/80 hover:text-chocolate-light transition-colors">
                   Pro
                 </Link>
@@ -51,11 +46,6 @@ export default function Footer() {
               <li>
                 <Link href="/galerie" className="text-chocolate-light/80 hover:text-chocolate-light transition-colors">
                   Galerie
-                </Link>
-              </li>
-              <li>
-                <Link href="/devis" className="text-chocolate-light/80 hover:text-chocolate-light transition-colors">
-                  Demande de commande (pro)
                 </Link>
               </li>
               <li>
@@ -78,6 +68,10 @@ export default function Footer() {
             <div className="flex gap-4 text-sm">
               <Link href="/mentions-legales" className="hover:text-chocolate-light transition-colors">
                 Mentions légales
+              </Link>
+              <span className="text-chocolate-light/40">|</span>
+              <Link href="/cgu" className="hover:text-chocolate-light transition-colors">
+                CGU/CGV
               </Link>
               <span className="text-chocolate-light/40">|</span>
               <Link href="/politique-confidentialite" className="hover:text-chocolate-light transition-colors">

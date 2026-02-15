@@ -5,6 +5,7 @@ import { motion } from 'framer-motion'
 import { useAuth } from '@/contexts/AuthContext'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import PasswordInput from '@/components/PasswordInput'
 
 export default function CreerMotDePassePage() {
   const { user, profile, convertGuestToStandard } = useAuth()
@@ -89,14 +90,12 @@ export default function CreerMotDePassePage() {
                 <label htmlFor="password" className="block text-sm font-semibold text-chocolate-dark mb-2">
                   Mot de passe
                 </label>
-                <input
-                  type="password"
+                <PasswordInput
                   id="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
                   minLength={6}
-                  className="w-full px-4 py-3 rounded-lg border-2 border-chocolate-dark/30 focus:outline-none focus:border-chocolate-dark transition-colors"
                 />
                 <p className="text-xs text-chocolate-dark/60 mt-1">Minimum 6 caractères</p>
               </div>
@@ -105,14 +104,12 @@ export default function CreerMotDePassePage() {
                 <label htmlFor="confirmPassword" className="block text-sm font-semibold text-chocolate-dark mb-2">
                   Confirmer le mot de passe
                 </label>
-                <input
-                  type="password"
+                <PasswordInput
                   id="confirmPassword"
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   required
                   minLength={6}
-                  className="w-full px-4 py-3 rounded-lg border-2 border-chocolate-dark/30 focus:outline-none focus:border-chocolate-dark transition-colors"
                 />
               </div>
 

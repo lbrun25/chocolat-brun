@@ -17,8 +17,7 @@ Site vitrine pour la société Cédric BRUN, spécialisée dans la fabrication a
   /page.tsx              # Page d'accueil
   /prix/page.tsx         # Page Prix & Conditionnements
   /galerie/page.tsx      # Page Galerie
-  /devis/page.tsx        # Page Demande de devis
-  /api/devis/route.ts    # API route pour le formulaire de devis
+  /api/devis/route.ts    # API route pour le formulaire de commande pro (page /pro)
   /layout.tsx            # Layout principal avec SEO
   /globals.css           # Styles globaux
 /components
@@ -63,7 +62,7 @@ Le site sera accessible sur [http://localhost:3000](http://localhost:3000)
 - Hero section avec titre et CTA
 - Section "Qu'est-ce qu'un napolitain ?"
 - Section "Nos goûts disponibles" avec cartes produits
-- CTA vers la demande de devis
+- CTA vers la page Pro
 
 ### Page Prix (`/prix`)
 - Tableaux de prix pour tous les goûts
@@ -75,9 +74,10 @@ Le site sera accessible sur [http://localhost:3000](http://localhost:3000)
 - Effets de zoom au survol
 - Style artisanal avec textures
 
-### Page Devis (`/devis`)
-- Formulaire complet de demande de devis
-- Validation côté client
+### Page Pro (`/pro`)
+- Solutions professionnelles pour cafés, hôtels, entreprises
+- Formulaire de demande de commande
+- Tarifs professionnels
 - Envoi via API route (`/api/devis`)
 
 ## 🔍 SEO
@@ -99,7 +99,7 @@ Pensez à vérifier les **spams** si l’email n’arrive pas.
 
 ## 📝 API Route
 
-L'API route `/api/devis` reçoit les données du formulaire et les affiche dans la console. Pour la production, vous pouvez :
+L'API route `/api/devis` reçoit les données du formulaire de commande pro (page /pro) et envoie un email. Pour la production :
 
 - Ajouter l'envoi d'email (Resend, SendGrid, etc.)
 - Sauvegarder en base de données

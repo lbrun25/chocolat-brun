@@ -36,34 +36,35 @@ function calculateCartTotal(items: CartItem[]): { totalHT: number; totalTTC: num
   return { totalHT, totalTTC, totalWeight }
 }
 
+const emptyCart: Cart = { items: [], totalHT: 0, totalTTC: 0, totalWeight: 0 }
+
 export function CartProvider({ children }: { children: React.ReactNode }) {
-  const [cart, setCart] = useState<Cart>(() => {
-    if (typeof window === 'undefined') {
-      return { items: [], totalHT: 0, totalTTC: 0, totalWeight: 0 }
-    }
-    
+  const [cart, setCart] = useState<Cart>(emptyCart)
+  const [hasHydrated, setHasHydrated] = useState(false)
+
+  // Charger le panier depuis localStorage au montage (évite erreur d'hydratation)
+  useEffect(() => {
     const savedCart = localStorage.getItem('chocolat-brun-cart')
     if (savedCart) {
       try {
         const parsed = JSON.parse(savedCart)
-        const totals = calculateCartTotal(parsed.items || [])
-        return {
-          items: parsed.items || [],
-          ...totals,
+        if (parsed.items?.length) {
+          const totals = calculateCartTotal(parsed.items)
+          setCart({ items: parsed.items, ...totals })
         }
       } catch {
-        return { items: [], totalHT: 0, totalTTC: 0, totalWeight: 0 }
+        // ignore
       }
     }
-    return { items: [], totalHT: 0, totalTTC: 0, totalWeight: 0 }
-  })
+    setHasHydrated(true)
+  }, [])
 
-  // Sauvegarder le panier dans localStorage à chaque changement
+  // Sauvegarder le panier dans localStorage à chaque changement (après hydratation)
   useEffect(() => {
-    if (typeof window !== 'undefined') {
+    if (hasHydrated && typeof window !== 'undefined') {
       localStorage.setItem('chocolat-brun-cart', JSON.stringify({ items: cart.items }))
     }
-  }, [cart.items])
+  }, [cart.items, hasHydrated])
 
   const addToCart = useCallback((product: Product, packaging: PackagingType, quantity: number = 1) => {
     setCart((prevCart) => {

@@ -33,7 +33,7 @@ export async function POST(request: NextRequest) {
           .from('profiles')
           .select('*')
           .eq('user_id', data.user.id)
-          .single()
+          .maybeSingle()
 
         if (!profile) {
           // Vérifier si un profil invité existe avec cet email
@@ -42,7 +42,7 @@ export async function POST(request: NextRequest) {
             .select('*')
             .eq('email', email)
             .eq('is_guest', true)
-            .single()
+            .maybeSingle()
 
           if (guestProfile) {
             // Convertir le profil invité en compte standard

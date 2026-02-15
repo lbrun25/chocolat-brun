@@ -34,7 +34,7 @@ export interface OrderConfirmationData {
 }
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://chocolat-brun.vercel.app'
-const FROM_EMAIL = process.env.EMAIL_FROM || 'Cédric Brun <noreply@chocolat-brun.fr>'
+const FROM_EMAIL = process.env.EMAIL_FROM || 'Cédric Brun <noreply@cedric-brun.com>'
 const FROM_NAME = 'Cédric Brun — Maître artisan pâtissier chocolatier'
 
 /**
@@ -74,11 +74,10 @@ export function getOrderConfirmationEmailHtml(data: OrderConfirmationData): stri
     <tr>
       <td style="padding:32px 16px;">
         <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="max-width:600px; margin:0 auto; background-color:#ffffff; border-radius:12px; overflow:hidden; box-shadow:0 4px 24px rgba(61,41,20,0.08);">
-          <!-- En-tête -->
+          <!-- En-tête avec logo Cédric Brun (même charte que templates Supabase Auth) -->
           <tr>
-            <td style="background:linear-gradient(135deg, #5c4033 0%, #3d2914 100%); padding:32px 40px; text-align:center;">
-              <h1 style="margin:0; color:#f5e6d3; font-size:24px; font-weight:700; letter-spacing:0.02em;">Cédric Brun</h1>
-              <p style="margin:8px 0 0; color:#e8d5c4; font-size:13px; letter-spacing:0.08em; text-transform:uppercase;">Maître artisan pâtissier chocolatier depuis 1999</p>
+            <td style="background-color:#3B1E12; padding:32px 40px; text-align:center;">
+              <img src="https://cedric-brun-web-fr.s3.eu-west-3.amazonaws.com/logo-cedric-brun.png" alt="Cédric Brun" width="220" height="46" style="display:block; margin:0 auto; max-width:100%; height:auto;" />
             </td>
           </tr>
           <!-- Titre -->

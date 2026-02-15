@@ -20,7 +20,7 @@ export default function MentionsLegalesPage() {
                 1. Éditeur du site
               </h2>
               <p className="font-sans">
-                Le site <strong>chocolat-brun.fr</strong> est édité par :
+                Le site <strong>cedric-brun.com</strong> est édité par :
               </p>
               <address className="not-italic mt-4 font-sans">
                 <p><strong>PATISSERIE BRUN CEDRIC</strong></p>

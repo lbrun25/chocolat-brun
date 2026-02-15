@@ -46,7 +46,7 @@ const illustrations: Array<{
   {
     src: '/images/galerie/chocolat-blanc-barres.png',
     fallbackSrc: '/images/emballage-1.svg',
-    alt: 'Barres de chocolat blanc Chocolat Brun',
+    alt: 'Barres de chocolat blanc Cédric Brun',
     cover: true,
   },
   {

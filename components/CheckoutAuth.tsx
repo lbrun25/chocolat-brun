@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ShoppingCart, Lock, UserPlus } from 'lucide-react'
+import PasswordInput from './PasswordInput'
 import { useAuth } from '@/contexts/AuthContext'
 
 interface CheckoutAuthProps {
@@ -13,7 +14,7 @@ interface CheckoutAuthProps {
   allowGuest?: boolean
 }
 
-type AuthMode = 'guest' | 'signin' | 'signup' | 'forgot'
+type AuthMode = 'guest' | 'signin' | 'signup' | 'signup_pending_confirmation' | 'forgot'
 
 export default function CheckoutAuth({
   onGuestContinue,
@@ -39,6 +40,9 @@ export default function CheckoutAuth({
   }
 
   // Messages d'erreur en français pour les erreurs Supabase courantes
+  const ACCOUNT_EXISTS_MSG =
+    'Un compte existe déjà avec cet email. Connectez-vous pour accéder à votre compte.'
+
   const getAuthErrorMessage = (err: Error | { message?: string } | null, context: 'signin' | 'signup'): string => {
     if (!err?.message) return context === 'signin' ? 'Erreur lors de la connexion' : "Erreur lors de l'inscription"
     const msg = err.message.toLowerCase()
@@ -48,8 +52,15 @@ export default function CheckoutAuth({
     if (msg.includes('invalid login credentials')) {
       return "Email ou mot de passe incorrect. Vérifiez vos identifiants ou créez un compte si vous n'en avez pas encore."
     }
-    if (msg.includes('user already registered') || msg.includes('already registered')) {
-      return "Un compte existe déjà avec cet email. Utilisez « Se connecter » pour vous connecter."
+    if (
+      msg.includes('user already registered') ||
+      msg.includes('already registered') ||
+      msg.includes('compte existe déjà') ||
+      msg.includes('duplicate') ||
+      msg.includes('conflict') ||
+      msg.includes('409')
+    ) {
+      return ACCOUNT_EXISTS_MSG
     }
     if (msg.includes('email not confirmed')) {
       return "Votre adresse email n'a pas encore été confirmée. Consultez votre boîte mail (et les spams) et cliquez sur le lien de confirmation, ou utilisez le bouton ci-dessous pour recevoir un nouvel email."
@@ -71,6 +82,7 @@ export default function CheckoutAuth({
       setLoading(false)
     } else {
       setShowResendConfirmation(false)
+      setLoading(false)
       onAuthenticated()
     }
   }
@@ -80,12 +92,21 @@ export default function CheckoutAuth({
     setError(null)
     setLoading(true)
 
-    const { error: signUpError } = await signUp(email, password, firstName, lastName)
+    const { error: signUpError, requiresEmailConfirmation } = await signUp(email, password, firstName, lastName)
     
     if (signUpError) {
-      setError(getAuthErrorMessage(signUpError, 'signup'))
+      const errMsg = getAuthErrorMessage(signUpError, 'signup')
+      setError(errMsg)
       setLoading(false)
+      // Compte existant : basculer vers la connexion
+      if (errMsg === ACCOUNT_EXISTS_MSG) {
+        setMode('signin')
+      }
+    } else if (requiresEmailConfirmation) {
+      setLoading(false)
+      setMode('signup_pending_confirmation')
     } else {
+      setLoading(false)
       onAuthenticated()
     }
   }
@@ -133,7 +154,7 @@ export default function CheckoutAuth({
       <div className={`grid grid-cols-1 gap-4 mb-6 ${allowGuest ? 'md:grid-cols-3' : 'md:grid-cols-2'}`}>
         {allowGuest && (
           <motion.button
-            onClick={() => { setMode('guest'); setShowResendConfirmation(false); setSuccess(null); }}
+            onClick={() => { setMode('guest'); setShowResendConfirmation(false); setSuccess(null); setError(null); }}
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             className={`p-4 rounded-lg border-2 transition-all ${
@@ -151,7 +172,7 @@ export default function CheckoutAuth({
         )}
 
         <motion.button
-          onClick={() => { setMode('signin'); setShowResendConfirmation(false); setSuccess(null); }}
+          onClick={() => { setMode('signin'); setShowResendConfirmation(false); setSuccess(null); setError(null); }}
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
           className={`p-4 rounded-lg border-2 transition-all ${
@@ -168,11 +189,11 @@ export default function CheckoutAuth({
         </motion.button>
 
         <motion.button
-          onClick={() => { setMode('signup'); setShowResendConfirmation(false); setSuccess(null); }}
+          onClick={() => { setMode('signup'); setShowResendConfirmation(false); setSuccess(null); setError(null); }}
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
           className={`p-4 rounded-lg border-2 transition-all ${
-            mode === 'signup'
+            mode === 'signup' || mode === 'signup_pending_confirmation'
               ? 'border-chocolate-dark bg-chocolate-light/30'
               : 'border-chocolate-dark/30 hover:border-chocolate-dark/50'
           }`}
@@ -245,13 +266,11 @@ export default function CheckoutAuth({
               <label htmlFor="signin-password" className="block text-sm font-semibold text-chocolate-dark mb-2">
                 Mot de passe
               </label>
-              <input
-                type="password"
+              <PasswordInput
                 id="signin-password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
-                className="w-full px-4 py-3 rounded-lg border-2 border-chocolate-dark/30 focus:outline-none focus:border-chocolate-dark transition-colors"
               />
               <button
                 type="button"
@@ -414,14 +433,12 @@ export default function CheckoutAuth({
               <label htmlFor="signup-password" className="block text-sm font-semibold text-chocolate-dark mb-2">
                 Mot de passe
               </label>
-              <input
-                type="password"
+              <PasswordInput
                 id="signup-password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
                 minLength={6}
-                className="w-full px-4 py-3 rounded-lg border-2 border-chocolate-dark/30 focus:outline-none focus:border-chocolate-dark transition-colors"
               />
               <p className="text-xs text-chocolate-dark/60 mt-1">Minimum 6 caractères</p>
             </div>
@@ -440,6 +457,68 @@ export default function CheckoutAuth({
               {loading ? 'Inscription...' : 'Créer mon compte'}
             </motion.button>
           </motion.form>
+        )}
+
+        {mode === 'signup_pending_confirmation' && (
+          <motion.div
+            key="signup_pending_confirmation"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            className="space-y-4"
+          >
+            <div className="bg-green-50 border border-green-200 rounded-xl p-6 text-center">
+              <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-green-100 text-green-600 mb-4">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                </svg>
+              </div>
+              <h3 className="text-lg font-bold text-chocolate-dark mb-2">Vérifiez votre boîte mail</h3>
+              <p className="text-chocolate-dark/80 text-sm mb-4">
+                Un email de confirmation a été envoyé à <strong className="text-chocolate-dark">{email}</strong>. Cliquez sur le lien dans l&apos;email pour activer votre compte.
+              </p>
+              <p className="text-sm text-chocolate-dark/60 mb-6">
+                Pensez à vérifier vos spams si vous ne voyez pas l&apos;email. Il peut arriver que les emails de confirmation soient filtrés.
+              </p>
+              <div className="space-y-3">
+                <button
+                  type="button"
+                  onClick={async () => {
+                    setResendLoading(true)
+                    const { error: resendErr } = await resendConfirmationEmail(email)
+                    setResendLoading(false)
+                    if (resendErr) {
+                      setError(resendErr.message || 'Impossible d\'envoyer un nouvel email. Réessayez plus tard.')
+                    } else {
+                      setError(null)
+                      setSuccess('Un nouvel email a été envoyé. Consultez votre boîte mail.')
+                    }
+                  }}
+                  disabled={resendLoading}
+                  className="w-full py-3 px-4 rounded-lg bg-chocolate-dark/10 text-chocolate-dark font-semibold hover:bg-chocolate-dark/20 transition-colors disabled:opacity-50"
+                >
+                  {resendLoading ? 'Envoi...' : 'Renvoyer l\'email de confirmation'}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => { setMode('signin'); setError(null); setSuccess(null); }}
+                  className="w-full py-3 px-4 rounded-lg border-2 border-chocolate-dark/50 text-chocolate-dark font-semibold hover:bg-chocolate-dark/10 transition-colors"
+                >
+                  Retour à la connexion
+                </button>
+              </div>
+            </div>
+            {error && (
+              <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm">
+                {error}
+              </div>
+            )}
+            {success && (
+              <div className="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg text-sm">
+                {success}
+              </div>
+            )}
+          </motion.div>
         )}
       </AnimatePresence>
     </div>

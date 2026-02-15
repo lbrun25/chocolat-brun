@@ -28,7 +28,7 @@ function FloatingChocolate({
   initialYPercent: number
   delay?: number
   opacity?: number
-  containerRef: RefObject<HTMLDivElement>
+  containerRef: RefObject<HTMLDivElement | null>
   zone?: 'left' | 'right'
   chocolateOpacity?: number
 }) {

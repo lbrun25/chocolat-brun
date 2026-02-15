@@ -5,6 +5,7 @@ import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import CookieBanner from '@/components/CookieBanner'
 import ScrollToTop from '@/components/ScrollToTop'
+import SupabaseKeepAlive from '@/components/SupabaseKeepAlive'
 import { CartProvider } from '@/contexts/CartContext'
 import { AuthProvider } from '@/contexts/AuthContext'
 import { ProSiretProvider } from '@/contexts/ProSiretContext'
@@ -106,9 +107,10 @@ export default function RootLayout({
           <ProSiretProvider>
           <CartProvider>
             <ScrollToTop />
+            <SupabaseKeepAlive />
             <div className="overflow-x-hidden">
               <Header />
-              <main className="min-h-screen">{children}</main>
+              <main className="pt-20 md:pt-24">{children}</main>
               <Footer />
               <CookieBanner />
             </div>

@@ -21,7 +21,22 @@ export async function POST(request: NextRequest) {
       .select('*')
       .eq('email', email)
       .eq('is_guest', true)
-      .single()
+      .maybeSingle()
+
+    // Vérifier si un compte (non-invité) existe déjà avec cet email
+    const { data: existingAccount } = await supabase
+      .from('profiles')
+      .select('id')
+      .eq('email', email)
+      .eq('is_guest', false)
+      .maybeSingle()
+
+    if (existingAccount) {
+      return NextResponse.json(
+        { error: 'Un compte existe déjà avec cet email. Connectez-vous pour accéder à votre compte.' },
+        { status: 409 }
+      )
+    }
 
     const { data, error } = await supabase.auth.signUp({
       email,
@@ -63,13 +78,27 @@ export async function POST(request: NextRequest) {
           .is('user_id', null)
       } else {
         // Créer un nouveau profil
-        await supabase.from('profiles').insert({
+        const { error: insertError } = await supabase.from('profiles').insert({
           user_id: data.user.id,
           email: data.user.email!,
           first_name: firstName,
           last_name: lastName,
           is_guest: false,
         })
+
+        if (insertError) {
+          const isConflict =
+            (insertError as { code?: string }).code === '23505' ||
+            (insertError.message || '').toLowerCase().includes('duplicate') ||
+            (insertError.message || '').toLowerCase().includes('conflict')
+          if (isConflict) {
+            return NextResponse.json(
+              { error: 'Un compte existe déjà avec cet email. Connectez-vous pour accéder à votre compte.' },
+              { status: 409 }
+            )
+          }
+          throw insertError
+        }
       }
     }
 

@@ -29,7 +29,7 @@ interface OrderItem {
 }
 
 export default function ComptePage() {
-  const { user, profile, loading: authLoading, signOut } = useAuth()
+  const { user, profile, loading: authLoading, signOut, refreshSession } = useAuth()
   const router = useRouter()
   const [orders, setOrders] = useState<Order[]>([])
   const [loading, setLoading] = useState(true)
@@ -119,7 +119,14 @@ export default function ComptePage() {
             <CheckoutAuth
               allowGuest={false}
               onGuestContinue={() => {}}
-              onAuthenticated={() => {}}
+              onAuthenticated={async () => {
+                await refreshSession()
+                if (typeof window !== 'undefined') {
+                  window.location.assign('/compte')
+                } else {
+                  router.refresh()
+                }
+              }}
             />
           </motion.div>
         </div>

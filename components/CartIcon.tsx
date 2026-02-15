@@ -9,8 +9,13 @@ export default function CartIcon() {
   const { getItemCount } = useCart()
   const [itemCount, setItemCount] = useState(0)
   const [isAnimating, setIsAnimating] = useState(false)
+  const [mounted, setMounted] = useState(false)
 
   const count = getItemCount()
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   useEffect(() => {
     if (count > itemCount) {
@@ -21,7 +26,7 @@ export default function CartIcon() {
   }, [count, itemCount])
 
   return (
-    <Link href="/panier" className="relative">
+    <Link href="/panier" className="relative" aria-label="Voir le panier">
       <motion.div
         animate={isAnimating ? { scale: [1, 1.2, 1] } : {}}
         transition={{ duration: 0.6 }}
@@ -40,7 +45,7 @@ export default function CartIcon() {
           <line x1="3" y1="6" x2="21" y2="6" />
           <path d="M16 10a4 4 0 0 1-8 0" />
         </svg>
-        {count > 0 && (
+        {mounted && count > 0 && (
           <motion.span
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}

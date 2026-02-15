@@ -10,9 +10,8 @@ import BrandLogo from './BrandLogo'
 
 const navItems = [
   { href: '/', label: 'Accueil' },
-  { href: '/prix', label: 'Prix' },
   { href: '/galerie', label: 'Galerie' },
-  { href: '/devis', label: 'Commande pro' },
+  { href: '/pro', label: 'Pro' },
 ]
 
 function HeaderComponent() {
@@ -57,14 +56,23 @@ function HeaderComponent() {
   }, [lastScrollY])
 
   return (
+    <>
+      {/* Barre de fond : évite le flash beige pendant la réapparition, suit le header */}
+      <motion.div
+        initial={{ y: 0 }}
+        animate={{ y: isVisible ? 0 : -100 }}
+        transition={{ duration: 0.3, ease: 'easeInOut' }}
+        className="fixed top-0 left-0 right-0 h-20 md:h-24 bg-chocolate-dark z-40 pointer-events-none"
+        aria-hidden
+      />
     <motion.header
-      initial={{ y: -100, opacity: 0 }}
+      initial={{ y: 0, opacity: 1 }}
       animate={{ 
         y: isVisible ? 0 : -100, 
         opacity: isVisible ? 1 : 0 
       }}
       transition={{ duration: 0.3, ease: 'easeInOut' }}
-      className="sticky top-0 z-50 bg-chocolate-dark/95 backdrop-blur-md shadow-lg border-b border-chocolate-dark/20"
+      className="fixed top-0 left-0 right-0 z-50 bg-chocolate-dark/95 backdrop-blur-md shadow-lg border-b border-chocolate-dark/20"
     >
       {/* Effet de brillance subtil en arrière-plan */}
       <div className="absolute inset-0 bg-gradient-to-r from-transparent via-chocolate-dark/5 to-transparent pointer-events-none" />
@@ -78,7 +86,7 @@ function HeaderComponent() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="flex items-center"
           >
-            <Link href="/" className="group">
+            <Link href="/" className="group" aria-label="Accueil - Cédric Brun">
               <BrandLogo />
             </Link>
           </motion.div>
@@ -157,8 +165,9 @@ function HeaderComponent() {
             <Link
               href="/compte"
               className="text-chocolate-light/90 hover:text-chocolate-light p-2 rounded-lg hover:bg-chocolate-dark/50 transition-colors"
+              aria-label={user ? 'Mon compte' : 'Se connecter'}
             >
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
               </svg>
             </Link>
@@ -253,6 +262,7 @@ function HeaderComponent() {
         )}
       </AnimatePresence>
     </motion.header>
+    </>
   )
 }
 

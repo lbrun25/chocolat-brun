@@ -1,9 +1,10 @@
 /**
- * Email de demande de commande (pro) — envoi au commerce et copie au client.
+ * Email de demande de commande (pro) — envoi à contact@cedric-brun.com.
+ * replyTo = email du client : en cliquant « Répondre », votre réponse part directement au client.
  */
 
-const FROM_EMAIL = process.env.EMAIL_FROM || 'Cédric Brun <noreply@chocolat-brun.fr>'
-const TO_COMMANDE_EMAIL = process.env.DEMANDE_COMMANDE_EMAIL || 'patisseriebrun-25@orange.fr'
+const FROM_EMAIL = process.env.EMAIL_FROM || 'Cédric Brun <noreply@cedric-brun.com>'
+const TO_COMMANDE_EMAIL = process.env.DEMANDE_COMMANDE_EMAIL || 'contact@cedric-brun.com'
 
 export interface DemandeCommandeData {
   nom: string
@@ -37,14 +38,21 @@ export function getDemandeCommandeEmailHtml(data: DemandeCommandeData): string {
     <tr>
       <td style="padding:32px 16px;">
         <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="max-width:600px; margin:0 auto; background-color:#ffffff; border-radius:12px; overflow:hidden; box-shadow:0 4px 24px rgba(61,41,20,0.08);">
+          <!-- En-tête avec logo Cédric Brun (même charte que templates Supabase Auth) -->
           <tr>
-            <td style="background:linear-gradient(135deg, #5c4033 0%, #3d2914 100%); padding:24px 40px; text-align:center;">
-              <h1 style="margin:0; color:#f5e6d3; font-size:22px; font-weight:700;">Nouvelle demande de commande (pro)</h1>
+            <td style="background-color:#3B1E12; padding:32px 40px; text-align:center;">
+              <img src="https://cedric-brun-web-fr.s3.eu-west-3.amazonaws.com/logo-cedric-brun.png" alt="Cédric Brun" width="220" height="46" style="display:block; margin:0 auto; max-width:100%; height:auto;" />
+            </td>
+          </tr>
+          <tr>
+            <td style="padding:16px 40px 0;">
+              <h2 style="margin:0; color:#3d2914; font-size:20px; font-weight:600;">Nouvelle demande de commande (pro)</h2>
             </td>
           </tr>
           <tr>
             <td style="padding:32px 40px; color:#3d2914;">
               <p style="margin:0 0 16px; font-size:15px; line-height:1.6;">Un professionnel souhaite passer commande via le formulaire du site.</p>
+              <p style="margin:0 0 16px; font-size:14px; color:#6b5344; line-height:1.6;"><em>Utilisez « Répondre » pour contacter directement le client.</em></p>
               <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="margin-top:24px; border-collapse:collapse;">
                 <tr><td style="padding:8px 0; border-bottom:1px solid #e8e0d8;"><strong>Nom</strong></td><td style="padding:8px 0; border-bottom:1px solid #e8e0d8;">${escapeHtml(data.nom)}</td></tr>
                 <tr><td style="padding:8px 0; border-bottom:1px solid #e8e0d8;"><strong>Email</strong></td><td style="padding:8px 0; border-bottom:1px solid #e8e0d8;"><a href="mailto:${escapeHtml(data.email)}">${escapeHtml(data.email)}</a></td></tr>

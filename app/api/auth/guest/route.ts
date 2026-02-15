@@ -24,7 +24,7 @@ export async function POST(request: NextRequest) {
       .from('profiles')
       .select('*')
       .eq('email', email)
-      .single()
+      .maybeSingle()
 
     if (existingProfile) {
       // Mettre à jour les informations si nécessaire

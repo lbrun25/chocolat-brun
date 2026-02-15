@@ -40,25 +40,22 @@ export default function ProductCarousel({ products }: ProductCarouselProps) {
   }, [])
 
   // Nombre de produits visibles selon la taille d'écran
+  // Toujours initialiser à 1 pour éviter hydration mismatch (Lighthouse utilise viewport mobile)
   const getVisibleCount = () => {
-    if (typeof window === 'undefined') return 4
+    if (typeof window === 'undefined') return 1
     if (window.innerWidth >= 1024) return 4 // lg
     if (window.innerWidth >= 768) return 2 // md
     return 1 // mobile
   }
 
-  const [visibleCount, setVisibleCount] = useState(() => {
-    if (typeof window !== 'undefined') {
-      return getVisibleCount()
-    }
-    return 4
-  })
+  const [visibleCount, setVisibleCount] = useState(1)
 
   useEffect(() => {
     const handleResize = () => {
       setVisibleCount(getVisibleCount())
     }
-
+    // Exécuter au montage pour afficher le bon nombre de cartes sur desktop
+    handleResize()
     window.addEventListener('resize', handleResize)
     return () => window.removeEventListener('resize', handleResize)
   }, [])
@@ -108,14 +105,15 @@ export default function ProductCarousel({ products }: ProductCarouselProps) {
   }, [])
 
   // Gap responsive : un peu plus serré pour laisser les cartes un peu plus larges
+  // Initialiser à 12 (mobile) pour correspondre au viewport Lighthouse
   const getGap = () => {
-    if (typeof window === 'undefined') return 24
+    if (typeof window === 'undefined') return 12
     if (window.innerWidth >= 1024) return 24 // 1.5rem
     if (window.innerWidth >= 768) return 20 // 1.25rem
     return 12 // 0.75rem
   }
 
-  const [gap, setGap] = useState(24)
+  const [gap, setGap] = useState(12)
 
   useEffect(() => {
     const updateGap = () => setGap(getGap())

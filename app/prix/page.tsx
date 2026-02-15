@@ -262,7 +262,7 @@ export default function PrixPage() {
           className="text-center"
         >
           <Link
-            href="/devis"
+            href="/pro#formulaire"
             className="inline-block bg-gradient-to-r from-chocolate-dark via-chocolate-dark/95 to-chocolate-dark text-chocolate-light px-10 py-5 rounded-2xl text-xl font-semibold hover:from-chocolate-dark/95 hover:via-chocolate-dark/90 hover:to-chocolate-dark/95 transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:scale-105"
           >
             Passer une commande

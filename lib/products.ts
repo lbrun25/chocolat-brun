@@ -26,7 +26,7 @@ export const products: Product[] = [
     notes: 'Cacaoté • Café torréfié • Corsé',
     ingredients: 'Sucre, fèves de cacao, beurre de cacao, café Tanzanie bio, émulsifiant : lécithine de tournesol, extrait naturel de vanille.',
     allergens: 'Présence possible de : LAIT.',
-    imageSrc: '/images/products/chocolat_noir_vrac.jpg',
+    imageSrc: '/images/products/chocolat_noir_cafe_vrac.jpg',
     fallbackSrc: '/images/napolitain-noir.svg',
     imageAlt: 'Napolitain chocolat noir café',
     priceHT: 17.06, // 18€ TTC / 1.055
@@ -91,7 +91,7 @@ export const products: Product[] = [
     notes: 'Onctueux • Biscuité • Caramel',
     ingredients: 'Beurre de cacao, sucre, LAIT entier en poudre, LAIT écrémé en poudre, lactosérum (LAIT), beurre (LAIT), émulsifiant : lécithine de tournesol, extrait naturel de vanille.',
     allergens: 'LAIT. Présence possible de : fruits à coque, soja.',
-    imageSrc: '/images/products/dulcey_chocolat_vrac.jpg',
+    imageSrc: '/images/products/chocolat_dulcey_vrac.jpg',
     fallbackSrc: '/images/napolitain-dulcey.svg',
     imageAlt: 'Napolitain chocolat Dulcey',
     priceHT: 28.00,

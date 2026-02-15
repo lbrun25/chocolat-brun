@@ -22,6 +22,7 @@ interface FormData {
   postalCode: string
   country: string
   deliveryNotes: string
+  acceptedCGU: boolean
 }
 
 export default function CheckoutPage() {
@@ -46,6 +47,7 @@ export default function CheckoutPage() {
     postalCode: '',
     country: 'France',
     deliveryNotes: '',
+    acceptedCGU: false,
   })
   const [errors, setErrors] = useState<Partial<Record<keyof FormData, string>>>({})
 
@@ -118,6 +120,9 @@ export default function CheckoutPage() {
       newErrors.postalCode = 'Le code postal est requis'
     } else if (!/^[0-9]{5}$/.test(formData.postalCode)) {
       newErrors.postalCode = 'Code postal invalide (5 chiffres)'
+    }
+    if (!formData.acceptedCGU) {
+      newErrors.acceptedCGU = 'Vous devez accepter les CGU/CGV'
     }
 
     setErrors(newErrors)
@@ -393,6 +398,35 @@ export default function CheckoutPage() {
                       className="w-full px-4 py-3 rounded-lg border-2 border-chocolate-dark/30 focus:outline-none focus:border-chocolate-dark transition-colors resize-none"
                       placeholder="Instructions spéciales pour la livraison..."
                     />
+                  </div>
+
+                  {/* Acceptation des CGU/CGV */}
+                  <div>
+                    <label className="flex items-start gap-3 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={formData.acceptedCGU}
+                        onChange={(e) => setFormData({ ...formData, acceptedCGU: e.target.checked })}
+                        className={`mt-1 w-5 h-5 rounded border-2 ${
+                          errors.acceptedCGU ? 'border-red-500' : 'border-chocolate-dark/30'
+                        } text-chocolate-dark focus:ring-chocolate-dark cursor-pointer`}
+                      />
+                      <span className="text-sm text-chocolate-dark/80">
+                        J'accepte les{' '}
+                        <Link
+                          href="/cgu"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-chocolate-dark font-semibold hover:underline"
+                        >
+                          Conditions Générales d'Utilisation et de Vente
+                        </Link>{' '}
+                        <span className="text-red-500">*</span>
+                      </span>
+                    </label>
+                    {errors.acceptedCGU && (
+                      <p className="text-red-500 text-sm mt-1 ml-8">{errors.acceptedCGU}</p>
+                    )}
                   </div>
 
                   {/* Bouton de soumission */}

@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 
-const SIRET_LENGTH = 14
-const INSEE_SIRET_URL = 'https://api.insee.fr/entreprises/sirene/V3.11/siret'
+const INSEE_SIRET_URL = 'https://api.insee.fr/api-sirene/3.11/siret'
 
 function normalizeSiret(siret: string): string {
   return siret.replace(/\s/g, '')
@@ -51,7 +50,7 @@ export async function POST(request: NextRequest) {
       method: 'GET',
       headers: {
         Accept: 'application/json',
-        Authorization: `Bearer ${token}`,
+        'X-INSEE-Api-Key-Integration': token,
       },
       next: { revalidate: 0 },
     })
@@ -80,8 +79,11 @@ export async function POST(request: NextRequest) {
 
     const data = (await res.json()) as {
       etablissement?: {
-        uniteLegale?: { denominationUniteLegale?: string; nom?: string; prenom1?: string }
-        adresseEtablissement?: { numeroVoie?: string; libelleVoie?: string; codePostal?: string; libelleCommune?: string }
+        uniteLegale?: {
+          denominationUniteLegale?: string
+          nomUniteLegale?: string
+          prenom1UniteLegale?: string
+        }
       }
     }
 
@@ -89,7 +91,9 @@ export async function POST(request: NextRequest) {
     const uniteLegale = etab?.uniteLegale
     const raisonSociale =
       uniteLegale?.denominationUniteLegale ??
-      [uniteLegale?.nom, uniteLegale?.prenom1].filter(Boolean).join(' ') ??
+      [uniteLegale?.nomUniteLegale, uniteLegale?.prenom1UniteLegale]
+        .filter(Boolean)
+        .join(' ') ??
       ''
 
     return NextResponse.json({

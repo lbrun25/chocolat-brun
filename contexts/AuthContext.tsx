@@ -23,12 +23,13 @@ interface AuthContextType {
   profile: Profile | null
   loading: boolean
   signIn: (email: string, password: string) => Promise<{ error: Error | null }>
-  signUp: (email: string, password: string, firstName?: string, lastName?: string) => Promise<{ error: Error | null }>
+  signUp: (email: string, password: string, firstName?: string, lastName?: string) => Promise<{ error: Error | null; requiresEmailConfirmation?: boolean }>
   resetPasswordForEmail: (email: string) => Promise<{ error: Error | null }>
   resendConfirmationEmail: (email: string) => Promise<{ error: Error | null }>
   signOut: () => Promise<void>
   convertGuestToStandard: (password: string) => Promise<{ error: Error | null }>
   refreshProfile: () => Promise<void>
+  refreshSession: () => Promise<void>
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
@@ -107,7 +108,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           .from('profiles')
           .select('*')
           .eq('user_id', data.user.id)
-          .single()
+          .maybeSingle()
 
         if (!profileData) {
           // Vérifier si un profil invité existe avec cet email
@@ -116,7 +117,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             .select('*')
             .eq('email', email)
             .eq('is_guest', true)
-            .single()
+            .maybeSingle()
 
           if (guestProfile) {
             // Convertir le profil invité en compte standard
@@ -158,6 +159,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     firstName?: string,
     lastName?: string
   ) => {
+    const accountExistsError = new Error(
+      'Un compte existe déjà avec cet email. Connectez-vous pour accéder à votre compte.'
+    )
+
     try {
       // Vérifier si un profil invité existe déjà avec cet email
       const { data: existingGuest } = await supabase
@@ -165,7 +170,19 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         .select('*')
         .eq('email', email)
         .eq('is_guest', true)
-        .single()
+        .maybeSingle()
+
+      // Vérifier si un compte (non-invité) existe déjà avec cet email
+      const { data: existingAccount } = await supabase
+        .from('profiles')
+        .select('id')
+        .eq('email', email)
+        .eq('is_guest', false)
+        .maybeSingle()
+
+      if (existingAccount) {
+        return { error: accountExistsError }
+      }
 
       const { data, error } = await supabase.auth.signUp({
         email,
@@ -204,18 +221,42 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             .is('user_id', null)
         } else {
           // Créer un nouveau profil
-          await supabase.from('profiles').insert({
+          const { error: insertError } = await supabase.from('profiles').insert({
             user_id: data.user.id,
             email: data.user.email!,
             first_name: firstName,
             last_name: lastName,
             is_guest: false,
           })
+
+          // 409 Conflict = profil déjà existant (ex: trigger DB ou doublon)
+          if (insertError) {
+            const isConflict =
+              (insertError as { code?: string; status?: number }).code === '23505' ||
+              (insertError as { status?: number }).status === 409 ||
+              (insertError.message || '').toLowerCase().includes('duplicate') ||
+              (insertError.message || '').toLowerCase().includes('conflict')
+            if (isConflict) {
+              return { error: accountExistsError }
+            }
+            return { error: insertError }
+          }
         }
       }
 
-      return { error: null }
+      return {
+        error: null,
+        requiresEmailConfirmation: !data.session,
+      }
     } catch (error: any) {
+      const isConflict =
+        error?.code === '23505' ||
+        error?.status === 409 ||
+        (error?.message || '').toLowerCase().includes('duplicate') ||
+        (error?.message || '').toLowerCase().includes('conflict')
+      if (isConflict) {
+        return { error: accountExistsError }
+      }
       return { error }
     }
   }, [])
@@ -296,6 +337,18 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   }, [user, loadProfile])
 
+  const refreshSession = useCallback(async () => {
+    const { data: { session } } = await supabase.auth.getSession()
+    setSession(session)
+    setUser(session?.user ?? null)
+    if (session?.user) {
+      await loadProfile(session.user.id)
+    } else {
+      setProfile(null)
+    }
+    setLoading(false)
+  }, [loadProfile])
+
   return (
     <AuthContext.Provider
       value={{
@@ -310,6 +363,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         signOut,
         convertGuestToStandard,
         refreshProfile,
+        refreshSession,
       }}
     >
       {children}

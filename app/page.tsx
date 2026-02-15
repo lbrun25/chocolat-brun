@@ -122,10 +122,13 @@ export default function Home() {
           >
             <Image
               src="/images/chocolate_transparent/chocolat_noir_ia_transparent.png"
-              alt=""
+              alt="Chocolat noir artisanal"
               width={500}
               height={500}
               className="object-contain drop-shadow-2xl"
+              priority
+              quality={90}
+              sizes="(max-width: 768px) 0px, (max-width: 1024px) 320px, (max-width: 1280px) 384px, 500px"
             />
           </motion.div>
 
@@ -138,10 +141,13 @@ export default function Home() {
           >
             <Image
               src="/images/chocolate_transparent/chocolat_lait_ia_transparent.png"
-              alt=""
+              alt="Chocolat lait artisanal"
               width={500}
               height={500}
               className="object-contain drop-shadow-2xl"
+              priority
+              quality={90}
+              sizes="(max-width: 768px) 0px, (max-width: 1024px) 320px, (max-width: 1280px) 384px, 500px"
             />
           </motion.div>
         </div>
@@ -182,19 +188,19 @@ export default function Home() {
               
               <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
                 <Link
-                  href="/prix"
+                  href="/produits"
                   className="group inline-flex items-center justify-center bg-chocolate-dark text-chocolate-light px-8 py-4 rounded-lg text-lg font-semibold hover:bg-chocolate-dark/90 transition-all duration-300 shadow-xl hover:shadow-2xl hover:scale-105"
                 >
-                  Voir nos assortiments
+                  Voir nos produits
                   <svg className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                   </svg>
                 </Link>
                 <Link
-                  href="/devis"
+                  href="/produits/chocolat-noir-cafe"
                   className="inline-flex items-center justify-center bg-transparent border-2 border-chocolate-dark text-chocolate-dark px-8 py-4 rounded-lg text-lg font-semibold hover:bg-chocolate-dark hover:text-chocolate-light transition-all duration-300"
                 >
-                  Commande pro
+                  Commander
                 </Link>
               </div>
 
@@ -322,9 +328,20 @@ export default function Home() {
             </p>
             <Link
               href="/produits"
-              className="mt-6 inline-block text-chocolate-dark/70 hover:text-chocolate-dark text-sm font-medium underline-offset-4 hover:underline transition-colors"
+              className="group mt-8 inline-flex items-center gap-2 px-6 py-3 rounded-full border border-chocolate-dark/25 bg-white/60 backdrop-blur-sm text-chocolate-dark/80 hover:text-chocolate-dark hover:border-chocolate-dark/50 hover:bg-chocolate-light/80 transition-all duration-300 shadow-sm hover:shadow-md font-serif text-sm tracking-wide"
             >
+              <svg className="w-4 h-4 text-chocolate-medium/70 group-hover:text-chocolate-medium transition-colors flex-shrink-0" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+                {/* Grille 4×3 carrés de chocolat */}
+                {[0, 1, 2].map((row) =>
+                  [0, 1, 2, 3].map((col) => (
+                    <rect key={`${row}-${col}`} x={1.5 + col * 5.5} y={2 + row * 6} width="5" height="5" rx="0.5" />
+                  ))
+                )}
+              </svg>
               Voir nos produits
+              <svg className="w-4 h-4 opacity-60 group-hover:translate-x-0.5 group-hover:opacity-100 transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
             </Link>
           </motion.div>
 
@@ -373,38 +390,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-20 bg-chocolate-dark text-chocolate-light">
-        <div className="container mx-auto px-4 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-100px' }}
-            transition={{ duration: 0.6, ease: 'easeOut' }}
-          >
-            <h2 className="text-4xl font-bold mb-6 font-serif">
-              Prêt à commander ?
-            </h2>
-            <p className="text-xl mb-8 text-chocolate-light/90 font-sans">
-              Commandez directement en ligne ou passez commande en tant que pro
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link
-                href="/prix"
-                className="inline-block bg-chocolate-light text-chocolate-dark px-8 py-4 rounded-lg text-lg font-semibold hover:bg-chocolate-light/90 transition-colors shadow-lg hover:shadow-xl hover:scale-105"
-              >
-                Commander maintenant
-              </Link>
-              <Link
-                href="/devis"
-                className="inline-block bg-transparent border-2 border-chocolate-light text-chocolate-light px-8 py-4 rounded-lg text-lg font-semibold hover:bg-chocolate-light hover:text-chocolate-dark transition-all duration-300"
-              >
-                Commande pro
-              </Link>
-            </div>
-          </motion.div>
-        </div>
-      </section>
     </div>
   )
 }

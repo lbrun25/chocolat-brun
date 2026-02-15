@@ -1,28 +1,29 @@
 'use client'
 
-import { useState } from 'react'
+import { use, useState } from 'react'
 import { notFound } from 'next/navigation'
 import { motion } from 'framer-motion'
 import { Check } from 'lucide-react'
-import Image from 'next/image'
 import Link from 'next/link'
 import SafeImage from '@/components/SafeImage'
+import Lightbox from '@/components/Lightbox'
 import { getProductBySlug } from '@/lib/products'
 import { useCart } from '@/contexts/CartContext'
 import { PackagingType, getPackagingPrices } from '@/types/product'
 import PackagingSelector from '@/components/PackagingSelector'
 
 interface ProductPageProps {
-  params: { slug: string }
+  params: Promise<{ slug: string }>
 }
 
 export default function ProductPage({ params }: ProductPageProps) {
-  const { slug } = params
+  const { slug } = use(params)
   const product = getProductBySlug(slug)
   const { addToCart } = useCart()
   const [quantity, setQuantity] = useState(1)
   const [showSuccess, setShowSuccess] = useState(false)
   const [selectedPackaging, setSelectedPackaging] = useState<PackagingType>('40')
+  const [lightboxOpen, setLightboxOpen] = useState(false)
 
   if (!product) {
     notFound()
@@ -40,7 +41,7 @@ export default function ProductPage({ params }: ProductPageProps) {
   const totalHT = totalTTC / 1.055
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="bg-white">
       {/* Header avec breadcrumb */}
       <div className="bg-chocolate-light/30 border-b border-chocolate-dark/10">
         <div className="container mx-auto px-4 md:px-6 py-4">
@@ -62,29 +63,28 @@ export default function ProductPage({ params }: ProductPageProps) {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-7xl mx-auto">
           {/* Image Section */}
           <div className="space-y-4">
-            <div className="relative h-[500px] md:h-[600px] bg-chocolate-light/20 rounded-lg overflow-hidden">
-              <div className="relative w-full h-full p-8">
-                <SafeImage
-                  src={product.imageSrc}
-                  fallbackSrc={product.fallbackSrc}
-                  alt={product.imageAlt}
-                  fill
-                  className="object-contain"
-                />
-              </div>
-            </div>
-            {product.slug === 'chocolat-noir-cafe' && (
-              <div className="relative w-full aspect-[6/6] max-h-[550px] bg-chocolate-light/20 rounded-lg overflow-hidden mt-14">
-                <Image
-
-                  src="/images/galerie/chocolat-noir-cafe-trainee-or.png"
-                  alt="Chocolat noir café et grains de café sur plateau à bordure dorée"
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 1024px) 100vw, 50vw"
-                />
-              </div>
-            )}
+            <button
+              type="button"
+              onClick={() => setLightboxOpen(true)}
+              className="relative h-[500px] md:h-[600px] w-full rounded-lg overflow-hidden cursor-zoom-in focus:outline-none focus:ring-2 focus:ring-chocolate-medium focus:ring-offset-2"
+              aria-label={`Agrandir l'image : ${product.imageAlt}`}
+            >
+              <SafeImage
+                src={product.imageSrc}
+                fallbackSrc={product.fallbackSrc}
+                alt={product.imageAlt}
+                fill
+                className="object-contain object-top"
+              />
+            </button>
+            <Lightbox
+              isOpen={lightboxOpen}
+              onClose={() => setLightboxOpen(false)}
+              imageSrc={product.imageSrc}
+              fallbackSrc={product.fallbackSrc}
+              alt={product.imageAlt}
+              title={product.name}
+            />
           </div>
 
           {/* Details Section */}
