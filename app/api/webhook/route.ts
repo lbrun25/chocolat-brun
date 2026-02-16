@@ -52,12 +52,16 @@ export async function POST(request: NextRequest) {
         const customerCompany = session.metadata?.customerCompany || ''
         const deliveryNotes = session.metadata?.deliveryNotes || ''
         
-        // Récupérer les informations d'adresse depuis Stripe
-        const shippingAddress = sessionWithShipping.shipping_details?.address
-        const shippingAddressLine = shippingAddress?.line1 || ''
-        const shippingCity = shippingAddress?.city || ''
-        const shippingPostalCode = shippingAddress?.postal_code || ''
-        const shippingCountry = shippingAddress?.country || 'France'
+        // Adresse : priorité à Stripe shipping_details, sinon metadata (saisie au checkout)
+        const stripeAddress = sessionWithShipping.shipping_details?.address
+        const shippingAddressLine = stripeAddress?.line1
+          || (session.metadata?.shippingAddress as string) || ''
+        const shippingCity = stripeAddress?.city
+          || (session.metadata?.shippingCity as string) || ''
+        const shippingPostalCode = stripeAddress?.postal_code
+          || (session.metadata?.shippingPostalCode as string) || ''
+        const shippingCountry = stripeAddress?.country
+          || (session.metadata?.shippingCountry as string) || 'France'
         
         // Parser les items de commande
         const orderItems = session.metadata?.orderItems 
@@ -69,11 +73,21 @@ export async function POST(request: NextRequest) {
         const shippingCost = parseFloat(session.metadata?.shippingCost || '0')
         const totalWithShipping = parseFloat(session.metadata?.totalWithShipping || '0')
         
-        // 1. Créer ou récupérer le profil invité
-        let profileId: string | null = null
+        // 1. Créer ou récupérer le profil pour lier la commande
+        let profileId: string | null = session.metadata?.profileId as string | undefined || null
         
-        if (email) {
-          // Vérifier si un profil existe déjà avec cet email
+        if (profileId) {
+          // Vérifier que le profileId existe (utilisateur connecté au checkout)
+          const { data: profileCheck } = await supabase
+            .from('profiles')
+            .select('id')
+            .eq('id', profileId)
+            .single()
+          if (!profileCheck) profileId = null
+        }
+        
+        if (!profileId && email) {
+          // Fallback : rechercher par email
           const { data: existingProfile } = await supabase
             .from('profiles')
             .select('id, first_name, last_name, phone, company')

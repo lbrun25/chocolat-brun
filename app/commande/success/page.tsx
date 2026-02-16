@@ -18,19 +18,27 @@ function OrderSuccessContent() {
 
   useEffect(() => {
     if (sessionId) {
-      // Récupérer les détails de la session depuis votre API
-      fetch(`/api/get-checkout-session?session_id=${sessionId}`)
-        .then((res) => res.json())
-        .then((data) => {
+      // Synchroniser la commande Stripe → Supabase (création si besoin) et envoi de l'email de confirmation
+      const syncOrder = () =>
+        fetch('/api/sync-order', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ session_id: sessionId }),
+        }).catch((err) => console.error('Sync order:', err))
+
+      // Récupérer les détails de la session pour l'affichage
+      Promise.all([
+        fetch(`/api/get-checkout-session?session_id=${sessionId}`).then((res) => res.json()),
+        syncOrder(),
+      ])
+        .then(([data]) => {
           setSession(data.session)
-          setIsLoading(false)
-          // Vider le panier après confirmation
           clearCart()
         })
         .catch((error) => {
           console.error('Erreur lors de la récupération de la session:', error)
-          setIsLoading(false)
         })
+        .finally(() => setIsLoading(false))
     } else {
       setIsLoading(false)
     }
@@ -117,6 +125,33 @@ function OrderSuccessContent() {
                     </span>
                   </div>
                 )}
+
+                {/* Récapitulatif des produits commandés */}
+                {session.metadata?.orderItems && (() => {
+                  try {
+                    const items = JSON.parse(session.metadata.orderItems as string) as Array<{ productName: string; packaging: string; quantity: number; priceTTC: number }>
+                    if (!items?.length) return null
+                    return (
+                      <div className="pt-4 border-t border-chocolate-dark/10">
+                        <p className="text-sm font-semibold text-chocolate-dark/70 mb-3">Produits commandés</p>
+                        <ul className="space-y-2">
+                          {items.map((item, i) => (
+                            <li key={i} className="flex justify-between items-start text-sm">
+                              <span className="text-chocolate-dark">
+                                {item.productName} — {item.packaging} napolitains × {item.quantity}
+                              </span>
+                              <span className="font-semibold text-chocolate-dark whitespace-nowrap">
+                                {(item.priceTTC * item.quantity).toFixed(2)} €
+                              </span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )
+                  } catch {
+                    return null
+                  }
+                })()}
 
                 {session.amount_total && (
                   <div className="flex justify-between pt-4 border-t border-chocolate-dark/10">

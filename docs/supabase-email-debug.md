@@ -66,7 +66,18 @@ Exemple avec Resend (gratuit jusqu’à 3000 emails/mois) :
 2. **Domaine personnalisé** : envoyer depuis `noreply@votredomaine.com`
 3. **SPF/DKIM** : configurer les enregistrements DNS pour réduire le passage en spam
 
-## 6. En cas de blocage
+## 6. Réinitialisation de mot de passe — lien cliquable
+
+Pour que l’utilisateur puisse toujours réinitialiser son mot de passe (même si l’email est en spam ou si le lien dans l’email n’est pas cliquable) :
+
+1. **Ajouter `SUPABASE_SERVICE_ROLE_KEY`** dans `.env.local` ou en production (récupérable dans Supabase Dashboard → Project Settings → API).
+2. L’app appelle `/api/auth/generate-reset-link` et affiche un **bouton cliquable « Réinitialiser mon mot de passe »** directement sur la page après la demande. L’utilisateur n’a pas besoin de cliquer sur le lien dans l’email.
+
+Si la clé n’est pas configurée, le flux classique par email est utilisé. Pour que le lien soit aussi cliquable **dans l’email** : dans Supabase → Authentication → Email Templates → **Reset password**, le corps du message doit contenir un vrai lien HTML, par exemple :  
+`<a href="{{ .ConfirmationURL }}">Choisir un nouveau mot de passe</a>`  
+Voir `docs/supabase-auth-email-templates.md` pour le template complet.
+
+## 7. En cas de blocage
 
 Si les emails ne partent toujours pas :
 1. Désactiver temporairement "Confirm email" pour tester le flux complet

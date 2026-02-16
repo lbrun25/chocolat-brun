@@ -10,6 +10,18 @@ import SafeImage from '@/components/SafeImage'
 import CheckoutAuth from '@/components/CheckoutAuth'
 import { getPackagingPrices } from '@/types/product'
 import { calculateShippingCost, FREE_SHIPPING_THRESHOLD } from '@/lib/shipping'
+import { supabase } from '@/lib/supabase'
+
+/** Convertit le code pays (ex. FR) en libellé pour le formulaire */
+function countryCodeToLabel(code: string | null | undefined): string {
+  if (!code || !code.trim()) return 'France'
+  const c = code.trim().toUpperCase()
+  if (c === 'FR') return 'France'
+  if (c === 'BE') return 'Belgique'
+  if (c === 'CH') return 'Suisse'
+  if (c === 'LU') return 'Luxembourg'
+  return code
+}
 
 interface FormData {
   firstName: string
@@ -23,6 +35,19 @@ interface FormData {
   country: string
   deliveryNotes: string
   acceptedCGU: boolean
+}
+
+interface BillingFormData {
+  firstName: string
+  lastName: string
+  email: string
+  phone: string
+  company: string
+  address: string
+  city: string
+  postalCode: string
+  country: string
+  notes: string
 }
 
 export default function CheckoutPage() {
@@ -49,7 +74,20 @@ export default function CheckoutPage() {
     deliveryNotes: '',
     acceptedCGU: false,
   })
+  const [billingData, setBillingData] = useState<BillingFormData>({
+    firstName: '',
+    lastName: '',
+    email: '',
+    phone: '',
+    company: '',
+    address: '',
+    city: '',
+    postalCode: '',
+    country: 'France',
+    notes: '',
+  })
   const [errors, setErrors] = useState<Partial<Record<keyof FormData, string>>>({})
+  const [billingErrors, setBillingErrors] = useState<Partial<Record<keyof BillingFormData, string>>>({})
 
   useEffect(() => {
     if (cart.items.length === 0) {
@@ -57,11 +95,57 @@ export default function CheckoutPage() {
     }
   }, [cart.items.length, router])
 
-  // Si l'utilisateur est connecté, masquer l'auth et pré-remplir les données
+  // Si l'utilisateur est connecté, masquer l'auth et pré-remplir les données (profil + dernière adresse)
   useEffect(() => {
-    if (user && profile) {
-      setShowAuth(false)
-      setAuthCompleted(true)
+    if (!user || !profile) return
+    setShowAuth(false)
+    setAuthCompleted(true)
+    setFormData(prev => ({
+      ...prev,
+      firstName: profile.first_name || prev.firstName,
+      lastName: profile.last_name || prev.lastName,
+      email: profile.email || prev.email,
+      phone: profile.phone || prev.phone,
+      company: profile.company || prev.company,
+    }))
+
+    // Charger la dernière adresse de livraison (dernière commande payée) et pré-remplir livraison + facturation
+    const loadLastAddress = async () => {
+      const selectQuery = `
+        id,
+        shipping_address,
+        shipping_city,
+        shipping_postal_code,
+        shipping_country
+      `
+      const { data: byUserId } = await supabase
+        .from('orders')
+        .select(selectQuery)
+        .eq('user_id', profile.id)
+        .eq('status', 'paid')
+        .not('shipping_address', 'is', null)
+        .order('created_at', { ascending: false })
+        .limit(1)
+        .maybeSingle()
+
+      const { data: byEmail } = await supabase
+        .from('orders')
+        .select(selectQuery)
+        .eq('email', profile.email)
+        .eq('status', 'paid')
+        .not('shipping_address', 'is', null)
+        .order('created_at', { ascending: false })
+        .limit(1)
+        .maybeSingle()
+
+      const lastOrder = byUserId || byEmail
+      if (!lastOrder?.shipping_address?.trim()) return
+
+      const address = lastOrder.shipping_address.trim()
+      const city = lastOrder.shipping_city?.trim() || ''
+      const postalCode = lastOrder.shipping_postal_code?.trim() || ''
+      const country = countryCodeToLabel(lastOrder.shipping_country)
+
       setFormData(prev => ({
         ...prev,
         firstName: profile.first_name || prev.firstName,
@@ -69,8 +153,27 @@ export default function CheckoutPage() {
         email: profile.email || prev.email,
         phone: profile.phone || prev.phone,
         company: profile.company || prev.company,
+        address,
+        city,
+        postalCode,
+        country,
       }))
+
+      // Pré-remplir la facturation avec la même adresse (cohérent avec "Mon compte")
+      setBillingData({
+        firstName: profile.first_name || '',
+        lastName: profile.last_name || '',
+        email: profile.email || '',
+        phone: profile.phone || '',
+        company: profile.company || '',
+        address,
+        city,
+        postalCode,
+        country,
+        notes: '',
+      })
     }
+    loadLastAddress()
   }, [user, profile])
 
   const handleGuestContinue = async () => {
@@ -97,6 +200,22 @@ export default function CheckoutPage() {
   const handleAuthenticated = () => {
     setShowAuth(false)
     setAuthCompleted(true)
+  }
+
+  const copyDeliveryToBilling = () => {
+    setBillingData({
+      firstName: formData.firstName,
+      lastName: formData.lastName,
+      email: formData.email,
+      phone: formData.phone,
+      company: formData.company,
+      address: formData.address,
+      city: formData.city,
+      postalCode: formData.postalCode,
+      country: formData.country,
+      notes: '',
+    })
+    setBillingErrors({})
   }
 
   const validateForm = (): boolean => {
@@ -153,10 +272,12 @@ export default function CheckoutPage() {
             priceTTC: getPackagingPrices(item.product)[item.packaging].priceTTC,
           })),
           customerInfo: formData,
+          billingAddress: billingData,
           totalHT: cart.totalHT,
           totalTTC: cart.totalTTC,
           shippingCost: shippingCost,
           totalWithShipping: totalWithShipping,
+          ...(profile?.id && { profileId: profile.id }),
         }),
       })
 
@@ -207,6 +328,7 @@ export default function CheckoutPage() {
                 />
               )}
 
+              <form onSubmit={handleSubmit} className="space-y-6">
               <motion.div
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
@@ -217,7 +339,7 @@ export default function CheckoutPage() {
                   Informations de livraison
                 </h2>
 
-                <form onSubmit={handleSubmit} className="space-y-6">
+                <div className="space-y-6">
                   {/* Nom et Prénom */}
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
@@ -399,48 +521,257 @@ export default function CheckoutPage() {
                       placeholder="Instructions spéciales pour la livraison..."
                     />
                   </div>
+                </div>
+              </motion.div>
 
-                  {/* Acceptation des CGU/CGV */}
-                  <div>
-                    <label className="flex items-start gap-3 cursor-pointer">
+              {/* Adresse de facturation */}
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.6, delay: 0.15 }}
+                className="bg-white rounded-2xl shadow-lg border border-chocolate-light/50 p-6 md:p-8"
+              >
+                <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
+                  <h2 className="text-2xl font-bold text-chocolate-dark font-serif">
+                    Adresse de facturation
+                  </h2>
+                  <button
+                    type="button"
+                    onClick={copyDeliveryToBilling}
+                    className="text-sm font-medium text-chocolate-dark/80 hover:text-chocolate-dark border border-chocolate-dark/30 hover:border-chocolate-dark/50 px-4 py-2 rounded-lg transition-colors"
+                  >
+                    Reprendre l&apos;adresse de livraison
+                  </button>
+                </div>
+
+                <div className="space-y-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <label htmlFor="billingFirstName" className="block text-sm font-semibold text-chocolate-dark mb-2">
+                        Prénom <span className="text-red-500">*</span>
+                      </label>
                       <input
-                        type="checkbox"
-                        checked={formData.acceptedCGU}
-                        onChange={(e) => setFormData({ ...formData, acceptedCGU: e.target.checked })}
-                        className={`mt-1 w-5 h-5 rounded border-2 ${
-                          errors.acceptedCGU ? 'border-red-500' : 'border-chocolate-dark/30'
-                        } text-chocolate-dark focus:ring-chocolate-dark cursor-pointer`}
+                        type="text"
+                        id="billingFirstName"
+                        value={billingData.firstName}
+                        onChange={(e) => setBillingData({ ...billingData, firstName: e.target.value })}
+                        className={`w-full px-4 py-3 rounded-lg border-2 ${
+                          billingErrors.firstName ? 'border-red-500' : 'border-chocolate-dark/30'
+                        } focus:outline-none focus:border-chocolate-dark transition-colors`}
                       />
-                      <span className="text-sm text-chocolate-dark/80">
-                        J'accepte les{' '}
-                        <Link
-                          href="/cgu"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-chocolate-dark font-semibold hover:underline"
-                        >
-                          Conditions Générales d'Utilisation et de Vente
-                        </Link>{' '}
-                        <span className="text-red-500">*</span>
-                      </span>
+                      {billingErrors.firstName && (
+                        <p className="text-red-500 text-sm mt-1">{billingErrors.firstName}</p>
+                      )}
+                    </div>
+                    <div>
+                      <label htmlFor="billingLastName" className="block text-sm font-semibold text-chocolate-dark mb-2">
+                        Nom <span className="text-red-500">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        id="billingLastName"
+                        value={billingData.lastName}
+                        onChange={(e) => setBillingData({ ...billingData, lastName: e.target.value })}
+                        className={`w-full px-4 py-3 rounded-lg border-2 ${
+                          billingErrors.lastName ? 'border-red-500' : 'border-chocolate-dark/30'
+                        } focus:outline-none focus:border-chocolate-dark transition-colors`}
+                      />
+                      {billingErrors.lastName && (
+                        <p className="text-red-500 text-sm mt-1">{billingErrors.lastName}</p>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <label htmlFor="billingEmail" className="block text-sm font-semibold text-chocolate-dark mb-2">
+                        Email <span className="text-red-500">*</span>
+                      </label>
+                      <input
+                        type="email"
+                        id="billingEmail"
+                        value={billingData.email}
+                        onChange={(e) => setBillingData({ ...billingData, email: e.target.value })}
+                        className={`w-full px-4 py-3 rounded-lg border-2 ${
+                          billingErrors.email ? 'border-red-500' : 'border-chocolate-dark/30'
+                        } focus:outline-none focus:border-chocolate-dark transition-colors`}
+                      />
+                      {billingErrors.email && (
+                        <p className="text-red-500 text-sm mt-1">{billingErrors.email}</p>
+                      )}
+                    </div>
+                    <div>
+                      <label htmlFor="billingPhone" className="block text-sm font-semibold text-chocolate-dark mb-2">
+                        Téléphone <span className="text-red-500">*</span>
+                      </label>
+                      <input
+                        type="tel"
+                        id="billingPhone"
+                        value={billingData.phone}
+                        onChange={(e) => setBillingData({ ...billingData, phone: e.target.value })}
+                        className={`w-full px-4 py-3 rounded-lg border-2 ${
+                          billingErrors.phone ? 'border-red-500' : 'border-chocolate-dark/30'
+                        } focus:outline-none focus:border-chocolate-dark transition-colors`}
+                        placeholder="+33 6 12 34 56 78"
+                      />
+                      {billingErrors.phone && (
+                        <p className="text-red-500 text-sm mt-1">{billingErrors.phone}</p>
+                      )}
+                    </div>
+                  </div>
+
+                  <div>
+                    <label htmlFor="billingCompany" className="block text-sm font-semibold text-chocolate-dark mb-2">
+                      Entreprise (optionnel)
                     </label>
-                    {errors.acceptedCGU && (
-                      <p className="text-red-500 text-sm mt-1 ml-8">{errors.acceptedCGU}</p>
+                    <input
+                      type="text"
+                      id="billingCompany"
+                      value={billingData.company}
+                      onChange={(e) => setBillingData({ ...billingData, company: e.target.value })}
+                      className="w-full px-4 py-3 rounded-lg border-2 border-chocolate-dark/30 focus:outline-none focus:border-chocolate-dark transition-colors"
+                    />
+                  </div>
+
+                  <div>
+                    <label htmlFor="billingAddress" className="block text-sm font-semibold text-chocolate-dark mb-2">
+                      Adresse <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      id="billingAddress"
+                      value={billingData.address}
+                      onChange={(e) => setBillingData({ ...billingData, address: e.target.value })}
+                      className={`w-full px-4 py-3 rounded-lg border-2 ${
+                        billingErrors.address ? 'border-red-500' : 'border-chocolate-dark/30'
+                      } focus:outline-none focus:border-chocolate-dark transition-colors`}
+                    />
+                    {billingErrors.address && (
+                      <p className="text-red-500 text-sm mt-1">{billingErrors.address}</p>
                     )}
                   </div>
 
-                  {/* Bouton de soumission */}
-                  <motion.button
-                    type="submit"
-                    disabled={isLoading}
-                    whileHover={{ scale: isLoading ? 1 : 1.02 }}
-                    whileTap={{ scale: isLoading ? 1 : 0.98 }}
-                    className="w-full bg-chocolate-dark text-chocolate-light px-6 py-4 rounded-lg text-lg font-semibold hover:bg-chocolate-dark/90 transition-colors shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
-                  >
-                    {isLoading ? 'Traitement...' : 'Procéder au paiement'}
-                  </motion.button>
-                </form>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div className="md:col-span-2">
+                      <label htmlFor="billingCity" className="block text-sm font-semibold text-chocolate-dark mb-2">
+                        Ville <span className="text-red-500">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        id="billingCity"
+                        value={billingData.city}
+                        onChange={(e) => setBillingData({ ...billingData, city: e.target.value })}
+                        className={`w-full px-4 py-3 rounded-lg border-2 ${
+                          billingErrors.city ? 'border-red-500' : 'border-chocolate-dark/30'
+                        } focus:outline-none focus:border-chocolate-dark transition-colors`}
+                      />
+                      {billingErrors.city && (
+                        <p className="text-red-500 text-sm mt-1">{billingErrors.city}</p>
+                      )}
+                    </div>
+                    <div>
+                      <label htmlFor="billingPostalCode" className="block text-sm font-semibold text-chocolate-dark mb-2">
+                        Code postal <span className="text-red-500">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        id="billingPostalCode"
+                        value={billingData.postalCode}
+                        onChange={(e) => setBillingData({ ...billingData, postalCode: e.target.value })}
+                        className={`w-full px-4 py-3 rounded-lg border-2 ${
+                          billingErrors.postalCode ? 'border-red-500' : 'border-chocolate-dark/30'
+                        } focus:outline-none focus:border-chocolate-dark transition-colors`}
+                        maxLength={5}
+                      />
+                      {billingErrors.postalCode && (
+                        <p className="text-red-500 text-sm mt-1">{billingErrors.postalCode}</p>
+                      )}
+                    </div>
+                  </div>
+
+                  <div>
+                    <label htmlFor="billingCountry" className="block text-sm font-semibold text-chocolate-dark mb-2">
+                      Pays <span className="text-red-500">*</span>
+                    </label>
+                    <select
+                      id="billingCountry"
+                      value={billingData.country}
+                      onChange={(e) => setBillingData({ ...billingData, country: e.target.value })}
+                      className="w-full px-4 py-3 rounded-lg border-2 border-chocolate-dark/30 focus:outline-none focus:border-chocolate-dark transition-colors"
+                    >
+                      <option value="France">France</option>
+                      <option value="Belgique">Belgique</option>
+                      <option value="Suisse">Suisse</option>
+                      <option value="Luxembourg">Luxembourg</option>
+                    </select>
+                  </div>
+
+                  <div>
+                    <label htmlFor="billingNotes" className="block text-sm font-semibold text-chocolate-dark mb-2">
+                      Notes (optionnel)
+                    </label>
+                    <textarea
+                      id="billingNotes"
+                      value={billingData.notes}
+                      onChange={(e) => setBillingData({ ...billingData, notes: e.target.value })}
+                      rows={4}
+                      className="w-full px-4 py-3 rounded-lg border-2 border-chocolate-dark/30 focus:outline-none focus:border-chocolate-dark transition-colors resize-none"
+                      placeholder="Instructions ou références pour la facturation..."
+                    />
+                  </div>
+                </div>
               </motion.div>
+
+              {/* CGU et bouton */}
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                className="bg-white rounded-2xl shadow-lg border border-chocolate-light/50 p-6 md:p-8"
+              >
+                {/* Acceptation des CGU/CGV */}
+                <div>
+                  <label className="flex items-start gap-3 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={formData.acceptedCGU}
+                      onChange={(e) => setFormData({ ...formData, acceptedCGU: e.target.checked })}
+                      className={`mt-1 w-5 h-5 rounded border-2 ${
+                        errors.acceptedCGU ? 'border-red-500' : 'border-chocolate-dark/30'
+                      } text-chocolate-dark focus:ring-chocolate-dark cursor-pointer`}
+                    />
+                    <span className="text-sm text-chocolate-dark/80">
+                      En cliquant sur Procéder au paiement, vous acceptez les{' '}
+                      <Link
+                        href="/cgu"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-chocolate-dark font-semibold hover:underline"
+                      >
+                        Conditions Générales d'Utilisation et de Vente
+                      </Link>{' '}
+                      <span className="text-red-500">*</span>
+                    </span>
+                  </label>
+                  {errors.acceptedCGU && (
+                    <p className="text-red-500 text-sm mt-1 ml-8">{errors.acceptedCGU}</p>
+                  )}
+                </div>
+
+                <p className="text-sm text-chocolate-dark/70 mt-4">Toutes les transactions sont sécurisées et chiffrées.</p>
+
+                {/* Bouton de soumission */}
+                <motion.button
+                  type="submit"
+                  disabled={isLoading}
+                  whileHover={{ scale: isLoading ? 1 : 1.02 }}
+                  whileTap={{ scale: isLoading ? 1 : 0.98 }}
+                  className="w-full mt-6 bg-chocolate-dark text-chocolate-light px-6 py-4 rounded-lg text-lg font-semibold hover:bg-chocolate-dark/90 transition-colors shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {isLoading ? 'Traitement...' : 'Procéder au paiement'}
+                </motion.button>
+              </motion.div>
+              </form>
             </div>
 
             {/* Récapitulatif */}
@@ -454,6 +785,48 @@ export default function CheckoutPage() {
                 <h2 className="text-2xl font-bold text-chocolate-dark mb-6 font-serif">
                   Récapitulatif
                 </h2>
+
+                {/* Adresses utilisées pour la commande (même infos que les formulaires) */}
+                <div className="space-y-4 mb-6 pb-6 border-b border-chocolate-dark/10">
+                  <div>
+                    <p className="text-xs font-bold uppercase tracking-wide text-chocolate-dark/70 mb-1">Livraison</p>
+                    <p className="text-sm text-chocolate-dark">
+                      {formData.firstName} {formData.lastName}
+                    </p>
+                    {formData.address ? (
+                      <>
+                        <p className="text-sm text-chocolate-dark">{formData.address}</p>
+                        <p className="text-sm text-chocolate-dark">
+                          {[formData.postalCode, formData.city].filter(Boolean).join(' ')}
+                          {formData.country ? `, ${formData.country}` : ''}
+                        </p>
+                        {formData.phone && <p className="text-sm text-chocolate-dark/80">{formData.phone}</p>}
+                        {formData.email && <p className="text-sm text-chocolate-dark/80">{formData.email}</p>}
+                      </>
+                    ) : (
+                      <p className="text-sm text-chocolate-dark/60">Remplissez le formulaire à gauche</p>
+                    )}
+                  </div>
+                  <div>
+                    <p className="text-xs font-bold uppercase tracking-wide text-chocolate-dark/70 mb-1">Facturation</p>
+                    <p className="text-sm text-chocolate-dark">
+                      {billingData.firstName} {billingData.lastName}
+                    </p>
+                    {billingData.address ? (
+                      <>
+                        <p className="text-sm text-chocolate-dark">{billingData.address}</p>
+                        <p className="text-sm text-chocolate-dark">
+                          {[billingData.postalCode, billingData.city].filter(Boolean).join(' ')}
+                          {billingData.country ? `, ${billingData.country}` : ''}
+                        </p>
+                        {billingData.phone && <p className="text-sm text-chocolate-dark/80">{billingData.phone}</p>}
+                        {billingData.email && <p className="text-sm text-chocolate-dark/80">{billingData.email}</p>}
+                      </>
+                    ) : (
+                      <p className="text-sm text-chocolate-dark/60">Remplissez l&apos;adresse de facturation ou reprenez la livraison</p>
+                    )}
+                  </div>
+                </div>
 
                 <div className="space-y-3 mb-6">
                   {cart.items.map((item) => {
@@ -490,13 +863,13 @@ export default function CheckoutPage() {
                 <div className="space-y-3 mb-6 pt-4 border-t border-chocolate-dark/20">
                   {/* Sous-total */}
                   <div className="flex justify-between items-center text-chocolate-dark/80">
-                    <span>Sous-total TTC</span>
+                    <span>Sous-total</span>
                     <span className="font-semibold">{cart.totalTTC.toFixed(2)} €</span>
                   </div>
 
-                  {/* Frais de port */}
+                  {/* Expédition */}
                   <div className="flex justify-between items-center text-chocolate-dark/80">
-                    <span>Frais de port</span>
+                    <span>Expédition</span>
                     <span className="font-semibold">
                       {shippingCost === 0 ? (
                         <span className="text-green-600">Gratuit</span>
@@ -517,15 +890,48 @@ export default function CheckoutPage() {
                   {/* Total */}
                   <div className="pt-3 border-t border-chocolate-dark/20">
                     <div className="flex justify-between items-center">
-                      <span className="text-xl font-bold text-chocolate-dark">Total TTC</span>
-                      <span className="text-2xl font-bold text-chocolate-medium">{totalWithShipping.toFixed(2)} €</span>
+                      <span className="text-xl font-bold text-chocolate-dark">Total</span>
+                      <span className="text-2xl font-bold text-chocolate-medium">EUR {totalWithShipping.toFixed(2)} €</span>
+                    </div>
+                    <p className="text-xs text-chocolate-dark/60 mt-1">Taxes incluses</p>
+                  </div>
+                </div>
+
+                {/* Blocs d'information style référence (sans promotion) */}
+                <div className="grid grid-cols-1 gap-4 pt-4 border-t border-chocolate-dark/10">
+                  <div className="flex gap-3 items-start">
+                    <span className="text-chocolate-dark/50 text-xl" aria-hidden>💳</span>
+                    <div>
+                      <p className="text-xs font-bold uppercase tracking-wide text-chocolate-dark/80">Paiement sécurisé</p>
+                      <p className="text-xs text-chocolate-dark/70">Par carte bancaire</p>
+                    </div>
+                  </div>
+                  <div className="flex gap-3 items-start">
+                    <span className="text-chocolate-dark/50 text-xl" aria-hidden>🎧</span>
+                    <div>
+                      <p className="text-xs font-bold uppercase tracking-wide text-chocolate-dark/80">À votre écoute</p>
+                      <p className="text-xs text-chocolate-dark/70">Du lundi au vendredi de 10h à 18h</p>
+                    </div>
+                  </div>
+                  <div className="flex gap-3 items-start">
+                    <span className="text-chocolate-dark/50 text-xl" aria-hidden>🚚</span>
+                    <div>
+                      <p className="text-xs font-bold uppercase tracking-wide text-chocolate-dark/80">Livraison offerte</p>
+                      <p className="text-xs text-chocolate-dark/70">En France métropolitaine à partir de {FREE_SHIPPING_THRESHOLD}€ d'achat</p>
+                    </div>
+                  </div>
+                  <div className="flex gap-3 items-start">
+                    <span className="text-chocolate-dark/50 text-xl" aria-hidden>🌿</span>
+                    <div>
+                      <p className="text-xs font-bold uppercase tracking-wide text-chocolate-dark/80">Marques engagées</p>
+                      <p className="text-xs text-chocolate-dark/70">Pour une gastronomie plus juste et durable</p>
                     </div>
                   </div>
                 </div>
 
                 <Link
                   href="/panier"
-                  className="block text-center text-chocolate-dark/70 hover:text-chocolate-dark text-sm font-medium transition-colors"
+                  className="block text-center text-chocolate-dark/70 hover:text-chocolate-dark text-sm font-medium transition-colors mt-8"
                 >
                   ← Modifier le panier
                 </Link>

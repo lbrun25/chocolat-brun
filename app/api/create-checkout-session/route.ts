@@ -16,7 +16,7 @@ export async function POST(request: NextRequest) {
   try {
     const stripe = getStripe()
     const body = await request.json()
-    const { cart, customerInfo, totalTTC, shippingCost, totalWithShipping } = body
+    const { cart, customerInfo, totalTTC, shippingCost, totalWithShipping, profileId } = body
 
     if (!cart || cart.length === 0) {
       return NextResponse.json(
@@ -86,11 +86,16 @@ export async function POST(request: NextRequest) {
         customerPhone: customerInfo.phone,
         customerCompany: customerInfo.company || '',
         deliveryNotes: customerInfo.deliveryNotes || '',
+        shippingAddress: customerInfo.address || '',
+        shippingCity: customerInfo.city || '',
+        shippingPostalCode: customerInfo.postalCode || '',
+        shippingCountry: customerInfo.country || 'FR',
         orderItems: JSON.stringify(cart),
         totalHT: body.totalHT.toString(),
         totalTTC: totalTTC.toString(),
         shippingCost: serverShippingCost.toString(),
         totalWithShipping: (totalTTC + serverShippingCost).toString(),
+        ...(profileId && { profileId }),
       },
       locale: 'fr',
     })

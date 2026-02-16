@@ -33,6 +33,7 @@ export default function CheckoutAuth({
   const [resendLoading, setResendLoading] = useState(false)
   const [showResendConfirmation, setShowResendConfirmation] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [resetLink, setResetLink] = useState<string | null>(null)
 
   // Si l'utilisateur est déjà connecté, continuer directement
   if (user) {
@@ -123,8 +124,9 @@ export default function CheckoutAuth({
     e.preventDefault()
     setError(null)
     setSuccess(null)
+    setResetLink(null)
     setLoading(true)
-    const { error: resetError } = await resetPasswordForEmail(email)
+    const { error: resetError, link } = await resetPasswordForEmail(email)
     setLoading(false)
     if (resetError) {
       const msg = resetError.message?.toLowerCase() ?? ''
@@ -133,6 +135,9 @@ export default function CheckoutAuth({
       } else {
         setError(resetError.message || 'Une erreur est survenue.')
       }
+    } else if (link) {
+      setSuccess('Cliquez sur le bouton ci-dessous pour réinitialiser votre mot de passe.')
+      setResetLink(link)
     } else {
       setSuccess('Si un compte existe avec cet email, un lien de réinitialisation a été envoyé. Consultez votre boîte mail (et les spams) puis cliquez sur le lien pour définir un nouveau mot de passe.')
     }
@@ -274,7 +279,7 @@ export default function CheckoutAuth({
               />
               <button
                 type="button"
-                onClick={() => { setMode('forgot'); setError(null); setSuccess(null); }}
+                onClick={() => { setMode('forgot'); setError(null); setSuccess(null); setResetLink(null); }}
                 className="mt-2 text-sm text-chocolate-dark/80 hover:text-chocolate-dark underline"
               >
                 Mot de passe oublié ?
@@ -356,8 +361,16 @@ export default function CheckoutAuth({
               </div>
             )}
             {success && (
-              <div className="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg text-sm">
-                {success}
+              <div className="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg text-sm space-y-3">
+                <p>{success}</p>
+                {resetLink && (
+                  <a
+                    href={resetLink}
+                    className="inline-block w-full text-center py-3 px-4 bg-chocolate-dark text-chocolate-light rounded-lg font-semibold hover:bg-chocolate-dark/90 transition-colors"
+                  >
+                    Réinitialiser mon mot de passe
+                  </a>
+                )}
               </div>
             )}
             <div className="flex flex-col sm:flex-row gap-3">
@@ -372,7 +385,7 @@ export default function CheckoutAuth({
               </motion.button>
               <button
                 type="button"
-                onClick={() => { setMode('signin'); setError(null); setSuccess(null); setShowResendConfirmation(false); }}
+                onClick={() => { setMode('signin'); setError(null); setSuccess(null); setResetLink(null); setShowResendConfirmation(false); }}
                 className="px-6 py-4 border-2 border-chocolate-dark/50 text-chocolate-dark rounded-lg font-semibold hover:bg-chocolate-dark/10 transition-colors"
               >
                 Retour à la connexion

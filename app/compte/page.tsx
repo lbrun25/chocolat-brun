@@ -18,6 +18,12 @@ interface Order {
   total_with_shipping: number
   created_at: string
   order_items: OrderItem[]
+  shipping_address?: string | null
+  shipping_city?: string | null
+  shipping_postal_code?: string | null
+  shipping_country?: string | null
+  delivery_notes?: string | null
+  payment_method?: string | null
 }
 
 interface OrderItem {
@@ -29,47 +35,149 @@ interface OrderItem {
 }
 
 export default function ComptePage() {
-  const { user, profile, loading: authLoading, signOut, refreshSession } = useAuth()
+  const { user, profile, loading: authLoading, signOut, refreshSession, refreshProfile } = useAuth()
   const router = useRouter()
   const [orders, setOrders] = useState<Order[]>([])
   const [loading, setLoading] = useState(true)
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null)
+  const [isEditingProfile, setIsEditingProfile] = useState(false)
+  const [profileForm, setProfileForm] = useState({
+    first_name: '',
+    last_name: '',
+    phone: '',
+    company: '',
+  })
+  const [profileSaveError, setProfileSaveError] = useState<string | null>(null)
+  const [profileSaving, setProfileSaving] = useState(false)
 
 
   useEffect(() => {
     if (user && profile) {
       loadOrders()
+      setProfileForm({
+        first_name: profile.first_name ?? '',
+        last_name: profile.last_name ?? '',
+        phone: profile.phone ?? '',
+        company: profile.company ?? '',
+      })
     } else if (!user && !authLoading) {
-      // Utilisateur non connecté : pas besoin de charger les commandes
       setLoading(false)
     }
   }, [user, profile, authLoading])
+
+  const hasPaidOrder = orders.some((o) => o.status === 'paid')
+  const canEditProfile = !hasPaidOrder
+
+  const hasAddress = (order: Order) =>
+    !!(order.shipping_address?.trim() || order.shipping_city?.trim() || order.shipping_postal_code?.trim())
+
+  // Dernière adresse de livraison utilisée (commande payée la plus récente)
+  const lastOrderWithAddress = orders.find(
+    (o) => o.status === 'paid' && hasAddress(o)
+  )
+
+  function formatOrderAddress(order: Order): string {
+    const parts = [
+      order.shipping_address,
+      [order.shipping_postal_code, order.shipping_city].filter(Boolean).join(' '),
+      order.shipping_country,
+    ].filter(Boolean)
+    return parts.length ? parts.join(', ') : '—'
+  }
+
+  /** Adresse de livraison sur plusieurs lignes (comme au checkout) */
+  function getOrderAddressLines(order: Order): { line1: string; line2: string; line3: string } {
+    const line1 = order.shipping_address?.trim() || ''
+    const line2 = [order.shipping_postal_code, order.shipping_city].filter(Boolean).join(' ')
+    const country = order.shipping_country?.trim() || ''
+    const countryLabel = country === 'FR' ? 'France' : country === 'BE' ? 'Belgique' : country === 'CH' ? 'Suisse' : country === 'LU' ? 'Luxembourg' : country
+    return { line1, line2, line3: countryLabel }
+  }
+
+  function getPaymentMethodLabel(order: Order): string {
+    if (order.payment_method) return order.payment_method
+    return 'Carte bancaire'
+  }
+
+  const handleStartEditProfile = () => {
+    if (!profile) return
+    setProfileForm({
+      first_name: profile.first_name ?? '',
+      last_name: profile.last_name ?? '',
+      phone: profile.phone ?? '',
+      company: profile.company ?? '',
+    })
+    setProfileSaveError(null)
+    setIsEditingProfile(true)
+  }
+
+  const handleCancelEditProfile = () => {
+    setIsEditingProfile(false)
+    setProfileSaveError(null)
+  }
+
+  const handleSaveProfile = async () => {
+    if (!user || !profile) return
+    setProfileSaving(true)
+    setProfileSaveError(null)
+    try {
+      const { error } = await supabase
+        .from('profiles')
+        .update({
+          first_name: profileForm.first_name.trim() || null,
+          last_name: profileForm.last_name.trim() || null,
+          phone: profileForm.phone.trim() || null,
+          company: profileForm.company.trim() || null,
+          updated_at: new Date().toISOString(),
+        })
+        .eq('user_id', user.id)
+
+      if (error) throw error
+      await refreshProfile()
+      setIsEditingProfile(false)
+    } catch (e: unknown) {
+      setProfileSaveError(e instanceof Error ? e.message : 'Erreur lors de l\'enregistrement')
+    } finally {
+      setProfileSaving(false)
+    }
+  }
 
   const loadOrders = async () => {
     if (!profile) return
 
     try {
-      // Récupérer les commandes par user_id (ID du profil)
-      // Les commandes sont toujours créées avec user_id = profile.id dans le webhook
-      const { data: ordersData, error } = await supabase
-        .from('orders')
-        .select(`
+      const selectQuery = `
+        id,
+        stripe_session_id,
+        status,
+        customer_first_name,
+        customer_last_name,
+        total_with_shipping,
+        created_at,
+        shipping_address,
+        shipping_city,
+        shipping_postal_code,
+        shipping_country,
+        delivery_notes,
+        order_items (
           id,
-          stripe_session_id,
-          status,
-          customer_first_name,
-          customer_last_name,
-          total_with_shipping,
-          created_at,
-          order_items (
-            id,
-            product_name,
-            packaging,
-            quantity,
-            price_ttc
-          )
-        `)
+          product_name,
+          packaging,
+          quantity,
+          price_ttc
+        )
+      `
+      // Charger par user_id puis par email (fallback) pour couvrir tous les cas
+      const { data: byUserId } = await supabase
+        .from('orders')
+        .select(selectQuery)
         .eq('user_id', profile.id)
+        .order('created_at', { ascending: false })
+
+      const { data: byEmail, error } = await supabase
+        .from('orders')
+        .select(selectQuery)
+        .eq('email', profile.email)
         .order('created_at', { ascending: false })
 
       if (error) {
@@ -77,7 +185,17 @@ export default function ComptePage() {
         return
       }
 
-      setOrders(ordersData || [])
+      // Fusionner et dédupliquer par id
+      const seen = new Set<string>()
+      const ordersData = [...(byUserId || []), ...(byEmail || [])]
+        .filter(o => {
+          if (seen.has(o.id)) return false
+          seen.add(o.id)
+          return true
+        })
+        .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
+
+      setOrders(ordersData)
     } catch (error) {
       console.error('Erreur lors du chargement des commandes:', error)
     } finally {
@@ -166,53 +284,215 @@ export default function ComptePage() {
             transition={{ duration: 0.6, delay: 0.1 }}
             className="bg-white rounded-2xl shadow-lg border border-chocolate-light/50 p-6 md:p-8 mb-8"
           >
-            <h2 className="text-2xl font-bold text-chocolate-dark mb-6 font-serif">
-              Mes informations
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <p className="text-sm text-chocolate-dark/70 mb-1">Email</p>
-                <p className="font-semibold text-chocolate-dark">{profile.email}</p>
-              </div>
-              {profile.first_name && (
-                <div>
-                  <p className="text-sm text-chocolate-dark/70 mb-1">Prénom</p>
-                  <p className="font-semibold text-chocolate-dark">{profile.first_name}</p>
+            <div className="flex flex-wrap justify-between items-center gap-4 mb-6">
+              <h2 className="text-2xl font-bold text-chocolate-dark font-serif">
+                Mes informations
+              </h2>
+              {canEditProfile && !isEditingProfile && (
+                <button
+                  type="button"
+                  onClick={handleStartEditProfile}
+                  className="px-4 py-2 bg-chocolate-dark text-chocolate-light rounded-lg font-semibold hover:bg-chocolate-dark/90 transition-colors"
+                >
+                  Modifier
+                </button>
+              )}
+              {canEditProfile && isEditingProfile && (
+                <div className="flex gap-2">
+                  <button
+                    type="button"
+                    onClick={handleCancelEditProfile}
+                    className="px-4 py-2 bg-chocolate-dark/10 text-chocolate-dark rounded-lg font-semibold hover:bg-chocolate-dark/20 transition-colors"
+                  >
+                    Annuler
+                  </button>
+                  <button
+                    type="button"
+                    onClick={handleSaveProfile}
+                    disabled={profileSaving}
+                    className="px-4 py-2 bg-chocolate-dark text-chocolate-light rounded-lg font-semibold hover:bg-chocolate-dark/90 transition-colors disabled:opacity-50"
+                  >
+                    {profileSaving ? 'Enregistrement…' : 'Enregistrer'}
+                  </button>
                 </div>
               )}
-              {profile.last_name && (
-                <div>
-                  <p className="text-sm text-chocolate-dark/70 mb-1">Nom</p>
-                  <p className="font-semibold text-chocolate-dark">{profile.last_name}</p>
-                </div>
-              )}
-              {profile.phone && (
-                <div>
-                  <p className="text-sm text-chocolate-dark/70 mb-1">Téléphone</p>
-                  <p className="font-semibold text-chocolate-dark">{profile.phone}</p>
-                </div>
-              )}
-              {profile.company && (
-                <div>
-                  <p className="text-sm text-chocolate-dark/70 mb-1">Entreprise</p>
-                  <p className="font-semibold text-chocolate-dark">{profile.company}</p>
-                </div>
-              )}
-              {profile.is_guest && (
-                <div className="md:col-span-2">
-                  <div className="bg-chocolate-light/30 rounded-lg p-4">
-                    <p className="text-sm text-chocolate-dark/70 mb-2">
-                      Vous avez commandé en mode invité. Créez un mot de passe pour retrouver facilement vos commandes la prochaine fois.
-                    </p>
-                    <Link
-                      href="/compte/creer-mot-de-passe"
-                      className="inline-block bg-chocolate-dark text-chocolate-light px-4 py-2 rounded-lg text-sm font-semibold hover:bg-chocolate-dark/90 transition-colors"
-                    >
-                      Créer un mot de passe
-                    </Link>
+            </div>
+            {hasPaidOrder && (
+              <p className="text-sm text-amber-700 bg-amber-50 border border-amber-200 rounded-lg p-3 mb-6">
+                Vos informations personnelles ne peuvent plus être modifiées après une commande payée.
+              </p>
+            )}
+            {!hasPaidOrder && !isEditingProfile && (
+              <p className="text-sm text-chocolate-dark/70 mb-6">
+                Vous pouvez modifier ces informations tant que vous n&apos;avez pas de commande payée.
+              </p>
+            )}
+
+            {isEditingProfile ? (
+              <div className="space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  <div>
+                    <label htmlFor="compte-last_name" className="block text-sm font-medium text-chocolate-dark/70 mb-1">Nom</label>
+                    <input
+                      id="compte-last_name"
+                      type="text"
+                      value={profileForm.last_name}
+                      onChange={(e) => setProfileForm((p) => ({ ...p, last_name: e.target.value }))}
+                      className="w-full px-4 py-3 rounded-lg border-2 border-chocolate-dark/30 focus:outline-none focus:border-chocolate-dark"
+                      placeholder="Votre nom"
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="compte-first_name" className="block text-sm font-medium text-chocolate-dark/70 mb-1">Prénom</label>
+                    <input
+                      id="compte-first_name"
+                      type="text"
+                      value={profileForm.first_name}
+                      onChange={(e) => setProfileForm((p) => ({ ...p, first_name: e.target.value }))}
+                      className="w-full px-4 py-3 rounded-lg border-2 border-chocolate-dark/30 focus:outline-none focus:border-chocolate-dark"
+                      placeholder="Votre prénom"
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="compte-phone" className="block text-sm font-medium text-chocolate-dark/70 mb-1">Téléphone</label>
+                    <input
+                      id="compte-phone"
+                      type="tel"
+                      value={profileForm.phone}
+                      onChange={(e) => setProfileForm((p) => ({ ...p, phone: e.target.value }))}
+                      className="w-full px-4 py-3 rounded-lg border-2 border-chocolate-dark/30 focus:outline-none focus:border-chocolate-dark"
+                      placeholder="06 12 34 56 78"
+                    />
                   </div>
                 </div>
-              )}
+                <div>
+                  <label htmlFor="compte-company" className="block text-sm font-medium text-chocolate-dark/70 mb-1">Entreprise (optionnel)</label>
+                  <input
+                    id="compte-company"
+                    type="text"
+                    value={profileForm.company}
+                    onChange={(e) => setProfileForm((p) => ({ ...p, company: e.target.value }))}
+                    className="w-full px-4 py-3 rounded-lg border-2 border-chocolate-dark/30 focus:outline-none focus:border-chocolate-dark"
+                    placeholder="Nom de l'entreprise"
+                  />
+                </div>
+                <p className="text-sm text-chocolate-dark/60">
+                  L&apos;adresse de livraison est renseignée à chaque commande au checkout.
+                </p>
+                {profileSaveError && (
+                  <p className="text-sm text-red-600 bg-red-50 px-3 py-2 rounded-lg">{profileSaveError}</p>
+                )}
+              </div>
+            ) : (
+              <div className="space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-[auto_1fr] gap-x-8 md:gap-x-12 gap-y-4 md:gap-y-5">
+                  <p className="text-sm text-chocolate-dark/70 md:py-0.5">Nom</p>
+                  <p className="font-semibold text-chocolate-dark uppercase md:py-0.5">
+                    {profile.last_name || 'Non renseigné'}
+                  </p>
+                  <p className="text-sm text-chocolate-dark/70 md:py-0.5">Prénom</p>
+                  <p className="font-semibold text-chocolate-dark md:py-0.5">
+                    {profile.first_name
+                      ? profile.first_name.charAt(0).toUpperCase() + profile.first_name.slice(1).toLowerCase()
+                      : 'Non renseigné'}
+                  </p>
+                  <p className="text-sm text-chocolate-dark/70 md:py-0.5">Numéro de téléphone</p>
+                  <p className="font-semibold text-chocolate-dark md:py-0.5">{profile.phone || 'Non renseigné'}</p>
+                  <p className="text-sm text-chocolate-dark/70 md:py-0.5">Adresse de livraison</p>
+                  <div className="font-semibold text-chocolate-dark md:py-0.5">
+                    {lastOrderWithAddress ? (
+                      <>
+                        {(() => {
+                          const { line1, line2, line3 } = getOrderAddressLines(lastOrderWithAddress)
+                          return (
+                            <div className="space-y-0.5">
+                              {line1 && <p>{line1}</p>}
+                              {line2 && <p>{line2}</p>}
+                              {line3 && <p>{line3}</p>}
+                              {!line1 && !line2 && !line3 && <p>—</p>}
+                            </div>
+                          )
+                        })()}
+                        <p className="text-xs font-normal text-chocolate-dark/60 mt-2">
+                          Dernière adresse utilisée (commande du{' '}
+                          {new Date(lastOrderWithAddress.created_at).toLocaleDateString('fr-FR')})
+                        </p>
+                      </>
+                    ) : (
+                      <p>Renseignée à chaque commande</p>
+                    )}
+                  </div>
+                  <p className="text-sm text-chocolate-dark/70 md:py-0.5">Entreprise</p>
+                  <p className="font-semibold text-chocolate-dark md:py-0.5">{profile.company || 'Non renseigné'}</p>
+                </div>
+                {profile.is_guest && (
+                  <div className="md:col-span-2">
+                    <div className="bg-chocolate-light/30 rounded-lg p-4">
+                      <p className="text-sm text-chocolate-dark/70 mb-2">
+                        Vous avez commandé en mode invité. Créez un mot de passe pour retrouver facilement vos commandes la prochaine fois.
+                      </p>
+                      <Link
+                        href="/compte/creer-mot-de-passe"
+                        className="inline-block bg-chocolate-dark text-chocolate-light px-4 py-2 rounded-lg text-sm font-semibold hover:bg-chocolate-dark/90 transition-colors"
+                      >
+                        Créer un mot de passe
+                      </Link>
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+          </motion.div>
+
+          {/* Adresse de facturation */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.15 }}
+            className="bg-white rounded-2xl shadow-lg border border-chocolate-light/50 p-6 md:p-8 mb-8"
+          >
+            <h2 className="text-2xl font-bold text-chocolate-dark font-serif mb-6">
+              Adresse de facturation
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-[auto_1fr] gap-x-8 md:gap-x-12 gap-y-4 md:gap-y-5">
+              <p className="text-sm text-chocolate-dark/70 md:py-0.5">Nom</p>
+              <p className="font-semibold text-chocolate-dark uppercase md:py-0.5">
+                {profile.last_name || 'Non renseigné'}
+              </p>
+              <p className="text-sm text-chocolate-dark/70 md:py-0.5">Prénom</p>
+              <p className="font-semibold text-chocolate-dark md:py-0.5">
+                {profile.first_name
+                  ? profile.first_name.charAt(0).toUpperCase() + profile.first_name.slice(1).toLowerCase()
+                  : 'Non renseigné'}
+              </p>
+              <p className="text-sm text-chocolate-dark/70 md:py-0.5">Numéro de téléphone</p>
+              <p className="font-semibold text-chocolate-dark md:py-0.5">{profile.phone || 'Non renseigné'}</p>
+              <p className="text-sm text-chocolate-dark/70 md:py-0.5">Adresse de livraison</p>
+              <div className="font-semibold text-chocolate-dark md:py-0.5">
+                {lastOrderWithAddress ? (
+                  <>
+                    {(() => {
+                      const { line1, line2, line3 } = getOrderAddressLines(lastOrderWithAddress)
+                      return (
+                        <div className="space-y-0.5">
+                          {line1 && <p>{line1}</p>}
+                          {line2 && <p>{line2}</p>}
+                          {line3 && <p>{line3}</p>}
+                          {!line1 && !line2 && !line3 && <p>—</p>}
+                        </div>
+                      )
+                    })()}
+                    <p className="text-xs font-normal text-chocolate-dark/60 mt-2">
+                      Dernière adresse utilisée (commande du{' '}
+                      {new Date(lastOrderWithAddress.created_at).toLocaleDateString('fr-FR')})
+                    </p>
+                  </>
+                ) : (
+                  <p>Renseignée à chaque commande</p>
+                )}
+              </div>
+              <p className="text-sm text-chocolate-dark/70 md:py-0.5">Entreprise</p>
+              <p className="font-semibold text-chocolate-dark md:py-0.5">{profile.company || 'Non renseigné'}</p>
             </div>
           </motion.div>
 
@@ -239,7 +519,9 @@ export default function ComptePage() {
               </div>
             ) : (
               <div className="space-y-4">
-                {orders.map((order) => (
+                {orders.map((order) => {
+                  const items = order.order_items || []
+                  return (
                   <motion.div
                     key={order.id}
                     initial={{ opacity: 0, y: 10 }}
@@ -248,7 +530,7 @@ export default function ComptePage() {
                     onClick={() => setSelectedOrder(order)}
                   >
                     <div className="flex justify-between items-start">
-                      <div>
+                      <div className="flex-1 min-w-0">
                         <p className="font-semibold text-chocolate-dark">
                           Commande #{order.stripe_session_id.substring(0, 20)}...
                         </p>
@@ -259,9 +541,31 @@ export default function ComptePage() {
                             year: 'numeric',
                           })}
                         </p>
-                        <p className="text-sm text-chocolate-dark/70">
-                          {order.order_items.length} article(s)
+                        <p className="text-sm text-chocolate-dark/70 mt-1">
+                          {items.length} article(s)
                         </p>
+                        {/* Adresse de livraison (résumé) */}
+                        {(order.shipping_address || order.shipping_city) && (
+                          <p className="text-sm text-chocolate-dark/70 mt-2">
+                            Livraison : {formatOrderAddress(order)}
+                          </p>
+                        )}
+                        {/* Récap produits directement visible */}
+                        {items.length > 0 && (
+                          <div className="mt-3 pt-3 border-t border-chocolate-dark/10">
+                            <p className="text-xs font-medium text-chocolate-dark/60 mb-1.5">Récapitulatif :</p>
+                            <ul className="text-sm text-chocolate-dark/80 space-y-1">
+                              {items.map((item) => (
+                                <li key={item.id}>
+                                  {item.product_name} — {item.packaging} pièces × {item.quantity} · {(item.price_ttc * item.quantity).toFixed(2)} €
+                                </li>
+                              ))}
+                            </ul>
+                            <p className="text-xs text-chocolate-dark/60 mt-1.5">
+                              Paiement : {getPaymentMethodLabel(order)}
+                            </p>
+                          </div>
+                        )}
                       </div>
                       <div className="text-right">
                         <p className="font-bold text-chocolate-dark text-lg">
@@ -282,7 +586,8 @@ export default function ComptePage() {
                       </div>
                     </div>
                   </motion.div>
-                ))}
+                  )
+                })}
               </div>
             )}
           </motion.div>
@@ -348,9 +653,9 @@ export default function ComptePage() {
                   </div>
 
                   <div>
-                    <p className="text-sm text-chocolate-dark/70 mb-3">Articles</p>
+                    <p className="text-sm text-chocolate-dark/70 mb-3">Récapitulatif des produits</p>
                     <div className="space-y-2">
-                      {selectedOrder.order_items.map((item) => (
+                      {(selectedOrder.order_items || []).map((item) => (
                         <div key={item.id} className="flex justify-between items-center py-2 border-b border-chocolate-dark/10">
                           <div>
                             <p className="font-semibold text-chocolate-dark">{item.product_name}</p>
@@ -364,6 +669,27 @@ export default function ComptePage() {
                         </div>
                       ))}
                     </div>
+                  </div>
+
+                  {(selectedOrder.shipping_address || selectedOrder.shipping_city) && (
+                    <div>
+                      <p className="text-sm text-chocolate-dark/70 mb-1">Adresse de livraison</p>
+                      <p className="font-semibold text-chocolate-dark">
+                        {formatOrderAddress(selectedOrder)}
+                      </p>
+                      {selectedOrder.delivery_notes && (
+                        <p className="text-sm text-chocolate-dark/70 mt-2">
+                          <span className="font-medium">Notes :</span> {selectedOrder.delivery_notes}
+                        </p>
+                      )}
+                    </div>
+                  )}
+
+                  <div>
+                    <p className="text-sm text-chocolate-dark/70 mb-1">Mode de paiement</p>
+                    <p className="font-semibold text-chocolate-dark">
+                      {getPaymentMethodLabel(selectedOrder)}
+                    </p>
                   </div>
 
                   <div className="pt-4 border-t border-chocolate-dark/20">

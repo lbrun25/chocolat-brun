@@ -24,7 +24,7 @@ interface AuthContextType {
   loading: boolean
   signIn: (email: string, password: string) => Promise<{ error: Error | null }>
   signUp: (email: string, password: string, firstName?: string, lastName?: string) => Promise<{ error: Error | null; requiresEmailConfirmation?: boolean }>
-  resetPasswordForEmail: (email: string) => Promise<{ error: Error | null }>
+  resetPasswordForEmail: (email: string) => Promise<{ error: Error | null; link?: string }>
   resendConfirmationEmail: (email: string) => Promise<{ error: Error | null }>
   signOut: () => Promise<void>
   convertGuestToStandard: (password: string) => Promise<{ error: Error | null }>
@@ -263,6 +263,19 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const resetPasswordForEmail = useCallback(async (email: string) => {
     try {
+      // En dev : tenter d'obtenir un lien direct sans email (évite le spam)
+      if (typeof window !== 'undefined') {
+        const res = await fetch('/api/auth/generate-reset-link', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email }),
+        })
+        const data = await res.json().catch(() => ({}))
+        if (res.ok && data.link) {
+          return { error: null, link: data.link }
+        }
+      }
+      // Fallback : envoi par email (Supabase)
       const redirectTo =
         typeof window !== 'undefined'
           ? `${window.location.origin}/compte/reinitialiser-mot-de-passe`
