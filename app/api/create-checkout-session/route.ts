@@ -16,7 +16,20 @@ export async function POST(request: NextRequest) {
   try {
     const stripe = getStripe()
     const body = await request.json()
-    const { cart, customerInfo, totalTTC, shippingCost, totalWithShipping, profileId } = body
+    const { cart, customerInfo, billingAddress, totalTTC, shippingCost, totalWithShipping, profileId } = body
+
+    // Inclure la facturation dans les metadata dès qu'au moins un champ est renseigné
+    const hasAnyBilling =
+      billingAddress &&
+      [
+        billingAddress.firstName,
+        billingAddress.lastName,
+        billingAddress.address,
+        billingAddress.city,
+        billingAddress.postalCode,
+        billingAddress.email,
+        billingAddress.phone,
+      ].some((v) => v != null && String(v).trim() !== '')
 
     if (!cart || cart.length === 0) {
       return NextResponse.json(
@@ -90,6 +103,16 @@ export async function POST(request: NextRequest) {
         shippingCity: customerInfo.city || '',
         shippingPostalCode: customerInfo.postalCode || '',
         shippingCountry: customerInfo.country || 'FR',
+        ...(hasAnyBilling && {
+          bFirstName: (billingAddress.firstName ?? '').toString().trim(),
+          bLastName: (billingAddress.lastName ?? '').toString().trim(),
+          bPhone: (billingAddress.phone ?? '').toString().trim(),
+          bEmail: (billingAddress.email ?? '').toString().trim(),
+          bAddress: (billingAddress.address ?? '').toString().trim(),
+          bCity: (billingAddress.city ?? '').toString().trim(),
+          bPostalCode: (billingAddress.postalCode ?? '').toString().trim(),
+          bCountry: (billingAddress.country ?? 'FR').toString().trim() || 'FR',
+        }),
         orderItems: JSON.stringify(cart),
         totalHT: body.totalHT.toString(),
         totalTTC: totalTTC.toString(),

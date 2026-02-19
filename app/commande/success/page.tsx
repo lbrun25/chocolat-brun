@@ -126,6 +126,39 @@ function OrderSuccessContent() {
                   </div>
                 )}
 
+                {/* Adresse de livraison */}
+                {(session.metadata?.shippingAddress || session.metadata?.shippingCity) && (
+                  <div className="pt-2 border-t border-chocolate-dark/10">
+                    <p className="text-sm text-chocolate-dark/70 mb-1">Adresse de livraison</p>
+                    <p className="font-semibold text-chocolate-dark text-sm">
+                      {[session.metadata.shippingAddress, [session.metadata.shippingPostalCode, session.metadata.shippingCity].filter(Boolean).join(' '), session.metadata.shippingCountry === 'FR' ? 'France' : session.metadata.shippingCountry].filter(Boolean).join(', ')}
+                    </p>
+                  </div>
+                )}
+
+                {/* Adresse de facturation (figée, non modifiable) */}
+                <div className="pt-2 border-t border-chocolate-dark/10">
+                  <p className="text-sm text-chocolate-dark/70 mb-1">Adresse de facturation</p>
+                  <p className="text-xs text-chocolate-dark/60 mb-2">Enregistrée pour la facture, non modifiable.</p>
+                  {(session.metadata?.bFirstName || session.metadata?.bLastName || session.metadata?.bAddress || session.metadata?.bCity) ? (
+                    <div className="font-semibold text-chocolate-dark text-sm space-y-0.5">
+                      {(session.metadata.bFirstName || session.metadata.bLastName) && (
+                        <p>{[session.metadata.bFirstName, session.metadata.bLastName].filter(Boolean).join(' ')}</p>
+                      )}
+                      {session.metadata.bAddress && <p>{session.metadata.bAddress}</p>}
+                      {(session.metadata.bPostalCode || session.metadata.bCity || session.metadata.bCountry) && (
+                        <p>
+                          {[session.metadata.bPostalCode, session.metadata.bCity, session.metadata.bCountry === 'FR' ? 'France' : session.metadata.bCountry].filter(Boolean).join(' ')}
+                        </p>
+                      )}
+                      {session.metadata.bPhone && <p className="text-chocolate-dark/80">{session.metadata.bPhone}</p>}
+                      {session.metadata.bEmail && <p className="text-chocolate-dark/80">{session.metadata.bEmail}</p>}
+                    </div>
+                  ) : (
+                    <p className="font-semibold text-chocolate-dark text-sm">Identique à l&apos;adresse de livraison.</p>
+                  )}
+                </div>
+
                 {/* Récapitulatif des produits commandés */}
                 {session.metadata?.orderItems && (() => {
                   try {

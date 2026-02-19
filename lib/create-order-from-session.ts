@@ -82,6 +82,16 @@ export async function createOrderFromStripeSession(session: SessionWithShipping)
     const customerCompany = (session.metadata?.customerCompany as string) || ''
     const deliveryNotes = (session.metadata?.deliveryNotes as string) || ''
 
+    // Adresse de facturation (metadata checkout)
+    const billingFirstName = (session.metadata?.bFirstName as string) || ''
+    const billingLastName = (session.metadata?.bLastName as string) || ''
+    const billingPhone = (session.metadata?.bPhone as string) || ''
+    const billingEmail = (session.metadata?.bEmail as string) || ''
+    const billingAddress = (session.metadata?.bAddress as string) || ''
+    const billingCity = (session.metadata?.bCity as string) || ''
+    const billingPostalCode = (session.metadata?.bPostalCode as string) || ''
+    const billingCountry = (session.metadata?.bCountry as string) || ''
+
     // Adresse : priorité à Stripe shipping_details, sinon metadata (saisie au checkout)
     const stripeAddress = session.shipping_details?.address
     const shippingAddressLine = stripeAddress?.line1
@@ -109,13 +119,33 @@ export async function createOrderFromStripeSession(session: SessionWithShipping)
     // 1. Créer ou récupérer le profil pour lier la commande
     let profileId: string | null = (session.metadata?.profileId as string) || null
 
+    // Données d'identité du profil = client / livraison uniquement (pas la facturation, qui peut être un autre nom)
+    const profileFirstName = customerFirstName
+    const profileLastName = customerLastName
+    const profilePhone = customerPhone
+    const profileCompany = customerCompany
+
     if (profileId) {
       const { data: profileCheck } = await supabase
         .from('profiles')
-        .select('id')
+        .select('id, first_name, last_name, phone, company')
         .eq('id', profileId)
         .maybeSingle()
-      if (!profileCheck) profileId = null
+      if (!profileCheck) {
+        profileId = null
+      } else {
+        // Mettre à jour le profil avec les données client (livraison), pas la facturation
+        await supabase
+          .from('profiles')
+          .update({
+            first_name: profileFirstName || profileCheck.first_name,
+            last_name: profileLastName || profileCheck.last_name,
+            phone: profilePhone || profileCheck.phone,
+            company: profileCompany ?? profileCheck.company,
+            updated_at: new Date().toISOString(),
+          })
+          .eq('id', profileId)
+      }
     }
 
     if (!profileId) {
@@ -130,10 +160,10 @@ export async function createOrderFromStripeSession(session: SessionWithShipping)
         await supabase
           .from('profiles')
           .update({
-            first_name: customerFirstName || existingProfile.first_name,
-            last_name: customerLastName || existingProfile.last_name,
-            phone: customerPhone || existingProfile.phone,
-            company: customerCompany || existingProfile.company,
+            first_name: profileFirstName || existingProfile.first_name,
+            last_name: profileLastName || existingProfile.last_name,
+            phone: profilePhone || existingProfile.phone,
+            company: profileCompany ?? existingProfile.company,
             updated_at: new Date().toISOString(),
           })
           .eq('id', profileId)
@@ -142,10 +172,10 @@ export async function createOrderFromStripeSession(session: SessionWithShipping)
           .from('profiles')
           .insert({
             email,
-            first_name: customerFirstName,
-            last_name: customerLastName,
-            phone: customerPhone,
-            company: customerCompany,
+            first_name: profileFirstName,
+            last_name: profileLastName,
+            phone: profilePhone,
+            company: profileCompany,
             is_guest: true,
             user_id: null,
           })
@@ -160,29 +190,48 @@ export async function createOrderFromStripeSession(session: SessionWithShipping)
       }
     }
 
-    // 2. Créer la commande
+    // 2. Créer la commande (livraison + facturation)
+    const orderInsert: Record<string, unknown> = {
+      user_id: profileId,
+      email,
+      stripe_session_id: session.id,
+      stripe_payment_intent_id: (session.payment_intent as string) || '',
+      status: 'paid',
+      customer_first_name: customerFirstName,
+      customer_last_name: customerLastName,
+      customer_phone: customerPhone,
+      customer_company: customerCompany,
+      shipping_address: shippingAddressLine,
+      shipping_city: shippingCity,
+      shipping_postal_code: shippingPostalCode,
+      shipping_country: shippingCountry,
+      delivery_notes: deliveryNotes,
+      total_ht: totalHT,
+      total_ttc: totalTTC,
+      shipping_cost: shippingCost,
+      total_with_shipping: totalWithShipping,
+    }
+    const hasAnyBilling =
+      billingFirstName?.trim() ||
+      billingLastName?.trim() ||
+      billingAddress?.trim() ||
+      billingCity?.trim() ||
+      billingPostalCode?.trim() ||
+      billingEmail?.trim() ||
+      billingPhone?.trim()
+    if (hasAnyBilling) {
+      orderInsert.billing_first_name = billingFirstName?.trim() || null
+      orderInsert.billing_last_name = billingLastName?.trim() || null
+      orderInsert.billing_phone = billingPhone?.trim() || null
+      orderInsert.billing_email = billingEmail?.trim() || null
+      orderInsert.billing_address = billingAddress?.trim() || null
+      orderInsert.billing_city = billingCity?.trim() || null
+      orderInsert.billing_postal_code = billingPostalCode?.trim() || null
+      orderInsert.billing_country = billingCountry?.trim() || null
+    }
     const { data: order, error: orderError } = await supabase
       .from('orders')
-      .insert({
-        user_id: profileId,
-        email,
-        stripe_session_id: session.id,
-        stripe_payment_intent_id: (session.payment_intent as string) || '',
-        status: 'paid',
-        customer_first_name: customerFirstName,
-        customer_last_name: customerLastName,
-        customer_phone: customerPhone,
-        customer_company: customerCompany,
-        shipping_address: shippingAddressLine,
-        shipping_city: shippingCity,
-        shipping_postal_code: shippingPostalCode,
-        shipping_country: shippingCountry,
-        delivery_notes: deliveryNotes,
-        total_ht: totalHT,
-        total_ttc: totalTTC,
-        shipping_cost: shippingCost,
-        total_with_shipping: totalWithShipping,
-      })
+      .insert(orderInsert)
       .select('id')
       .single()
 

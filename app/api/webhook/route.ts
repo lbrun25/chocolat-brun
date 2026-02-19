@@ -51,7 +51,22 @@ export async function POST(request: NextRequest) {
         const customerPhone = session.metadata?.customerPhone || ''
         const customerCompany = session.metadata?.customerCompany || ''
         const deliveryNotes = session.metadata?.deliveryNotes || ''
-        
+
+        // Adresse de facturation (metadata checkout)
+        const billingFirstName = (session.metadata?.bFirstName as string) || ''
+        const billingLastName = (session.metadata?.bLastName as string) || ''
+        const billingPhone = (session.metadata?.bPhone as string) || ''
+        const billingEmail = (session.metadata?.bEmail as string) || ''
+        const billingAddress = (session.metadata?.bAddress as string) || ''
+        const billingCity = (session.metadata?.bCity as string) || ''
+        const billingPostalCode = (session.metadata?.bPostalCode as string) || ''
+        const billingCountry = (session.metadata?.bCountry as string) || ''
+
+        // Profil = données client / livraison uniquement (pas la facturation)
+        const profileFirstName = customerFirstName
+        const profileLastName = customerLastName
+        const profilePhone = customerPhone
+
         // Adresse : priorité à Stripe shipping_details, sinon metadata (saisie au checkout)
         const stripeAddress = sessionWithShipping.shipping_details?.address
         const shippingAddressLine = stripeAddress?.line1
@@ -77,45 +92,54 @@ export async function POST(request: NextRequest) {
         let profileId: string | null = session.metadata?.profileId as string | undefined || null
         
         if (profileId) {
-          // Vérifier que le profileId existe (utilisateur connecté au checkout)
           const { data: profileCheck } = await supabase
             .from('profiles')
-            .select('id')
+            .select('id, first_name, last_name, phone, company')
             .eq('id', profileId)
-            .single()
-          if (!profileCheck) profileId = null
+            .maybeSingle()
+          if (!profileCheck) {
+            profileId = null
+          } else {
+            await supabase
+              .from('profiles')
+              .update({
+                first_name: profileFirstName || profileCheck.first_name,
+                last_name: profileLastName || profileCheck.last_name,
+                phone: profilePhone || profileCheck.phone,
+                company: customerCompany ?? profileCheck.company,
+                updated_at: new Date().toISOString(),
+              })
+              .eq('id', profileId)
+          }
         }
         
         if (!profileId && email) {
-          // Fallback : rechercher par email
           const { data: existingProfile } = await supabase
             .from('profiles')
             .select('id, first_name, last_name, phone, company')
             .eq('email', email)
-            .single()
+            .maybeSingle()
           
           if (existingProfile) {
             profileId = existingProfile.id
-            // Mettre à jour les informations si nécessaire
             await supabase
               .from('profiles')
               .update({
-                first_name: customerFirstName || existingProfile?.first_name,
-                last_name: customerLastName || existingProfile?.last_name,
-                phone: customerPhone || existingProfile?.phone,
-                company: customerCompany || existingProfile?.company,
+                first_name: profileFirstName || existingProfile.first_name,
+                last_name: profileLastName || existingProfile.last_name,
+                phone: profilePhone || existingProfile.phone,
+                company: customerCompany ?? existingProfile.company,
                 updated_at: new Date().toISOString(),
               })
               .eq('id', profileId)
           } else {
-            // Créer un nouveau profil invité
             const { data: newProfile, error: profileError } = await supabase
               .from('profiles')
               .insert({
                 email,
-                first_name: customerFirstName,
-                last_name: customerLastName,
-                phone: customerPhone,
+                first_name: profileFirstName,
+                last_name: profileLastName,
+                phone: profilePhone,
                 company: customerCompany,
                 is_guest: true,
                 user_id: null,
@@ -131,29 +155,47 @@ export async function POST(request: NextRequest) {
           }
         }
         
-        // 2. Créer la commande
+        const orderInsert: Record<string, unknown> = {
+          user_id: profileId,
+          email,
+          stripe_session_id: session.id,
+          stripe_payment_intent_id: session.payment_intent as string,
+          status: 'paid',
+          customer_first_name: customerFirstName,
+          customer_last_name: customerLastName,
+          customer_phone: customerPhone,
+          customer_company: customerCompany,
+          shipping_address: shippingAddressLine,
+          shipping_city: shippingCity,
+          shipping_postal_code: shippingPostalCode,
+          shipping_country: shippingCountry,
+          delivery_notes: deliveryNotes,
+          total_ht: totalHT,
+          total_ttc: totalTTC,
+          shipping_cost: shippingCost,
+          total_with_shipping: totalWithShipping,
+        }
+        const hasAnyBilling =
+          (billingFirstName && String(billingFirstName).trim()) ||
+          (billingLastName && String(billingLastName).trim()) ||
+          (billingAddress && String(billingAddress).trim()) ||
+          (billingCity && String(billingCity).trim()) ||
+          (billingPostalCode && String(billingPostalCode).trim()) ||
+          (billingEmail && String(billingEmail).trim()) ||
+          (billingPhone && String(billingPhone).trim())
+        if (hasAnyBilling) {
+          orderInsert.billing_first_name = (billingFirstName && String(billingFirstName).trim()) || null
+          orderInsert.billing_last_name = (billingLastName && String(billingLastName).trim()) || null
+          orderInsert.billing_phone = (billingPhone && String(billingPhone).trim()) || null
+          orderInsert.billing_email = (billingEmail && String(billingEmail).trim()) || null
+          orderInsert.billing_address = (billingAddress && String(billingAddress).trim()) || null
+          orderInsert.billing_city = (billingCity && String(billingCity).trim()) || null
+          orderInsert.billing_postal_code = (billingPostalCode && String(billingPostalCode).trim()) || null
+          orderInsert.billing_country = (billingCountry && String(billingCountry).trim()) || null
+        }
         const { data: order, error: orderError } = await supabase
           .from('orders')
-          .insert({
-            user_id: profileId,
-            email,
-            stripe_session_id: session.id,
-            stripe_payment_intent_id: session.payment_intent as string,
-            status: 'paid',
-            customer_first_name: customerFirstName,
-            customer_last_name: customerLastName,
-            customer_phone: customerPhone,
-            customer_company: customerCompany,
-            shipping_address: shippingAddressLine,
-            shipping_city: shippingCity,
-            shipping_postal_code: shippingPostalCode,
-            shipping_country: shippingCountry,
-            delivery_notes: deliveryNotes,
-            total_ht: totalHT,
-            total_ttc: totalTTC,
-            shipping_cost: shippingCost,
-            total_with_shipping: totalWithShipping,
-          })
+          .insert(orderInsert)
           .select('id')
           .single()
         

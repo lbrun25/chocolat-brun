@@ -24,6 +24,14 @@ interface Order {
   shipping_country?: string | null
   delivery_notes?: string | null
   payment_method?: string | null
+  billing_first_name?: string | null
+  billing_last_name?: string | null
+  billing_phone?: string | null
+  billing_email?: string | null
+  billing_address?: string | null
+  billing_city?: string | null
+  billing_postal_code?: string | null
+  billing_country?: string | null
 }
 
 interface OrderItem {
@@ -76,6 +84,21 @@ export default function ComptePage() {
     (o) => o.status === 'paid' && hasAddress(o)
   )
 
+  // Dernière adresse de facturation (commande payée la plus récente avec données de facturation)
+  const hasBilling = (order: Order) =>
+    !!(
+      order.billing_address?.trim() ||
+      order.billing_city?.trim() ||
+      order.billing_postal_code?.trim() ||
+      order.billing_first_name?.trim() ||
+      order.billing_last_name?.trim() ||
+      order.billing_email?.trim() ||
+      order.billing_phone?.trim()
+    )
+  const lastOrderWithBilling = orders.find(
+    (o) => o.status === 'paid' && hasBilling(o)
+  )
+
   function formatOrderAddress(order: Order): string {
     const parts = [
       order.shipping_address,
@@ -90,6 +113,15 @@ export default function ComptePage() {
     const line1 = order.shipping_address?.trim() || ''
     const line2 = [order.shipping_postal_code, order.shipping_city].filter(Boolean).join(' ')
     const country = order.shipping_country?.trim() || ''
+    const countryLabel = country === 'FR' ? 'France' : country === 'BE' ? 'Belgique' : country === 'CH' ? 'Suisse' : country === 'LU' ? 'Luxembourg' : country
+    return { line1, line2, line3: countryLabel }
+  }
+
+  /** Adresse de facturation sur plusieurs lignes */
+  function getOrderBillingAddressLines(order: Order): { line1: string; line2: string; line3: string } {
+    const line1 = order.billing_address?.trim() || ''
+    const line2 = [order.billing_postal_code, order.billing_city].filter(Boolean).join(' ')
+    const country = order.billing_country?.trim() || ''
     const countryLabel = country === 'FR' ? 'France' : country === 'BE' ? 'Belgique' : country === 'CH' ? 'Suisse' : country === 'LU' ? 'Luxembourg' : country
     return { line1, line2, line3: countryLabel }
   }
@@ -145,8 +177,36 @@ export default function ComptePage() {
   const loadOrders = async () => {
     if (!profile) return
 
-    try {
-      const selectQuery = `
+    const selectWithBilling = `
+        id,
+        stripe_session_id,
+        status,
+        customer_first_name,
+        customer_last_name,
+        total_with_shipping,
+        created_at,
+        shipping_address,
+        shipping_city,
+        shipping_postal_code,
+        shipping_country,
+        delivery_notes,
+        billing_first_name,
+        billing_last_name,
+        billing_phone,
+        billing_email,
+        billing_address,
+        billing_city,
+        billing_postal_code,
+        billing_country,
+        order_items (
+          id,
+          product_name,
+          packaging,
+          quantity,
+          price_ttc
+        )
+      `
+    const selectWithoutBilling = `
         id,
         stripe_session_id,
         status,
@@ -167,37 +227,37 @@ export default function ComptePage() {
           price_ttc
         )
       `
-      // Charger par user_id puis par email (fallback) pour couvrir tous les cas
-      const { data: byUserId } = await supabase
-        .from('orders')
-        .select(selectQuery)
-        .eq('user_id', profile.id)
-        .order('created_at', { ascending: false })
 
-      const { data: byEmail, error } = await supabase
-        .from('orders')
-        .select(selectQuery)
-        .eq('email', profile.email)
-        .order('created_at', { ascending: false })
-
-      if (error) {
-        console.error('Erreur lors du chargement des commandes:', error)
-        return
-      }
-
-      // Fusionner et dédupliquer par id
+    const runQuery = async (selectQuery: string): Promise<{ error: unknown; data: Order[] | null }> => {
+      const [byUserId, byEmail] = await Promise.all([
+        supabase.from('orders').select(selectQuery).eq('user_id', profile.id).order('created_at', { ascending: false }),
+        supabase.from('orders').select(selectQuery).eq('email', profile.email).order('created_at', { ascending: false }),
+      ])
+      const error = byUserId.error || byEmail.error
+      if (error) return { error, data: null }
+      const rawA = (byUserId.data || []) as unknown as Order[]
+      const rawB = (byEmail.data || []) as unknown as Order[]
       const seen = new Set<string>()
-      const ordersData = [...(byUserId || []), ...(byEmail || [])]
+      const ordersData: Order[] = [...rawA, ...rawB]
         .filter(o => {
           if (seen.has(o.id)) return false
           seen.add(o.id)
           return true
         })
         .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
+      return { error: null, data: ordersData }
+    }
 
-      setOrders(ordersData)
-    } catch (error) {
-      console.error('Erreur lors du chargement des commandes:', error)
+    try {
+      let result = await runQuery(selectWithBilling)
+      if (result.error) {
+        result = await runQuery(selectWithoutBilling)
+      }
+      if (result.error) {
+        setOrders([])
+        return
+      }
+      setOrders(result.data || [])
     } finally {
       setLoading(false)
     }
@@ -422,6 +482,50 @@ export default function ComptePage() {
                       <p>Renseignée à chaque commande</p>
                     )}
                   </div>
+                  {hasPaidOrder && (
+                    <>
+                      <p className="text-sm text-chocolate-dark/70 md:py-0.5">Adresse de facturation</p>
+                      <div className="font-semibold text-chocolate-dark md:py-0.5">
+                        {lastOrderWithBilling ? (
+                          <>
+                            <p className="text-xs font-normal text-chocolate-dark/60 mb-1.5">
+                              Enregistrée pour la facture, non modifiable.
+                            </p>
+                            <div className="space-y-0.5">
+                              {(lastOrderWithBilling.billing_first_name?.trim() || lastOrderWithBilling.billing_last_name?.trim()) && (
+                                <p>
+                                  {[lastOrderWithBilling.billing_first_name, lastOrderWithBilling.billing_last_name].filter(Boolean).join(' ')}
+                                </p>
+                              )}
+                              {(() => {
+                                const { line1, line2, line3 } = getOrderBillingAddressLines(lastOrderWithBilling)
+                                return (
+                                  <>
+                                    {line1 && <p>{line1}</p>}
+                                    {(line2 || line3) && (
+                                      <p>{[line2, line3].filter(Boolean).join(' — ')}</p>
+                                    )}
+                                  </>
+                                )
+                              })()}
+                              {lastOrderWithBilling.billing_phone && (
+                                <p className="text-chocolate-dark/80">{lastOrderWithBilling.billing_phone}</p>
+                              )}
+                              {lastOrderWithBilling.billing_email && (
+                                <p className="text-chocolate-dark/80">{lastOrderWithBilling.billing_email}</p>
+                              )}
+                            </div>
+                            <p className="text-xs font-normal text-chocolate-dark/60 mt-2">
+                              Dernière adresse utilisée (commande du{' '}
+                              {new Date(lastOrderWithBilling.created_at).toLocaleDateString('fr-FR')})
+                            </p>
+                          </>
+                        ) : (
+                          <p className="text-chocolate-dark/80">Non enregistrée pour vos commandes payées.</p>
+                        )}
+                      </div>
+                    </>
+                  )}
                   <p className="text-sm text-chocolate-dark/70 md:py-0.5">Entreprise</p>
                   <p className="font-semibold text-chocolate-dark md:py-0.5">{profile.company || 'Non renseigné'}</p>
                 </div>
@@ -442,58 +546,6 @@ export default function ComptePage() {
                 )}
               </div>
             )}
-          </motion.div>
-
-          {/* Adresse de facturation */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.15 }}
-            className="bg-white rounded-2xl shadow-lg border border-chocolate-light/50 p-6 md:p-8 mb-8"
-          >
-            <h2 className="text-2xl font-bold text-chocolate-dark font-serif mb-6">
-              Adresse de facturation
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-[auto_1fr] gap-x-8 md:gap-x-12 gap-y-4 md:gap-y-5">
-              <p className="text-sm text-chocolate-dark/70 md:py-0.5">Nom</p>
-              <p className="font-semibold text-chocolate-dark uppercase md:py-0.5">
-                {profile.last_name || 'Non renseigné'}
-              </p>
-              <p className="text-sm text-chocolate-dark/70 md:py-0.5">Prénom</p>
-              <p className="font-semibold text-chocolate-dark md:py-0.5">
-                {profile.first_name
-                  ? profile.first_name.charAt(0).toUpperCase() + profile.first_name.slice(1).toLowerCase()
-                  : 'Non renseigné'}
-              </p>
-              <p className="text-sm text-chocolate-dark/70 md:py-0.5">Numéro de téléphone</p>
-              <p className="font-semibold text-chocolate-dark md:py-0.5">{profile.phone || 'Non renseigné'}</p>
-              <p className="text-sm text-chocolate-dark/70 md:py-0.5">Adresse de livraison</p>
-              <div className="font-semibold text-chocolate-dark md:py-0.5">
-                {lastOrderWithAddress ? (
-                  <>
-                    {(() => {
-                      const { line1, line2, line3 } = getOrderAddressLines(lastOrderWithAddress)
-                      return (
-                        <div className="space-y-0.5">
-                          {line1 && <p>{line1}</p>}
-                          {line2 && <p>{line2}</p>}
-                          {line3 && <p>{line3}</p>}
-                          {!line1 && !line2 && !line3 && <p>—</p>}
-                        </div>
-                      )
-                    })()}
-                    <p className="text-xs font-normal text-chocolate-dark/60 mt-2">
-                      Dernière adresse utilisée (commande du{' '}
-                      {new Date(lastOrderWithAddress.created_at).toLocaleDateString('fr-FR')})
-                    </p>
-                  </>
-                ) : (
-                  <p>Renseignée à chaque commande</p>
-                )}
-              </div>
-              <p className="text-sm text-chocolate-dark/70 md:py-0.5">Entreprise</p>
-              <p className="font-semibold text-chocolate-dark md:py-0.5">{profile.company || 'Non renseigné'}</p>
-            </div>
           </motion.div>
 
           {/* Liste des commandes */}
@@ -684,6 +736,41 @@ export default function ComptePage() {
                       )}
                     </div>
                   )}
+
+                  <div>
+                    <p className="text-sm text-chocolate-dark/70 mb-1">Adresse de facturation</p>
+                    <p className="text-xs text-chocolate-dark/60 mb-2">Figée au moment du paiement, non modifiable.</p>
+                    {(selectedOrder.billing_address?.trim() || selectedOrder.billing_city?.trim() || selectedOrder.billing_first_name || selectedOrder.billing_last_name) ? (
+                      <div className="font-semibold text-chocolate-dark space-y-0.5">
+                        {(selectedOrder.billing_first_name || selectedOrder.billing_last_name) && (
+                          <p>
+                            {[selectedOrder.billing_first_name, selectedOrder.billing_last_name].filter(Boolean).join(' ')}
+                          </p>
+                        )}
+                        {(() => {
+                          const { line1, line2, line3 } = getOrderBillingAddressLines(selectedOrder)
+                          return (
+                            <>
+                              {line1 && <p>{line1}</p>}
+                              {(line2 || line3) && (
+                                <p>
+                                  {[line2, line3].filter(Boolean).join(' — ')}
+                                </p>
+                              )}
+                            </>
+                          )
+                        })()}
+                        {selectedOrder.billing_phone && (
+                          <p className="text-chocolate-dark/80">{selectedOrder.billing_phone}</p>
+                        )}
+                        {selectedOrder.billing_email && (
+                          <p className="text-chocolate-dark/80">{selectedOrder.billing_email}</p>
+                        )}
+                      </div>
+                    ) : (
+                      <p className="font-semibold text-chocolate-dark">Non enregistrée pour cette commande.</p>
+                    )}
+                  </div>
 
                   <div>
                     <p className="text-sm text-chocolate-dark/70 mb-1">Mode de paiement</p>

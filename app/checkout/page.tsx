@@ -109,14 +109,22 @@ export default function CheckoutPage() {
       company: profile.company || prev.company,
     }))
 
-    // Charger la dernière adresse de livraison (dernière commande payée) et pré-remplir livraison + facturation
+    // Charger la dernière adresse de livraison et de facturation (dernière commande payée)
     const loadLastAddress = async () => {
       const selectQuery = `
         id,
         shipping_address,
         shipping_city,
         shipping_postal_code,
-        shipping_country
+        shipping_country,
+        billing_first_name,
+        billing_last_name,
+        billing_phone,
+        billing_email,
+        billing_address,
+        billing_city,
+        billing_postal_code,
+        billing_country
       `
       const { data: byUserId } = await supabase
         .from('orders')
@@ -159,19 +167,23 @@ export default function CheckoutPage() {
         country,
       }))
 
-      // Pré-remplir la facturation avec la même adresse (cohérent avec "Mon compte")
-      setBillingData({
-        firstName: profile.first_name || '',
-        lastName: profile.last_name || '',
-        email: profile.email || '',
-        phone: profile.phone || '',
-        company: profile.company || '',
-        address,
-        city,
-        postalCode,
-        country,
-        notes: '',
-      })
+      // Pré-remplir la facturation uniquement avec la dernière adresse de facturation enregistrée (pas avec le profil)
+      const hasBilling = lastOrder.billing_address?.trim() || lastOrder.billing_city?.trim() || lastOrder.billing_postal_code?.trim()
+      if (hasBilling) {
+        setBillingData({
+          firstName: lastOrder.billing_first_name?.trim() ?? '',
+          lastName: lastOrder.billing_last_name?.trim() ?? '',
+          email: lastOrder.billing_email?.trim() ?? '',
+          phone: lastOrder.billing_phone?.trim() ?? '',
+          company: '',
+          address: lastOrder.billing_address?.trim() ?? '',
+          city: lastOrder.billing_city?.trim() ?? '',
+          postalCode: lastOrder.billing_postal_code?.trim() ?? '',
+          country: lastOrder.billing_country ? countryCodeToLabel(lastOrder.billing_country) : 'France',
+          notes: '',
+        })
+      }
+      // Sinon on laisse le formulaire de facturation vide : le client saisit ou utilise "Reprendre l'adresse de livraison"
     }
     loadLastAddress()
   }, [user, profile])
