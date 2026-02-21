@@ -35,6 +35,13 @@ export async function generateMetadata(): Promise<Metadata> {
   const baseUrl = await getBaseUrl()
   return {
   metadataBase: new URL(baseUrl),
+  icons: {
+    icon: [
+      { url: '/favicon.ico', sizes: 'any' },
+      { url: '/favicon-96x96.png', type: 'image/png', sizes: '96x96' },
+    ],
+    apple: '/apple-touch-icon.png',
+  },
   title: 'Napolitains  – Artisan Chocolatier à Charquemont',
   description: 'Fabrication artisanale de napolitains en chocolat dans le Doubs. Chocolat noir, lait, blanc, dulcey, café. Conditionnements professionnels 100 ou 150 pièces.',
   keywords: 'napolitains, chocolat, artisan, Charquemont, Doubs, chocolatier, pâtissier',
