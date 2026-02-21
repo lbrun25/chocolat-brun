@@ -193,11 +193,12 @@ export default function MediaLightbox({
               <>
                 {hasPrev && (
                   <button
+                    type="button"
                     onClick={(e) => {
                       e.stopPropagation()
                       onPrev()
                     }}
-                    className="absolute left-4 top-1/2 -translate-y-1/2 z-10 p-4 bg-white/95 hover:bg-white text-chocolate-dark rounded-full shadow-lg hover:shadow-xl transition-all hover:scale-110"
+                    className="absolute left-4 top-1/2 -translate-y-1/2 z-10 min-h-[44px] min-w-[44px] flex items-center justify-center p-4 bg-white/95 hover:bg-white text-chocolate-dark rounded-full shadow-lg hover:shadow-xl transition-all hover:scale-110 touch-manipulation"
                     aria-label="Précédent"
                   >
                     <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -207,11 +208,12 @@ export default function MediaLightbox({
                 )}
                 {hasNext && (
                   <button
+                    type="button"
                     onClick={(e) => {
                       e.stopPropagation()
                       onNext()
                     }}
-                    className="absolute right-4 top-1/2 -translate-y-1/2 z-10 p-4 bg-white/95 hover:bg-white text-chocolate-dark rounded-full shadow-lg hover:shadow-xl transition-all hover:scale-110"
+                    className="absolute right-4 top-1/2 -translate-y-1/2 z-10 min-h-[44px] min-w-[44px] flex items-center justify-center p-4 bg-white/95 hover:bg-white text-chocolate-dark rounded-full shadow-lg hover:shadow-xl transition-all hover:scale-110 touch-manipulation"
                     aria-label="Suivant"
                   >
                     <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -226,11 +228,12 @@ export default function MediaLightbox({
               {!isVideoFile && (
                 <div className="flex items-center gap-1 bg-black/40 backdrop-blur rounded-full px-3 py-2">
                   <button
+                    type="button"
                     onClick={(e) => {
                       e.stopPropagation()
                       setZoom((z) => Math.max(0.5, z - 0.1))
                     }}
-                    className="p-1.5 hover:bg-white/20 rounded-full transition-colors"
+                    className="min-h-[44px] min-w-[44px] flex items-center justify-center p-2 hover:bg-white/20 rounded-full transition-colors touch-manipulation"
                     aria-label="Zoom arrière"
                   >
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -241,11 +244,12 @@ export default function MediaLightbox({
                     {Math.round(zoom * 100)}%
                   </span>
                   <button
+                    type="button"
                     onClick={(e) => {
                       e.stopPropagation()
                       setZoom((z) => Math.min(3, z + 0.1))
                     }}
-                    className="p-1.5 hover:bg-white/20 rounded-full transition-colors"
+                    className="min-h-[44px] min-w-[44px] flex items-center justify-center p-2 hover:bg-white/20 rounded-full transition-colors touch-manipulation"
                     aria-label="Zoom avant"
                   >
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -255,11 +259,12 @@ export default function MediaLightbox({
                   </button>
                   {zoom !== 1 && (
                     <button
+                      type="button"
                       onClick={(e) => {
                         e.stopPropagation()
                         resetZoom()
                       }}
-                      className="ml-1 px-2 py-0.5 text-xs hover:bg-white/20 rounded-full transition-colors"
+                      className="min-h-[44px] ml-1 px-3 py-2 text-xs hover:bg-white/20 rounded-full transition-colors touch-manipulation"
                     >
                       Réinit.
                     </button>
@@ -267,8 +272,9 @@ export default function MediaLightbox({
                 </div>
               )}
               <button
+                type="button"
                 onClick={onClose}
-                className="p-2.5 bg-black/40 backdrop-blur hover:bg-black/60 rounded-full transition-colors"
+                className="min-h-[44px] min-w-[44px] flex items-center justify-center p-2.5 bg-black/40 backdrop-blur hover:bg-black/60 rounded-full transition-colors touch-manipulation"
                 aria-label="Fermer"
               >
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">

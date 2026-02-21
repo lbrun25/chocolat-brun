@@ -156,7 +156,7 @@ function HeaderComponent() {
           <div className="flex md:hidden items-center space-x-4">
             <Link
               href="/compte"
-              className="text-chocolate-light/90 hover:text-chocolate-light p-2 rounded-lg hover:bg-chocolate-dark/50 transition-colors"
+              className="min-h-[44px] min-w-[44px] flex items-center justify-center text-chocolate-light/90 hover:text-chocolate-light p-2 rounded-lg hover:bg-chocolate-dark/50 transition-colors touch-manipulation"
               aria-label={user ? 'Mon compte' : 'Se connecter'}
             >
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
@@ -171,8 +171,9 @@ function HeaderComponent() {
               <CartIcon />
             </motion.div>
             <button
+              type="button"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="text-chocolate-light p-2 rounded-lg hover:bg-chocolate-dark/50 transition-colors"
+              className="min-h-[44px] min-w-[44px] flex items-center justify-center text-chocolate-light p-2 rounded-lg hover:bg-chocolate-dark/50 transition-colors touch-manipulation"
               aria-label="Toggle menu"
               aria-expanded={isMobileMenuOpen}
             >

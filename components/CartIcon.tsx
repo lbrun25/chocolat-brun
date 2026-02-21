@@ -30,7 +30,7 @@ export default function CartIcon() {
       <motion.div
         animate={isAnimating ? { scale: [1, 1.2, 1] } : {}}
         transition={{ duration: 0.6 }}
-        className="relative p-2 hover:bg-chocolate-dark/50 rounded-lg transition-colors"
+        className="relative min-h-[44px] min-w-[44px] flex items-center justify-center p-2 hover:bg-chocolate-dark/50 rounded-lg transition-colors touch-manipulation"
       >
         <svg
           width="24"

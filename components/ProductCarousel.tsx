@@ -268,15 +268,17 @@ export default function ProductCarousel({ products }: ProductCarouselProps) {
       {products.length > visibleCount && (
         <>
           <button
+            type="button"
             onClick={goToPrevious}
-            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 md:-translate-x-6 z-10 bg-white/90 backdrop-blur-sm rounded-full p-3 shadow-lg hover:bg-white transition-all duration-300 hover:scale-110 border border-chocolate-light/50 group"
+            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 md:-translate-x-6 z-10 min-h-[44px] min-w-[44px] flex items-center justify-center bg-white/90 backdrop-blur-sm rounded-full p-3 shadow-lg hover:bg-white transition-all duration-300 hover:scale-110 border border-chocolate-light/50 group touch-manipulation"
             aria-label="Produit précédent"
           >
             <ChevronLeft className="w-6 h-6 text-chocolate-dark group-hover:text-chocolate-medium transition-colors" />
           </button>
           <button
+            type="button"
             onClick={goToNext}
-            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 md:translate-x-6 z-10 bg-white/90 backdrop-blur-sm rounded-full p-3 shadow-lg hover:bg-white transition-all duration-300 hover:scale-110 border border-chocolate-light/50 group"
+            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 md:translate-x-6 z-10 min-h-[44px] min-w-[44px] flex items-center justify-center bg-white/90 backdrop-blur-sm rounded-full p-3 shadow-lg hover:bg-white transition-all duration-300 hover:scale-110 border border-chocolate-light/50 group touch-manipulation"
             aria-label="Produit suivant"
           >
             <ChevronRight className="w-6 h-6 text-chocolate-dark group-hover:text-chocolate-medium transition-colors" />
@@ -289,9 +291,10 @@ export default function ProductCarousel({ products }: ProductCarouselProps) {
         <div className="flex justify-center items-center gap-2 mt-8">
           {Array.from({ length: maxIndex + 1 }).map((_, index) => (
             <button
+              type="button"
               key={index}
               onClick={() => goToSlide(index)}
-              className={`transition-all duration-300 rounded-full ${
+              className={`min-h-[44px] min-w-[44px] flex items-center justify-center transition-all duration-300 rounded-full touch-manipulation ${
                 index === currentIndex
                   ? 'bg-chocolate-dark w-8 h-2'
                   : 'bg-chocolate-dark/30 w-2 h-2 hover:bg-chocolate-dark/50'

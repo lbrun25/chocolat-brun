@@ -33,10 +33,10 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const baseUrl =
-      typeof request.nextUrl.origin === 'string' && request.nextUrl.origin
-        ? request.nextUrl.origin
-        : getBaseUrlFromRequest(request)
+    // Ne pas utiliser request.nextUrl.origin : en prod serverless (Vercel, etc.)
+    // il peut renvoyer localhost. Utiliser getBaseUrlFromRequest qui s'appuie sur
+    // x-forwarded-host / host et NEXT_PUBLIC_SITE_URL.
+    const baseUrl = getBaseUrlFromRequest(request)
     const redirectTo = `${baseUrl}/compte/reinitialiser-mot-de-passe`
 
     const { data, error } = await supabaseAdmin.auth.admin.generateLink({

@@ -25,7 +25,7 @@ export default function PasswordInput({ id, value, onChange, className = '', ...
       <button
         type="button"
         onClick={() => setVisible((v) => !v)}
-        className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-chocolate-dark/60 hover:text-chocolate-dark focus:outline-none focus:ring-2 focus:ring-chocolate-dark/30 rounded"
+        className="absolute right-2 top-1/2 -translate-y-1/2 min-h-[44px] min-w-[44px] flex items-center justify-center p-2 text-chocolate-dark/60 hover:text-chocolate-dark focus:outline-none focus:ring-2 focus:ring-chocolate-dark/30 rounded touch-manipulation"
         tabIndex={-1}
         aria-label={visible ? 'Masquer le mot de passe' : 'Afficher le mot de passe'}
       >

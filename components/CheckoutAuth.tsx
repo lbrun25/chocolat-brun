@@ -159,10 +159,11 @@ export default function CheckoutAuth({
       <div className={`grid grid-cols-1 gap-4 mb-6 ${allowGuest ? 'md:grid-cols-3' : 'md:grid-cols-2'}`}>
         {allowGuest && (
           <motion.button
+            type="button"
             onClick={() => { setMode('guest'); setShowResendConfirmation(false); setSuccess(null); setError(null); }}
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
-            className={`p-4 rounded-lg border-2 transition-all ${
+            className={`min-h-[44px] p-4 rounded-lg border-2 transition-all touch-manipulation ${
               mode === 'guest'
                 ? 'border-chocolate-dark bg-chocolate-light/30'
                 : 'border-chocolate-dark/30 hover:border-chocolate-dark/50'
@@ -177,10 +178,11 @@ export default function CheckoutAuth({
         )}
 
         <motion.button
+          type="button"
           onClick={() => { setMode('signin'); setShowResendConfirmation(false); setSuccess(null); setError(null); }}
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
-          className={`p-4 rounded-lg border-2 transition-all ${
+          className={`min-h-[44px] p-4 rounded-lg border-2 transition-all touch-manipulation ${
             mode === 'signin'
               ? 'border-chocolate-dark bg-chocolate-light/30'
               : 'border-chocolate-dark/30 hover:border-chocolate-dark/50'
@@ -194,10 +196,11 @@ export default function CheckoutAuth({
         </motion.button>
 
         <motion.button
+          type="button"
           onClick={() => { setMode('signup'); setShowResendConfirmation(false); setSuccess(null); setError(null); }}
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
-          className={`p-4 rounded-lg border-2 transition-all ${
+          className={`min-h-[44px] p-4 rounded-lg border-2 transition-all touch-manipulation ${
             mode === 'signup' || mode === 'signup_pending_confirmation'
               ? 'border-chocolate-dark bg-chocolate-light/30'
               : 'border-chocolate-dark/30 hover:border-chocolate-dark/50'
@@ -235,10 +238,11 @@ export default function CheckoutAuth({
               />
             </div>
             <motion.button
+              type="button"
               onClick={handleGuestContinue}
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
-              className="w-full bg-chocolate-dark text-chocolate-light px-6 py-4 rounded-lg text-lg font-semibold hover:bg-chocolate-dark/90 transition-colors shadow-lg"
+              className="min-h-[44px] w-full bg-chocolate-dark text-chocolate-light px-6 py-4 rounded-lg text-lg font-semibold hover:bg-chocolate-dark/90 transition-colors shadow-lg touch-manipulation"
             >
               Continuer en mode invité →
             </motion.button>
@@ -280,7 +284,7 @@ export default function CheckoutAuth({
               <button
                 type="button"
                 onClick={() => { setMode('forgot'); setError(null); setSuccess(null); setResetLink(null); }}
-                className="mt-2 text-sm text-chocolate-dark/80 hover:text-chocolate-dark underline"
+                className="min-h-[44px] mt-2 px-3 py-2 text-sm text-chocolate-dark/80 hover:text-chocolate-dark underline touch-manipulation"
               >
                 Mot de passe oublié ?
               </button>
@@ -305,7 +309,7 @@ export default function CheckoutAuth({
                         setSuccess('Un nouvel email de confirmation a été envoyé. Consultez votre boîte mail (et les spams), cliquez sur le lien puis reconnectez-vous ici.')
                       }
                     }}
-                    className="block w-full mt-2 py-2 px-3 rounded-lg bg-chocolate-dark/10 text-chocolate-dark font-semibold hover:bg-chocolate-dark/20 transition-colors disabled:opacity-50"
+                    className="min-h-[44px] block w-full mt-2 py-2 px-3 rounded-lg bg-chocolate-dark/10 text-chocolate-dark font-semibold hover:bg-chocolate-dark/20 transition-colors disabled:opacity-50 touch-manipulation"
                   >
                     {resendLoading ? 'Envoi...' : 'Renvoyer l\'email de confirmation'}
                   </button>
@@ -386,7 +390,7 @@ export default function CheckoutAuth({
               <button
                 type="button"
                 onClick={() => { setMode('signin'); setError(null); setSuccess(null); setResetLink(null); setShowResendConfirmation(false); }}
-                className="px-6 py-4 border-2 border-chocolate-dark/50 text-chocolate-dark rounded-lg font-semibold hover:bg-chocolate-dark/10 transition-colors"
+                className="min-h-[44px] px-6 py-4 border-2 border-chocolate-dark/50 text-chocolate-dark rounded-lg font-semibold hover:bg-chocolate-dark/10 transition-colors touch-manipulation"
               >
                 Retour à la connexion
               </button>
@@ -508,14 +512,14 @@ export default function CheckoutAuth({
                     }
                   }}
                   disabled={resendLoading}
-                  className="w-full py-3 px-4 rounded-lg bg-chocolate-dark/10 text-chocolate-dark font-semibold hover:bg-chocolate-dark/20 transition-colors disabled:opacity-50"
+                  className="min-h-[44px] w-full py-3 px-4 rounded-lg bg-chocolate-dark/10 text-chocolate-dark font-semibold hover:bg-chocolate-dark/20 transition-colors disabled:opacity-50 touch-manipulation"
                 >
                   {resendLoading ? 'Envoi...' : 'Renvoyer l\'email de confirmation'}
                 </button>
                 <button
                   type="button"
                   onClick={() => { setMode('signin'); setError(null); setSuccess(null); }}
-                  className="w-full py-3 px-4 rounded-lg border-2 border-chocolate-dark/50 text-chocolate-dark font-semibold hover:bg-chocolate-dark/10 transition-colors"
+                  className="min-h-[44px] w-full py-3 px-4 rounded-lg border-2 border-chocolate-dark/50 text-chocolate-dark font-semibold hover:bg-chocolate-dark/10 transition-colors touch-manipulation"
                 >
                   Retour à la connexion
                 </button>

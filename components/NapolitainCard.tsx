@@ -133,10 +133,11 @@ function NapolitainCardComponent({
         {simple && (
           <div className="pt-2" onClick={(e) => e.stopPropagation()}>
             <motion.button
+              type="button"
               onClick={handleQuickAdd}
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
-              className="w-full bg-chocolate-medium text-white font-semibold text-sm py-3 rounded-lg hover:bg-chocolate-medium/90 transition-all duration-300 flex items-center justify-center gap-2 shadow-md"
+              className="min-h-[44px] w-full bg-chocolate-medium text-white font-semibold text-sm py-3 rounded-lg hover:bg-chocolate-medium/90 transition-all duration-300 flex items-center justify-center gap-2 shadow-md touch-manipulation"
             >
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
@@ -187,10 +188,11 @@ function NapolitainCardComponent({
                 onPackagingChange={setSelectedPackaging}
               />
               <motion.button
+                type="button"
                 onClick={handleQuickAdd}
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
-                className="w-full bg-chocolate-medium text-white font-semibold text-sm py-3 rounded-lg hover:bg-chocolate-medium/90 transition-all duration-300 flex items-center justify-center gap-2 shadow-md"
+                className="min-h-[44px] w-full bg-chocolate-medium text-white font-semibold text-sm py-3 rounded-lg hover:bg-chocolate-medium/90 transition-all duration-300 flex items-center justify-center gap-2 shadow-md touch-manipulation"
               >
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                   <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />

@@ -175,8 +175,9 @@ export default function ProductPage({ params }: ProductPageProps) {
                 <label className="block text-lg font-semibold text-chocolate-dark mb-3">Quantité</label>
                 <div className="flex items-center gap-4">
                   <button
+                    type="button"
                     onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                    className="w-10 h-10 rounded-lg border-2 border-chocolate-dark/30 hover:border-chocolate-dark hover:bg-chocolate-light/30 transition-all flex items-center justify-center"
+                    className="min-w-[44px] min-h-[44px] rounded-lg border-2 border-chocolate-dark/30 hover:border-chocolate-dark hover:bg-chocolate-light/30 transition-all flex items-center justify-center touch-manipulation"
                   >
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                       <line x1="5" y1="12" x2="19" y2="12" />
@@ -190,8 +191,9 @@ export default function ProductPage({ params }: ProductPageProps) {
                     className="w-20 text-center text-xl font-bold border-2 border-chocolate-dark/30 rounded-lg py-2 focus:outline-none focus:border-chocolate-dark"
                   />
                   <button
+                    type="button"
                     onClick={() => setQuantity(quantity + 1)}
-                    className="w-10 h-10 rounded-lg border-2 border-chocolate-dark/30 hover:border-chocolate-dark hover:bg-chocolate-light/30 transition-all flex items-center justify-center"
+                    className="min-w-[44px] min-h-[44px] rounded-lg border-2 border-chocolate-dark/30 hover:border-chocolate-dark hover:bg-chocolate-light/30 transition-all flex items-center justify-center touch-manipulation"
                   >
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                       <line x1="12" y1="5" x2="12" y2="19" />
@@ -211,10 +213,11 @@ export default function ProductPage({ params }: ProductPageProps) {
 
               {/* Bouton Ajouter au panier */}
               <motion.button
+                type="button"
                 onClick={handleAddToCart}
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
-                className="w-full bg-chocolate-dark text-chocolate-light px-8 py-5 rounded-lg text-xl font-semibold hover:bg-chocolate-dark/90 transition-colors shadow-lg flex items-center justify-center gap-3"
+                className="min-h-[44px] w-full bg-chocolate-dark text-chocolate-light px-8 py-5 rounded-lg text-xl font-semibold hover:bg-chocolate-dark/90 transition-colors shadow-lg flex items-center justify-center gap-3 touch-manipulation"
               >
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                   <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />

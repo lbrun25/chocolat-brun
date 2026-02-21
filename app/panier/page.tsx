@@ -137,8 +137,9 @@ export default function CartPage() {
                               <span className="text-sm font-semibold text-chocolate-dark">Quantité :</span>
                               <div className="flex items-center gap-2">
                                 <button
+                                  type="button"
                                   onClick={() => updateQuantity(item.product.id, item.packaging, item.quantity - 1)}
-                                  className="w-8 h-8 rounded-lg border-2 border-chocolate-dark/30 hover:border-chocolate-dark hover:bg-chocolate-light/30 transition-all flex items-center justify-center"
+                                  className="min-w-[44px] min-h-[44px] rounded-lg border-2 border-chocolate-dark/30 hover:border-chocolate-dark hover:bg-chocolate-light/30 transition-all flex items-center justify-center touch-manipulation"
                                 >
                                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                                     <line x1="5" y1="12" x2="19" y2="12" />
@@ -146,8 +147,9 @@ export default function CartPage() {
                                 </button>
                                 <span className="w-12 text-center font-semibold text-chocolate-dark">{item.quantity}</span>
                                 <button
+                                  type="button"
                                   onClick={() => updateQuantity(item.product.id, item.packaging, item.quantity + 1)}
-                                  className="w-8 h-8 rounded-lg border-2 border-chocolate-dark/30 hover:border-chocolate-dark hover:bg-chocolate-light/30 transition-all flex items-center justify-center"
+                                  className="min-w-[44px] min-h-[44px] rounded-lg border-2 border-chocolate-dark/30 hover:border-chocolate-dark hover:bg-chocolate-light/30 transition-all flex items-center justify-center touch-manipulation"
                                 >
                                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                                     <line x1="12" y1="5" x2="12" y2="19" />
@@ -167,8 +169,9 @@ export default function CartPage() {
 
                           {/* Bouton supprimer */}
                           <button
+                            type="button"
                             onClick={() => removeFromCart(item.product.id, item.packaging)}
-                            className="mt-2 text-red-600 hover:text-red-700 text-sm font-medium flex items-center gap-1 transition-colors"
+                            className="min-h-[44px] mt-2 px-3 py-2 text-red-600 hover:text-red-700 text-sm font-medium flex items-center gap-1 transition-colors touch-manipulation"
                           >
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                               <polyline points="3 6 5 6 21 6" />
@@ -186,8 +189,9 @@ export default function CartPage() {
               {/* Bouton vider le panier */}
               <div className="flex justify-end">
                 <button
+                  type="button"
                   onClick={clearCart}
-                  className="text-chocolate-dark/70 hover:text-chocolate-dark text-sm font-medium transition-colors"
+                  className="min-h-[44px] px-3 py-2 text-chocolate-dark/70 hover:text-chocolate-dark text-sm font-medium transition-colors touch-manipulation"
                 >
                   Vider le panier
                 </button>
@@ -251,10 +255,11 @@ export default function CartPage() {
                 </div>
 
                 <motion.button
+                  type="button"
                   onClick={() => router.push('/checkout')}
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  className="w-full bg-chocolate-dark text-chocolate-light px-6 py-4 rounded-lg text-lg font-semibold hover:bg-chocolate-dark/90 transition-colors shadow-lg mb-4"
+                  className="min-h-[44px] w-full bg-chocolate-dark text-chocolate-light px-6 py-4 rounded-lg text-lg font-semibold hover:bg-chocolate-dark/90 transition-colors shadow-lg mb-4 touch-manipulation"
                 >
                   Passer la commande
                 </motion.button>

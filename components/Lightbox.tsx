@@ -136,11 +136,12 @@ export default function Lightbox({
             <div className="absolute top-4 right-4 z-10 flex items-center gap-2 text-white">
               <div className="flex items-center gap-1 bg-black/40 backdrop-blur rounded-full px-3 py-2">
                 <button
+                  type="button"
                   onClick={(e) => {
                     e.stopPropagation()
                     setZoom((z) => Math.max(0.5, z - 0.1))
                   }}
-                  className="p-1.5 hover:bg-white/20 rounded-full transition-colors"
+                  className="min-h-[44px] min-w-[44px] flex items-center justify-center p-2 hover:bg-white/20 rounded-full transition-colors touch-manipulation"
                   aria-label="Zoom arrière"
                 >
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -151,11 +152,12 @@ export default function Lightbox({
                   {Math.round(zoom * 100)}%
                 </span>
                 <button
+                  type="button"
                   onClick={(e) => {
                     e.stopPropagation()
                     setZoom((z) => Math.min(3, z + 0.1))
                   }}
-                  className="p-1.5 hover:bg-white/20 rounded-full transition-colors"
+                  className="min-h-[44px] min-w-[44px] flex items-center justify-center p-2 hover:bg-white/20 rounded-full transition-colors touch-manipulation"
                   aria-label="Zoom avant"
                 >
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -165,19 +167,21 @@ export default function Lightbox({
                 </button>
                 {zoom !== 1 && (
                   <button
+                    type="button"
                     onClick={(e) => {
                       e.stopPropagation()
                       resetZoom()
                     }}
-                    className="ml-1 px-2 py-0.5 text-xs hover:bg-white/20 rounded-full transition-colors"
+                    className="min-h-[44px] ml-1 px-3 py-2 text-xs hover:bg-white/20 rounded-full transition-colors touch-manipulation"
                   >
                     Réinit.
                   </button>
                 )}
               </div>
               <button
+                type="button"
                 onClick={onClose}
-                className="p-2.5 bg-black/40 backdrop-blur hover:bg-black/60 rounded-full transition-colors"
+                className="min-h-[44px] min-w-[44px] flex items-center justify-center p-2.5 bg-black/40 backdrop-blur hover:bg-black/60 rounded-full transition-colors touch-manipulation"
                 aria-label="Fermer"
               >
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">

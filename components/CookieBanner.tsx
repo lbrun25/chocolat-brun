@@ -153,13 +153,14 @@ export default function CookieBanner() {
                   <AnimatePresence mode="wait">
                     {showCustomize ? (
                       <motion.button
+                        type="button"
                         key="save-button"
                         initial={{ opacity: 0, scale: 0.9 }}
                         animate={{ opacity: 1, scale: 1 }}
                         exit={{ opacity: 0, scale: 0.9 }}
                         transition={{ duration: 0.2 }}
                         onClick={handleSavePreferences}
-                        className="px-6 py-3 bg-chocolate-dark text-chocolate-light rounded-lg font-semibold hover:bg-chocolate-dark/90 transition-colors shadow-lg"
+                        className="min-h-[44px] px-6 py-3 bg-chocolate-dark text-chocolate-light rounded-lg font-semibold hover:bg-chocolate-dark/90 transition-colors shadow-lg touch-manipulation"
                       >
                         Enregistrer mes préférences
                       </motion.button>
@@ -173,20 +174,23 @@ export default function CookieBanner() {
                         className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto"
                       >
                         <button
+                          type="button"
                           onClick={handleAccept}
-                          className="px-6 py-3 bg-chocolate-dark text-chocolate-light rounded-lg font-semibold hover:bg-chocolate-dark/90 transition-colors shadow-lg"
+                          className="min-h-[44px] px-6 py-3 bg-chocolate-dark text-chocolate-light rounded-lg font-semibold hover:bg-chocolate-dark/90 transition-colors shadow-lg touch-manipulation"
                         >
                           Tout accepter
                         </button>
                         <button
+                          type="button"
                           onClick={handleReject}
-                          className="px-6 py-3 bg-white text-chocolate-dark border-2 border-chocolate-dark/30 rounded-lg font-semibold hover:bg-chocolate-light/50 transition-colors shadow-md"
+                          className="min-h-[44px] px-6 py-3 bg-white text-chocolate-dark border-2 border-chocolate-dark/30 rounded-lg font-semibold hover:bg-chocolate-light/50 transition-colors shadow-md touch-manipulation"
                         >
                           Tout refuser
                         </button>
                         <button
+                          type="button"
                           onClick={handleCustomize}
-                          className="px-6 py-3 bg-chocolate-medium/20 text-chocolate-dark border-2 border-chocolate-medium/40 rounded-lg font-semibold hover:bg-chocolate-medium/30 transition-colors shadow-md"
+                          className="min-h-[44px] px-6 py-3 bg-chocolate-medium/20 text-chocolate-dark border-2 border-chocolate-medium/40 rounded-lg font-semibold hover:bg-chocolate-medium/30 transition-colors shadow-md touch-manipulation"
                         >
                           Personnaliser
                         </button>

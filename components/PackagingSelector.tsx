@@ -50,6 +50,7 @@ export default function PackagingSelector({
           
           return (
             <motion.button
+              type="button"
               key={pkg.type}
               onClick={() => onPackagingChange(pkg.type)}
               whileHover={{ scale: 1.03, y: -2 }}

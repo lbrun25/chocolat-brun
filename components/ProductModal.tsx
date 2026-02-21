@@ -111,8 +111,9 @@ export default function ProductModal({
                 <div className="container mx-auto px-6 py-4 flex items-center justify-between">
                   <h2 className="text-4xl md:text-5xl font-bold text-chocolate-dark font-serif">{name}</h2>
                   <button
+                    type="button"
                     onClick={onClose}
-                    className="p-3 hover:bg-chocolate-dark/10 rounded-full transition-colors"
+                    className="min-h-[44px] min-w-[44px] flex items-center justify-center p-3 hover:bg-chocolate-dark/10 rounded-full transition-colors touch-manipulation"
                     aria-label="Fermer"
                   >
                     <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-chocolate-dark">
@@ -158,11 +159,12 @@ export default function ProductModal({
                       {zoom > 1 && (
                         <div className="absolute top-4 right-4 bg-white/90 rounded-lg p-2 shadow-lg flex items-center gap-2">
                           <button
+                            type="button"
                             onClick={(e) => {
                               e.stopPropagation()
                               setZoom((z) => Math.max(0.5, z - 0.1))
                             }}
-                            className="p-1 hover:bg-chocolate-dark/10 rounded transition-colors"
+                            className="min-h-[44px] min-w-[44px] flex items-center justify-center p-2 hover:bg-chocolate-dark/10 rounded transition-colors touch-manipulation"
                             aria-label="Zoom out"
                           >
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -174,11 +176,12 @@ export default function ProductModal({
                             {Math.round(zoom * 100)}%
                           </span>
                           <button
+                            type="button"
                             onClick={(e) => {
                               e.stopPropagation()
                               setZoom((z) => Math.min(3, z + 0.1))
                             }}
-                            className="p-1 hover:bg-chocolate-dark/10 rounded transition-colors"
+                            className="min-h-[44px] min-w-[44px] flex items-center justify-center p-2 hover:bg-chocolate-dark/10 rounded transition-colors touch-manipulation"
                             aria-label="Zoom in"
                           >
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -189,11 +192,12 @@ export default function ProductModal({
                           </button>
                           {zoom !== 1 && (
                             <button
+                              type="button"
                               onClick={(e) => {
                                 e.stopPropagation()
                                 resetZoom()
                               }}
-                              className="ml-2 px-2 py-1 text-xs bg-chocolate-dark/10 hover:bg-chocolate-dark/20 rounded transition-colors"
+                              className="min-h-[44px] ml-2 px-3 py-2 text-xs bg-chocolate-dark/10 hover:bg-chocolate-dark/20 rounded transition-colors touch-manipulation"
                             >
                               Reset
                             </button>

@@ -50,8 +50,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         .single()
 
       if (error) {
-        // AbortError = requête annulée (ex: navigation rapide, événements auth en rafale).
-        // Ne pas mettre profile à null — une requête plus récente peut aboutir.
         if (error?.name === 'AbortError' || (error?.message || '').includes('aborted')) {
           return
         }
@@ -69,42 +67,40 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   }, [])
 
-  // Initialiser la session via onAuthStateChange (INITIAL_SESSION + événements suivants).
-  // On n'appelle PAS getSession() séparément pour éviter un double loadProfile en concurrence.
+  // Synchroniser user/session via onAuthStateChange (non-bloquant).
+  // Le chargement du profil est déclenché par un useEffect séparé sur `user`
+  // pour éviter un deadlock avec le lock interne de Supabase.
   useEffect(() => {
     let mounted = true
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
       if (!mounted) return
-
       setSession(session)
       setUser(session?.user ?? null)
-
-      try {
-        if (session?.user) {
-          if (event !== 'TOKEN_REFRESHED') {
-            await loadProfile(session.user.id)
-          }
-        } else {
-          setProfile(null)
-        }
-      } finally {
-        if (mounted) setLoading(false)
+      if (!session?.user) {
+        setProfile(null)
+        setLoading(false)
       }
     })
 
-    // Failsafe : si le chargement prend plus de 10 s (réseau lent, lock SDK…),
-    // on force loading à false pour ne jamais bloquer l'UI indéfiniment.
-    const failsafe = setTimeout(() => {
-      if (mounted) setLoading(false)
-    }, 10_000)
-
     return () => {
       mounted = false
-      clearTimeout(failsafe)
       subscription.unsubscribe()
     }
-  }, [loadProfile])
+  }, [])
+
+  // Charger le profil dès que `user` est disponible (séparé de onAuthStateChange
+  // pour ne pas bloquer la callback et risquer un deadlock avec le lock interne Supabase).
+  useEffect(() => {
+    if (!user) return
+    let cancelled = false
+    loadProfile(user.id).finally(() => {
+      if (!cancelled) {
+        setLoading(false)
+      }
+    })
+    return () => { cancelled = true }
+  }, [user, loadProfile])
 
   const signIn = useCallback(async (email: string, password: string) => {
     try {
