@@ -51,7 +51,6 @@ function OrderSuccessContent() {
         })
     } else {
       setSyncState('error')
-      setSyncError('Aucune session de paiement')
     }
   }, [sessionId, clearCart])
 
