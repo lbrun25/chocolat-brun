@@ -288,19 +288,23 @@ export default function ProductCarousel({ products }: ProductCarouselProps) {
 
       {/* Indicateurs de pagination */}
       {products.length > visibleCount && (
-        <div className="flex justify-center items-center gap-2 mt-8">
+        <div className="flex justify-center items-center gap-1 mt-5">
           {Array.from({ length: maxIndex + 1 }).map((_, index) => (
             <button
               type="button"
               key={index}
               onClick={() => goToSlide(index)}
-              className={`min-h-[44px] min-w-[44px] flex items-center justify-center transition-all duration-300 rounded-full touch-manipulation ${
-                index === currentIndex
-                  ? 'bg-chocolate-dark w-8 h-2'
-                  : 'bg-chocolate-dark/30 w-2 h-2 hover:bg-chocolate-dark/50'
-              }`}
+              className="flex items-center justify-center p-3 -m-1 touch-manipulation group"
               aria-label={`Aller à la slide ${index + 1}`}
-            />
+            >
+              <span
+                className={`block rounded-full transition-all duration-200 ease-out ${
+                  index === currentIndex
+                    ? 'w-2 h-2 bg-chocolate-dark scale-110 shadow-sm'
+                    : 'w-1.5 h-1.5 bg-chocolate-dark/35 group-hover:bg-chocolate-dark/60'
+                }`}
+              />
+            </button>
           ))}
         </div>
       )}
