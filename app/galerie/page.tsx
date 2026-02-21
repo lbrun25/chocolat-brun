@@ -5,7 +5,6 @@ const galerieMedia: Array<{ src: string; alt: string }> = [
   { src: '/images/galerie/cabosse_etagere.jpg', alt: 'Cabosses de cacao sur étagère' },
   { src: '/images/galerie/cabosse_half.jpg', alt: 'Demi-cabosse de cacao' },
   { src: '/images/galerie/cabosse_ouverte.jpg', alt: 'Cabosse de cacao ouverte' },
-  { src: '/images/galerie/cabosse_ouverte_et_entier.jpg', alt: 'Cabosse ouverte et cabosse entière' },
   { src: '/images/galerie/chocolat_emballage_vrac.jpg', alt: 'Chocolat en vrac et emballage' },
   { src: '/images/galerie/chocolat_emballe_tapis_machine.jpg', alt: 'Chocolat emballé sur tapis de machine' },
   { src: '/images/galerie/chocolat_remplissage.MOV', alt: 'Remplissage des chocolats' },
