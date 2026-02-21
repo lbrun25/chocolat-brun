@@ -1,5 +1,5 @@
 import { Metadata } from 'next'
-import { getShippingRates } from '@/lib/shipping'
+import { FLAT_SHIPPING_COST, FREE_SHIPPING_THRESHOLD } from '@/lib/shipping'
 
 export const metadata: Metadata = {
   title: 'Livraison et frais de port – Cédric Brun',
@@ -7,7 +7,6 @@ export const metadata: Metadata = {
 }
 
 export default function LivraisonPage() {
-  const shippingRates = getShippingRates()
 
   return (
     <div className="min-h-screen bg-chocolate-light/30 py-20">
@@ -89,51 +88,8 @@ export default function LivraisonPage() {
                 Frais de port
               </h2>
               <p className="leading-relaxed mb-6">
-                Les frais de port sont variables en fonction de la destination et du poids et sont <strong>gratuits</strong> pour 
-                toute commande, hors frais de port, égale ou supérieure à <strong>70€ en France métropolitaine</strong>.
-              </p>
-
-              {/* Tableau des tarifs */}
-              <div className="overflow-x-auto my-8">
-                <table className="w-full border-collapse border border-chocolate-dark/20 text-sm md:text-base">
-                  <thead>
-                    <tr className="bg-chocolate-dark text-chocolate-light">
-                      <th className="border border-chocolate-dark/20 px-4 py-3 text-left font-semibold">
-                        jusqu'à poids (kg)
-                      </th>
-                      <th className="border border-chocolate-dark/20 px-4 py-3 text-center font-semibold">
-                        France Métropolitaine
-                      </th>
-                      <th className="border border-chocolate-dark/20 px-4 py-3 text-center font-semibold">
-                        France Métropolitaine<br />(période chaude)
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {shippingRates.standard.map((rate, index) => (
-                      <tr 
-                        key={rate.maxWeight}
-                        className={index % 2 === 0 ? 'bg-white' : 'bg-chocolate-light/20'}
-                      >
-                        <td className="border border-chocolate-dark/20 px-4 py-3 font-semibold">
-                          {rate.maxWeight}
-                        </td>
-                        <td className="border border-chocolate-dark/20 px-4 py-3 text-center">
-                          {rate.price.toFixed(2)} €
-                        </td>
-                        <td className="border border-chocolate-dark/20 px-4 py-3 text-center">
-                          {shippingRates.hotPeriod[index].price.toFixed(2)} €
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-
-              <p className="text-sm text-chocolate-dark/70 mt-4">
-                * Période chaude : pendant les périodes chaudes en France métropole ou pour toute expédition où 
-                le délai d'acheminement est supérieur à 3 jours ouvrés, un emballage isotherme est ajouté, ce qui 
-                entraîne un surcoût sur les frais de transport.
+                Les frais d&apos;expédition sont au <strong>tarif unique de {FLAT_SHIPPING_COST} €</strong> en France métropolitaine.
+                La livraison est <strong>gratuite</strong> pour toute commande (hors frais de port) égale ou supérieure à <strong>{FREE_SHIPPING_THRESHOLD} €</strong>.
               </p>
             </section>
           </div>
