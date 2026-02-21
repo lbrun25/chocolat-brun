@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Inter, Dancing_Script, Great_Vibes, Cinzel } from 'next/font/google'
 import './globals.css'
+import { getBaseUrl } from '@/lib/get-base-url'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import CookieBanner from '@/components/CookieBanner'
@@ -29,8 +30,10 @@ const cinzel = Cinzel({
   display: 'swap',
 })
 
-export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'),
+export async function generateMetadata(): Promise<Metadata> {
+  const baseUrl = await getBaseUrl()
+  return {
+  metadataBase: new URL(baseUrl),
   title: 'Napolitains  – Artisan Chocolatier à Charquemont',
   description: 'Fabrication artisanale de napolitains en chocolat dans le Doubs. Chocolat noir, lait, blanc, dulcey, café. Conditionnements professionnels 100 ou 150 pièces.',
   keywords: 'napolitains, chocolat, artisan, Charquemont, Doubs, chocolatier, pâtissier',
@@ -60,6 +63,7 @@ export const metadata: Metadata = {
     index: true,
     follow: true,
   },
+  }
 }
 
 export default function RootLayout({
