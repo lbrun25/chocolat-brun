@@ -88,6 +88,8 @@ export default function CheckoutPage() {
   })
   const [errors, setErrors] = useState<Partial<Record<keyof FormData, string>>>({})
   const [billingErrors, setBillingErrors] = useState<Partial<Record<keyof BillingFormData, string>>>({})
+  /** Coché par défaut : reprendre l'adresse de livraison pour la facturation */
+  const [sameAddressAsDelivery, setSameAddressAsDelivery] = useState(true)
 
   useEffect(() => {
     if (cart.items.length === 0) {
@@ -229,6 +231,13 @@ export default function CheckoutPage() {
     })
     setBillingErrors({})
   }
+
+  // Quand "Reprendre l'adresse de livraison" est coché, garder la facturation synchronisée avec la livraison
+  useEffect(() => {
+    if (sameAddressAsDelivery) {
+      copyDeliveryToBilling()
+    }
+  }, [sameAddressAsDelivery, formData.firstName, formData.lastName, formData.email, formData.phone, formData.company, formData.address, formData.city, formData.postalCode, formData.country])
 
   const validateForm = (): boolean => {
     const newErrors: Partial<Record<keyof FormData, string>> = {}
@@ -547,13 +556,17 @@ export default function CheckoutPage() {
                   <h2 className="text-2xl font-bold text-chocolate-dark font-serif">
                     Adresse de facturation
                   </h2>
-                  <button
-                    type="button"
-                    onClick={copyDeliveryToBilling}
-                    className="text-sm font-medium text-chocolate-dark/80 hover:text-chocolate-dark border border-chocolate-dark/30 hover:border-chocolate-dark/50 px-4 py-2 rounded-lg transition-colors"
-                  >
-                    Reprendre l&apos;adresse de livraison
-                  </button>
+                  <label className="flex items-center gap-2 cursor-pointer select-none">
+                    <input
+                      type="checkbox"
+                      checked={sameAddressAsDelivery}
+                      onChange={(e) => setSameAddressAsDelivery(e.target.checked)}
+                      className="w-4 h-4 rounded border-chocolate-dark/30 text-chocolate-dark focus:ring-chocolate-dark"
+                    />
+                    <span className="text-sm font-medium text-chocolate-dark">
+                      Reprendre l&apos;adresse de livraison
+                    </span>
+                  </label>
                 </div>
 
                 <div className="space-y-6">
@@ -567,9 +580,10 @@ export default function CheckoutPage() {
                         id="billingFirstName"
                         value={billingData.firstName}
                         onChange={(e) => setBillingData({ ...billingData, firstName: e.target.value })}
+                        disabled={sameAddressAsDelivery}
                         className={`w-full px-4 py-3 rounded-lg border-2 ${
                           billingErrors.firstName ? 'border-red-500' : 'border-chocolate-dark/30'
-                        } focus:outline-none focus:border-chocolate-dark transition-colors`}
+                        } focus:outline-none focus:border-chocolate-dark transition-colors disabled:opacity-70 disabled:cursor-not-allowed disabled:bg-chocolate-light/20`}
                       />
                       {billingErrors.firstName && (
                         <p className="text-red-500 text-sm mt-1">{billingErrors.firstName}</p>
@@ -584,9 +598,10 @@ export default function CheckoutPage() {
                         id="billingLastName"
                         value={billingData.lastName}
                         onChange={(e) => setBillingData({ ...billingData, lastName: e.target.value })}
+                        disabled={sameAddressAsDelivery}
                         className={`w-full px-4 py-3 rounded-lg border-2 ${
                           billingErrors.lastName ? 'border-red-500' : 'border-chocolate-dark/30'
-                        } focus:outline-none focus:border-chocolate-dark transition-colors`}
+                        } focus:outline-none focus:border-chocolate-dark transition-colors disabled:opacity-70 disabled:cursor-not-allowed disabled:bg-chocolate-light/20`}
                       />
                       {billingErrors.lastName && (
                         <p className="text-red-500 text-sm mt-1">{billingErrors.lastName}</p>
@@ -604,9 +619,10 @@ export default function CheckoutPage() {
                         id="billingEmail"
                         value={billingData.email}
                         onChange={(e) => setBillingData({ ...billingData, email: e.target.value })}
+                        disabled={sameAddressAsDelivery}
                         className={`w-full px-4 py-3 rounded-lg border-2 ${
                           billingErrors.email ? 'border-red-500' : 'border-chocolate-dark/30'
-                        } focus:outline-none focus:border-chocolate-dark transition-colors`}
+                        } focus:outline-none focus:border-chocolate-dark transition-colors disabled:opacity-70 disabled:cursor-not-allowed disabled:bg-chocolate-light/20`}
                       />
                       {billingErrors.email && (
                         <p className="text-red-500 text-sm mt-1">{billingErrors.email}</p>
@@ -621,9 +637,10 @@ export default function CheckoutPage() {
                         id="billingPhone"
                         value={billingData.phone}
                         onChange={(e) => setBillingData({ ...billingData, phone: e.target.value })}
+                        disabled={sameAddressAsDelivery}
                         className={`w-full px-4 py-3 rounded-lg border-2 ${
                           billingErrors.phone ? 'border-red-500' : 'border-chocolate-dark/30'
-                        } focus:outline-none focus:border-chocolate-dark transition-colors`}
+                        } focus:outline-none focus:border-chocolate-dark transition-colors disabled:opacity-70 disabled:cursor-not-allowed disabled:bg-chocolate-light/20`}
                         placeholder="+33 6 12 34 56 78"
                       />
                       {billingErrors.phone && (
@@ -641,7 +658,8 @@ export default function CheckoutPage() {
                       id="billingCompany"
                       value={billingData.company}
                       onChange={(e) => setBillingData({ ...billingData, company: e.target.value })}
-                      className="w-full px-4 py-3 rounded-lg border-2 border-chocolate-dark/30 focus:outline-none focus:border-chocolate-dark transition-colors"
+                      disabled={sameAddressAsDelivery}
+                      className="w-full px-4 py-3 rounded-lg border-2 border-chocolate-dark/30 focus:outline-none focus:border-chocolate-dark transition-colors disabled:opacity-70 disabled:cursor-not-allowed disabled:bg-chocolate-light/20"
                     />
                   </div>
 
@@ -654,9 +672,10 @@ export default function CheckoutPage() {
                       id="billingAddress"
                       value={billingData.address}
                       onChange={(e) => setBillingData({ ...billingData, address: e.target.value })}
+                      disabled={sameAddressAsDelivery}
                       className={`w-full px-4 py-3 rounded-lg border-2 ${
                         billingErrors.address ? 'border-red-500' : 'border-chocolate-dark/30'
-                      } focus:outline-none focus:border-chocolate-dark transition-colors`}
+                      } focus:outline-none focus:border-chocolate-dark transition-colors disabled:opacity-70 disabled:cursor-not-allowed disabled:bg-chocolate-light/20`}
                     />
                     {billingErrors.address && (
                       <p className="text-red-500 text-sm mt-1">{billingErrors.address}</p>
@@ -673,9 +692,10 @@ export default function CheckoutPage() {
                         id="billingCity"
                         value={billingData.city}
                         onChange={(e) => setBillingData({ ...billingData, city: e.target.value })}
+                        disabled={sameAddressAsDelivery}
                         className={`w-full px-4 py-3 rounded-lg border-2 ${
                           billingErrors.city ? 'border-red-500' : 'border-chocolate-dark/30'
-                        } focus:outline-none focus:border-chocolate-dark transition-colors`}
+                        } focus:outline-none focus:border-chocolate-dark transition-colors disabled:opacity-70 disabled:cursor-not-allowed disabled:bg-chocolate-light/20`}
                       />
                       {billingErrors.city && (
                         <p className="text-red-500 text-sm mt-1">{billingErrors.city}</p>
@@ -690,9 +710,10 @@ export default function CheckoutPage() {
                         id="billingPostalCode"
                         value={billingData.postalCode}
                         onChange={(e) => setBillingData({ ...billingData, postalCode: e.target.value })}
+                        disabled={sameAddressAsDelivery}
                         className={`w-full px-4 py-3 rounded-lg border-2 ${
                           billingErrors.postalCode ? 'border-red-500' : 'border-chocolate-dark/30'
-                        } focus:outline-none focus:border-chocolate-dark transition-colors`}
+                        } focus:outline-none focus:border-chocolate-dark transition-colors disabled:opacity-70 disabled:cursor-not-allowed disabled:bg-chocolate-light/20`}
                         maxLength={5}
                       />
                       {billingErrors.postalCode && (
@@ -709,7 +730,8 @@ export default function CheckoutPage() {
                       id="billingCountry"
                       value={billingData.country}
                       onChange={(e) => setBillingData({ ...billingData, country: e.target.value })}
-                      className="w-full px-4 py-3 rounded-lg border-2 border-chocolate-dark/30 focus:outline-none focus:border-chocolate-dark transition-colors"
+                      disabled={sameAddressAsDelivery}
+                      className="w-full px-4 py-3 rounded-lg border-2 border-chocolate-dark/30 focus:outline-none focus:border-chocolate-dark transition-colors disabled:opacity-70 disabled:cursor-not-allowed disabled:bg-chocolate-light/20"
                     >
                       <option value="France">France</option>
                       <option value="Belgique">Belgique</option>
@@ -726,8 +748,9 @@ export default function CheckoutPage() {
                       id="billingNotes"
                       value={billingData.notes}
                       onChange={(e) => setBillingData({ ...billingData, notes: e.target.value })}
+                      disabled={sameAddressAsDelivery}
                       rows={4}
-                      className="w-full px-4 py-3 rounded-lg border-2 border-chocolate-dark/30 focus:outline-none focus:border-chocolate-dark transition-colors resize-none"
+                      className="w-full px-4 py-3 rounded-lg border-2 border-chocolate-dark/30 focus:outline-none focus:border-chocolate-dark transition-colors resize-none disabled:opacity-70 disabled:cursor-not-allowed disabled:bg-chocolate-light/20"
                       placeholder="Instructions ou références pour la facturation..."
                     />
                   </div>
