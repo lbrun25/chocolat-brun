@@ -33,7 +33,8 @@ export interface OrderConfirmationData {
   orderDate: string
 }
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://chocolat-brun.vercel.app'
+// Utilisé uniquement si des liens vers le site sont ajoutés au template — définir NEXT_PUBLIC_SITE_URL en prod
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL
 const FROM_EMAIL = process.env.EMAIL_FROM || 'Cédric Brun <noreply@cedric-brun.com>'
 const FROM_NAME = 'Cédric Brun — Maître artisan pâtissier chocolatier'
 

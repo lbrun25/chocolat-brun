@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabase-admin'
+import { getBaseUrlFromRequest } from '@/lib/get-base-url'
 
 if (!supabaseAdmin) {
   console.warn(
@@ -32,10 +33,11 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const redirectTo =
-      typeof request.nextUrl.origin === 'string'
-        ? `${request.nextUrl.origin}/compte/reinitialiser-mot-de-passe`
-        : `${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/compte/reinitialiser-mot-de-passe`
+    const baseUrl =
+      typeof request.nextUrl.origin === 'string' && request.nextUrl.origin
+        ? request.nextUrl.origin
+        : getBaseUrlFromRequest(request)
+    const redirectTo = `${baseUrl}/compte/reinitialiser-mot-de-passe`
 
     const { data, error } = await supabaseAdmin.auth.admin.generateLink({
       type: 'recovery',
