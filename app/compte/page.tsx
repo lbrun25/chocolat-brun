@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
 import { X } from 'lucide-react'
 import { useAuth } from '@/contexts/AuthContext'
@@ -62,6 +62,7 @@ export default function ComptePage() {
   const [profileSaveError, setProfileSaveError] = useState<string | null>(null)
   const [profileSaving, setProfileSaving] = useState(false)
   const [showRetry, setShowRetry] = useState(false)
+  const loadedForUserRef = useRef<string | null>(null)
 
   // Si le chargement prend trop longtemps, proposer un bouton Réessayer
   useEffect(() => {
@@ -72,20 +73,25 @@ export default function ComptePage() {
 
   useEffect(() => {
     if (user && profile) {
-      setLoading(true)
-      setShowRetry(false)
-      queueMicrotask(() => loadOrders())
       setProfileForm({
         first_name: profile.first_name ?? '',
         last_name: profile.last_name ?? '',
         phone: profile.phone ?? '',
         company: profile.company ?? '',
       })
+      if (loadedForUserRef.current !== user.id) {
+        loadedForUserRef.current = user.id
+        setLoading(true)
+        setShowRetry(false)
+        loadOrders()
+      } else {
+        setLoading(false)
+      }
     } else if (!user && !authLoading) {
+      loadedForUserRef.current = null
       setLoading(false)
       setShowRetry(false)
     } else if (user && !profile && !authLoading) {
-      // user existe mais profile manquant (ex: loadProfile AbortError) — évite le blocage "Chargement..." infini
       setLoading(false)
       setShowRetry(true)
     }
@@ -93,11 +99,9 @@ export default function ComptePage() {
 
   const handleRetry = async () => {
     setShowRetry(false)
+    loadedForUserRef.current = null
     setLoading(true)
     await refreshSession()
-    if (user && profile) {
-      await loadOrders()
-    }
   }
 
   const hasPaidOrder = orders.some((o) => o.status === 'paid')

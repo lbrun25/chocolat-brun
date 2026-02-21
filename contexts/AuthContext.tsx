@@ -69,35 +69,22 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   }, [])
 
-  // Initialiser la session
+  // Initialiser la session via onAuthStateChange (INITIAL_SESSION + événements suivants).
+  // On n'appelle PAS getSession() séparément pour éviter un double loadProfile en concurrence.
   useEffect(() => {
     let mounted = true
 
-    const initAuth = async () => {
-      try {
-        const { data: { session } } = await supabase.auth.getSession()
-        if (!mounted) return
-        setSession(session)
-        setUser(session?.user ?? null)
-        if (session?.user) {
-          await loadProfile(session.user.id)
-        }
-      } catch (err) {
-        console.error('Error initializing auth:', err)
-      } finally {
-        if (mounted) setLoading(false)
-      }
-    }
-    initAuth()
-
-    // Écouter les changements d'authentification
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, session) => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
       if (!mounted) return
+
       setSession(session)
       setUser(session?.user ?? null)
+
       try {
         if (session?.user) {
-          await loadProfile(session.user.id)
+          if (event !== 'TOKEN_REFRESHED') {
+            await loadProfile(session.user.id)
+          }
         } else {
           setProfile(null)
         }
@@ -106,8 +93,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       }
     })
 
+    // Failsafe : si le chargement prend plus de 10 s (réseau lent, lock SDK…),
+    // on force loading à false pour ne jamais bloquer l'UI indéfiniment.
+    const failsafe = setTimeout(() => {
+      if (mounted) setLoading(false)
+    }, 10_000)
+
     return () => {
       mounted = false
+      clearTimeout(failsafe)
       subscription.unsubscribe()
     }
   }, [loadProfile])
