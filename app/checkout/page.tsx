@@ -945,7 +945,7 @@ export default function CheckoutPage() {
                     <span className="text-chocolate-dark/50 text-xl" aria-hidden>🎧</span>
                     <div>
                       <p className="text-xs font-bold uppercase tracking-wide text-chocolate-dark/80">À votre écoute</p>
-                      <p className="text-xs text-chocolate-dark/70">Du lundi au vendredi de 10h à 18h</p>
+                      <p className="text-xs text-chocolate-dark/70">Du mercredi au dimanche de 9h à 12h et de 14h à 18h</p>
                     </div>
                   </div>
                   <div className="flex gap-3 items-start">
