@@ -16,7 +16,10 @@ Ce guide permet de diagnostiquer pourquoi les emails de confirmation ne sont pas
 
 ### Auth → URL Configuration
 - **Site URL** : doit pointer vers votre site (ex: `https://votresite.com`)
-- **Redirect URLs** : ajoutez l’URL vers laquelle l’utilisateur est redirigé après confirmation (ex: `https://votresite.com/compte`)
+- **Redirect URLs** : ajoutez les URLs de redirection (obligatoire pour éviter les redirections vers la page d'accueil en cas d'erreur) :
+  - Après confirmation : `https://www.cedric-brun.com/compte` (ou votre domaine)
+  - Après réinitialisation : `https://www.cedric-brun.com/compte/reinitialiser-mot-de-passe`
+  - En dev : `http://localhost:3000/compte/reinitialiser-mot-de-passe`
 
 ## 2. Logs Supabase
 

@@ -24,7 +24,8 @@ interface AuthContextType {
   loading: boolean
   signIn: (email: string, password: string) => Promise<{ error: Error | null }>
   signUp: (email: string, password: string, firstName?: string, lastName?: string) => Promise<{ error: Error | null; requiresEmailConfirmation?: boolean }>
-  resetPasswordForEmail: (email: string) => Promise<{ error: Error | null; link?: string }>
+  resetPasswordForEmail: (email: string) => Promise<{ error: Error | null }>
+  getDirectResetLink: (email: string) => Promise<{ error: Error | null; link?: string }>
   resendConfirmationEmail: (email: string) => Promise<{ error: Error | null }>
   signOut: () => Promise<void>
   convertGuestToStandard: (password: string) => Promise<{ error: Error | null }>
@@ -274,19 +275,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const resetPasswordForEmail = useCallback(async (email: string) => {
     try {
-      // En dev : tenter d'obtenir un lien direct sans email (évite le spam)
-      if (typeof window !== 'undefined') {
-        const res = await fetch('/api/auth/generate-reset-link', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email }),
-        })
-        const data = await res.json().catch(() => ({}))
-        if (res.ok && data.link) {
-          return { error: null, link: data.link }
-        }
-      }
-      // Fallback : envoi par email (Supabase)
       const redirectTo =
         typeof window !== 'undefined'
           ? `${window.location.origin}/compte/reinitialiser-mot-de-passe`
@@ -296,6 +284,25 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       })
       if (resetError) return { error: resetError }
       return { error: null }
+    } catch (error: any) {
+      return { error }
+    }
+  }, [])
+
+  const getDirectResetLink = useCallback(async (email: string) => {
+    try {
+      if (typeof window === 'undefined') return { error: new Error('Non disponible') }
+      const res = await fetch('/api/auth/generate-reset-link', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      })
+      const data = await res.json().catch(() => ({}))
+      if (res.ok && data.link) return { error: null, link: data.link }
+      const errMsg = (res.status === 400 || res.status === 404) && typeof data?.error === 'string' && /not found|introuvable/i.test(data.error)
+        ? 'Aucun compte n\'est associé à cet email.'
+        : (data?.error || 'Impossible d\'obtenir le lien.')
+      return { error: new Error(errMsg) }
     } catch (error: any) {
       return { error }
     }
@@ -383,6 +390,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         signIn,
         signUp,
         resetPasswordForEmail,
+        getDirectResetLink,
         resendConfirmationEmail,
         signOut,
         convertGuestToStandard,

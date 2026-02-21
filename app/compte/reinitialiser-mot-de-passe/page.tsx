@@ -19,11 +19,11 @@ export default function ReinitialiserMotDePassePage() {
     const checkSession = () => {
       supabase.auth.getSession().then(({ data: { session } }) => {
         if (cancelled) return
+        const hasHash = typeof window !== 'undefined' && window.location.hash?.length > 0
         if (session?.user) {
           setStatus('ready')
           return
         }
-        const hasHash = typeof window !== 'undefined' && window.location.hash?.length > 0
         if (hasHash) {
           setTimeout(checkSession, 400)
         } else {

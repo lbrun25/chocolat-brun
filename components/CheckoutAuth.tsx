@@ -22,7 +22,7 @@ export default function CheckoutAuth({
   defaultEmail = '',
   allowGuest = true,
 }: CheckoutAuthProps) {
-  const { user, signIn, signUp, resetPasswordForEmail, resendConfirmationEmail } = useAuth()
+  const { user, signIn, signUp, resetPasswordForEmail, getDirectResetLink, resendConfirmationEmail } = useAuth()
   const [mode, setMode] = useState<AuthMode>(allowGuest ? 'guest' : 'signin')
   const [email, setEmail] = useState(defaultEmail)
   const [password, setPassword] = useState('')
@@ -126,7 +126,7 @@ export default function CheckoutAuth({
     setSuccess(null)
     setResetLink(null)
     setLoading(true)
-    const { error: resetError, link } = await resetPasswordForEmail(email)
+    const { error: resetError } = await resetPasswordForEmail(email)
     setLoading(false)
     if (resetError) {
       const msg = resetError.message?.toLowerCase() ?? ''
@@ -135,11 +135,21 @@ export default function CheckoutAuth({
       } else {
         setError(resetError.message || 'Une erreur est survenue.')
       }
+    } else {
+      setSuccess('Si un compte existe avec cet email, un lien de réinitialisation a été envoyé. Consultez votre boîte mail (et les spams) puis cliquez sur le lien pour définir un nouveau mot de passe.')
+    }
+  }
+
+  const handleGetDirectLink = async () => {
+    setError(null)
+    setLoading(true)
+    const { error: linkError, link } = await getDirectResetLink(email)
+    setLoading(false)
+    if (linkError) {
+      setError(linkError.message || 'Impossible d\'obtenir le lien direct.')
     } else if (link) {
       setSuccess('Cliquez sur le bouton ci-dessous pour réinitialiser votre mot de passe.')
       setResetLink(link)
-    } else {
-      setSuccess('Si un compte existe avec cet email, un lien de réinitialisation a été envoyé. Consultez votre boîte mail (et les spams) puis cliquez sur le lien pour définir un nouveau mot de passe.')
     }
   }
 
@@ -367,13 +377,22 @@ export default function CheckoutAuth({
             {success && (
               <div className="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg text-sm space-y-3">
                 <p>{success}</p>
-                {resetLink && (
+                {resetLink ? (
                   <a
                     href={resetLink}
                     className="inline-block w-full text-center py-3 px-4 bg-chocolate-dark text-chocolate-light rounded-lg font-semibold hover:bg-chocolate-dark/90 transition-colors"
                   >
                     Réinitialiser mon mot de passe
                   </a>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={handleGetDirectLink}
+                    disabled={loading}
+                    className="text-sm underline hover:no-underline disabled:opacity-50"
+                  >
+                    {loading ? 'Chargement...' : "Je n'ai pas reçu l'email ? Obtenez un lien direct"}
+                  </button>
                 )}
               </div>
             )}
