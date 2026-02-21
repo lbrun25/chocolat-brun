@@ -373,9 +373,10 @@ export default function CGUPage() {
                 10. Protection des données personnelles
               </h2>
               <p className="font-sans">
-                Les données personnelles collectées sur le site font l'objet d'un traitement informatique 
-                destiné à la gestion des commandes, à la relation client et, le cas échéant, à l'envoi 
-                de newsletters (avec votre consentement).
+                Les données personnelles collectées sur le site (identité, coordonnées, adresses, commandes) 
+                font l&apos;objet d&apos;un traitement informatique destiné à la gestion des comptes, à l&apos;exécution 
+                des commandes et à la relation client. Les données de paiement par carte sont traitées par Stripe ; 
+                nous ne conservons pas les numéros de carte.
               </p>
               <p className="font-sans mt-4">
                 Conformément au Règlement Général sur la Protection des Données (RGPD) et à la loi 

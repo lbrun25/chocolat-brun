@@ -121,22 +121,16 @@ export default function CookieBanner() {
                                 Cookies essentiels (nécessaires au fonctionnement du site)
                               </span>
                             </label>
-                            <label className="flex items-center space-x-3 cursor-pointer">
-                              <input
-                                type="checkbox"
-                                className="w-4 h-4 text-chocolate-dark border-chocolate-dark/30 rounded focus:ring-chocolate-dark"
-                              />
+                            <label className="flex items-center space-x-3 cursor-pointer opacity-60">
+                              <input type="checkbox" disabled className="w-4 h-4 rounded" />
                               <span className="text-chocolate-dark text-sm">
-                                Cookies analytiques (analyse de la fréquentation)
+                                Cookies analytiques (non utilisés actuellement)
                               </span>
                             </label>
-                            <label className="flex items-center space-x-3 cursor-pointer">
-                              <input
-                                type="checkbox"
-                                className="w-4 h-4 text-chocolate-dark border-chocolate-dark/30 rounded focus:ring-chocolate-dark"
-                              />
+                            <label className="flex items-center space-x-3 cursor-pointer opacity-60">
+                              <input type="checkbox" disabled className="w-4 h-4 rounded" />
                               <span className="text-chocolate-dark text-sm">
-                                Cookies marketing (personnalisation de la publicité)
+                                Cookies marketing (non utilisés actuellement)
                               </span>
                             </label>
                           </div>

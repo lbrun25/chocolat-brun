@@ -50,6 +50,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         .single()
 
       if (error) {
+        // AbortError = requête annulée (ex: navigation rapide, événements auth en rafale).
+        // Ne pas mettre profile à null — une requête plus récente peut aboutir.
+        if (error?.name === 'AbortError' || (error?.message || '').includes('aborted')) {
+          return
+        }
         console.error('Error loading profile:', error)
         setProfile(null)
         return
@@ -57,6 +62,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
       setProfile(data)
     } catch (error) {
+      const isAbort = error instanceof Error && (error.name === 'AbortError' || error.message.includes('aborted'))
+      if (isAbort) return
       console.error('Error loading profile:', error)
       setProfile(null)
     }
@@ -64,31 +71,45 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   // Initialiser la session
   useEffect(() => {
-    // Récupérer la session actuelle
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session)
-      setUser(session?.user ?? null)
-      if (session?.user) {
-        loadProfile(session.user.id)
+    let mounted = true
+
+    const initAuth = async () => {
+      try {
+        const { data: { session } } = await supabase.auth.getSession()
+        if (!mounted) return
+        setSession(session)
+        setUser(session?.user ?? null)
+        if (session?.user) {
+          await loadProfile(session.user.id)
+        }
+      } catch (err) {
+        console.error('Error initializing auth:', err)
+      } finally {
+        if (mounted) setLoading(false)
       }
-      setLoading(false)
-    })
+    }
+    initAuth()
 
     // Écouter les changements d'authentification
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange(async (_event, session) => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, session) => {
+      if (!mounted) return
       setSession(session)
       setUser(session?.user ?? null)
-      if (session?.user) {
-        await loadProfile(session.user.id)
-      } else {
-        setProfile(null)
+      try {
+        if (session?.user) {
+          await loadProfile(session.user.id)
+        } else {
+          setProfile(null)
+        }
+      } finally {
+        if (mounted) setLoading(false)
       }
-      setLoading(false)
     })
 
-    return () => subscription.unsubscribe()
+    return () => {
+      mounted = false
+      subscription.unsubscribe()
+    }
   }, [loadProfile])
 
   const signIn = useCallback(async (email: string, password: string) => {

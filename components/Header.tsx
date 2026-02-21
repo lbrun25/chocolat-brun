@@ -57,14 +57,6 @@ function HeaderComponent() {
 
   return (
     <>
-      {/* Barre de fond : évite le flash beige pendant la réapparition, suit le header */}
-      <motion.div
-        initial={{ y: 0 }}
-        animate={{ y: isVisible ? 0 : -100 }}
-        transition={{ duration: 0.3, ease: 'easeInOut' }}
-        className="fixed top-0 left-0 right-0 h-20 md:h-24 bg-chocolate-dark z-40 pointer-events-none"
-        aria-hidden
-      />
     <motion.header
       initial={{ y: 0, opacity: 1 }}
       animate={{ 
@@ -72,7 +64,7 @@ function HeaderComponent() {
         opacity: isVisible ? 1 : 0 
       }}
       transition={{ duration: 0.3, ease: 'easeInOut' }}
-      className="fixed top-0 left-0 right-0 z-50 bg-chocolate-dark/95 backdrop-blur-md shadow-lg border-b border-chocolate-dark/20"
+      className="fixed top-0 left-0 right-0 z-50 bg-chocolate-dark shadow-lg min-h-[5rem] md:min-h-[6rem]"
     >
       {/* Effet de brillance subtil en arrière-plan */}
       <div className="absolute inset-0 bg-gradient-to-r from-transparent via-chocolate-dark/5 to-transparent pointer-events-none" />

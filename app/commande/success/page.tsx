@@ -8,48 +8,91 @@ import Link from 'next/link'
 import { useCart } from '@/contexts/CartContext'
 import { useAuth } from '@/contexts/AuthContext'
 
+type SyncState = 'idle' | 'loading' | 'success' | 'error'
+
 function OrderSuccessContent() {
   const searchParams = useSearchParams()
   const { clearCart } = useCart()
   const { user } = useAuth()
   const [session, setSession] = useState<any>(null)
-  const [isLoading, setIsLoading] = useState(true)
+  const [orderNumber, setOrderNumber] = useState<string | null>(null)
+  const [syncState, setSyncState] = useState<SyncState>('loading')
   const sessionId = searchParams.get('session_id')
 
   useEffect(() => {
     if (sessionId) {
-      // Synchroniser la commande Stripe → Supabase (création si besoin) et envoi de l'email de confirmation
-      const syncOrder = () =>
-        fetch('/api/sync-order', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ session_id: sessionId }),
-        }).catch((err) => console.error('Sync order:', err))
-
-      // Récupérer les détails de la session pour l'affichage
-      Promise.all([
-        fetch(`/api/get-checkout-session?session_id=${sessionId}`).then((res) => res.json()),
-        syncOrder(),
-      ])
-        .then(([data]) => {
-          setSession(data.session)
+      // 1. Synchroniser la commande Stripe → Supabase (création si besoin) et envoi de l'email de confirmation
+      fetch('/api/sync-order', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ session_id: sessionId }),
+      })
+        .then(async (res) => {
+          const data = await res.json()
+          if (!res.ok) {
+            throw new Error(data.error || 'Erreur lors de la création de la commande')
+          }
+          if (!data.success) {
+            throw new Error(data.error || 'La commande n\'a pas pu être créée')
+          }
+          return data
+        })
+        .then(async (syncData) => {
+          setOrderNumber(syncData.orderNumber ?? null)
+          // 2. Commande créée : récupérer les détails pour l'affichage
+          const sessionData = await fetch(`/api/get-checkout-session?session_id=${sessionId}`).then((r) => r.json())
+          setSession(sessionData.session)
           clearCart()
+          setSyncState('success')
         })
         .catch((error) => {
-          console.error('Erreur lors de la récupération de la session:', error)
+          console.error('Sync order:', error)
+          setSyncState('error')
         })
-        .finally(() => setIsLoading(false))
     } else {
-      setIsLoading(false)
+      setSyncState('error')
+      setSyncError('Aucune session de paiement')
     }
   }, [sessionId, clearCart])
 
-  if (isLoading) {
+  if (syncState === 'loading') {
     return (
       <div className="min-h-screen bg-gradient-to-b from-chocolate-light/30 via-white to-chocolate-light/30 flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-chocolate-dark mx-auto mb-4"></div>
-          <p className="text-chocolate-dark/70">Chargement...</p>
+          <p className="text-chocolate-dark/70">Finalisation de votre commande...</p>
+        </div>
+      </div>
+    )
+  }
+
+  if (syncState === 'error') {
+    return (
+      <div className="min-h-screen bg-gradient-to-b from-chocolate-light/30 via-white to-chocolate-light/30 flex items-center justify-center">
+        <div className="max-w-md mx-auto px-4 text-center">
+          <div className="w-24 h-24 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-6">
+            <svg className="w-12 h-12 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+            </svg>
+          </div>
+          <h1 className="text-2xl font-bold text-chocolate-dark mb-2">Un problème est survenu</h1>
+          <p className="text-chocolate-dark/70 mb-6">
+            Contactez-nous à <a href="mailto:contact@cedric-brun.com" className="underline text-chocolate-medium">contact@cedric-brun.com</a>.
+          </p>
+          <div className="flex flex-col gap-3">
+            <Link
+              href="/compte"
+              className="inline-block bg-chocolate-dark text-chocolate-light px-6 py-3 rounded-lg font-semibold hover:bg-chocolate-dark/90 transition-colors"
+            >
+              Voir mon compte
+            </Link>
+            <Link
+              href="/"
+              className="inline-block border-2 border-chocolate-dark text-chocolate-dark px-6 py-3 rounded-lg font-semibold hover:bg-chocolate-dark hover:text-chocolate-light transition-colors"
+            >
+              Retour à l&apos;accueil
+            </Link>
+          </div>
         </div>
       </div>
     )
@@ -113,7 +156,7 @@ function OrderSuccessContent() {
                 <div className="flex justify-between">
                   <span className="text-chocolate-dark/70">Numéro de commande</span>
                   <span className="font-semibold text-chocolate-dark">
-                    {session.id.substring(0, 20)}...
+                    {orderNumber ?? session.id.substring(0, 20) + '…'}
                   </span>
                 </div>
 

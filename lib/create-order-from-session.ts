@@ -5,17 +5,18 @@
 import type Stripe from 'stripe'
 import { supabase } from '@/lib/supabase'
 import { sendOrderConfirmationEmail } from '@/lib/order-confirmation-email'
+import { sendOrderNotificationToOwner } from '@/lib/order-notification-owner-email'
 
 type SessionWithShipping = Stripe.Checkout.Session & {
   shipping_details?: { address?: { line1?: string; city?: string; postal_code?: string; country?: string } }
 }
 
-export async function createOrderFromStripeSession(session: SessionWithShipping): Promise<{ orderId?: string; created: boolean; error?: string }> {
+export async function createOrderFromStripeSession(session: SessionWithShipping): Promise<{ orderId?: string; orderNumber?: string; created: boolean; error?: string }> {
   try {
     // Vérifier si la commande existe déjà (idempotence)
     const { data: existingOrder } = await supabase
       .from('orders')
-      .select('id')
+      .select('id, order_number')
       .eq('stripe_session_id', session.id)
       .maybeSingle()
 
@@ -61,7 +62,7 @@ export async function createOrderFromStripeSession(session: SessionWithShipping)
           totalTTC,
           shippingCost,
           totalWithShipping,
-          orderReference: session.id?.substring(0, 24) || existingOrder.id,
+          orderReference: existingOrder?.order_number || session.id?.substring(0, 24) || existingOrder.id,
           orderDate: new Date().toLocaleDateString('fr-FR', {
             weekday: 'long',
             day: 'numeric',
@@ -72,7 +73,7 @@ export async function createOrderFromStripeSession(session: SessionWithShipping)
         const emailResult = await sendOrderConfirmationEmail(emailPayload)
         if (!emailResult.ok) console.error('Email de confirmation (commande existante) non envoyé:', emailResult.error)
       }
-      return { orderId: existingOrder.id, created: false }
+      return { orderId: existingOrder.id, orderNumber: existingOrder.order_number, created: false }
     }
 
     const email = session.customer_email || (session.metadata?.customerEmail as string) || ''
@@ -232,7 +233,7 @@ export async function createOrderFromStripeSession(session: SessionWithShipping)
     const { data: order, error: orderError } = await supabase
       .from('orders')
       .insert(orderInsert)
-      .select('id')
+      .select('id, order_number')
       .single()
 
     if (orderError) {
@@ -277,7 +278,7 @@ export async function createOrderFromStripeSession(session: SessionWithShipping)
       totalTTC,
       shippingCost,
       totalWithShipping,
-      orderReference: session.id?.substring(0, 24) || order.id,
+      orderReference: order?.order_number || session.id?.substring(0, 24) || order.id,
       orderDate: new Date().toLocaleDateString('fr-FR', {
         weekday: 'long',
         day: 'numeric',
@@ -288,7 +289,22 @@ export async function createOrderFromStripeSession(session: SessionWithShipping)
     const emailResult = await sendOrderConfirmationEmail(emailPayload)
     if (!emailResult.ok) console.error('Email de confirmation non envoyé:', emailResult.error)
 
-    return { orderId: order.id, created: true }
+    // Notification au propriétaire (patisseriebrun-25@orange.fr)
+    const ownerPayload = {
+      ...emailPayload,
+      billingFirstName: billingFirstName || undefined,
+      billingLastName: billingLastName || undefined,
+      billingEmail: billingEmail?.trim() || undefined,
+      billingPhone: billingPhone || undefined,
+      billingAddress: billingAddress || undefined,
+      billingCity: billingCity || undefined,
+      billingPostalCode: billingPostalCode || undefined,
+      billingCountry: billingCountry || undefined,
+    }
+    const ownerResult = await sendOrderNotificationToOwner(ownerPayload)
+    if (!ownerResult.ok) console.error('Notification propriétaire non envoyée:', ownerResult.error)
+
+    return { orderId: order.id, orderNumber: order.order_number, created: true }
   } catch (err: unknown) {
     const msg = err instanceof Error ? err.message : String(err)
     console.error('createOrderFromStripeSession:', msg)

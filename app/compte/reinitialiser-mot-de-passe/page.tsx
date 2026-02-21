@@ -2,13 +2,11 @@
 
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { supabase } from '@/lib/supabase'
 import PasswordInput from '@/components/PasswordInput'
 
 export default function ReinitialiserMotDePassePage() {
-  const router = useRouter()
   const [status, setStatus] = useState<'loading' | 'ready' | 'invalid'>('loading')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
@@ -66,7 +64,9 @@ export default function ReinitialiserMotDePassePage() {
       setLoading(false)
       return
     }
-    router.push('/compte')
+    // Redirection complète (full page) pour éviter AbortError lors de la navigation :
+    // la navigation client laisse des requêtes Supabase en vol qui sont annulées.
+    window.location.assign('/compte')
   }
 
   if (status === 'loading') {

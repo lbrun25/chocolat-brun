@@ -12,9 +12,13 @@ import CheckoutAuth from '@/components/CheckoutAuth'
 interface Order {
   id: string
   stripe_session_id: string
+  order_number?: string
   status: string
   customer_first_name: string
   customer_last_name: string
+  customer_phone?: string | null
+  customer_company?: string | null
+  email?: string | null
   total_with_shipping: number
   created_at: string
   order_items: OrderItem[]
@@ -57,11 +61,20 @@ export default function ComptePage() {
   })
   const [profileSaveError, setProfileSaveError] = useState<string | null>(null)
   const [profileSaving, setProfileSaving] = useState(false)
+  const [showRetry, setShowRetry] = useState(false)
 
+  // Si le chargement prend trop longtemps, proposer un bouton Réessayer
+  useEffect(() => {
+    if (!authLoading && !(user && loading)) return
+    const t = setTimeout(() => setShowRetry(true), 8000)
+    return () => clearTimeout(t)
+  }, [authLoading, user, loading])
 
   useEffect(() => {
     if (user && profile) {
-      loadOrders()
+      setLoading(true)
+      setShowRetry(false)
+      queueMicrotask(() => loadOrders())
       setProfileForm({
         first_name: profile.first_name ?? '',
         last_name: profile.last_name ?? '',
@@ -70,11 +83,27 @@ export default function ComptePage() {
       })
     } else if (!user && !authLoading) {
       setLoading(false)
+      setShowRetry(false)
+    } else if (user && !profile && !authLoading) {
+      // user existe mais profile manquant (ex: loadProfile AbortError) — évite le blocage "Chargement..." infini
+      setLoading(false)
+      setShowRetry(true)
     }
   }, [user, profile, authLoading])
 
+  const handleRetry = async () => {
+    setShowRetry(false)
+    setLoading(true)
+    await refreshSession()
+    if (user && profile) {
+      await loadOrders()
+    }
+  }
+
   const hasPaidOrder = orders.some((o) => o.status === 'paid')
-  const canEditProfile = !hasPaidOrder
+  // Les infos personnelles (nom, prénom, tél, entreprise) restent modifiables pour l'auto-complétion au checkout.
+  // Seules les adresses des commandes passées sont figées (affichées en lecture seule).
+  const canEditProfile = true
 
   const hasAddress = (order: Order) =>
     !!(order.shipping_address?.trim() || order.shipping_city?.trim() || order.shipping_postal_code?.trim())
@@ -175,14 +204,21 @@ export default function ComptePage() {
   }
 
   const loadOrders = async () => {
-    if (!profile) return
+    if (!profile) {
+      setLoading(false)
+      return
+    }
 
     const selectWithBilling = `
         id,
         stripe_session_id,
+        order_number,
         status,
         customer_first_name,
         customer_last_name,
+        customer_phone,
+        customer_company,
+        email,
         total_with_shipping,
         created_at,
         shipping_address,
@@ -209,9 +245,13 @@ export default function ComptePage() {
     const selectWithoutBilling = `
         id,
         stripe_session_id,
+        order_number,
         status,
         customer_first_name,
         customer_last_name,
+        customer_phone,
+        customer_company,
+        email,
         total_with_shipping,
         created_at,
         shipping_address,
@@ -275,6 +315,15 @@ export default function ComptePage() {
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-chocolate-dark mx-auto mb-4"></div>
           <p className="text-chocolate-dark/70">Chargement...</p>
+          {showRetry && (
+            <button
+              type="button"
+              onClick={handleRetry}
+              className="mt-6 px-6 py-3 bg-chocolate-dark text-chocolate-light rounded-lg font-semibold hover:bg-chocolate-dark/90 transition-colors"
+            >
+              Réessayer
+            </button>
+          )}
         </div>
       </div>
     )
@@ -299,14 +348,30 @@ export default function ComptePage() {
               onGuestContinue={() => {}}
               onAuthenticated={async () => {
                 await refreshSession()
-                if (typeof window !== 'undefined') {
-                  window.location.assign('/compte')
-                } else {
-                  router.refresh()
-                }
+                // Déjà sur /compte : pas de redirection, le state AuthContext met à jour l'UI
               }}
             />
           </motion.div>
+        </div>
+      </div>
+    )
+  }
+
+  // Profil inaccessible (ex: AbortError après réinitialisation mot de passe) — proposer Réessayer
+  if (user && !profile && !authLoading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-b from-chocolate-light/30 via-white to-chocolate-light/30 flex items-center justify-center">
+        <div className="text-center max-w-md px-4">
+          <p className="text-chocolate-dark/70 mb-4">
+            Impossible de charger votre profil. Vérifiez votre connexion et réessayez.
+          </p>
+          <button
+            type="button"
+            onClick={handleRetry}
+            className="px-6 py-3 bg-chocolate-dark text-chocolate-light rounded-lg font-semibold hover:bg-chocolate-dark/90 transition-colors"
+          >
+            Réessayer
+          </button>
         </div>
       </div>
     )
@@ -377,14 +442,9 @@ export default function ComptePage() {
                 </div>
               )}
             </div>
-            {hasPaidOrder && (
-              <p className="text-sm text-amber-700 bg-amber-50 border border-amber-200 rounded-lg p-3 mb-6">
-                Vos informations personnelles ne peuvent plus être modifiées après une commande payée.
-              </p>
-            )}
-            {!hasPaidOrder && !isEditingProfile && (
+            {!isEditingProfile && (
               <p className="text-sm text-chocolate-dark/70 mb-6">
-                Vous pouvez modifier ces informations tant que vous n&apos;avez pas de commande payée.
+                Ces informations sont utilisées pour pré-remplir le formulaire lors de vos prochaines commandes.
               </p>
             )}
 
@@ -464,12 +524,18 @@ export default function ComptePage() {
                       <>
                         {(() => {
                           const { line1, line2, line3 } = getOrderAddressLines(lastOrderWithAddress)
+                          const hasName = lastOrderWithAddress.customer_first_name?.trim() || lastOrderWithAddress.customer_last_name?.trim()
                           return (
                             <div className="space-y-0.5">
+                              {hasName && (
+                                <p>
+                                  {[lastOrderWithAddress.customer_first_name, lastOrderWithAddress.customer_last_name].filter(Boolean).join(' ')}
+                                </p>
+                              )}
                               {line1 && <p>{line1}</p>}
                               {line2 && <p>{line2}</p>}
                               {line3 && <p>{line3}</p>}
-                              {!line1 && !line2 && !line3 && <p>—</p>}
+                              {!line1 && !line2 && !line3 && !hasName && <p>—</p>}
                             </div>
                           )
                         })()}
@@ -584,7 +650,7 @@ export default function ComptePage() {
                     <div className="flex justify-between items-start">
                       <div className="flex-1 min-w-0">
                         <p className="font-semibold text-chocolate-dark">
-                          Commande #{order.stripe_session_id.substring(0, 20)}...
+                          Commande #{order.order_number ?? order.stripe_session_id.substring(0, 20) + '…'}
                         </p>
                         <p className="text-sm text-chocolate-dark/70 mt-1">
                           {new Date(order.created_at).toLocaleDateString('fr-FR', {
@@ -672,7 +738,7 @@ export default function ComptePage() {
                 <div className="space-y-6">
                   <div>
                     <p className="text-sm text-chocolate-dark/70 mb-1">Numéro de commande</p>
-                    <p className="font-semibold text-chocolate-dark">{selectedOrder.stripe_session_id}</p>
+                    <p className="font-semibold text-chocolate-dark">{selectedOrder.order_number ?? selectedOrder.stripe_session_id}</p>
                   </div>
 
                   <div>
@@ -723,17 +789,41 @@ export default function ComptePage() {
                     </div>
                   </div>
 
-                  {(selectedOrder.shipping_address || selectedOrder.shipping_city) && (
+                  {(selectedOrder.shipping_address || selectedOrder.shipping_city || selectedOrder.customer_first_name || selectedOrder.customer_last_name) && (
                     <div>
                       <p className="text-sm text-chocolate-dark/70 mb-1">Adresse de livraison</p>
-                      <p className="font-semibold text-chocolate-dark">
-                        {formatOrderAddress(selectedOrder)}
-                      </p>
-                      {selectedOrder.delivery_notes && (
-                        <p className="text-sm text-chocolate-dark/70 mt-2">
-                          <span className="font-medium">Notes :</span> {selectedOrder.delivery_notes}
-                        </p>
-                      )}
+                      <div className="font-semibold text-chocolate-dark space-y-0.5">
+                        {(selectedOrder.customer_first_name || selectedOrder.customer_last_name) && (
+                          <p>
+                            {[selectedOrder.customer_first_name, selectedOrder.customer_last_name].filter(Boolean).join(' ')}
+                          </p>
+                        )}
+                        {selectedOrder.customer_company && (
+                          <p>{selectedOrder.customer_company}</p>
+                        )}
+                        {(() => {
+                          const { line1, line2, line3 } = getOrderAddressLines(selectedOrder)
+                          return (
+                            <>
+                              {line1 && <p>{line1}</p>}
+                              {(line2 || line3) && (
+                                <p>{[line2, line3].filter(Boolean).join(' — ')}</p>
+                              )}
+                            </>
+                          )
+                        })()}
+                        {selectedOrder.customer_phone && (
+                          <p className="text-chocolate-dark/80">{selectedOrder.customer_phone}</p>
+                        )}
+                        {selectedOrder.email && (
+                          <p className="text-chocolate-dark/80">{selectedOrder.email}</p>
+                        )}
+                        {selectedOrder.delivery_notes && (
+                          <p className="text-chocolate-dark/80">
+                            <span className="font-medium">Notes :</span> {selectedOrder.delivery_notes}
+                          </p>
+                        )}
+                      </div>
                     </div>
                   )}
 

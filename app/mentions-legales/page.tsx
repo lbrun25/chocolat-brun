@@ -125,12 +125,17 @@ export default function MentionsLegalesPage() {
                 6. Protection des données personnelles
               </h2>
               <p className="font-sans">
-                Conformément à la loi « Informatique et Libertés » du 6 janvier 1978 modifiée et au 
-                Règlement Général sur la Protection des Données (RGPD), vous disposez d'un droit d'accès, 
-                de rectification, de suppression et d'opposition aux données personnelles vous concernant.
+                Nous collectons des données personnelles (identité, coordonnées, adresses, commandes) pour 
+                la gestion des comptes, l&apos;exécution des commandes et la relation client. Les données de 
+                paiement sont traitées exclusivement par Stripe ; nous ne conservons pas les numéros de carte.
               </p>
               <p className="font-sans mt-4">
-                Pour exercer ces droits, vous pouvez nous contacter à l'adresse suivante :{' '}
+                Conformément à la loi « Informatique et Libertés » du 6 janvier 1978 modifiée et au 
+                Règlement Général sur la Protection des Données (RGPD), vous disposez d&apos;un droit d&apos;accès, 
+                de rectification, de suppression, de limitation, de portabilité et d&apos;opposition aux données vous concernant.
+              </p>
+              <p className="font-sans mt-4">
+                Pour exercer ces droits ou toute question :{' '}
                 <a
                   href="mailto:patisseriebrun-25@orange.fr"
                   className="text-chocolate-dark hover:underline"
@@ -139,7 +144,7 @@ export default function MentionsLegalesPage() {
                 </a>
               </p>
               <p className="font-sans mt-4">
-                Pour plus d'informations, consultez notre{' '}
+                Pour le détail des données collectées, des finalités et des durées de conservation, consultez notre{' '}
                 <a
                   href="/politique-confidentialite"
                   className="text-chocolate-dark hover:underline font-semibold"
@@ -154,9 +159,9 @@ export default function MentionsLegalesPage() {
                 7. Cookies
               </h2>
               <p className="font-sans">
-                Ce site utilise des cookies pour améliorer votre expérience de navigation. 
-                Vous pouvez accepter ou refuser les cookies via la bannière qui s'affiche lors de votre 
-                première visite. Pour plus d'informations, consultez notre{' '}
+                Ce site utilise des cookies essentiels (session, panier) et stocke votre préférence de consentement. 
+                Nous n&apos;utilisons pas actuellement de cookies analytiques ni marketing. 
+                Vous pouvez accepter ou refuser via la bannière lors de votre première visite. Pour plus d&apos;informations :{' '}
                 <a
                   href="/politique-confidentialite"
                   className="text-chocolate-dark hover:underline font-semibold"

@@ -49,6 +49,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({
       success: true,
       orderId: result.orderId,
+      orderNumber: result.orderNumber,
       created: result.created,
     })
   } catch (error: unknown) {
