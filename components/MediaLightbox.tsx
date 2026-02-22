@@ -166,11 +166,15 @@ export default function MediaLightbox({
                     key={src}
                     ref={videoRef}
                     src={src}
-                    controls
                     autoPlay
+                    muted
                     playsInline
-                    className="max-w-full max-h-full w-auto h-auto object-contain"
-                    onClick={(e) => e.stopPropagation()}
+                    className="max-w-full max-h-full w-auto h-auto object-contain cursor-pointer"
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      const v = e.currentTarget
+                      v.paused ? v.play() : v.pause()
+                    }}
                     onEnded={() => videoRef.current?.pause()}
                   >
                     Votre navigateur ne supporte pas la lecture vidéo.
