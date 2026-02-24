@@ -3,6 +3,7 @@ import { Inter, Dancing_Script, Great_Vibes, Cinzel } from 'next/font/google'
 import './globals.css'
 import { getBaseUrl } from '@/lib/get-base-url'
 import Header from '@/components/Header'
+import MadeInFranceSection from '@/components/MadeInFranceSection'
 import Footer from '@/components/Footer'
 import CookieBanner from '@/components/CookieBanner'
 import ScrollToTop from '@/components/ScrollToTop'
@@ -124,6 +125,7 @@ export default function RootLayout({
             <div className="overflow-x-hidden">
               <Header />
               <main className="pt-20 md:pt-24">{children}</main>
+              <MadeInFranceSection />
               <Footer />
               <CookieBanner />
             </div>
