@@ -14,6 +14,8 @@ const galerieMedia: Array<{ src: string; alt: string }> = [
   { src: '/images/galerie/sachet_chocolat_noir.png', alt: 'Sachet de chocolat noir' },
   { src: '/images/galerie/secouer_chocolat.MOV', alt: 'Secouage des chocolats' },
   { src: '/images/galerie/troix_cabosses.jpg', alt: 'Trois cabosses de cacao' },
+  { src: '/images/galerie/caramels_moules_refroidissement.png', alt: 'Caramels et confiseries en moules sur grilles de refroidissement' },
+  { src: '/images/galerie/moule_chocolat_et_finis.png', alt: 'Moule à chocolat et barres de chocolat au lait démoulées' },
 ]
 
 export const metadata: Metadata = {
