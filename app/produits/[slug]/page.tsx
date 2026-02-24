@@ -41,9 +41,9 @@ export default function ProductPage({ params }: ProductPageProps) {
   const totalHT = totalTTC / 1.055
 
   return (
-    <div className="bg-white">
+    <div className="bg-white pt-28 md:pt-36">
       {/* Header avec breadcrumb */}
-      <div className="bg-chocolate-light/30 border-b border-chocolate-dark/10">
+      <div className="bg-chocolate-light/30 border-b border-chocolate-dark/10 mt-6 md:mt-10">
         <div className="container mx-auto px-4 md:px-6 py-4">
           <nav className="flex items-center space-x-2 text-sm text-chocolate-dark/70">
             <Link href="/" className="hover:text-chocolate-dark transition-colors">

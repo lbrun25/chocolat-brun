@@ -23,9 +23,9 @@ export const metadata: Metadata = {
 
 export default function GaleriePage() {
   return (
-    <div className="min-h-screen bg-chocolate-light/30 py-20 paper-texture">
+    <div className="min-h-screen bg-chocolate-light/30 pt-28 md:pt-36 pb-20 paper-texture">
       <div className="container mx-auto px-4">
-        <div className="text-center mb-12">
+        <div className="text-center mb-12 mt-6 md:mt-10">
           <h1 className="text-5xl font-bold text-chocolate-dark mb-4 font-serif">
             Galerie & Illustrations
           </h1>

@@ -28,8 +28,8 @@ export default function ComptePage() {
 
   if (!user) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-chocolate-light/30 via-white to-chocolate-light/30 py-12 md:py-20">
-        <div className="container mx-auto px-4">
+      <div className="min-h-screen bg-gradient-to-b from-chocolate-light/30 via-white to-chocolate-light/30 pt-28 md:pt-36 pb-12 md:pb-20">
+        <div className="container mx-auto px-4 mt-6 md:mt-10">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="max-w-2xl mx-auto">
             <h1 className="text-4xl md:text-5xl font-bold text-chocolate-dark mb-8 font-serif">Mon compte</h1>
             <CheckoutAuth
@@ -58,8 +58,8 @@ export default function ComptePage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-chocolate-light/30 via-white to-chocolate-light/30 py-12 md:py-20">
-      <div className="container mx-auto px-4">
+    <div className="min-h-screen bg-gradient-to-b from-chocolate-light/30 via-white to-chocolate-light/30 pt-28 md:pt-36 pb-12 md:pb-20">
+      <div className="container mx-auto px-4 mt-6 md:mt-10">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="max-w-6xl mx-auto">
           <div className="flex justify-between items-center mb-8">
             <h1 className="text-4xl md:text-5xl font-bold text-chocolate-dark font-serif">Mon compte</h1>

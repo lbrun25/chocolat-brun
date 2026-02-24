@@ -9,8 +9,8 @@ export const metadata: Metadata = {
 export default function LivraisonPage() {
 
   return (
-    <div className="min-h-screen bg-chocolate-light/30 py-20">
-      <div className="container mx-auto px-4">
+    <div className="min-h-screen bg-chocolate-light/30 pt-28 md:pt-36 pb-20">
+      <div className="container mx-auto px-4 mt-6 md:mt-10">
         <div className="max-w-4xl mx-auto bg-white rounded-lg shadow-lg p-8 md:p-12">
           <h1 className="text-4xl md:text-5xl font-bold text-chocolate-dark mb-8 font-serif">
             Livraison et frais de port

@@ -91,7 +91,7 @@ export default function ProPage() {
   }
 
   return (
-    <div className="min-h-screen artisan-texture">
+    <div className="min-h-screen artisan-texture pt-20 md:pt-24">
       {/* Hero Section */}
       <section className="relative py-16 md:py-24 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-chocolate-dark via-chocolate-dark/95 to-chocolate-dark/90" />

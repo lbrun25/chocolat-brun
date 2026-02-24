@@ -124,7 +124,7 @@ export default function RootLayout({
             <AuthErrorRedirect />
             <div className="overflow-x-hidden">
               <Header />
-              <main className="pt-20 md:pt-24">{children}</main>
+              <main>{children}</main>
               <MadeInFranceSection />
               <Footer />
               <CookieBanner />

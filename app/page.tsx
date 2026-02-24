@@ -110,7 +110,7 @@ export default function Home() {
   return (
     <div className="artisan-texture">
       {/* Section 1 : Le chocolat, c'est le bonheur */}
-      <section className="relative flex items-center justify-center overflow-hidden bg-white">
+      <section className="relative flex items-center justify-center overflow-hidden bg-white pt-28 md:pt-36">
         {/* Deux grandes images de chocolat - gauche et droite - masquées sur mobile */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none hidden md:block">
           {/* Chocolat à gauche */}
@@ -152,7 +152,7 @@ export default function Home() {
           </motion.div>
         </div>
 
-        <div className="container mx-auto px-4 py-12 md:py-20 relative z-10">
+        <div className="container mx-auto px-4 py-12 md:py-20 relative z-10 mt-6 md:mt-10">
           <div className="max-w-4xl mx-auto text-center">
             <motion.div
               initial={{ opacity: 0, y: 30 }}

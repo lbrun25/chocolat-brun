@@ -177,8 +177,8 @@ function PriceSection({ title, rows, delay = 0 }: PriceSectionProps) {
 
 export default function PrixPage() {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-chocolate-light/40 via-chocolate-light/30 to-chocolate-light/40 py-20 px-4">
-      <div className="max-w-7xl mx-auto">
+    <div className="min-h-screen bg-gradient-to-b from-chocolate-light/40 via-chocolate-light/30 to-chocolate-light/40 pt-28 md:pt-36 pb-20 px-4">
+      <div className="max-w-7xl mx-auto mt-6 md:mt-10">
         {/* En-tête centré élégant */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}

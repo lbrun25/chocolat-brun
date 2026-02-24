@@ -17,15 +17,8 @@
   }
   
   body {
-    /* Dégradé fixe au viewport : chocolat foncé en haut (zone header) pour éviter le flash beige quand le menu se cache au scroll */
-    background: linear-gradient(
-      to bottom,
-      theme('colors.chocolate.dark') 0,
-      theme('colors.chocolate.dark') 6rem,
-      theme('colors.chocolate.light') 6rem,
-      theme('colors.chocolate.light') 100%
-    );
-    background-attachment: fixed;
+    /* Fond uniforme : pas de bande couleur nav en haut quand le menu se cache au scroll */
+    background: theme('colors.chocolate.light');
     @apply text-chocolate-dark;
     font-family: 'Georgia', serif;
     overflow-x: hidden;

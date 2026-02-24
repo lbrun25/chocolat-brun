@@ -20,8 +20,8 @@ const orderedProducts = PRODUCT_ORDER
 export default function ProduitsPage() {
   return (
     <div className="artisan-texture">
-      <section className="py-16 md:py-24 bg-chocolate-light/30 min-h-screen">
-        <div className="container mx-auto px-4">
+      <section className="pt-28 md:pt-36 pb-16 md:pb-24 bg-chocolate-light/30 min-h-screen">
+        <div className="container mx-auto px-4 mt-6 md:mt-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -56,23 +56,6 @@ export default function ProduitsPage() {
                 />
               </motion.div>
             ))}
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5, delay: 0.6 }}
-            className="text-center mt-16"
-          >
-            <Link
-              href="/prix"
-              className="inline-flex items-center gap-2 text-chocolate-dark hover:text-chocolate-medium font-medium transition-colors"
-            >
-              Voir nos assortiments et tarifs
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-              </svg>
-            </Link>
           </motion.div>
         </div>
       </section>

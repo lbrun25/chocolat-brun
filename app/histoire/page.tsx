@@ -11,9 +11,9 @@ const paragraphs = [
 
 export default function HistoirePage() {
   return (
-    <div className="min-h-screen relative overflow-hidden bg-chocolate-dark">
+    <div className="min-h-screen relative overflow-hidden bg-chocolate-dark pt-28 md:pt-36">
       <motion.div
-        className="relative z-10 min-h-screen flex flex-col py-6 md:py-8 px-3 md:px-6"
+        className="relative z-10 min-h-screen flex flex-col py-6 md:py-8 px-3 md:px-6 mt-6 md:mt-10"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.4 }}

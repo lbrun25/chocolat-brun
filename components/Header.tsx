@@ -64,7 +64,7 @@ function HeaderComponent() {
         opacity: isVisible ? 1 : 0 
       }}
       transition={{ duration: 0.3, ease: 'easeInOut' }}
-      className="fixed top-0 left-0 right-0 z-50 bg-chocolate-dark shadow-lg min-h-[5rem] md:min-h-[6rem]"
+      className={`fixed top-0 left-0 right-0 z-50 bg-chocolate-dark min-h-[5rem] md:min-h-[6rem] ${isVisible ? 'shadow-lg' : 'shadow-none'}`}
     >
       {/* Effet de brillance subtil en arrière-plan */}
       <div className="absolute inset-0 bg-gradient-to-r from-transparent via-chocolate-dark/5 to-transparent pointer-events-none" />
