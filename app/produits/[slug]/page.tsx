@@ -103,50 +103,56 @@ export default function ProductPage({ params }: ProductPageProps) {
             {/* Images supplémentaires (sachet, coffret) - cliquables pour afficher en plein écran */}
             {product.extraImages && product.extraImages.length >= 2 && (
               <div className="space-y-6">
-                <button
-                  type="button"
-                  onClick={() => {
-                    setLightboxContent({
-                      imageSrc: product.extraImages![0],
-                      fallbackSrc: product.fallbackSrc,
-                      alt: `${product.imageAlt} - sachet`,
-                      title: product.name,
-                    })
-                    setLightboxOpen(true)
-                  }}
-                  className="relative w-full aspect-[4/3] max-h-[400px] rounded-lg overflow-hidden bg-chocolate-light/10 shadow-md cursor-zoom-in focus:outline-none focus:ring-2 focus:ring-chocolate-medium focus:ring-offset-2 hover:shadow-lg transition-shadow"
-                  aria-label="Voir le sachet en grand"
-                >
-                  <SafeImage
-                    src={product.extraImages[0]}
-                    fallbackSrc={product.fallbackSrc}
-                    alt={`${product.imageAlt} - sachet`}
-                    fill
-                    className="object-contain object-center"
-                  />
-                </button>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setLightboxContent({
-                      imageSrc: product.extraImages![1],
-                      fallbackSrc: product.fallbackSrc,
-                      alt: `${product.imageAlt} - coffret`,
-                      title: product.name,
-                    })
-                    setLightboxOpen(true)
-                  }}
-                  className="relative w-full aspect-[4/3] max-h-[400px] rounded-lg overflow-hidden bg-chocolate-light/10 shadow-md cursor-zoom-in focus:outline-none focus:ring-2 focus:ring-chocolate-medium focus:ring-offset-2 hover:shadow-lg transition-shadow"
-                  aria-label="Voir le coffret en grand"
-                >
-                  <SafeImage
-                    src={product.extraImages[1]}
-                    fallbackSrc={product.fallbackSrc}
-                    alt={`${product.imageAlt} - coffret`}
-                    fill
-                    className="object-contain object-center"
-                  />
-                </button>
+                <div className="space-y-2">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setLightboxContent({
+                        imageSrc: product.extraImages![0],
+                        fallbackSrc: product.fallbackSrc,
+                        alt: `${product.imageAlt} - 40 pièces`,
+                        title: product.name,
+                      })
+                      setLightboxOpen(true)
+                    }}
+                    className="relative w-full aspect-[4/3] max-h-[400px] rounded-lg overflow-hidden bg-chocolate-light/10 shadow-md cursor-zoom-in focus:outline-none focus:ring-2 focus:ring-chocolate-medium focus:ring-offset-2 hover:shadow-lg transition-shadow"
+                    aria-label="Voir 40 pièces en grand"
+                  >
+                    <SafeImage
+                      src={product.extraImages[0]}
+                      fallbackSrc={product.fallbackSrc}
+                      alt={`${product.imageAlt} - 40 pièces`}
+                      fill
+                      className="object-contain object-center"
+                    />
+                  </button>
+                  <p className="text-sm font-medium text-chocolate-dark text-center">40 pièces</p>
+                </div>
+                <div className="space-y-2">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setLightboxContent({
+                        imageSrc: product.extraImages![1],
+                        fallbackSrc: product.fallbackSrc,
+                        alt: `${product.imageAlt} - 100 pièces`,
+                        title: product.name,
+                      })
+                      setLightboxOpen(true)
+                    }}
+                    className="relative w-full aspect-[4/3] max-h-[400px] rounded-lg overflow-hidden bg-chocolate-light/10 shadow-md cursor-zoom-in focus:outline-none focus:ring-2 focus:ring-chocolate-medium focus:ring-offset-2 hover:shadow-lg transition-shadow"
+                    aria-label="Voir 100 pièces en grand"
+                  >
+                    <SafeImage
+                      src={product.extraImages[1]}
+                      fallbackSrc={product.fallbackSrc}
+                      alt={`${product.imageAlt} - 100 pièces`}
+                      fill
+                      className="object-contain object-center"
+                    />
+                  </button>
+                  <p className="text-sm font-medium text-chocolate-dark text-center">100 pièces</p>
+                </div>
               </div>
             )}
           </div>

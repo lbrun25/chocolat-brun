@@ -129,54 +129,60 @@ function NapolitainCardComponent({
             className="px-4 pb-4 space-y-4"
             onClick={(e) => e.stopPropagation()}
           >
-            <button
-              type="button"
-              onClick={() => {
-                setLightboxImage({
-                  src: product.extraImages![0],
-                  fallback: product.fallbackSrc,
-                  alt: `${product.imageAlt} - sachet`,
-                })
-                setLightboxOpen(true)
-              }}
-              className="relative aspect-[4/3] w-full rounded-xl overflow-hidden bg-chocolate-light/20 shadow-inner cursor-zoom-in focus:outline-none focus:ring-2 focus:ring-chocolate-medium focus:ring-offset-2 hover:shadow-md transition-shadow"
-              aria-label="Voir le sachet en grand"
-            >
-              <SafeImage
-                src={product.extraImages[0]}
-                fallbackSrc={product.fallbackSrc}
-                alt={`${product.imageAlt} - sachet`}
-                fill
-                className="object-contain object-center"
-              />
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                setLightboxImage({
-                  src: product.extraImages![1],
-                  fallback: product.fallbackSrc,
-                  alt: `${product.imageAlt} - coffret`,
-                })
-                setLightboxOpen(true)
-              }}
-              className="relative aspect-[4/3] w-full rounded-xl overflow-hidden bg-chocolate-light/20 shadow-inner cursor-zoom-in focus:outline-none focus:ring-2 focus:ring-chocolate-medium focus:ring-offset-2 hover:shadow-md transition-shadow"
-              aria-label="Voir le coffret en grand"
-            >
-              <SafeImage
-                src={product.extraImages[1]}
-                fallbackSrc={product.fallbackSrc}
-                alt={`${product.imageAlt} - coffret`}
-                fill
-                className="object-contain object-center"
-              />
-            </button>
+            <div className="space-y-1">
+              <button
+                type="button"
+                onClick={() => {
+                  setLightboxImage({
+                    src: product.extraImages![0],
+                    fallback: product.fallbackSrc,
+                    alt: `${product.imageAlt} - 40 pièces`,
+                  })
+                  setLightboxOpen(true)
+                }}
+                className="relative aspect-[4/3] w-full rounded-xl overflow-hidden bg-chocolate-light/20 shadow-inner cursor-zoom-in focus:outline-none focus:ring-2 focus:ring-chocolate-medium focus:ring-offset-2 hover:shadow-md transition-shadow"
+                aria-label="Voir 40 pièces en grand"
+              >
+                <SafeImage
+                  src={product.extraImages[0]}
+                  fallbackSrc={product.fallbackSrc}
+                  alt={`${product.imageAlt} - 40 pièces`}
+                  fill
+                  className="object-contain object-center"
+                />
+              </button>
+              <p className="text-sm font-medium text-chocolate-dark text-center">40 pièces</p>
+            </div>
+            <div className="space-y-1">
+              <button
+                type="button"
+                onClick={() => {
+                  setLightboxImage({
+                    src: product.extraImages![1],
+                    fallback: product.fallbackSrc,
+                    alt: `${product.imageAlt} - 100 pièces`,
+                  })
+                  setLightboxOpen(true)
+                }}
+                className="relative aspect-[4/3] w-full rounded-xl overflow-hidden bg-chocolate-light/20 shadow-inner cursor-zoom-in focus:outline-none focus:ring-2 focus:ring-chocolate-medium focus:ring-offset-2 hover:shadow-md transition-shadow"
+                aria-label="Voir 100 pièces en grand"
+              >
+                <SafeImage
+                  src={product.extraImages[1]}
+                  fallbackSrc={product.fallbackSrc}
+                  alt={`${product.imageAlt} - 100 pièces`}
+                  fill
+                  className="object-contain object-center"
+                />
+              </button>
+              <p className="text-sm font-medium text-chocolate-dark text-center">100 pièces</p>
+            </div>
             <Lightbox
               isOpen={lightboxOpen}
               onClose={() => setLightboxOpen(false)}
               imageSrc={lightboxImage?.src ?? product.extraImages![0]}
               fallbackSrc={lightboxImage?.fallback ?? product.fallbackSrc}
-              alt={lightboxImage?.alt ?? `${product.imageAlt} - sachet`}
+              alt={lightboxImage?.alt ?? `${product.imageAlt} - 40 pièces`}
               title={product.name}
             />
           </motion.div>

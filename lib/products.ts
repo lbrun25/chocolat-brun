@@ -21,7 +21,7 @@ export const products: Product[] = [
   },
   {
     id: 'chocolat-noir-cafe',
-    name: 'Chocolat noir café',
+    name: 'Chocolat noir au café',
     slug: 'chocolat-noir-cafe',
     description: 'Un chocolat noir sublimé par ses éclats de grains de café bio de Tanzanie. Alliance parfaite entre l\'intensité du cacao et le café torréfié pour une dégustation riche et réconfortante.',
     notes: 'Cacaoté • Café torréfié • Corsé',
