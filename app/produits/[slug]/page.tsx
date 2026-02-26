@@ -24,6 +24,12 @@ export default function ProductPage({ params }: ProductPageProps) {
   const [showSuccess, setShowSuccess] = useState(false)
   const [selectedPackaging, setSelectedPackaging] = useState<PackagingType>('40')
   const [lightboxOpen, setLightboxOpen] = useState(false)
+  const [lightboxContent, setLightboxContent] = useState({
+    imageSrc: '',
+    fallbackSrc: '',
+    alt: '',
+    title: '',
+  })
 
   if (!product) {
     notFound()
@@ -61,12 +67,20 @@ export default function ProductPage({ params }: ProductPageProps) {
 
       <div className="container mx-auto px-4 md:px-6 py-12">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-7xl mx-auto">
-          {/* Image Section */}
-          <div className="space-y-4">
+          {/* Image Section - image principale + sachet & coffret */}
+          <div className="space-y-6">
             <button
               type="button"
-              onClick={() => setLightboxOpen(true)}
-              className="relative h-[500px] md:h-[600px] w-full rounded-lg overflow-hidden cursor-zoom-in focus:outline-none focus:ring-2 focus:ring-chocolate-medium focus:ring-offset-2"
+              onClick={() => {
+                setLightboxContent({
+                  imageSrc: product.imageSrc,
+                  fallbackSrc: product.fallbackSrc,
+                  alt: product.imageAlt,
+                  title: product.name,
+                })
+                setLightboxOpen(true)
+              }}
+              className="relative h-[500px] md:h-[600px] w-full rounded-lg overflow-hidden cursor-zoom-in focus:outline-none focus:ring-2 focus:ring-chocolate-medium focus:ring-offset-2 bg-chocolate-light/10"
               aria-label={`Agrandir l'image : ${product.imageAlt}`}
             >
               <SafeImage
@@ -80,11 +94,61 @@ export default function ProductPage({ params }: ProductPageProps) {
             <Lightbox
               isOpen={lightboxOpen}
               onClose={() => setLightboxOpen(false)}
-              imageSrc={product.imageSrc}
-              fallbackSrc={product.fallbackSrc}
-              alt={product.imageAlt}
-              title={product.name}
+              imageSrc={lightboxContent.imageSrc || product.imageSrc}
+              fallbackSrc={lightboxContent.fallbackSrc || product.fallbackSrc}
+              alt={lightboxContent.alt || product.imageAlt}
+              title={lightboxContent.title || product.name}
             />
+
+            {/* Images supplémentaires (sachet, coffret) - cliquables pour afficher en plein écran */}
+            {product.extraImages && product.extraImages.length >= 2 && (
+              <div className="space-y-6">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setLightboxContent({
+                      imageSrc: product.extraImages![0],
+                      fallbackSrc: product.fallbackSrc,
+                      alt: `${product.imageAlt} - sachet`,
+                      title: product.name,
+                    })
+                    setLightboxOpen(true)
+                  }}
+                  className="relative w-full aspect-[4/3] max-h-[400px] rounded-lg overflow-hidden bg-chocolate-light/10 shadow-md cursor-zoom-in focus:outline-none focus:ring-2 focus:ring-chocolate-medium focus:ring-offset-2 hover:shadow-lg transition-shadow"
+                  aria-label="Voir le sachet en grand"
+                >
+                  <SafeImage
+                    src={product.extraImages[0]}
+                    fallbackSrc={product.fallbackSrc}
+                    alt={`${product.imageAlt} - sachet`}
+                    fill
+                    className="object-contain object-center"
+                  />
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setLightboxContent({
+                      imageSrc: product.extraImages![1],
+                      fallbackSrc: product.fallbackSrc,
+                      alt: `${product.imageAlt} - coffret`,
+                      title: product.name,
+                    })
+                    setLightboxOpen(true)
+                  }}
+                  className="relative w-full aspect-[4/3] max-h-[400px] rounded-lg overflow-hidden bg-chocolate-light/10 shadow-md cursor-zoom-in focus:outline-none focus:ring-2 focus:ring-chocolate-medium focus:ring-offset-2 hover:shadow-lg transition-shadow"
+                  aria-label="Voir le coffret en grand"
+                >
+                  <SafeImage
+                    src={product.extraImages[1]}
+                    fallbackSrc={product.fallbackSrc}
+                    alt={`${product.imageAlt} - coffret`}
+                    fill
+                    className="object-contain object-center"
+                  />
+                </button>
+              </div>
+            )}
           </div>
 
           {/* Details Section */}

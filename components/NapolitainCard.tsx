@@ -6,6 +6,7 @@ import { Check } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import SafeImage from './SafeImage'
+import Lightbox from './Lightbox'
 import { Product, PackagingType, getPackagingPrices } from '@/types/product'
 import { useCart } from '@/contexts/CartContext'
 import PackagingSelector from './PackagingSelector'
@@ -28,6 +29,10 @@ function NapolitainCardComponent({
   const [showSuccess, setShowSuccess] = useState(false)
   const [selectedPackaging, setSelectedPackaging] = useState<PackagingType>('40')
   const [isTouchDevice, setIsTouchDevice] = useState(false)
+  const [expanded, setExpanded] = useState(false)
+  const [lightboxOpen, setLightboxOpen] = useState(false)
+  const [lightboxImage, setLightboxImage] = useState<{ src: string; fallback: string; alt: string } | null>(null)
+  const hasExtraImages = simple && product.extraImages && product.extraImages.length >= 2
 
   // Détecter si on est sur un appareil tactile
   useEffect(() => {
@@ -52,6 +57,14 @@ function NapolitainCardComponent({
     setTimeout(() => setShowSuccess(false), 2000)
   }
 
+  const handleCardClick = () => {
+    if (hasExtraImages) {
+      setExpanded((prev) => !prev)
+    } else {
+      router.push(`/produits/${product.slug}`)
+    }
+  }
+
   const shouldDisableHover = disableHover || isTouchDevice
 
   return (
@@ -61,7 +74,7 @@ function NapolitainCardComponent({
       viewport={{ once: true, margin: '-100px' }}
       transition={{ duration: 0.5, delay, ease: 'easeOut' }}
       whileHover={shouldDisableHover ? {} : { y: -8, scale: 1.02 }}
-      onClick={() => router.push(`/produits/${product.slug}`)}
+      onClick={handleCardClick}
       className={`group relative bg-white rounded-2xl overflow-hidden transition-all duration-300 border border-chocolate-light/50 cursor-pointer ${shouldDisableHover ? 'no-hover' : ''}`}
     >
         {/* Image Container avec fond dégradé élégant - Ratio carré sur desktop, plus petit sur mobile */}
@@ -85,19 +98,17 @@ function NapolitainCardComponent({
 
           {/* Overlay avec indication au hover */}
           <div className={`absolute inset-0 bg-gradient-to-t from-chocolate-dark/80 via-transparent to-transparent transition-all duration-300 flex items-end justify-center pb-6 ${shouldDisableHover ? 'opacity-0' : 'opacity-0 group-hover:opacity-100'}`}>
-            <motion.div 
-              initial={{ y: 20, opacity: 0 }}
-              whileHover={{ y: 0, opacity: 1 }}
-              className="bg-white/95 backdrop-blur-sm rounded-full px-6 py-3 text-chocolate-dark font-semibold text-sm shadow-xl border border-chocolate-light/50"
+            <Link
+              href={`/produits/${product.slug}`}
+              onClick={(e) => e.stopPropagation()}
+              className="bg-white/95 backdrop-blur-sm rounded-full px-6 py-3 text-chocolate-dark font-semibold text-sm shadow-xl border border-chocolate-light/50 flex items-center gap-2 hover:bg-white transition-colors"
             >
-              <span className="flex items-center gap-2">
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                </svg>
-                Voir les détails
-              </span>
-            </motion.div>
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+              </svg>
+              Voir les détails
+            </Link>
           </div>
 
           {/* Badge artisanal en haut à droite */}
@@ -107,6 +118,69 @@ function NapolitainCardComponent({
             </div>
           </div>
         </div>
+
+        {/* Images supplémentaires (sachet, coffret) - visibles au clic, ouvrent en lightbox au clic */}
+        {hasExtraImages && expanded && product.extraImages && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.3, ease: 'easeOut' }}
+            className="px-4 pb-4 space-y-4"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              type="button"
+              onClick={() => {
+                setLightboxImage({
+                  src: product.extraImages![0],
+                  fallback: product.fallbackSrc,
+                  alt: `${product.imageAlt} - sachet`,
+                })
+                setLightboxOpen(true)
+              }}
+              className="relative aspect-[4/3] w-full rounded-xl overflow-hidden bg-chocolate-light/20 shadow-inner cursor-zoom-in focus:outline-none focus:ring-2 focus:ring-chocolate-medium focus:ring-offset-2 hover:shadow-md transition-shadow"
+              aria-label="Voir le sachet en grand"
+            >
+              <SafeImage
+                src={product.extraImages[0]}
+                fallbackSrc={product.fallbackSrc}
+                alt={`${product.imageAlt} - sachet`}
+                fill
+                className="object-contain object-center"
+              />
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setLightboxImage({
+                  src: product.extraImages![1],
+                  fallback: product.fallbackSrc,
+                  alt: `${product.imageAlt} - coffret`,
+                })
+                setLightboxOpen(true)
+              }}
+              className="relative aspect-[4/3] w-full rounded-xl overflow-hidden bg-chocolate-light/20 shadow-inner cursor-zoom-in focus:outline-none focus:ring-2 focus:ring-chocolate-medium focus:ring-offset-2 hover:shadow-md transition-shadow"
+              aria-label="Voir le coffret en grand"
+            >
+              <SafeImage
+                src={product.extraImages[1]}
+                fallbackSrc={product.fallbackSrc}
+                alt={`${product.imageAlt} - coffret`}
+                fill
+                className="object-contain object-center"
+              />
+            </button>
+            <Lightbox
+              isOpen={lightboxOpen}
+              onClose={() => setLightboxOpen(false)}
+              imageSrc={lightboxImage?.src ?? product.extraImages![0]}
+              fallbackSrc={lightboxImage?.fallback ?? product.fallbackSrc}
+              alt={lightboxImage?.alt ?? `${product.imageAlt} - sachet`}
+              title={product.name}
+            />
+          </motion.div>
+        )}
 
       {/* Contenu de la carte */}
       <div className={`${simple ? 'p-4' : 'p-6'} space-y-4`}>
