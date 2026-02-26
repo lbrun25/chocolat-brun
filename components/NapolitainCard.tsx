@@ -96,8 +96,8 @@ function NapolitainCardComponent({
             />
           </div>
 
-          {/* Overlay avec indication au hover (toujours visible sur mobile pour accéder aux détails) */}
-          <div className={`absolute inset-0 bg-gradient-to-t from-chocolate-dark/80 via-transparent to-transparent transition-all duration-300 flex items-end justify-center pb-6 ${shouldDisableHover && !simple ? 'opacity-0' : shouldDisableHover && simple ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`}>
+          {/* Overlay avec indication au hover (visible uniquement sur PC au survol ; masqué sur mobile) */}
+          <div className={`absolute inset-0 bg-gradient-to-t from-chocolate-dark/80 via-transparent to-transparent transition-all duration-300 flex items-end justify-center pb-6 ${shouldDisableHover ? 'opacity-0 pointer-events-none' : 'opacity-0 group-hover:opacity-100'}`}>
             <Link
               href={`/produits/${product.slug}`}
               onClick={(e) => e.stopPropagation()}
@@ -220,10 +220,11 @@ function NapolitainCardComponent({
               </svg>
               Ajouter au panier
             </motion.button>
+            {/* Voir les détails : affiché uniquement sur mobile (masqué à partir de md) */}
             <Link
               href={`/produits/${product.slug}`}
               onClick={(e) => e.stopPropagation()}
-              className="min-h-[44px] w-full text-chocolate-dark font-semibold text-sm py-3 rounded-lg border-2 border-chocolate-medium bg-white hover:bg-chocolate-light/30 transition-all duration-300 flex items-center justify-center gap-2 touch-manipulation"
+              className="md:hidden min-h-[44px] w-full text-chocolate-dark font-semibold text-sm py-3 rounded-lg border-2 border-chocolate-medium bg-white hover:bg-chocolate-light/30 transition-all duration-300 flex items-center justify-center gap-2 touch-manipulation"
             >
               <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
