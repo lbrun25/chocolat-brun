@@ -4,6 +4,14 @@
  */
 
 import type { OrderConfirmationData } from './order-confirmation-email'
+import { getPiecesForPackaging } from '@/types/product'
+
+function packagingDisplay(packaging: string): string {
+  if (packaging && ['40', '100'].includes(packaging)) {
+    return `${getPiecesForPackaging(packaging as '40' | '100')} pièces`
+  }
+  return packaging
+}
 
 const FROM_EMAIL = process.env.EMAIL_FROM || 'Cédric Brun <noreply@cedric-brun.com>'
 const TO_OWNER_EMAIL = process.env.ORDER_NOTIFICATION_EMAIL || 'patisseriebrun-25@orange.fr'
@@ -64,7 +72,7 @@ function getOrderNotificationOwnerHtml(data: OrderNotificationOwnerData): string
       (item) => `
     <tr>
       <td style="padding:12px 16px; border-bottom:1px solid #e8e0d8; color:#3d2914;">${escapeHtml(item.product_name)}</td>
-      <td style="padding:12px 16px; border-bottom:1px solid #e8e0d8; color:#3d2914;">${escapeHtml(item.packaging)}</td>
+      <td style="padding:12px 16px; border-bottom:1px solid #e8e0d8; color:#3d2914;">${escapeHtml(packagingDisplay(item.packaging))}</td>
       <td style="padding:12px 16px; border-bottom:1px solid #e8e0d8; color:#3d2914; text-align:center;">${item.quantity}</td>
       <td style="padding:12px 16px; border-bottom:1px solid #e8e0d8; color:#3d2914; text-align:right;">${(item.quantity * item.price_ttc).toFixed(2)} €</td>
     </tr>`

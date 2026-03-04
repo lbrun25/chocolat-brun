@@ -23,20 +23,20 @@ export default function PackagingSelector({
   const packages: Array<{ type: PackagingType; label: string; icon: (isSelected: boolean) => React.ReactNode }> = [
     {
       type: '40',
-      label: '40 pièces',
+      label: '100 pièces',
       icon: (isSelected) => <Package className={`w-8 h-8 ${isSelected ? 'text-chocolate-light' : 'text-chocolate-dark'}`} />,
     },
     {
       type: '100',
-      label: '100 pièces',
+      label: '40 pièces',
       icon: (isSelected) => <Gift className={`w-8 h-8 ${isSelected ? 'text-chocolate-light' : 'text-chocolate-dark'}`} />,
     },
   ]
 
-  // Calculer l'économie pour 100 pièces (basé sur le prix au kg)
+  // Calculer l'économie pour le paquet 100 pièces (type '40') par rapport à la boîte 40 (type '100')
   const pricePerKg40 = prices['40'].pricePerKgTTC
   const pricePerKg100 = prices['100'].pricePerKgTTC
-  const savingsPerKg = pricePerKg40 - pricePerKg100 // Économie par kg
+  const savingsPerKg = pricePerKg100 - pricePerKg40 // Économie par kg quand on prend le paquet 100
 
   return (
     <div className={`space-y-4 ${className}`}>
@@ -111,8 +111,8 @@ export default function PackagingSelector({
                 </motion.div>
               )}
 
-              {/* Badge "Populaire" pour 100 pièces */}
-              {pkg.type === '100' && !isSelected && (
+              {/* Badge "Populaire" pour le paquet 100 pièces (type '40') */}
+              {pkg.type === '40' && !isSelected && (
                 <div className="absolute -top-2 -right-2 bg-gradient-to-r from-green-500 to-green-600 text-white text-xs font-bold px-2 py-1 rounded-full shadow-lg z-10">
                   Populaire
                 </div>
@@ -135,7 +135,7 @@ export default function PackagingSelector({
                 
                 {/* Prix TTC */}
                 <div className={`font-bold text-xl mt-3 ${isSelected ? 'text-chocolate-light' : 'text-chocolate-medium'}`}>
-                  {pkg.type === '100' && 'priceTTCWithoutDiscount' in packagingInfo && packagingInfo.priceTTCWithoutDiscount ? (
+                  {pkg.type === '40' && 'priceTTCWithoutDiscount' in packagingInfo && packagingInfo.priceTTCWithoutDiscount ? (
                     <span>
                       <span className="line-through opacity-75 mr-2">{packagingInfo.priceTTCWithoutDiscount.toFixed(2)} €</span>
                       {packagingInfo.priceTTC.toFixed(2)} € TTC
@@ -148,7 +148,7 @@ export default function PackagingSelector({
                 {/* Prix au kg */}
                 <div className={`text-sm font-semibold ${isSelected ? 'text-chocolate-light/90' : 'text-chocolate-dark/70'}`}>
                   {packagingInfo.pricePerKgTTC.toFixed(2)} € / kg TTC
-                  {pkg.type === '100' && (
+                  {pkg.type === '40' && (
                     <span className="ml-2 text-xs text-green-600 font-bold">(-{savingsPerKg.toFixed(0)}€)</span>
                   )}
                 </div>
@@ -163,8 +163,8 @@ export default function PackagingSelector({
         })}
       </div>
 
-      {/* Indicateur d'économie pour 100 pièces */}
-      {selectedPackaging === '100' && (
+      {/* Indicateur d'économie pour le paquet 100 pièces */}
+      {selectedPackaging === '40' && (
         <motion.div
           initial={{ opacity: 0, y: -5 }}
           animate={{ opacity: 1, y: 0 }}

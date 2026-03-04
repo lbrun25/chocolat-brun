@@ -110,31 +110,6 @@ export default function ProductPage({ params }: ProductPageProps) {
                       setLightboxContent({
                         imageSrc: product.extraImages![0],
                         fallbackSrc: product.fallbackSrc,
-                        alt: `${product.imageAlt} - 40 pièces`,
-                        title: product.name,
-                      })
-                      setLightboxOpen(true)
-                    }}
-                    className="relative w-full aspect-[4/3] max-h-[400px] rounded-lg overflow-hidden bg-chocolate-light/10 shadow-md cursor-zoom-in focus:outline-none focus:ring-2 focus:ring-chocolate-medium focus:ring-offset-2 hover:shadow-lg transition-shadow"
-                    aria-label="Voir 40 pièces en grand"
-                  >
-                    <SafeImage
-                      src={product.extraImages[0]}
-                      fallbackSrc={product.fallbackSrc}
-                      alt={`${product.imageAlt} - 40 pièces`}
-                      fill
-                      className="object-contain object-center"
-                    />
-                  </button>
-                  <p className="text-sm font-medium text-chocolate-dark text-center">40 pièces</p>
-                </div>
-                <div className="space-y-2">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setLightboxContent({
-                        imageSrc: product.extraImages![1],
-                        fallbackSrc: product.fallbackSrc,
                         alt: `${product.imageAlt} - 100 pièces`,
                         title: product.name,
                       })
@@ -144,7 +119,7 @@ export default function ProductPage({ params }: ProductPageProps) {
                     aria-label="Voir 100 pièces en grand"
                   >
                     <SafeImage
-                      src={product.extraImages[1]}
+                      src={product.extraImages[0]}
                       fallbackSrc={product.fallbackSrc}
                       alt={`${product.imageAlt} - 100 pièces`}
                       fill
@@ -152,6 +127,31 @@ export default function ProductPage({ params }: ProductPageProps) {
                     />
                   </button>
                   <p className="text-sm font-medium text-chocolate-dark text-center">100 pièces</p>
+                </div>
+                <div className="space-y-2">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setLightboxContent({
+                        imageSrc: product.extraImages![1],
+                        fallbackSrc: product.fallbackSrc,
+                        alt: `${product.imageAlt} - 40 pièces`,
+                        title: product.name,
+                      })
+                      setLightboxOpen(true)
+                    }}
+                    className="relative w-full aspect-[4/3] max-h-[400px] rounded-lg overflow-hidden bg-chocolate-light/10 shadow-md cursor-zoom-in focus:outline-none focus:ring-2 focus:ring-chocolate-medium focus:ring-offset-2 hover:shadow-lg transition-shadow"
+                    aria-label="Voir 40 pièces en grand"
+                  >
+                    <SafeImage
+                      src={product.extraImages[1]}
+                      fallbackSrc={product.fallbackSrc}
+                      alt={`${product.imageAlt} - 40 pièces`}
+                      fill
+                      className="object-contain object-center"
+                    />
+                  </button>
+                  <p className="text-sm font-medium text-chocolate-dark text-center">40 pièces</p>
                 </div>
               </div>
             )}
@@ -170,16 +170,16 @@ export default function ProductPage({ params }: ProductPageProps) {
               </div>
               <div className="flex items-center gap-3 mb-4">
                 <div className={`inline-flex items-center gap-2 border rounded-lg px-4 py-2 ${
-                  selectedPackaging === '100' 
+                  selectedPackaging === '40' 
                     ? 'bg-green-50 border-green-300' 
                     : 'bg-chocolate-light/50 border-chocolate-light'
                 }`}>
-                  <svg className={`w-5 h-5 ${selectedPackaging === '100' ? 'text-green-700' : 'text-chocolate-medium'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className={`w-5 h-5 ${selectedPackaging === '40' ? 'text-green-700' : 'text-chocolate-medium'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
                   </svg>
-                  <span className={`text-base font-semibold ${selectedPackaging === '100' ? 'text-green-700' : 'text-chocolate-dark'}`}>
+                  <span className={`text-base font-semibold ${selectedPackaging === '40' ? 'text-green-700' : 'text-chocolate-dark'}`}>
                     {packagingInfo.pricePerKgTTC.toFixed(2)} € / kg TTC
-                    {selectedPackaging === '100' && (
+                    {selectedPackaging === '40' && (
                       <span className="ml-2 text-sm font-bold">(remisé)</span>
                     )}
                   </span>

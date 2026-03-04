@@ -37,19 +37,19 @@ export const products: Product[] = [
     weight: 5,
     packagingPrices: {
       '40': {
-        priceTTC: 18,
-        priceHT: 18 / 1.055,
-        pieces: 40,
-        weight: 200,
-        pricePerKgTTC: 90, // 18€ / 0.2kg
-      },
-      '100': {
         priceTTC: 40,
         priceHT: 40 / 1.055,
         pieces: 100,
         weight: 500,
-        pricePerKgTTC: 80, // 40€ / 0.5kg (remisé)
-        priceTTCWithoutDiscount: 45, // Prix sans remise
+        pricePerKgTTC: 80,
+        priceTTCWithoutDiscount: 45,
+      },
+      '100': {
+        priceTTC: 18,
+        priceHT: 18 / 1.055,
+        pieces: 40,
+        weight: 200,
+        pricePerKgTTC: 90,
       },
     },
   },

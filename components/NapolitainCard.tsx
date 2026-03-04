@@ -136,30 +136,6 @@ function NapolitainCardComponent({
                   setLightboxImage({
                     src: product.extraImages![0],
                     fallback: product.fallbackSrc,
-                    alt: `${product.imageAlt} - 40 pièces`,
-                  })
-                  setLightboxOpen(true)
-                }}
-                className="relative aspect-[4/3] w-full rounded-xl overflow-hidden bg-chocolate-light/20 shadow-inner cursor-zoom-in focus:outline-none focus:ring-2 focus:ring-chocolate-medium focus:ring-offset-2 hover:shadow-md transition-shadow"
-                aria-label="Voir 40 pièces en grand"
-              >
-                <SafeImage
-                  src={product.extraImages[0]}
-                  fallbackSrc={product.fallbackSrc}
-                  alt={`${product.imageAlt} - 40 pièces`}
-                  fill
-                  className="object-contain object-center"
-                />
-              </button>
-              <p className="text-sm font-medium text-chocolate-dark text-center">40 pièces</p>
-            </div>
-            <div className="space-y-1">
-              <button
-                type="button"
-                onClick={() => {
-                  setLightboxImage({
-                    src: product.extraImages![1],
-                    fallback: product.fallbackSrc,
                     alt: `${product.imageAlt} - 100 pièces`,
                   })
                   setLightboxOpen(true)
@@ -168,7 +144,7 @@ function NapolitainCardComponent({
                 aria-label="Voir 100 pièces en grand"
               >
                 <SafeImage
-                  src={product.extraImages[1]}
+                  src={product.extraImages[0]}
                   fallbackSrc={product.fallbackSrc}
                   alt={`${product.imageAlt} - 100 pièces`}
                   fill
@@ -177,12 +153,36 @@ function NapolitainCardComponent({
               </button>
               <p className="text-sm font-medium text-chocolate-dark text-center">100 pièces</p>
             </div>
+            <div className="space-y-1">
+              <button
+                type="button"
+                onClick={() => {
+                  setLightboxImage({
+                    src: product.extraImages![1],
+                    fallback: product.fallbackSrc,
+                    alt: `${product.imageAlt} - 40 pièces`,
+                  })
+                  setLightboxOpen(true)
+                }}
+                className="relative aspect-[4/3] w-full rounded-xl overflow-hidden bg-chocolate-light/20 shadow-inner cursor-zoom-in focus:outline-none focus:ring-2 focus:ring-chocolate-medium focus:ring-offset-2 hover:shadow-md transition-shadow"
+                aria-label="Voir 40 pièces en grand"
+              >
+                <SafeImage
+                  src={product.extraImages[1]}
+                  fallbackSrc={product.fallbackSrc}
+                  alt={`${product.imageAlt} - 40 pièces`}
+                  fill
+                  className="object-contain object-center"
+                />
+              </button>
+              <p className="text-sm font-medium text-chocolate-dark text-center">40 pièces</p>
+            </div>
             <Lightbox
               isOpen={lightboxOpen}
               onClose={() => setLightboxOpen(false)}
               imageSrc={lightboxImage?.src ?? product.extraImages![0]}
               fallbackSrc={lightboxImage?.fallback ?? product.fallbackSrc}
-              alt={lightboxImage?.alt ?? `${product.imageAlt} - 40 pièces`}
+              alt={lightboxImage?.alt ?? `${product.imageAlt} - 100 pièces`}
               title={product.name}
             />
           </motion.div>

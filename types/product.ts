@@ -1,19 +1,19 @@
-// Structure des prix par conditionnement
+// Structure des prix par conditionnement (clé '40' = paquet 100 pièces, clé '100' = boîte 40 pièces)
 export interface PackagingPricesConfig {
   '40': {
-    priceTTC: number
-    priceHT: number
-    pieces: 40
-    weight: 200
-    pricePerKgTTC: number
-  }
-  '100': {
     priceTTC: number
     priceHT: number
     pieces: 100
     weight: 500
     pricePerKgTTC: number
     priceTTCWithoutDiscount?: number // Prix TTC sans remise (affichage barré)
+  }
+  '100': {
+    priceTTC: number
+    priceHT: number
+    pieces: 40
+    weight: 200
+    pricePerKgTTC: number
   }
 }
 
@@ -42,18 +42,18 @@ const TVA_RATE = 0.055 // 5.5%
 
 export const PACKAGING_PRICES: PackagingPricesConfig = {
   '40': {
-    priceTTC: 16.00, // Prix TTC pour 40 pièces
-    priceHT: 16.00 / (1 + TVA_RATE), // Calculé à partir du TTC
-    pieces: 40,
-    weight: 200, // 40 * 5g
-    pricePerKgTTC: 80.00, // 16€ / 0.2kg = 80€/kg TTC
+    priceTTC: 35.00, // Prix TTC pour le paquet 100 pièces (500g)
+    priceHT: 35.00 / (1 + TVA_RATE),
+    pieces: 100,
+    weight: 500,
+    pricePerKgTTC: 70.00,
   },
   '100': {
-    priceTTC: 35.00, // Prix TTC pour 100 pièces
-    priceHT: 35.00 / (1 + TVA_RATE), // Calculé à partir du TTC
-    pieces: 100,
-    weight: 500, // 100 * 5g
-    pricePerKgTTC: 70.00, // 35€ / 0.5kg = 70€/kg TTC (remisé)
+    priceTTC: 16.00, // Prix TTC pour la boîte 40 pièces (200g)
+    priceHT: 16.00 / (1 + TVA_RATE),
+    pieces: 40,
+    weight: 200,
+    pricePerKgTTC: 80.00,
   },
 }
 
@@ -62,6 +62,11 @@ export type PackagingType = '40' | '100'
 /** Retourne les prix de conditionnement pour un produit (spécifiques ou par défaut) */
 export function getPackagingPrices(product: Product): PackagingPricesConfig {
   return product.packagingPrices ?? PACKAGING_PRICES
+}
+
+/** Nombre de pièces affiché pour une clé de conditionnement (pour affichage commandes) */
+export function getPiecesForPackaging(key: PackagingType): number {
+  return PACKAGING_PRICES[key].pieces
 }
 
 export interface CartItem {

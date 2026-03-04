@@ -4,6 +4,7 @@ import { motion } from 'framer-motion'
 import { X } from 'lucide-react'
 import type { Order } from '@/lib/order-utils'
 import { getShippingAddressLines, getBillingAddressLines, getStatusConfig, getPaymentMethodLabel } from '@/lib/order-utils'
+import { getPiecesForPackaging } from '@/types/product'
 
 interface Props {
   order: Order
@@ -51,7 +52,7 @@ export default function OrderDetailModal({ order, onClose }: Props) {
                 <div key={item.id} className="flex justify-between items-center py-2 border-b border-chocolate-dark/10">
                   <div>
                     <p className="font-semibold text-chocolate-dark">{item.product_name}</p>
-                    <p className="text-sm text-chocolate-dark/70">{item.packaging} pièces × {item.quantity}</p>
+                    <p className="text-sm text-chocolate-dark/70">{item.packaging && ['40', '100'].includes(item.packaging) ? getPiecesForPackaging(item.packaging as '40' | '100') : item.packaging} pièces × {item.quantity}</p>
                   </div>
                   <p className="font-semibold text-chocolate-dark">{(item.price_ttc * item.quantity).toFixed(2)} €</p>
                 </div>
