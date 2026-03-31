@@ -75,7 +75,7 @@ function NapolitainCardComponent({
       transition={{ duration: 0.5, delay, ease: 'easeOut' }}
       whileHover={shouldDisableHover ? {} : { y: -8, scale: 1.02 }}
       onClick={handleCardClick}
-      className={`group relative bg-white rounded-2xl overflow-hidden transition-all duration-300 border border-chocolate-light/50 cursor-pointer ${shouldDisableHover ? 'no-hover' : ''}`}
+      className={`group relative bg-white rounded-2xl overflow-hidden transition-all duration-300 border border-chocolate-light/50 cursor-pointer w-full flex flex-col ${shouldDisableHover ? 'no-hover' : ''}`}
     >
         {/* Image Container avec fond dégradé élégant - Ratio carré sur desktop, plus petit sur mobile */}
         <div className={`relative aspect-[4/3] md:aspect-square bg-gradient-to-br from-chocolate-light/30 via-white to-chocolate-light/20 overflow-hidden cursor-pointer shadow-md transition-shadow duration-300 ${shouldDisableHover ? '' : 'group-hover:shadow-lg'}`}>
@@ -189,15 +189,15 @@ function NapolitainCardComponent({
         )}
 
       {/* Contenu de la carte */}
-      <div className={`${simple ? 'p-4' : 'p-6'} space-y-4`}>
+      <div className={`${simple ? 'p-4' : 'p-6'} space-y-4 flex-1 flex flex-col`}>
         {/* Titre */}
-        <h3 className={`${simple ? 'text-xl' : 'text-2xl'} font-bold text-chocolate-dark font-serif text-center transition-colors duration-300 ${shouldDisableHover ? '' : 'group-hover:text-chocolate-medium'}`}>
+        <h3 className={`${simple ? 'text-xl min-h-[3.5rem] flex items-center justify-center' : 'text-2xl'} font-bold text-chocolate-dark font-serif text-center transition-colors duration-300 ${shouldDisableHover ? '' : 'group-hover:text-chocolate-medium'}`}>
           {product.name}
         </h3>
 
         {/* Notes de dégustation */}
         {product.notes && (
-          <div className="flex flex-wrap gap-2 justify-center">
+          <div className={`flex flex-wrap gap-2 justify-center ${simple ? 'min-h-[4rem] content-start' : ''}`}>
             {product.notes.split(' • ').map((note, index) => (
               <span
                 key={index}
@@ -211,7 +211,7 @@ function NapolitainCardComponent({
 
         {/* Bouton Ajouter au panier + Voir les détails pour la version simple */}
         {simple && (
-          <div className="pt-2 space-y-3" onClick={(e) => e.stopPropagation()}>
+          <div className="pt-2 space-y-3 mt-auto" onClick={(e) => e.stopPropagation()}>
             <motion.button
               type="button"
               onClick={handleQuickAdd}
@@ -226,11 +226,11 @@ function NapolitainCardComponent({
               </svg>
               Ajouter au panier
             </motion.button>
-            {/* Voir les détails : affiché uniquement sur mobile (masqué à partir de md) */}
+            {/* Voir les détails : toujours affiché sur tactile, masqué sur desktop (hover prend le relais) */}
             <Link
               href={`/produits/${product.slug}`}
               onClick={(e) => e.stopPropagation()}
-              className="md:hidden min-h-[44px] w-full text-chocolate-dark font-semibold text-sm py-3 rounded-lg border-2 border-chocolate-medium bg-white hover:bg-chocolate-light/30 transition-all duration-300 flex items-center justify-center gap-2 touch-manipulation"
+              className={`min-h-[44px] w-full text-chocolate-dark font-semibold text-sm py-3 rounded-lg border-2 border-chocolate-medium bg-white hover:bg-chocolate-light/30 transition-all duration-300 flex items-center justify-center gap-2 touch-manipulation ${isTouchDevice ? '' : 'lg:hidden'}`}
             >
               <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />

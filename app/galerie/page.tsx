@@ -16,6 +16,8 @@ const galerieMedia: Array<{ src: string; alt: string }> = [
   { src: '/images/galerie/troix_cabosses.jpg', alt: 'Trois cabosses de cacao' },
   { src: '/images/galerie/caramels_moules_refroidissement.png', alt: 'Caramels et confiseries en moules sur grilles de refroidissement' },
   { src: '/images/galerie/moule_chocolat_et_finis.png', alt: 'Moule à chocolat et barres de chocolat au lait démoulées' },
+  { src: '/images/galerie/cafe_chocolat.png', alt: 'Tasse de café avec chocolat emballé' },
+  { src: '/images/galerie/the_chocolat.jpg', alt: 'Tasse de thé avec chocolat et tablette' },
 ]
 
 export const metadata: Metadata = {
