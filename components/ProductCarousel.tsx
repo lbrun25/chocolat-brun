@@ -232,7 +232,7 @@ export default function ProductCarousel({ products }: ProductCarouselProps) {
         className="relative overflow-hidden px-4 md:px-8 py-8"
       >
         <motion.div
-          className="flex items-stretch"
+          className="flex items-start"
           animate={{
             x: getTranslation(),
           }}

@@ -30,7 +30,7 @@ export const products: Product[] = [
     imageSrc: '/images/products/chocolat_noir_cafe_vrac.jpg',
     fallbackSrc: '/images/napolitain-noir.svg',
     imageAlt: 'Napolitain chocolat noir café',
-    extraImages: ['/images/products/sachet_chocolats.png', '/images/products/coffret_chocolats.png'],
+    extraImages: ['/images/products/sachet_chocolats.png', '/images/products/coffret_chocolats.png', '/images/products/cafe_chocolat_tasse.png'],
     priceHT: 17.06, // 18€ TTC / 1.055
     priceTTC: 18, // 40 pièces : 18€ TTC
     pricePerKg: 90, // 18€/0.2kg = 90€/kg TTC

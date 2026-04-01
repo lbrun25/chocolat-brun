@@ -6,7 +6,6 @@ import { Check } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import SafeImage from './SafeImage'
-import Lightbox from './Lightbox'
 import { Product, PackagingType, getPackagingPrices } from '@/types/product'
 import { useCart } from '@/contexts/CartContext'
 import PackagingSelector from './PackagingSelector'
@@ -29,10 +28,7 @@ function NapolitainCardComponent({
   const [showSuccess, setShowSuccess] = useState(false)
   const [selectedPackaging, setSelectedPackaging] = useState<PackagingType>('40')
   const [isTouchDevice, setIsTouchDevice] = useState(false)
-  const [expanded, setExpanded] = useState(false)
-  const [lightboxOpen, setLightboxOpen] = useState(false)
-  const [lightboxImage, setLightboxImage] = useState<{ src: string; fallback: string; alt: string } | null>(null)
-  const hasExtraImages = simple && product.extraImages && product.extraImages.length >= 2
+
 
   // Détecter si on est sur un appareil tactile
   useEffect(() => {
@@ -58,11 +54,7 @@ function NapolitainCardComponent({
   }
 
   const handleCardClick = () => {
-    if (hasExtraImages) {
-      setExpanded((prev) => !prev)
-    } else {
-      router.push(`/produits/${product.slug}`)
-    }
+    router.push(`/produits/${product.slug}`)
   }
 
   const shouldDisableHover = disableHover || isTouchDevice
@@ -120,74 +112,6 @@ function NapolitainCardComponent({
         </div>
 
         {/* Images supplémentaires (sachet, coffret) - visibles au clic, ouvrent en lightbox au clic */}
-        {hasExtraImages && expanded && product.extraImages && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.3, ease: 'easeOut' }}
-            className="px-4 pb-4 space-y-4"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="space-y-1">
-              <button
-                type="button"
-                onClick={() => {
-                  setLightboxImage({
-                    src: product.extraImages![0],
-                    fallback: product.fallbackSrc,
-                    alt: `${product.imageAlt} - 100 pièces`,
-                  })
-                  setLightboxOpen(true)
-                }}
-                className="relative aspect-[4/3] w-full rounded-xl overflow-hidden bg-chocolate-light/20 shadow-inner cursor-zoom-in focus:outline-none focus:ring-2 focus:ring-chocolate-medium focus:ring-offset-2 hover:shadow-md transition-shadow"
-                aria-label="Voir 100 pièces en grand"
-              >
-                <SafeImage
-                  src={product.extraImages[0]}
-                  fallbackSrc={product.fallbackSrc}
-                  alt={`${product.imageAlt} - 100 pièces`}
-                  fill
-                  className="object-contain object-center"
-                />
-              </button>
-              <p className="text-sm font-medium text-chocolate-dark text-center">100 pièces</p>
-            </div>
-            <div className="space-y-1">
-              <button
-                type="button"
-                onClick={() => {
-                  setLightboxImage({
-                    src: product.extraImages![1],
-                    fallback: product.fallbackSrc,
-                    alt: `${product.imageAlt} - 40 pièces`,
-                  })
-                  setLightboxOpen(true)
-                }}
-                className="relative aspect-[4/3] w-full rounded-xl overflow-hidden bg-chocolate-light/20 shadow-inner cursor-zoom-in focus:outline-none focus:ring-2 focus:ring-chocolate-medium focus:ring-offset-2 hover:shadow-md transition-shadow"
-                aria-label="Voir 40 pièces en grand"
-              >
-                <SafeImage
-                  src={product.extraImages[1]}
-                  fallbackSrc={product.fallbackSrc}
-                  alt={`${product.imageAlt} - 40 pièces`}
-                  fill
-                  className="object-contain object-center"
-                />
-              </button>
-              <p className="text-sm font-medium text-chocolate-dark text-center">40 pièces</p>
-            </div>
-            <Lightbox
-              isOpen={lightboxOpen}
-              onClose={() => setLightboxOpen(false)}
-              imageSrc={lightboxImage?.src ?? product.extraImages![0]}
-              fallbackSrc={lightboxImage?.fallback ?? product.fallbackSrc}
-              alt={lightboxImage?.alt ?? `${product.imageAlt} - 100 pièces`}
-              title={product.name}
-            />
-          </motion.div>
-        )}
-
       {/* Contenu de la carte */}
       <div className={`${simple ? 'p-4' : 'p-6'} space-y-4 flex-1 flex flex-col`}>
         {/* Titre */}

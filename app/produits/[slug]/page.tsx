@@ -153,6 +153,32 @@ export default function ProductPage({ params }: ProductPageProps) {
                   </button>
                   <p className="text-sm font-medium text-chocolate-dark text-center">40 pièces</p>
                 </div>
+                {product.extraImages.length >= 3 && (
+                  <div className="space-y-2">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setLightboxContent({
+                          imageSrc: product.extraImages![2],
+                          fallbackSrc: product.fallbackSrc,
+                          alt: `${product.imageAlt} - dégustation`,
+                          title: product.name,
+                        })
+                        setLightboxOpen(true)
+                      }}
+                      className="relative w-full aspect-[4/3] max-h-[400px] rounded-lg overflow-hidden bg-chocolate-light/10 shadow-md cursor-zoom-in focus:outline-none focus:ring-2 focus:ring-chocolate-medium focus:ring-offset-2 hover:shadow-lg transition-shadow"
+                      aria-label="Voir image dégustation en grand"
+                    >
+                      <SafeImage
+                        src={product.extraImages[2]}
+                        fallbackSrc={product.fallbackSrc}
+                        alt={`${product.imageAlt} - dégustation`}
+                        fill
+                        className="object-contain object-center"
+                      />
+                    </button>
+                  </div>
+                )}
               </div>
             )}
           </div>
