@@ -159,7 +159,7 @@ export default function ProductPage({ params }: ProductPageProps) {
                       type="button"
                       onClick={() => {
                         setLightboxContent({
-                          imageSrc: product.extraImages![2],
+                          imageSrc: product.extraImages![2] ?? '',
                           fallbackSrc: product.fallbackSrc,
                           alt: `${product.imageAlt} - dégustation`,
                           title: product.name,
@@ -170,7 +170,7 @@ export default function ProductPage({ params }: ProductPageProps) {
                       aria-label="Voir image dégustation en grand"
                     >
                       <SafeImage
-                        src={product.extraImages[2]}
+                        src={product.extraImages[2] ?? ''}
                         fallbackSrc={product.fallbackSrc}
                         alt={`${product.imageAlt} - dégustation`}
                         fill

@@ -29,7 +29,7 @@ export interface Product {
   fallbackSrc: string
   imageAlt: string
   /** Images supplémentaires affichées sous la première au clic (sachet, coffret) */
-  extraImages?: [string, string]
+  extraImages?: [string, string, string?]
   priceHT: number // Prix HT pour 40 pièces (200g) en euros
   priceTTC: number // Prix TTC pour 40 pièces (200g) en euros (TVA 5.5%)
   pricePerKg: number // Prix au kilo
