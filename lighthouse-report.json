@@ -5244,8 +5244,8 @@
                 "width": 381,
                 "height": 285
               },
-              "snippet": "<img alt=\"Napolitain chocolat noir café\" loading=\"lazy\" decoding=\"async\" data-nimg=\"fill\" class=\"object-cover object-center scale-110 transition-transform duration-700 \" src=\"http://localhost:3000/images/products/chocolat_noir_cafe_vrac.jpg\" style=\"position: absolute; height: 100%; width: 100%; inset: 0px;\">",
-              "nodeLabel": "Napolitain chocolat noir café"
+              "snippet": "<img alt=\"Napolitain chocolat noir au café\" loading=\"lazy\" decoding=\"async\" data-nimg=\"fill\" class=\"object-cover object-center scale-110 transition-transform duration-700 \" src=\"http://localhost:3000/images/products/chocolat_noir_cafe_vrac.jpg\" style=\"position: absolute; height: 100%; width: 100%; inset: 0px;\">",
+              "nodeLabel": "Napolitain chocolat noir au café"
             },
             "url": "http://localhost:3000/images/products/chocolat_noir_cafe_vrac.jpg",
             "totalBytes": 262210,

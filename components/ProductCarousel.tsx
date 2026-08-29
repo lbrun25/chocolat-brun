@@ -232,7 +232,7 @@ export default function ProductCarousel({ products }: ProductCarouselProps) {
         className="relative overflow-hidden px-4 md:px-8 py-8"
       >
         <motion.div
-          className="flex"
+          className="flex items-start"
           animate={{
             x: getTranslation(),
           }}
@@ -248,7 +248,7 @@ export default function ProductCarousel({ products }: ProductCarouselProps) {
           {products.map((product, index) => (
             <div
               key={product.id}
-              className="flex-shrink-0"
+              className="flex-shrink-0 flex"
               style={{ 
                 width: itemWidth > 0 ? `${itemWidth}px` : `calc((100% - ${(visibleCount - 1) * gap}px) / ${visibleCount})`,
               }}
