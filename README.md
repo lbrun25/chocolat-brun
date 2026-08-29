@@ -2,41 +2,58 @@
 
 Site vitrine pour la société Cédric BRUN, spécialisée dans la fabrication artisanale de napolitains à Charquemont (25140).
 
-## 🚀 Technologies
+## 🍫 Structure du site (refonte août 2026)
 
-- **Next.js 14** (App Router)
-- **TypeScript**
-- **TailwindCSS**
-- **Framer Motion** (animations)
-- **Next/Image** (optimisation des images)
+Trois pages, volontairement visuelles et peu bavardes :
 
-## 📁 Structure du projet
+| Page | Public | Fichier |
+|---|---|---|
+| `/` — Les Belles Comtoises | Particuliers | `app/page.tsx` |
+| `/poissons` — Les petits poissons | Professionnels | `app/poissons/page.tsx` |
+| `/petits-beurres` — Les biscuits petits beurres | Professionnels | `app/petits-beurres/page.tsx` |
 
-```
-/app
-  /page.tsx              # Page d'accueil
-  /prix/page.tsx         # Page Prix & Conditionnements
-  /galerie/page.tsx      # Page Galerie
-  /api/devis/route.ts    # API route pour le formulaire de commande pro (page /pro)
-  /layout.tsx            # Layout principal avec SEO
-  /globals.css           # Styles globaux
-/components
-  /Header.tsx            # Header avec navigation sticky
-  /Footer.tsx            # Footer avec informations de contact
-  /NapolitainCard.tsx    # Carte produit napolitain
-  /PriceTable.tsx        # Tableau de prix
-  /IllustrationCard.tsx  # Carte illustration pour la galerie
-/public/images           # Images placeholder (SVG)
-```
+Ossature commune : `components/site/SiteHeader.tsx`, `SiteFooter.tsx`, `GammePro.tsx` (les deux pages pros
+partagent le même composant), `Reveal.tsx`.
 
-## 🎨 Identité visuelle
+### Données
 
-- **Couleurs principales** :
-  - Brun foncé : `#3B1E12`
-  - Beige/Doré : `#F5E6C8`
-  - Tons chauds et textures naturelles
+- `lib/catalogue.ts` — les deux gammes pros (poissons 4 g, petits beurres 6 g), prix HT officiels,
+  conditionnement 200 pièces, **port 14 € HT**, **franco 290 € HT**, TVA 5,5 % (`TVA_RATE`).
+  `CONTACT.signature` porte la signature de la maison : « Maître Artisan Chocolatier depuis 1999 ».
+- `lib/belles-comtoises.ts` — les 4 recettes et les 4 coffrets grand public (prix TTC officiels :
+  6 → 12 €, 12 → 18 €, 20 → 26 €, 30 → 35 €). `PRIX_PROVISOIRES = false` ; repasser à `true` afficherait
+  un bandeau « tarifs provisoires » si la grille venait à changer.
+  ⚠️ Le dossier client ne fournit aucune photo du coffret de 30 : une autre prise de vue de grand coffret
+  est utilisée en attendant.
 
-- **Ambiance** : Artisanale, traditionnelle, haut de gamme
+### Compte professionnel (accès aux tarifs)
+
+Les tarifs pros sont masqués tant que le visiteur n'a pas de compte avec **SIRET vérifié auprès de l'INSEE**.
+
+- Inscription : `/espace-pro/inscription` → `app/api/pro/inscription/route.ts`
+  (vérifie le SIRET via `/api/siret/validate`, puis crée le compte Supabase et le profil).
+- Connexion : `/espace-pro/connexion`. Le garde-fou d'affichage est `hooks/useProAccess.ts`.
+- Migration à appliquer : `supabase/migrations/20260828000000_add_siret_to_profiles.sql`
+  (colonnes `siret`, `raison_sociale`, `type_etablissement`, `siret_verified_at`).
+- Variable requise : `INSEE_SIRENE_API_TOKEN` (en-tête `X-INSEE-Api-Key-Integration`).
+
+### Paiement (carte bancaire uniquement)
+
+Deux tunnels Stripe, chacun recalculant **tous les prix côté serveur** :
+
+| Tunnel | Panier | Route | Page |
+|---|---|---|---|
+| Professionnels (HT + ligne TVA) | `contexts/ProCartContext.tsx` | `app/api/pro/checkout/route.ts` | `/commander` |
+| Belles Comtoises (TTC) | `contexts/ComtoisesCartContext.tsx` | `app/api/boutique/checkout/route.ts` | `/panier-comtoises` |
+
+Les metadata Stripe respectent le contrat du tunnel historique : commande, `order_items` Supabase et emails
+fonctionnent sans modification. Le JSON des lignes est découpé sur plusieurs clés (limite Stripe de
+500 caractères) — voir `lib/order-items-metadata.ts`.
+
+### Pages conservées mais délistées
+
+- `/napolitains` : ancienne page d'accueil « Napolitains artisanaux » (`noindex`, hors sitemap, aucun lien entrant).
+- `/produits`, `/panier`, `/checkout`, `/compte`, `/prix`, `/pro` : boutique historique, dans `app/(site)/`.
 
 ## 🛠️ Installation
 

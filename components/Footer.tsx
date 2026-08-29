@@ -8,7 +8,7 @@ export default function Footer() {
           <div>
             <h3 className="text-xl font-bold mb-4">Cédric BRUN</h3>
             <p className="text-chocolate-light/80">
-              Maître Artisan Pâtissier Chocolatier Depuis 1999 - Fabrication artisanale
+              Maître Artisan Chocolatier depuis 1999 — Fabrication artisanale
             </p>
           </div>
 

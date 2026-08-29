@@ -6,6 +6,7 @@ import type Stripe from 'stripe'
 import { supabase } from '@/lib/supabase'
 import { sendOrderConfirmationEmail } from '@/lib/order-confirmation-email'
 import { sendOrderNotificationToOwner } from '@/lib/order-notification-owner-email'
+import { readOrderItemsMetadata } from '@/lib/order-items-metadata'
 
 type SessionWithShipping = Stripe.Checkout.Session & {
   shipping_details?: { address?: { line1?: string; city?: string; postal_code?: string; country?: string } }
@@ -34,9 +35,7 @@ export async function createOrderFromStripeSession(session: SessionWithShipping)
         const shippingCity = stripeAddr?.city || (session.metadata?.shippingCity as string) || ''
         const shippingPostalCode = stripeAddr?.postal_code || (session.metadata?.shippingPostalCode as string) || ''
         const shippingCountry = stripeAddr?.country || (session.metadata?.shippingCountry as string) || 'France'
-        const orderItems = session.metadata?.orderItems
-          ? (JSON.parse(session.metadata.orderItems as string) as Array<{ productName: string; packaging: string; quantity: number; priceTTC: number }>)
-          : []
+        const orderItems = readOrderItemsMetadata(session.metadata as Record<string, string> | null)
         const totalHT = parseFloat((session.metadata?.totalHT as string) || '0')
         const totalTTC = parseFloat((session.metadata?.totalTTC as string) || '0')
         const shippingCost = parseFloat((session.metadata?.shippingCost as string) || '0')
@@ -104,9 +103,7 @@ export async function createOrderFromStripeSession(session: SessionWithShipping)
     const shippingCountry = stripeAddress?.country
       || (session.metadata?.shippingCountry as string) || 'France'
 
-    const orderItems = session.metadata?.orderItems
-      ? (JSON.parse(session.metadata.orderItems as string) as Array<{ productId?: string; productName: string; packaging: string; quantity: number; priceTTC: number }>)
-      : []
+    const orderItems = readOrderItemsMetadata(session.metadata as Record<string, string> | null)
 
     const totalHT = parseFloat((session.metadata?.totalHT as string) || '0')
     const totalTTC = parseFloat((session.metadata?.totalTTC as string) || '0')

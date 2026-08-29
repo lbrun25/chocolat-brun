@@ -3,6 +3,7 @@ import Stripe from 'stripe'
 import { supabase } from '@/lib/supabase'
 import { sendOrderConfirmationEmail } from '@/lib/order-confirmation-email'
 import { sendOrderNotificationToOwner } from '@/lib/order-notification-owner-email'
+import { readOrderItemsMetadata } from '@/lib/order-items-metadata'
 
 export const dynamic = 'force-dynamic'
 
@@ -80,9 +81,7 @@ export async function POST(request: NextRequest) {
           || (session.metadata?.shippingCountry as string) || 'France'
         
         // Parser les items de commande
-        const orderItems = session.metadata?.orderItems 
-          ? JSON.parse(session.metadata.orderItems)
-          : []
+        const orderItems = readOrderItemsMetadata(session.metadata as Record<string, string> | null)
         
         const totalHT = parseFloat(session.metadata?.totalHT || '0')
         const totalTTC = parseFloat(session.metadata?.totalTTC || '0')
