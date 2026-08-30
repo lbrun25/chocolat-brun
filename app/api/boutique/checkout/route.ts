@@ -139,6 +139,9 @@ export async function POST(request: NextRequest) {
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : 'Une erreur est survenue'
     console.error('Erreur création session Stripe (boutique):', message)
-    return NextResponse.json({ error: message }, { status: 500 })
+    return NextResponse.json(
+      { error: 'Le paiement n’a pas pu être ouvert. Réessayez ou contactez-nous au 03 81 44 07 36.' },
+      { status: 500 }
+    )
   }
 }

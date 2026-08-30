@@ -105,6 +105,9 @@ export async function createOrderFromStripeSession(session: SessionWithShipping)
 
     const orderItems = readOrderItemsMetadata(session.metadata as Record<string, string> | null)
 
+    // Renseigné si un écrit en base échoue : on continue quand même jusqu'aux emails
+    let erreurBase: string | null = null
+
     const totalHT = parseFloat((session.metadata?.totalHT as string) || '0')
     const totalTTC = parseFloat((session.metadata?.totalTTC as string) || '0')
     const shippingCost = parseFloat((session.metadata?.shippingCost as string) || '0')
@@ -181,8 +184,9 @@ export async function createOrderFromStripeSession(session: SessionWithShipping)
           .single()
 
         if (profileError) {
+          // On n'interrompt pas : la commande et les emails ne dépendent pas du profil.
           console.error('Erreur création profil invité:', profileError)
-          return { created: false, error: profileError.message }
+          erreurBase = profileError.message
         }
         if (newProfile) profileId = newProfile.id
       }
@@ -234,8 +238,10 @@ export async function createOrderFromStripeSession(session: SessionWithShipping)
       .single()
 
     if (orderError) {
+      // Le paiement est encaissé : on poursuit pour que le client et la maison
+      // reçoivent malgré tout leur email, construit à partir des metadata Stripe.
       console.error('Erreur création commande:', orderError)
-      return { created: false, error: orderError.message }
+      erreurBase = orderError.message
     }
 
     // 3. Créer les items de commande
@@ -253,7 +259,8 @@ export async function createOrderFromStripeSession(session: SessionWithShipping)
       if (itemsError) console.error('Erreur items de commande:', itemsError)
     }
 
-    // 4. Email de confirmation
+    // 4. Emails — envoyés même si l'enregistrement en base a échoué (voir plus bas) :
+    //    toutes les données de la commande viennent des metadata Stripe, pas de la base.
     const emailPayload = {
       customerFirstName: customerFirstName || '',
       customerLastName: customerLastName || '',
@@ -275,7 +282,7 @@ export async function createOrderFromStripeSession(session: SessionWithShipping)
       totalTTC,
       shippingCost,
       totalWithShipping,
-      orderReference: order?.order_number || session.id?.substring(0, 24) || order.id,
+      orderReference: order?.order_number || session.id?.substring(0, 24) || '',
       orderDate: new Date().toLocaleDateString('fr-FR', {
         weekday: 'long',
         day: 'numeric',
@@ -301,6 +308,9 @@ export async function createOrderFromStripeSession(session: SessionWithShipping)
     const ownerResult = await sendOrderNotificationToOwner(ownerPayload)
     if (!ownerResult.ok) console.error('Notification propriétaire non envoyée:', ownerResult.error)
 
+    if (erreurBase || !order) {
+      return { created: false, error: erreurBase ?? 'Commande non enregistrée' }
+    }
     return { orderId: order.id, orderNumber: order.order_number, created: true }
   } catch (err: unknown) {
     const msg = err instanceof Error ? err.message : String(err)

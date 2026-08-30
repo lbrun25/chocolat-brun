@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { supabase } from '@/lib/supabase'
-import { getBaseUrlFromRequest } from '@/lib/get-base-url'
+import { verifierSiret } from '@/lib/siret'
 
 export const dynamic = 'force-dynamic'
 
@@ -56,21 +56,18 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // 1. Vérification du SIRET auprès de l'INSEE (réutilise la route existante)
-    const baseUrl = getBaseUrlFromRequest(request)
-    const siretRes = await fetch(`${baseUrl}/api/siret/validate`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ siret }),
-    })
-    const siretData = await siretRes.json()
-    if (!siretRes.ok || !siretData.valid) {
+    // 1. Vérification du SIRET auprès de l'INSEE, appelée directement.
+    //    Surtout pas via une requête HTTP vers notre propre API : l'URL serait
+    //    construite depuis `x-forwarded-host`, que l'appelant contrôle — il
+    //    pourrait la pointer vers un serveur répondant toujours « valide ».
+    const siretResult = await verifierSiret(siret)
+    if (!siretResult.valid) {
       return NextResponse.json(
-        { error: siretData.error || 'SIRET introuvable au répertoire Sirene.' },
-        { status: siretRes.status === 503 ? 503 : 400 }
+        { error: siretResult.error || 'SIRET introuvable au répertoire Sirene.' },
+        { status: siretResult.configManquante ? 503 : 400 }
       )
     }
-    const raisonSociale: string = siretData.raisonSociale || ''
+    const raisonSociale: string = siretResult.raisonSociale || ''
 
     // 2. Un compte existe-t-il déjà ?
     const { data: existingAccount } = await supabase
@@ -94,7 +91,18 @@ export async function POST(request: NextRequest) {
       options: { data: { first_name: prenom, last_name: nom } },
     })
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 400 })
+      // Les erreurs d'infrastructure (base injoignable) ne doivent pas remonter
+      // telles quelles à l'écran : « fetch failed » n'aide personne.
+      console.error('Inscription pro — signUp:', error.message)
+      const reseau = /fetch failed|network|ENOTFOUND|ECONN/i.test(error.message)
+      return NextResponse.json(
+        {
+          error: reseau
+            ? 'Le service de création de compte est momentanément indisponible. Réessayez plus tard ou appelez-nous au 03 81 44 07 36.'
+            : error.message,
+        },
+        { status: reseau ? 503 : 400 }
+      )
     }
 
     const profilePayload = {
@@ -147,6 +155,9 @@ export async function POST(request: NextRequest) {
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : 'Une erreur est survenue'
     console.error('Inscription pro:', message)
-    return NextResponse.json({ error: message }, { status: 500 })
+    return NextResponse.json(
+      { error: 'Une erreur technique est survenue. Réessayez ou contactez-nous au 03 81 44 07 36.' },
+      { status: 500 }
+    )
   }
 }
