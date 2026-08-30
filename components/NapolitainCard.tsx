@@ -29,6 +29,7 @@ function NapolitainCardComponent({
   const [selectedPackaging, setSelectedPackaging] = useState<PackagingType>('40')
   const [isTouchDevice, setIsTouchDevice] = useState(false)
 
+
   // Détecter si on est sur un appareil tactile
   useEffect(() => {
     const checkTouchDevice = () => {
@@ -52,6 +53,10 @@ function NapolitainCardComponent({
     setTimeout(() => setShowSuccess(false), 2000)
   }
 
+  const handleCardClick = () => {
+    router.push(`/produits/${product.slug}`)
+  }
+
   const shouldDisableHover = disableHover || isTouchDevice
 
   return (
@@ -61,8 +66,8 @@ function NapolitainCardComponent({
       viewport={{ once: true, margin: '-100px' }}
       transition={{ duration: 0.5, delay, ease: 'easeOut' }}
       whileHover={shouldDisableHover ? {} : { y: -8, scale: 1.02 }}
-      onClick={() => router.push(`/produits/${product.slug}`)}
-      className={`group relative bg-white rounded-2xl overflow-hidden transition-all duration-300 border border-chocolate-light/50 cursor-pointer ${shouldDisableHover ? 'no-hover' : ''}`}
+      onClick={handleCardClick}
+      className={`group relative bg-white rounded-2xl overflow-hidden transition-all duration-300 border border-chocolate-light/50 cursor-pointer w-full flex flex-col ${shouldDisableHover ? 'no-hover' : ''}`}
     >
         {/* Image Container avec fond dégradé élégant - Ratio carré sur desktop, plus petit sur mobile */}
         <div className={`relative aspect-[4/3] md:aspect-square bg-gradient-to-br from-chocolate-light/30 via-white to-chocolate-light/20 overflow-hidden cursor-pointer shadow-md transition-shadow duration-300 ${shouldDisableHover ? '' : 'group-hover:shadow-lg'}`}>
@@ -83,21 +88,19 @@ function NapolitainCardComponent({
             />
           </div>
 
-          {/* Overlay avec indication au hover */}
-          <div className={`absolute inset-0 bg-gradient-to-t from-chocolate-dark/80 via-transparent to-transparent transition-all duration-300 flex items-end justify-center pb-6 ${shouldDisableHover ? 'opacity-0' : 'opacity-0 group-hover:opacity-100'}`}>
-            <motion.div 
-              initial={{ y: 20, opacity: 0 }}
-              whileHover={{ y: 0, opacity: 1 }}
-              className="bg-white/95 backdrop-blur-sm rounded-full px-6 py-3 text-chocolate-dark font-semibold text-sm shadow-xl border border-chocolate-light/50"
+          {/* Overlay avec indication au hover (visible uniquement sur PC au survol ; masqué sur mobile) */}
+          <div className={`absolute inset-0 bg-gradient-to-t from-chocolate-dark/80 via-transparent to-transparent transition-all duration-300 flex items-end justify-center pb-6 ${shouldDisableHover ? 'opacity-0 pointer-events-none' : 'opacity-0 group-hover:opacity-100'}`}>
+            <Link
+              href={`/produits/${product.slug}`}
+              onClick={(e) => e.stopPropagation()}
+              className="bg-white/95 backdrop-blur-sm rounded-full px-6 py-3 text-chocolate-dark font-semibold text-sm shadow-xl border border-chocolate-light/50 flex items-center gap-2 hover:bg-white transition-colors"
             >
-              <span className="flex items-center gap-2">
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                </svg>
-                Voir les détails
-              </span>
-            </motion.div>
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+              </svg>
+              Voir les détails
+            </Link>
           </div>
 
           {/* Badge artisanal en haut à droite */}
@@ -108,16 +111,17 @@ function NapolitainCardComponent({
           </div>
         </div>
 
+        {/* Images supplémentaires (sachet, coffret) - visibles au clic, ouvrent en lightbox au clic */}
       {/* Contenu de la carte */}
-      <div className={`${simple ? 'p-4' : 'p-6'} space-y-4`}>
+      <div className={`${simple ? 'p-4' : 'p-6'} space-y-4 flex-1 flex flex-col`}>
         {/* Titre */}
-        <h3 className={`${simple ? 'text-xl' : 'text-2xl'} font-bold text-chocolate-dark font-serif text-center transition-colors duration-300 ${shouldDisableHover ? '' : 'group-hover:text-chocolate-medium'}`}>
+        <h3 className={`${simple ? 'text-xl min-h-[3.5rem] flex items-center justify-center' : 'text-2xl'} font-bold text-chocolate-dark font-serif text-center transition-colors duration-300 ${shouldDisableHover ? '' : 'group-hover:text-chocolate-medium'}`}>
           {product.name}
         </h3>
 
         {/* Notes de dégustation */}
         {product.notes && (
-          <div className="flex flex-wrap gap-2 justify-center">
+          <div className={`flex flex-wrap gap-2 justify-center ${simple ? 'min-h-[4rem] content-start' : ''}`}>
             {product.notes.split(' • ').map((note, index) => (
               <span
                 key={index}
@@ -129,9 +133,9 @@ function NapolitainCardComponent({
           </div>
         )}
 
-        {/* Bouton Ajouter au panier pour la version simple (sans sélecteur de conditionnement) */}
+        {/* Bouton Ajouter au panier + Voir les détails pour la version simple */}
         {simple && (
-          <div className="pt-2" onClick={(e) => e.stopPropagation()}>
+          <div className="pt-2 space-y-3 mt-auto" onClick={(e) => e.stopPropagation()}>
             <motion.button
               type="button"
               onClick={handleQuickAdd}
@@ -146,6 +150,18 @@ function NapolitainCardComponent({
               </svg>
               Ajouter au panier
             </motion.button>
+            {/* Voir les détails : toujours affiché sur tactile, masqué sur desktop (hover prend le relais) */}
+            <Link
+              href={`/produits/${product.slug}`}
+              onClick={(e) => e.stopPropagation()}
+              className={`min-h-[44px] w-full text-chocolate-dark font-semibold text-sm py-3 rounded-lg border-2 border-chocolate-medium bg-white hover:bg-chocolate-light/30 transition-all duration-300 flex items-center justify-center gap-2 touch-manipulation ${isTouchDevice ? '' : 'lg:hidden'}`}
+            >
+              <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+              </svg>
+              Voir les détails
+            </Link>
             {showSuccess && (
               <motion.div
                 initial={{ opacity: 0, y: -10 }}

@@ -27,7 +27,7 @@ export default function BrandLogo() {
           </span>
         </div>
         <p className="hidden md:block text-chocolate-light text-[10px] md:text-xs lg:text-sm font-cinzel uppercase tracking-wider">
-          PÂTISSIER CHOCOLATIER DEPUIS 1999
+          CHOCOLATIER DEPUIS 1999
         </p>
       </div>
     </div>

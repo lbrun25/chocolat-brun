@@ -13,6 +13,7 @@ export const products: Product[] = [
     imageSrc: '/images/products/chocolat_noir_vrac.jpg',
     fallbackSrc: '/images/napolitain-noir.svg',
     imageAlt: 'Napolitain chocolat noir',
+    extraImages: ['/images/products/sachet_chocolats.png', '/images/products/coffret_chocolats.png'],
     priceHT: 11.20, // Prix pour 40 pièces (200g) HT
     priceTTC: 11.82, // Prix TTC pour 40 pièces (200g) (TVA 5.5%)
     pricePerKg: 56, // €/kg HT
@@ -20,7 +21,7 @@ export const products: Product[] = [
   },
   {
     id: 'chocolat-noir-cafe',
-    name: 'Chocolat noir café',
+    name: 'Chocolat noir au café',
     slug: 'chocolat-noir-cafe',
     description: 'Un chocolat noir sublimé par ses éclats de grains de café bio de Tanzanie. Alliance parfaite entre l\'intensité du cacao et le café torréfié pour une dégustation riche et réconfortante.',
     notes: 'Cacaoté • Café torréfié • Corsé',
@@ -29,25 +30,26 @@ export const products: Product[] = [
     imageSrc: '/images/products/chocolat_noir_cafe_vrac.jpg',
     fallbackSrc: '/images/napolitain-noir.svg',
     imageAlt: 'Napolitain chocolat noir café',
+    extraImages: ['/images/products/sachet_chocolats.png', '/images/products/coffret_chocolats.png', '/images/products/cafe_chocolat_tasse.png'],
     priceHT: 17.06, // 18€ TTC / 1.055
     priceTTC: 18, // 40 pièces : 18€ TTC
     pricePerKg: 90, // 18€/0.2kg = 90€/kg TTC
     weight: 5,
     packagingPrices: {
       '40': {
-        priceTTC: 18,
-        priceHT: 18 / 1.055,
-        pieces: 40,
-        weight: 200,
-        pricePerKgTTC: 90, // 18€ / 0.2kg
-      },
-      '100': {
         priceTTC: 40,
         priceHT: 40 / 1.055,
         pieces: 100,
         weight: 500,
-        pricePerKgTTC: 80, // 40€ / 0.5kg (remisé)
-        priceTTCWithoutDiscount: 45, // Prix sans remise
+        pricePerKgTTC: 80,
+        priceTTCWithoutDiscount: 45,
+      },
+      '100': {
+        priceTTC: 18,
+        priceHT: 18 / 1.055,
+        pieces: 40,
+        weight: 200,
+        pricePerKgTTC: 90,
       },
     },
   },
@@ -62,6 +64,7 @@ export const products: Product[] = [
     imageSrc: '/images/products/chocolat_lait_vrac.jpg',
     fallbackSrc: '/images/napolitain-lait.svg',
     imageAlt: 'Napolitain chocolat au lait',
+    extraImages: ['/images/products/sachet_chocolats.png', '/images/products/coffret_chocolats.png'],
     priceHT: 28.00,
     priceTTC: 29.54,
     pricePerKg: 56,
@@ -78,6 +81,7 @@ export const products: Product[] = [
     imageSrc: '/images/products/chocolat_blanc_vrac.jpg',
     fallbackSrc: '/images/napolitain-blanc.svg',
     imageAlt: 'Napolitain chocolat blanc',
+    extraImages: ['/images/products/sachet_chocolats.png', '/images/products/coffret_chocolats.png'],
     priceHT: 28.00,
     priceTTC: 29.54,
     pricePerKg: 56,
@@ -94,6 +98,7 @@ export const products: Product[] = [
     imageSrc: '/images/products/chocolat_dulcey_vrac.jpg',
     fallbackSrc: '/images/napolitain-dulcey.svg',
     imageAlt: 'Napolitain chocolat Dulcey',
+    extraImages: ['/images/products/sachet_chocolats.png', '/images/products/coffret_chocolats.png'],
     priceHT: 28.00,
     priceTTC: 29.54,
     pricePerKg: 56,
