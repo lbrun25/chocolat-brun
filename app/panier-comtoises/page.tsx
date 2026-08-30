@@ -13,6 +13,7 @@ import { FREE_SHIPPING_THRESHOLD } from '@/lib/shipping'
 export default function PanierComtoisesPage() {
   const { quantites, setQuantite, total, isEmpty, hydrated } = useComtoisesCart()
   const [form, setForm] = useState({ prenom: '', nom: '', email: '', telephone: '', notes: '', website: '' })
+  const [cgvAcceptees, setCgvAcceptees] = useState(false)
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
@@ -20,7 +21,7 @@ export default function PanierComtoisesPage() {
 
   const onSubmit = async (e: FormEvent) => {
     e.preventDefault()
-    if (submitting || isEmpty) return
+    if (submitting || isEmpty || !cgvAcceptees) return
     setSubmitting(true)
     setError(null)
     try {
@@ -193,10 +194,27 @@ export default function PanierComtoisesPage() {
                   </p>
                 )}
 
+                <label className="flex cursor-pointer items-start gap-3 text-[13.5px] leading-relaxed text-ink">
+                  <input
+                    type="checkbox"
+                    required
+                    checked={cgvAcceptees}
+                    onChange={(e) => setCgvAcceptees(e.target.checked)}
+                    className="mt-0.5 h-4 w-4 shrink-0 rounded border-ink/30 text-ink focus:ring-brass"
+                  />
+                  <span>
+                    J’ai lu et j’accepte les{' '}
+                    <Link href="/cgu" className="font-medium underline underline-offset-2 hover:text-brass-deep">
+                      conditions générales de vente
+                    </Link>
+                    , ainsi que la composition et les allergènes indiqués.
+                  </span>
+                </label>
+
                 <button
                   type="submit"
-                  disabled={submitting}
-                  className="inline-flex h-14 w-full items-center justify-center gap-2.5 rounded-full bg-ink px-7 py-4 text-[15px] font-medium text-ivory transition-all hover:-translate-y-0.5 hover:bg-cacao disabled:cursor-wait disabled:opacity-70"
+                  disabled={submitting || !cgvAcceptees}
+                  className="inline-flex h-14 w-full items-center justify-center gap-2.5 rounded-full bg-ink px-7 py-4 text-[15px] font-medium text-ivory transition-all hover:-translate-y-0.5 hover:bg-cacao disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   {submitting ? (
                     <>

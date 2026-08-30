@@ -84,15 +84,22 @@ export default function CGUPage() {
                 3. Produits et services
               </h2>
               <p className="font-sans">
-                PATISSERIE BRUN CEDRIC propose à la vente des napolitains en chocolat artisanaux dans 
-                les variétés suivantes :
+                PATISSERIE BRUN CEDRIC propose à la vente les gammes suivantes :
               </p>
               <ul className="list-disc pl-6 space-y-2 mt-2 font-sans">
-                <li>Chocolat noir</li>
-                <li>Chocolat noir au café</li>
-                <li>Chocolat au lait</li>
-                <li>Chocolat blanc</li>
-                <li>Chocolat Dulcey (blond)</li>
+                <li>
+                  <strong>Les Belles Comtoises</strong> — vaches en chocolat, pur beurre de cacao, praliné
+                  noisette, en coffrets de 6, 12, 20 ou 30 pièces. Vente aux particuliers, prix TTC.
+                </li>
+                <li>
+                  <strong>Les petits poissons en chocolat</strong> (4 g) — lait, noir, noir au café, blanc.
+                  Vente aux professionnels, prix HT, par cartons de 200 pièces. Accès réservé aux comptes
+                  dont le SIRET est vérifié auprès du répertoire Sirene (INSEE).
+                </li>
+                <li>
+                  <strong>Les petits beurres en chocolat</strong> (6 g) — lait, noir, noir au café, blanc.
+                  Vente aux professionnels, prix HT, par cartons de 200 pièces.
+                </li>
               </ul>
               <p className="font-sans mt-4">
                 Les produits sont présentés sur le site avec leurs caractéristiques essentielles : description, 
@@ -326,6 +333,8 @@ export default function CGUPage() {
                 8.2. Allergènes
               </h3>
               <p className="font-sans">
+                Les Belles Comtoises sont fourrées au praliné noisette : elles contiennent NOISETTES
+                (fruits à coque) et LAIT.
                 Les informations sur les allergènes sont indiquées sur chaque fiche produit. 
                 Nos produits sont fabriqués dans un atelier utilisant : LAIT, fruits à coque, gluten, 
                 soja. Des traces de ces allergènes peuvent être présentes dans tous nos produits.
@@ -603,12 +612,12 @@ export default function CGUPage() {
                 >
                   Livraison
                 </Link>
-                <Link
-                  href="/contact"
+                  <a
+                    href="mailto:patisseriebrun-25@orange.fr"
                   className="text-chocolate-dark hover:underline font-semibold"
                 >
                   Contact
-                </Link>
+                  </a>
               </div>
             </section>
           </div>

@@ -9,7 +9,15 @@ import SiteHeader from '@/components/site/SiteHeader'
 import SiteFooter from '@/components/site/SiteFooter'
 import { Reveal, EASE_OUT } from '@/components/site/Reveal'
 import { useComtoisesCart } from '@/contexts/ComtoisesCartContext'
-import { PRIX_PROVISOIRES, coffrets, formatEUR, recettes } from '@/lib/belles-comtoises'
+import {
+  ALLERGENES,
+  COMPOSITION,
+  CONSERVATION,
+  PRIX_PROVISOIRES,
+  coffrets,
+  formatEUR,
+  recettes,
+} from '@/lib/belles-comtoises'
 import { CONTACT } from '@/lib/catalogue'
 import { FLAT_SHIPPING_COST, FREE_SHIPPING_THRESHOLD } from '@/lib/shipping'
 
@@ -201,8 +209,30 @@ export default function BellesComtoisesPage() {
               ))}
             </div>
 
+            <Reveal delay={0.12}>
+              <div className="mt-10 rounded-2xl border border-ink/[0.08] bg-paper p-5 md:p-6">
+                <h3 className="text-[11px] font-medium uppercase tracking-eyebrow text-brass-deep">
+                  Composition et allergènes
+                </h3>
+                <dl className="mt-3 space-y-2 text-[13.5px] leading-relaxed text-bark">
+                  <div>
+                    <dt className="inline font-medium text-ink">Composition — </dt>
+                    <dd className="inline">{COMPOSITION}</dd>
+                  </div>
+                  <div>
+                    <dt className="inline font-medium text-ink">Allergènes — </dt>
+                    <dd className="inline">{ALLERGENES}</dd>
+                  </div>
+                  <div>
+                    <dt className="inline font-medium text-ink">Conservation — </dt>
+                    <dd className="inline">{CONSERVATION}</dd>
+                  </div>
+                </dl>
+              </div>
+            </Reveal>
+
             {!isEmpty && (
-              <Reveal delay={0.1}>
+              <Reveal delay={0.16}>
                 <div className="mt-10 text-center">
                   <Link
                     href="/panier-comtoises"

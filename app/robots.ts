@@ -8,6 +8,9 @@ export default async function robots(): Promise<MetadataRoute.Robots> {
     rules: {
       userAgent: '*',
       allow: '/',
+      // Boutique héritée (napolitains) : conservée pour les clients existants,
+      // mais elle ne doit ni concurrencer ni contredire les trois pages actuelles.
+      disallow: ['/produits', '/panier', '/checkout', '/prix', '/pro', '/compte', '/napolitains', '/commande'],
     },
     sitemap: `${baseUrl}/sitemap.xml`,
   }

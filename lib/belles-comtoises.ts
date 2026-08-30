@@ -58,6 +58,21 @@ export const MAX_QUANTITE = 20
 /** Poids indicatif d'une vache en chocolat, en grammes (sert au récapitulatif, pas au calcul du port). */
 const POIDS_PIECE_G = 10
 
+/**
+ * Information alimentaire obligatoire avant achat (vente à distance de denrées).
+ * ⚠️ Rédigée à partir du dépliant de la maison (« pur beurre de cacao, praliné noisette »).
+ * À FAIRE VALIDER par la cliente avant toute vente : une mention d'allergène erronée
+ * est un risque sanitaire, pas une coquille.
+ */
+export const ALLERGENES =
+  'Contient : NOISETTES (fruits à coque), LAIT. Fabriqué dans un atelier qui utilise également gluten et soja : des traces sont possibles.'
+
+export const COMPOSITION =
+  'Petites vaches en chocolat, pur beurre de cacao, fourrées au praliné noisette. Fabrication artisanale à Charquemont (Doubs).'
+
+export const CONSERVATION =
+  'À conserver dans un endroit frais et sec, à l’abri de la lumière, entre 15 et 18 °C.'
+
 export const coffrets: Coffret[] = [
   {
     id: 'coffret-6',

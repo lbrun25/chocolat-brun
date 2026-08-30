@@ -81,6 +81,7 @@ export default function CommanderPage() {
   const [form, setForm] = useState<FormState>(EMPTY)
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [cgvAcceptees, setCgvAcceptees] = useState(false)
 
   const set = <K extends keyof FormState>(key: K, value: FormState[K]) =>
     setForm((f) => ({ ...f, [key]: value }))
@@ -89,7 +90,7 @@ export default function CommanderPage() {
 
   const onSubmit = async (e: FormEvent) => {
     e.preventDefault()
-    if (submitting || isEmpty) return
+    if (submitting || isEmpty || !cgvAcceptees) return
     setSubmitting(true)
     setError(null)
     try {
@@ -476,10 +477,27 @@ export default function CommanderPage() {
                 )}
               </AnimatePresence>
 
+              <label className="flex cursor-pointer items-start gap-3 text-[13.5px] leading-relaxed text-ink">
+                <input
+                  type="checkbox"
+                  required
+                  checked={cgvAcceptees}
+                  onChange={(e) => setCgvAcceptees(e.target.checked)}
+                  className="mt-0.5 h-4 w-4 shrink-0 rounded border-ink/30 text-ink focus:ring-brass"
+                />
+                <span>
+                  J’ai lu et j’accepte les{' '}
+                  <Link href="/cgu" className="font-medium underline underline-offset-2 hover:text-brass-deep">
+                    conditions générales de vente
+                  </Link>
+                  .
+                </span>
+              </label>
+
               <button
                 type="submit"
-                disabled={submitting}
-                className="group inline-flex h-14 w-full items-center justify-center gap-2.5 rounded-full bg-ink px-7 text-[15px] font-medium tracking-wide text-ivory shadow-[0_10px_30px_-12px_rgba(27,16,11,0.6)] transition-all hover:-translate-y-0.5 hover:bg-cacao disabled:cursor-wait disabled:opacity-70"
+                disabled={submitting || !cgvAcceptees}
+                className="group inline-flex h-14 w-full items-center justify-center gap-2.5 rounded-full bg-ink px-7 text-[15px] font-medium tracking-wide text-ivory shadow-[0_10px_30px_-12px_rgba(27,16,11,0.6)] transition-all hover:-translate-y-0.5 hover:bg-cacao disabled:cursor-not-allowed disabled:opacity-50"
               >
                 {submitting ? (
                   <>
