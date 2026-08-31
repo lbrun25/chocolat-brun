@@ -29,6 +29,8 @@ interface GammeProProps {
   heroAlt: string
   /** true : le visuel du hero est un produit détouré (fond clair), false : photo pleine */
   heroDecoupe?: boolean
+  /** Visuel de hero sur mesure (ex. la scène animée des poissons) ; remplace heroImage */
+  heroVisual?: React.ReactNode
   /** Photo panoramique affichée pleine largeur sous le hero */
   bandeau?: { image: string; alt: string }
 }
@@ -106,6 +108,7 @@ export default function GammePro({
   heroImage,
   heroAlt,
   heroDecoupe,
+  heroVisual,
   bandeau,
 }: GammeProProps) {
   const refs = referencesDeGamme(gamme)
@@ -119,7 +122,11 @@ export default function GammePro({
       <main>
         {/* Hero */}
         <section className="relative isolate overflow-hidden bg-cream pt-28 md:pt-36">
-          <div className="mx-auto grid max-w-7xl items-center gap-10 px-5 pb-14 md:px-8 md:pb-20 lg:grid-cols-2 lg:gap-14">
+          <div
+            className={`mx-auto grid max-w-7xl items-center gap-10 px-5 pb-14 md:px-8 md:pb-20 lg:gap-14 ${
+              heroVisual ? 'lg:grid-cols-[1fr_1.08fr]' : 'lg:grid-cols-2'
+            }`}
+          >
             <div>
               <motion.p
                 initial={{ opacity: 0, y: 14 }}
@@ -165,17 +172,22 @@ export default function GammePro({
               initial={{ opacity: 0, scale: 0.96 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 1, ease: EASE_OUT, delay: 0.1 }}
-              className={`relative aspect-[4/3] overflow-hidden rounded-2xl ${heroDecoupe ? '' : 'bg-ink/5'}`}
+              className={
+                heroVisual
+                  ? 'relative'
+                  : `relative aspect-[4/3] overflow-hidden rounded-2xl ${heroDecoupe ? '' : 'bg-ink/5'}`
+              }
             >
-              <Image
-                src={heroImage}
-                alt={heroAlt}
-                fill
-                priority
-                sizes="(max-width: 1024px) 100vw, 50vw"
-                className={heroDecoupe ? 'object-contain p-6' : 'object-cover'}
-              />
-
+              {heroVisual ?? (
+                <Image
+                  src={heroImage}
+                  alt={heroAlt}
+                  fill
+                  priority
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  className={heroDecoupe ? 'object-contain p-6' : 'object-cover'}
+                />
+              )}
             </motion.div>
           </div>
 

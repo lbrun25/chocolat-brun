@@ -445,3 +445,194 @@ body:has(.landing) {
 
 
 
+
+/* ============================================================
+   Hero « terrasse » — les poissons trempent dans le café
+   La scène est carrée : 1 cqw = 1 cqh = 1 % de la photo, donc les
+   coordonnées ci-dessous se lisent directement sur l'image.
+     surface du café ....... centre (47,9 ; 66,2), rayons 10 × 3
+     ligne de flottaison ... arc du calque « .tasse-devant », de
+                             (37,5 ; 71,2) à (58,3 ; 71,2) en passant
+                             par (47,9 ; 66,2)
+   « .tasse-devant » est découpé dans la même photo : invisible, il ne
+   sert qu'à masquer la tête des poissons passée sous la surface.
+   Rotation négative = nez vers le bas (les poissons regardent à gauche).
+   ============================================================ */
+
+.scene-terrasse {
+  container-type: size;
+}
+
+.scene-terrasse .poisson {
+  position: absolute;
+  left: 0;
+  top: 0;
+  aspect-ratio: 1774 / 887;
+  transform-origin: 50% 50%;
+  will-change: transform;
+}
+
+.scene-terrasse .poisson > .corps {
+  position: absolute;
+  inset: 0;
+  filter: drop-shadow(0 6px 10px rgba(27, 16, 11, 0.28));
+}
+
+/* Position au repos (= rendu sans animation, cf. prefers-reduced-motion) */
+.poisson--lait { width: 22cqw; transform: translate(41.3cqw, 53.5cqh) rotate(-52deg); }
+.poisson--cafe { width: 16cqw; transform: translate(76cqw, 45cqh) rotate(3deg); }
+.poisson--blanc { width: 11cqw; transform: translate(72cqw, 8cqh) rotate(-9deg); opacity: 0.94; }
+.poisson--noir { width: 15cqw; transform: translate(52cqw, 28cqh) rotate(4deg); }
+
+.scene-terrasse .tasse-devant {
+  position: absolute;
+  inset: 0;
+  -webkit-mask-image:
+    radial-gradient(ellipse 10.4% 5% at 47.9% 71.2%, #000 88%, transparent 100%),
+    linear-gradient(to bottom, transparent 0 70.2%, #000 71.4%);
+  mask-image:
+    radial-gradient(ellipse 10.4% 5% at 47.9% 71.2%, #000 88%, transparent 100%),
+    linear-gradient(to bottom, transparent 0 70.2%, #000 71.4%);
+}
+
+/* Ondes à la surface du café, rognées au disque de liquide */
+.scene-terrasse .surface-cafe {
+  position: absolute;
+  inset: 0;
+  clip-path: ellipse(10% 3.1% at 47.9% 66.2%);
+}
+
+.scene-terrasse .onde {
+  position: absolute;
+  left: 47.9%;
+  top: 66.2%;
+  width: 19cqw;
+  height: 5.8cqh;
+  margin: -2.9cqh 0 0 -9.5cqw;
+  border: 1px solid rgba(255, 252, 244, 0.9);
+  border-radius: 50%;
+  opacity: 0;
+}
+
+.scene-terrasse .vapeur {
+  position: absolute;
+  width: 3.4cqw;
+  height: 6cqh;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0));
+  filter: blur(3px);
+  opacity: 0;
+}
+
+/* Le grand poisson au lait : arrivée par la mer, plongeon, queue en l'air,
+   puis il repart vers le large. */
+@keyframes nage-lait {
+  0%   { transform: translate(104cqw, 30cqh) rotate(-6deg); opacity: 0; }
+  5%   { opacity: 1; }
+  16%  { transform: translate(84cqw, 26cqh) rotate(-4deg); }
+  28%  { transform: translate(68cqw, 30cqh) rotate(-12deg); }
+  38%  { transform: translate(56cqw, 40cqh) rotate(-30deg); animation-timing-function: cubic-bezier(0.55, 0, 0.85, 0.4); }
+  46%  { transform: translate(44cqw, 50cqh) rotate(-46deg); }
+  52%  { transform: translate(41.3cqw, 53.5cqh) rotate(-52deg); }
+  58%  { transform: translate(41.8cqw, 55cqh) rotate(-54deg); }
+  64%  { transform: translate(41.3cqw, 53.5cqh) rotate(-50deg); animation-timing-function: cubic-bezier(0.2, 0.8, 0.4, 1); }
+  70%  { transform: translate(38cqw, 45cqh) rotate(-20deg); }
+  76%  { transform: translate(33cqw, 38cqh) rotate(14deg); }
+  84%  { transform: translate(24cqw, 33cqh) rotate(2deg); }
+  92%  { transform: translate(10cqw, 29cqh) rotate(-4deg); opacity: 1; }
+  97%  { opacity: 0; }
+  100% { transform: translate(-14cqw, 26cqh) rotate(-5deg); opacity: 0; }
+}
+
+/* Le noir café : plus petit, il vient juste tremper le bout du nez. */
+@keyframes nage-cafe {
+  0%   { transform: translate(106cqw, 46cqh) rotate(4deg); opacity: 0; }
+  6%   { opacity: 1; }
+  20%  { transform: translate(86cqw, 41cqh) rotate(1deg); }
+  34%  { transform: translate(70cqw, 42cqh) rotate(-8deg); }
+  44%  { transform: translate(58cqw, 50cqh) rotate(-22deg); animation-timing-function: cubic-bezier(0.5, 0, 0.8, 0.45); }
+  52%  { transform: translate(47.6cqw, 58.8cqh) rotate(-34deg); }
+  58%  { transform: translate(47.9cqw, 60.2cqh) rotate(-36deg); animation-timing-function: cubic-bezier(0.2, 0.8, 0.4, 1); }
+  64%  { transform: translate(46cqw, 54cqh) rotate(-8deg); }
+  72%  { transform: translate(40cqw, 46cqh) rotate(16deg); }
+  82%  { transform: translate(28cqw, 40cqh) rotate(4deg); }
+  92%  { transform: translate(12cqw, 36cqh) rotate(-2deg); opacity: 1; }
+  97%  { opacity: 0; }
+  100% { transform: translate(-12cqw, 33cqh) rotate(-4deg); opacity: 0; }
+}
+
+/* Les deux autres passent au large, sans s'arrêter. */
+@keyframes nage-blanc {
+  0%   { transform: translate(106cqw, 14cqh) rotate(-8deg); opacity: 0; }
+  6%   { opacity: 0.94; }
+  30%  { transform: translate(74cqw, 9cqh) rotate(-4deg); }
+  55%  { transform: translate(46cqw, 15cqh) rotate(4deg); }
+  80%  { transform: translate(18cqw, 10cqh) rotate(-3deg); }
+  94%  { opacity: 0.94; }
+  100% { transform: translate(-14cqw, 13cqh) rotate(-6deg); opacity: 0; }
+}
+
+@keyframes nage-noir {
+  0%   { transform: translate(105cqw, 30cqh) rotate(5deg); opacity: 0; }
+  6%   { opacity: 1; }
+  28%  { transform: translate(78cqw, 36cqh) rotate(-2deg); }
+  52%  { transform: translate(52cqw, 29cqh) rotate(3deg); }
+  76%  { transform: translate(26cqw, 35cqh) rotate(-4deg); }
+  94%  { opacity: 1; }
+  100% { transform: translate(-15cqw, 31cqh) rotate(2deg); opacity: 0; }
+}
+
+@keyframes fretillement {
+  0%, 100% { transform: rotate(-2.5deg); }
+  50%      { transform: rotate(2.5deg); }
+}
+
+/* Les ondes partagent la durée et le décalage du poisson qui plonge :
+   le « plouf » tombe donc pile au moment où le nez touche le café. */
+@keyframes onde-plouf {
+  0%, 51% { transform: scale(0.2); opacity: 0; }
+  54%     { opacity: 0.8; }
+  70%     { transform: scale(1.4); opacity: 0; }
+  100%    { transform: scale(1.4); opacity: 0; }
+}
+
+@keyframes onde-plouf-tardive {
+  0%, 56% { transform: scale(0.15); opacity: 0; }
+  59%     { opacity: 0.5; }
+  76%     { transform: scale(1.15); opacity: 0; }
+  100%    { transform: scale(1.15); opacity: 0; }
+}
+
+@keyframes vapeur-monte {
+  0%   { transform: translate(0, 0) scale(0.65); opacity: 0; }
+  22%  { opacity: 0.4; }
+  100% { transform: translate(2.5cqw, -17cqh) scale(1.6); opacity: 0; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .poisson--lait  { animation: nage-lait 13s linear -2s infinite; }
+  .poisson--cafe  { animation: nage-cafe 13s linear -8.5s infinite; }
+  .poisson--blanc { animation: nage-blanc 24s linear -6s infinite; }
+  .poisson--noir  { animation: nage-noir 19s linear -14s infinite; }
+
+  .scene-terrasse .poisson > .corps { animation: fretillement 1.5s ease-in-out infinite; }
+  .poisson--cafe  > .corps { animation-duration: 1.15s; }
+  .poisson--blanc > .corps { animation-duration: 1.9s; }
+  .poisson--noir  > .corps { animation-duration: 1.35s; }
+
+  .onde--lait   { animation: onde-plouf 13s linear -2s infinite; }
+  .onde--lait-2 { animation: onde-plouf-tardive 13s linear -2s infinite; }
+  .onde--cafe   { animation: onde-plouf 13s linear -8.5s infinite; }
+  .onde--cafe-2 { animation: onde-plouf-tardive 13s linear -8.5s infinite; }
+
+  .scene-terrasse .vapeur { animation: vapeur-monte 7s ease-out infinite; }
+}
+
+/* Sans unités de conteneur (navigateur antérieur à 2023), on garde la photo seule. */
+@supports not (width: 1cqw) {
+  .scene-terrasse .poisson,
+  .scene-terrasse .onde,
+  .scene-terrasse .vapeur {
+    display: none;
+  }
+}

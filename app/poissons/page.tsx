@@ -1,6 +1,7 @@
 'use client'
 
 import GammePro from '@/components/site/GammePro'
+import HeroTerrasse from '@/components/site/HeroTerrasse'
 
 export default function PoissonsPage() {
   return (
@@ -16,7 +17,7 @@ export default function PoissonsPage() {
       accroche="Le chocolat qui accompagne le café de vos clients. Emballé un à un, fabriqué dans notre atelier de Charquemont."
       heroImage="/images/poissons/poisson-lait.png"
       heroAlt="Poisson en chocolat au lait Cédric Brun"
-      heroDecoupe
+      heroVisual={<HeroTerrasse />}
     />
   )
 }
