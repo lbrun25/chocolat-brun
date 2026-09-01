@@ -89,7 +89,7 @@ export default function CGUPage() {
               <ul className="list-disc pl-6 space-y-2 mt-2 font-sans">
                 <li>
                   <strong>Les Belles Comtoises</strong> — vaches en chocolat, pur beurre de cacao, praliné
-                  noisette, en coffrets de 6, 12, 20 ou 30 pièces. Vente aux particuliers, prix TTC.
+                  noisette, en coffrets de 6, 12, 24 ou 30 pièces. Vente aux particuliers, prix TTC.
                 </li>
                 <li>
                   <strong>Les petits poissons en chocolat</strong> (4 g) — lait, noir, noir au café, blanc.
@@ -98,6 +98,10 @@ export default function CGUPage() {
                 </li>
                 <li>
                   <strong>Les petits beurres en chocolat</strong> (6 g) — lait, noir, noir au café, blanc.
+                  Vente aux professionnels, prix HT, par cartons de 200 pièces.
+                </li>
+                <li>
+                  <strong>Les orangettes enrobées de chocolat noir</strong> (5 g) — écorces d’orange confites.
                   Vente aux professionnels, prix HT, par cartons de 200 pièces.
                 </li>
               </ul>

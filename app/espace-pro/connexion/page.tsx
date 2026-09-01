@@ -8,6 +8,7 @@ import SiteHeader from '@/components/site/SiteHeader'
 import SiteFooter from '@/components/site/SiteFooter'
 import { useAuth } from '@/contexts/AuthContext'
 import { useProAccess } from '@/hooks/useProAccess'
+import { GAMMES_PRO } from '@/lib/catalogue'
 
 export default function ConnexionProPage() {
   const router = useRouter()
@@ -61,18 +62,19 @@ export default function ConnexionProPage() {
             <div className="mt-8 flex flex-col gap-3">
               {hasAccess ? (
                 <>
-                  <Link
-                    href="/poissons#tarifs"
-                    className="inline-flex h-12 items-center justify-center rounded-full bg-ink px-6 text-[14px] font-medium text-ivory transition-all hover:-translate-y-0.5 hover:bg-cacao"
-                  >
-                    Tarifs des poissons
-                  </Link>
-                  <Link
-                    href="/petits-beurres#tarifs"
-                    className="inline-flex h-12 items-center justify-center rounded-full border border-ink/15 px-6 text-[14px] font-medium text-ink transition-colors hover:border-ink/40"
-                  >
-                    Tarifs des petits beurres
-                  </Link>
+                  {GAMMES_PRO.map((g, i) => (
+                    <Link
+                      key={g.href}
+                      href={`${g.href}#tarifs`}
+                      className={
+                        i === 0
+                          ? 'inline-flex h-12 items-center justify-center rounded-full bg-ink px-6 text-[14px] font-medium text-ivory transition-all hover:-translate-y-0.5 hover:bg-cacao'
+                          : 'inline-flex h-12 items-center justify-center rounded-full border border-ink/15 px-6 text-[14px] font-medium text-ink transition-colors hover:border-ink/40'
+                      }
+                    >
+                      Tarifs — {g.labelLong.replace('Les ', '')}
+                    </Link>
+                  ))}
                 </>
               ) : (
                 <Link

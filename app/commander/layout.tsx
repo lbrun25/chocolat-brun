@@ -3,7 +3,7 @@ import type { Metadata } from 'next'
 export const metadata: Metadata = {
   title: 'Commander',
   description:
-    'Finalisez votre commande de poissons en chocolat artisanaux : cartons de 200 pièces, prix HT, paiement sécurisé par carte bancaire.',
+    'Finalisez votre commande de petits chocolats artisanaux : cartons de 200 pièces, prix HT, paiement sécurisé par carte bancaire.',
   robots: { index: false, follow: true },
 }
 

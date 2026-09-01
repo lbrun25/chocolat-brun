@@ -60,15 +60,14 @@ const POIDS_PIECE_G = 10
 
 /**
  * Information alimentaire obligatoire avant achat (vente à distance de denrées).
- * ⚠️ Rédigée à partir du dépliant de la maison (« pur beurre de cacao, praliné noisette »).
- * À FAIRE VALIDER par la cliente avant toute vente : une mention d'allergène erronée
- * est un risque sanitaire, pas une coquille.
+ * Reprise de l'étiquette officielle transmise par la cliente
+ * (ingrédients belles_comtoises.pdf, reçue le 1er septembre 2026).
  */
 export const ALLERGENES =
-  'Contient : NOISETTES (fruits à coque), LAIT. Fabriqué dans un atelier qui utilise également gluten et soja : des traces sont possibles.'
+  'Contient : NOISETTES (fruits à coque), LAIT. Fabriqué dans un atelier qui utilise également des arachides : des traces sont possibles.'
 
 export const COMPOSITION =
-  'Petites vaches en chocolat, pur beurre de cacao, fourrées au praliné noisette. Fabrication artisanale à Charquemont (Doubs).'
+  'Intérieur praliné 75 % : noisettes, sucre, beurre de cacao. Enrobage chocolat 25 % : pâte de cacao, beurre de cacao, lait en poudre, matières grasses de lait, lécithine, vanilline. Fabrication artisanale à Charquemont (Doubs).'
 
 export const CONSERVATION =
   'À conserver dans un endroit frais et sec, à l’abri de la lumière, entre 15 et 18 °C.'
@@ -96,13 +95,16 @@ export const coffrets: Coffret[] = [
   },
   {
     id: 'coffret-20',
-    nom: 'Coffret de 20',
+    nom: 'Coffret de 24',
     detail: 'Grand format',
-    pieces: 20,
-    poidsG: 20 * POIDS_PIECE_G,
+    pieces: 24,
+    poidsG: 24 * POIDS_PIECE_G,
     prixTTC: 26,
+    // ⚠️ Coffret passé de 20 à 24 pièces (info cliente, 1er sept. 2026) : les photos ci-dessous
+    // montrent encore l'ancien coffret de 20. À remplacer dès réception des nouvelles prises de vue.
+    // Le tarif TTC n'a pas été révisé pour les 4 pièces supplémentaires : à confirmer avec la cliente.
     image: '/images/comtoises/coffret-20-ouvert-3.jpg',
-    imageAlt: 'Coffret de 20 Belles Comtoises ouvert dans l’herbe',
+    imageAlt: 'Coffret de 24 Belles Comtoises ouvert dans l’herbe',
   },
   {
     id: 'coffret-30',

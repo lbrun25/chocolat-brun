@@ -18,7 +18,7 @@ import {
   formatEUR,
   recettes,
 } from '@/lib/belles-comtoises'
-import { CONTACT } from '@/lib/catalogue'
+import { CONTACT, GAMMES_PRO } from '@/lib/catalogue'
 import { FLAT_SHIPPING_COST, FREE_SHIPPING_THRESHOLD } from '@/lib/shipping'
 
 function CoffretCard({ id }: { id: string }) {
@@ -52,7 +52,7 @@ function CoffretCard({ id }: { id: string }) {
           </p>
         </div>
         <p className="mt-1 text-[12.5px] text-bark">
-          {coffret.detail} · {coffret.pieces} vaches
+          {coffret.detail} · {coffret.pieces} vaches · {coffret.poidsG} g net
         </p>
         <button
           type="button"
@@ -88,64 +88,54 @@ export default function BellesComtoisesPage() {
       <SiteHeader />
 
       <main>
-        {/* Hero photo pleine largeur */}
-        <section className="relative isolate min-h-[88vh] overflow-hidden">
-          <Image
-            src="/images/comtoises/melanie-cedric.jpg"
-            alt="Mélanie et Cédric Brun dans un pré avec leurs coffrets Les Belles Comtoises"
-            fill
-            priority
-            sizes="100vw"
-            className="object-cover object-top"
-          />
-          <div
-            aria-hidden
-            className="absolute inset-0 bg-gradient-to-b from-ink/35 via-ink/5 via-45% to-ink/90"
-          />
-          <div className="relative flex min-h-[88vh] items-end">
-            <div className="mx-auto w-full max-w-7xl px-5 pb-16 md:px-8 md:pb-24">
-              <motion.p
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, ease: EASE_OUT }}
-                className="text-[11px] font-medium uppercase tracking-eyebrow text-brass-pale [text-shadow:0_1px_12px_rgba(27,16,11,0.6)]"
-              >
-                Chocolats artisanaux francs-comtois
-              </motion.p>
-              <motion.h1
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.9, ease: EASE_OUT, delay: 0.08 }}
-                className="font-display mt-4 text-[2.6rem] leading-[0.95] tracking-[-0.02em] text-ivory sm:text-[3.6rem] md:text-[5rem]"
-              >
-                Les Belles
-                <br />
-                <em className="font-light italic">Comtoises</em>
-              </motion.h1>
-              <motion.p
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.9, ease: EASE_OUT, delay: 0.16 }}
-                className="mt-6 max-w-md text-[16px] leading-relaxed text-ivory/90 [text-shadow:0_1px_10px_rgba(27,16,11,0.55)] md:text-[17px]"
-              >
-                Les petites vaches montbéliardes en chocolat, praliné noisette, de Mélanie &amp; Cédric Brun.
-              </motion.p>
-              <motion.div
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.9, ease: EASE_OUT, delay: 0.24 }}
-                className="mt-8"
-              >
-                <a
-                  href="#coffrets"
-                  className="group inline-flex h-14 items-center gap-2.5 rounded-full bg-ivory px-7 text-[15px] font-medium text-ink transition-all hover:-translate-y-0.5 hover:bg-paper"
-                >
-                  Voir les coffrets
-                  <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" strokeWidth={1.75} aria-hidden />
-                </a>
-              </motion.div>
-            </div>
-          </div>
+        {/* Hero — logo de la maison */}
+        <section className="relative isolate flex min-h-[88vh] flex-col items-center justify-center overflow-hidden bg-ivory px-5 py-20 text-center md:px-8">
+          <h1 className="sr-only">Les Belles Comtoises</h1>
+          <motion.p
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: EASE_OUT }}
+            className="text-[11px] font-medium uppercase tracking-eyebrow text-brass-deep"
+          >
+            Chocolats artisanaux francs-comtois
+          </motion.p>
+          <motion.div
+            initial={{ opacity: 0, y: 20, scale: 0.96 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ duration: 0.9, ease: EASE_OUT, delay: 0.08 }}
+            className="relative mt-6 h-[240px] w-[240px] sm:h-[320px] sm:w-[320px] md:h-[380px] md:w-[380px]"
+          >
+            <Image
+              src="/images/comtoises/logo-belles-comtoises.png"
+              alt="Les Belles Comtoises — chocolat franc-comtois de fabrication artisanale"
+              fill
+              priority
+              sizes="(max-width: 640px) 240px, (max-width: 768px) 320px, 380px"
+              className="object-contain"
+            />
+          </motion.div>
+          <motion.p
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9, ease: EASE_OUT, delay: 0.16 }}
+            className="mt-6 max-w-md text-[16px] leading-relaxed text-bark md:text-[17px]"
+          >
+            Les petites vaches montbéliardes en chocolat, praliné noisette, de Mélanie &amp; Cédric Brun.
+          </motion.p>
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9, ease: EASE_OUT, delay: 0.24 }}
+            className="mt-8"
+          >
+            <a
+              href="#coffrets"
+              className="group inline-flex h-14 items-center gap-2.5 rounded-full bg-ink px-7 text-[15px] font-medium text-ivory transition-all hover:-translate-y-0.5 hover:bg-cacao"
+            >
+              Voir les coffrets
+              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" strokeWidth={1.75} aria-hidden />
+            </a>
+          </motion.div>
         </section>
 
         {/* Les quatre recettes — visuel avant tout */}
@@ -264,7 +254,7 @@ export default function BellesComtoisesPage() {
             </Reveal>
             <Reveal delay={0.08}>
               <p className="font-display text-[1.7rem] leading-snug text-ivory md:text-[2.2rem]">
-                La reine des plaines franc-comtoises, en chocolat praliné noisette.
+                Cette spécialité chocolatière représente la reine des plaines franc-comtoises, la Montbéliarde !
               </p>
               <p className="mt-6 text-[15px] leading-relaxed text-ivory/65">
                 Moulées et emballées dans notre atelier de {CONTACT.ville}, dans le Haut-Doubs.
@@ -283,20 +273,17 @@ export default function BellesComtoisesPage() {
               <p className="text-center text-[11px] font-medium uppercase tracking-eyebrow text-brass-deep">
                 Vous êtes professionnel ?
               </p>
-              <div className="mt-6 grid gap-4 sm:grid-cols-2">
-                {[
-                  { href: '/poissons', label: 'Les poissons', img: '/images/poissons/poisson-lait.png' },
-                  { href: '/petits-beurres', label: 'Les petits beurres', img: '/images/petits-beurres/biscuit-lait.png' },
-                ].map((g) => (
+              <div className="mt-6 grid gap-4 lg:grid-cols-3">
+                {GAMMES_PRO.map((g) => (
                   <Link
                     key={g.href}
                     href={g.href}
                     className="group flex items-center gap-5 rounded-2xl border border-ink/[0.08] bg-paper p-5 transition-all hover:-translate-y-0.5 hover:border-brass/60"
                   >
                     <span className="relative block h-16 w-24 shrink-0">
-                      <Image src={g.img} alt="" fill sizes="96px" className="object-contain" />
+                      <Image src={g.image} alt="" fill sizes="96px" className="object-contain" />
                     </span>
-                    <span className="flex-1 font-display text-[1.25rem] text-ink">{g.label}</span>
+                    <span className="flex-1 font-display text-[1.25rem] text-ink">{g.labelLong}</span>
                     <ArrowRight
                       className="h-4 w-4 shrink-0 text-brass-deep transition-transform group-hover:translate-x-1"
                       strokeWidth={1.75}
@@ -305,6 +292,31 @@ export default function BellesComtoisesPage() {
                   </Link>
                 ))}
               </div>
+            </Reveal>
+          </div>
+        </section>
+
+        {/* Les artisans */}
+        <section className="bg-cream py-16 md:py-24">
+          <div className="mx-auto grid max-w-5xl items-center gap-10 px-5 md:px-8 lg:grid-cols-2 lg:gap-16">
+            <Reveal>
+              <div className="relative aspect-[4/3] overflow-hidden rounded-2xl">
+                <Image
+                  src="/images/comtoises/melanie-cedric.jpg"
+                  alt="Mélanie et Cédric Brun dans un pré avec leurs coffrets Les Belles Comtoises"
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  className="object-cover object-top"
+                />
+              </div>
+            </Reveal>
+            <Reveal delay={0.08}>
+              <h2 className="font-display text-[1.7rem] leading-snug text-ink md:text-[2.2rem]">
+                Mélanie &amp; Cédric Brun
+              </h2>
+              <p className="mt-6 text-[15px] leading-relaxed text-bark">
+                Artisans chocolatiers à {CONTACT.ville}, dans le Haut-Doubs.
+              </p>
             </Reveal>
           </div>
         </section>

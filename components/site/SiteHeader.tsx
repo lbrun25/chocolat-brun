@@ -6,24 +6,33 @@ import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { Menu, ShoppingBag, User, X } from 'lucide-react'
-import { CONTACT, formatEUR } from '@/lib/catalogue'
+import { CONTACT, GAMMES_PRO, estPageGammePro, formatEUR } from '@/lib/catalogue'
 import { useProCart } from '@/contexts/ProCartContext'
 import { useComtoisesCart } from '@/contexts/ComtoisesCartContext'
 
 const NAV = [
-  { href: '/', label: 'Les Belles Comtoises' },
-  { href: '/poissons', label: 'Les poissons' },
-  { href: '/petits-beurres', label: 'Les petits beurres' },
+  { href: '/', label: 'Belles Comtoises' },
+  ...GAMMES_PRO.map((g) => ({ href: g.href, label: g.label })),
+  { href: '/histoire', label: 'Notre histoire' },
 ]
 
-export default function SiteHeader() {
+interface SiteHeaderProps {
+  /**
+   * « sombre » : en haut de page, sur un hero foncé, le texte de l'en-tête passe
+   * en ivoire. Dès que l'utilisateur défile, l'en-tête reprend son fond clair et
+   * ses couleurs habituelles dans les deux cas.
+   */
+  variant?: 'clair' | 'sombre'
+}
+
+export default function SiteHeader({ variant = 'clair' }: SiteHeaderProps = {}) {
   const pathname = usePathname()
   const [open, setOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const pro = useProCart()
   const comtoises = useComtoisesCart()
 
-  const isPro = pathname.startsWith('/poissons') || pathname.startsWith('/petits-beurres')
+  const isPro = estPageGammePro(pathname)
   const cart = isPro
     ? { count: pro.totalCartons, total: pro.estimate.totalTTC, href: '/commander', show: pro.hydrated && !pro.isEmpty }
     : {
@@ -32,6 +41,8 @@ export default function SiteHeader() {
         href: '/panier-comtoises',
         show: comtoises.hydrated && !comtoises.isEmpty,
       }
+
+  const surFondSombre = variant === 'sombre' && !scrolled
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20)
@@ -63,10 +74,16 @@ export default function SiteHeader() {
               <Image src="/images/logo.png" alt="" fill sizes="64px" className="object-contain" priority />
             </span>
             <span className="flex flex-col leading-none">
-              <span className="font-display whitespace-nowrap text-[1.3rem] tracking-[-0.01em] text-ink md:text-[1.5rem]">
+              <span
+                className={`font-display whitespace-nowrap text-[1.3rem] tracking-[-0.01em] md:text-[1.5rem] ${
+                  surFondSombre ? 'text-ivory' : 'text-ink'
+                }`}
+              >
                 {CONTACT.marque}
               </span>
-              <span className="mt-1 hidden whitespace-nowrap text-[9.5px] font-medium uppercase tracking-eyebrow text-bark sm:block">
+              <span className={`mt-1 hidden whitespace-nowrap text-[9.5px] font-medium uppercase tracking-eyebrow xl:block ${
+                  surFondSombre ? 'text-ivory/60' : 'text-bark'
+                }`}>
                 {CONTACT.signature}
               </span>
             </span>
@@ -80,7 +97,13 @@ export default function SiteHeader() {
                   <Link
                     href={item.href}
                     className={`relative block whitespace-nowrap px-3.5 py-2 text-[13px] font-medium transition-colors ${
-                      active ? 'text-ink' : 'text-bark hover:text-ink'
+                      active
+                        ? surFondSombre
+                          ? 'text-ivory'
+                          : 'text-ink'
+                        : surFondSombre
+                          ? 'text-ivory/70 hover:text-ivory'
+                          : 'text-bark hover:text-ink'
                     }`}
                   >
                     {item.label}
@@ -99,7 +122,9 @@ export default function SiteHeader() {
           <div className="flex items-center gap-2">
             <Link
               href="/espace-pro/connexion"
-              className="inline-flex h-10 w-10 items-center justify-center rounded-full text-ink transition-colors hover:bg-ink/5"
+              className={`inline-flex h-10 w-10 items-center justify-center rounded-full transition-colors ${
+                surFondSombre ? 'text-ivory hover:bg-ivory/10' : 'text-ink hover:bg-ink/5'
+              }`}
               aria-label="Espace professionnel"
             >
               <User className="h-[18px] w-[18px]" strokeWidth={1.75} aria-hidden />
@@ -108,11 +133,23 @@ export default function SiteHeader() {
             {cart.show && (
               <Link
                 href={cart.href}
-                className="inline-flex h-10 items-center gap-2 rounded-full border border-brass bg-brass/10 pl-3.5 pr-2.5 text-[13px] font-medium text-ink transition-colors hover:bg-brass/25"
+                className={`inline-flex h-10 items-center gap-2 rounded-full border border-brass pl-3.5 pr-2.5 text-[13px] font-medium transition-colors ${
+                  surFondSombre
+                    ? 'bg-brass/25 text-ivory hover:bg-brass/40'
+                    : 'bg-brass/10 text-ink hover:bg-brass/25'
+                }`}
               >
-                <ShoppingBag className="h-4 w-4 text-brass-deep" strokeWidth={1.75} aria-hidden />
-                <span className="hidden tabular-nums sm:inline">{formatEUR(cart.total)}</span>
-                <span className="flex h-5 min-w-5 items-center justify-center rounded-full bg-ink px-1.5 text-[10.5px] font-semibold text-ivory tabular-nums">
+                <ShoppingBag
+                  className={`h-4 w-4 ${surFondSombre ? 'text-brass-pale' : 'text-brass-deep'}`}
+                  strokeWidth={1.75}
+                  aria-hidden
+                />
+                <span className="hidden tabular-nums xl:inline">{formatEUR(cart.total)}</span>
+                <span
+                  className={`flex h-5 min-w-5 items-center justify-center rounded-full px-1.5 text-[10.5px] font-semibold tabular-nums ${
+                    surFondSombre ? 'bg-ivory text-ink' : 'bg-ink text-ivory'
+                  }`}
+                >
                   {cart.count}
                 </span>
               </Link>
@@ -121,7 +158,9 @@ export default function SiteHeader() {
             <button
               type="button"
               onClick={() => setOpen(true)}
-              className="inline-flex h-10 w-10 items-center justify-center rounded-full text-ink transition-colors hover:bg-ink/5 lg:hidden"
+              className={`inline-flex h-10 w-10 items-center justify-center rounded-full transition-colors lg:hidden ${
+                surFondSombre ? 'text-ivory hover:bg-ivory/10' : 'text-ink hover:bg-ink/5'
+              }`}
               aria-label="Ouvrir le menu"
               aria-expanded={open}
             >
@@ -153,7 +192,8 @@ export default function SiteHeader() {
                 <X className="h-5 w-5" strokeWidth={1.75} />
               </button>
             </div>
-            <ul className="flex flex-1 flex-col justify-center gap-2 px-6">
+            <div className="min-h-0 flex-1 overflow-y-auto px-6">
+              <ul className="flex min-h-full flex-col justify-center gap-2 py-4">
               {NAV.map((item, i) => (
                 <motion.li
                   key={item.href}
@@ -169,8 +209,9 @@ export default function SiteHeader() {
                     {item.label}
                   </Link>
                 </motion.li>
-              ))}
-            </ul>
+                ))}
+              </ul>
+            </div>
             <div className="px-6 pb-10">
               <Link
                 href="/espace-pro/connexion"

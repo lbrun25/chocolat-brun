@@ -1,14 +1,14 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import { CONTACT } from '@/lib/catalogue'
+import { CONTACT, GAMMES_PRO } from '@/lib/catalogue'
 
 const GAMMES = [
   { href: '/', label: 'Les Belles Comtoises' },
-  { href: '/poissons', label: 'Les poissons' },
-  { href: '/petits-beurres', label: 'Les petits beurres' },
+  ...GAMMES_PRO.map((g) => ({ href: g.href, label: g.labelLong })),
 ]
 
 const LEGAL = [
+  { href: '/histoire', label: 'Notre histoire' },
   { href: '/mentions-legales', label: 'Mentions légales' },
   { href: '/cgu', label: 'CGU / CGV' },
   { href: '/politique-confidentialite', label: 'Politique de confidentialité' },

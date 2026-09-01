@@ -11,7 +11,7 @@ import { ProCartProvider } from '@/contexts/ProCartContext'
 import { ComtoisesCartProvider } from '@/contexts/ComtoisesCartContext'
 import { AuthProvider } from '@/contexts/AuthContext'
 import { ProSiretProvider } from '@/contexts/ProSiretContext'
-import { CONTACT, petitsBeurres, poissons } from '@/lib/catalogue'
+import { CONTACT, orangettes, petitsBeurres, poissons } from '@/lib/catalogue'
 import { coffrets } from '@/lib/belles-comtoises'
 
 // Polices globales (landing + toutes les pages). Les polices « historiques » (Great Vibes, Cinzel,
@@ -31,7 +31,7 @@ const fraunces = Fraunces({
 
 const SITE_TITLE = 'Les Belles Comtoises – Cédric Brun, Maître Artisan Chocolatier'
 const SITE_DESCRIPTION =
-  'Les Belles Comtoises : les petites vaches montbéliardes en chocolat praliné noisette de Mélanie et Cédric Brun, Maître Artisan Chocolatier à Charquemont (Doubs). Gammes professionnelles : petits poissons et petits beurres en chocolat.'
+  'Les Belles Comtoises : les petites vaches montbéliardes en chocolat praliné noisette de Mélanie et Cédric Brun, Maître Artisan Chocolatier à Charquemont (Doubs). Gammes professionnelles : petits poissons, petits beurres en chocolat et orangettes.'
 
 export async function generateMetadata(): Promise<Metadata> {
   const baseUrl = await getBaseUrl()
@@ -93,14 +93,14 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-  const prixPro = [...poissons, ...petitsBeurres].map((r) => r.prixPieceHT)
+  const prixPro = [...poissons, ...petitsBeurres, ...orangettes].map((r) => r.prixPieceHT)
   const jsonLd = [
     {
       '@context': 'https://schema.org',
       '@type': 'LocalBusiness',
       name: `${CONTACT.marque} – ${CONTACT.signature}`,
       description:
-        'Maître Artisan Chocolatier depuis 1999 à Charquemont (Haut-Doubs). Les Belles Comtoises pour les particuliers ; petits poissons et petits beurres en chocolat pour les professionnels.',
+        'Maître Artisan Chocolatier depuis 1999 à Charquemont (Haut-Doubs). Les Belles Comtoises pour les particuliers ; petits poissons, petits beurres en chocolat et orangettes pour les professionnels.',
       address: {
         '@type': 'PostalAddress',
         streetAddress: CONTACT.adresse,
@@ -119,7 +119,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       '@type': 'Product',
       name: 'Les Belles Comtoises – vaches en chocolat praliné noisette',
       description:
-        'Petites vaches montbéliardes en chocolat, pur beurre de cacao praliné noisette, présentées en coffret de 6, 12, 20 ou 30. Fabriquées artisanalement à Charquemont (Doubs).',
+        'Petites vaches montbéliardes en chocolat, pur beurre de cacao praliné noisette, présentées en coffret de 6, 12, 24 ou 30. Fabriquées artisanalement à Charquemont (Doubs).',
       brand: { '@type': 'Brand', name: 'Les Belles Comtoises' },
       image: [...coffrets.map((c) => c.image), '/images/comtoises/vache-lait.jpg'],
       offers: {
@@ -134,11 +134,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     {
       '@context': 'https://schema.org',
       '@type': 'Product',
-      name: 'Petits chocolats pour professionnels – poissons et petits beurres',
+      name: 'Petits chocolats pour professionnels – poissons, petits beurres et orangettes',
       description:
-        'Poissons en chocolat de 4 g et petits beurres en chocolat de 6 g, emballés individuellement, vendus par cartons de 200 pièces aux professionnels.',
+        'Poissons en chocolat de 4 g, petits beurres en chocolat de 6 g et orangettes enrobées de chocolat noir de 5 g, emballés individuellement, vendus par cartons de 200 pièces aux professionnels.',
       brand: { '@type': 'Brand', name: CONTACT.marque },
-      image: [...poissons, ...petitsBeurres].map((r) => r.image),
+      image: [...poissons, ...petitsBeurres, ...orangettes].map((r) => r.image),
       offers: {
         '@type': 'AggregateOffer',
         priceCurrency: 'EUR',

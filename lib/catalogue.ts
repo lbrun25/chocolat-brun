@@ -1,11 +1,12 @@
 /**
- * Catalogue professionnel — deux gammes vendues aux professionnels :
- * les petits poissons (4 g) et les biscuits petits beurres (6 g).
+ * Catalogue professionnel — trois gammes vendues aux professionnels :
+ * les petits poissons (4 g), les biscuits petits beurres (6 g) et les
+ * orangettes enrobées de chocolat noir (5 g).
  * Source : listes de prix officielles Cédric Brun.
  * Tous les prix sont exprimés HORS TAXES (TVA en vigueur en supplément).
  */
 
-export type Gamme = 'poisson' | 'petit-beurre'
+export type Gamme = 'poisson' | 'petit-beurre' | 'orangette'
 export type Chocolat = 'lait' | 'noir' | 'noir-cafe' | 'blanc'
 
 export interface Reference {
@@ -166,10 +167,42 @@ export const references: Reference[] = [
     image: '/images/petits-beurres/biscuit-blanc.png',
     note: 'Une douceur crémeuse aux notes de vanille',
   },
+
+  // ---------------- Orangettes enrobées chocolat noir — 5 g ----------------
+  {
+    id: 'orangette-noir',
+    gamme: 'orangette',
+    nom: 'Orangette enrobée chocolat noir',
+    court: 'Chocolat noir',
+    chocolat: 'noir',
+    poidsG: 5,
+    prixPieceHT: 0.19,
+    prixKgHT: 38,
+    conditionnement: CONDITIONNEMENT,
+    image: '/images/orangettes/orangette.png',
+    note: 'Écorce d’orange confite et cacao intense',
+  },
 ]
 
 export const poissons = references.filter((r) => r.gamme === 'poisson')
 export const petitsBeurres = references.filter((r) => r.gamme === 'petit-beurre')
+export const orangettes = references.filter((r) => r.gamme === 'orangette')
+
+/**
+ * Les gammes professionnelles et leur page. Source unique : la navigation, la
+ * passerelle de l'accueil, l'espace pro et le panier de l'en-tête s'y réfèrent,
+ * pour qu'ajouter une gamme ne demande plus de penser à chaque endroit.
+ */
+export const GAMMES_PRO = [
+  { gamme: 'poisson', href: '/poissons', label: 'Poissons', labelLong: 'Les poissons', image: '/images/poissons/poisson-lait.png' },
+  { gamme: 'petit-beurre', href: '/petits-beurres', label: 'Petits beurres', labelLong: 'Les petits beurres', image: '/images/petits-beurres/biscuit-lait.png' },
+  { gamme: 'orangette', href: '/orangettes', label: 'Orangettes', labelLong: 'Les orangettes', image: '/images/orangettes/orangette.png' },
+] as const satisfies ReadonlyArray<{ gamme: Gamme; href: string; label: string; labelLong: string; image: string }>
+
+/** Vrai si l'URL est une page de gamme professionnelle (donc rattachée au panier pro). */
+export function estPageGammePro(pathname: string): boolean {
+  return GAMMES_PRO.some((g) => pathname.startsWith(g.href))
+}
 
 export function referencesDeGamme(gamme: Gamme): Reference[] {
   return references.filter((r) => r.gamme === gamme)
