@@ -320,6 +320,27 @@ export default function BellesComtoisesPage() {
             </Reveal>
           </div>
         </section>
+
+        {/* Marque déposée */}
+        <section className="bg-ink py-16 md:py-20">
+          <div className="mx-auto max-w-2xl px-5 text-center md:px-8">
+            <Reveal>
+              <div className="relative mx-auto aspect-[3/2] w-full max-w-md overflow-hidden rounded-2xl">
+                <Image
+                  src="/images/comtoises/marque-federation.png"
+                  alt="Logo Les Belles Comtoises"
+                  fill
+                  sizes="(max-width: 768px) 90vw, 448px"
+                  className="object-contain"
+                />
+              </div>
+              <p className="mt-6 text-[12.5px] leading-relaxed text-ivory/55">
+                Les Belles Comtoises est une marque déposée par la Fédération des Belles Comtoises de
+                Franche-Comté.
+              </p>
+            </Reveal>
+          </div>
+        </section>
       </main>
 
       <SiteFooter />

@@ -34,9 +34,9 @@ const VALEURS = [
 const CHAPITRES = [
   {
     titre: 'Cédric & Mélanie',
-    image: '/images/comtoises/melanie-cedric.jpg',
-    alt: 'Mélanie et Cédric Brun dans un pré, avec leurs coffrets de chocolats',
-    position: 'object-top',
+    image: '/images/comtoises/melanie-cedric-facade.jpg',
+    alt: 'Mélanie et Cédric Brun devant la boutique, avec une vache des Belles Comtoises',
+    position: 'object-bottom',
     texte: (
       <>
         Cette belle aventure, je la partage avec mon épouse, <strong className="font-medium text-ink">Mélanie</strong>,
