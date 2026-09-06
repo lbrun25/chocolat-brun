@@ -16,6 +16,14 @@ const galerieMedia: Array<{ src: string; alt: string }> = [
   { src: '/images/galerie/moule_chocolat_et_finis.png', alt: 'Moule à chocolat et barres de chocolat au lait démoulées' },
   { src: '/images/galerie/cafe_chocolat.png', alt: 'Tasse de café avec chocolat emballé' },
   { src: '/images/galerie/the_chocolat.jpg', alt: 'Tasse de thé avec chocolat et tablette' },
+  { src: '/images/galerie/poissons-chocolat-demoules.jpg', alt: 'Poissons en chocolat au lait fraîchement démoulés' },
+  { src: '/images/galerie/poissons-moules-refroidissement.jpg', alt: 'Moules à poissons vides sur grille de refroidissement, à côté de carrés de chocolat' },
+  { src: '/images/galerie/poissons-moule-coulage.jpg', alt: 'Poissons en chocolat noir dans leur moule, prêts à être démoulés' },
+  { src: '/images/galerie/poissons-plaque-moulee.jpg', alt: 'Plaque entière de poissons en chocolat noir moulés' },
+  { src: '/images/galerie/vaches-comtoises-demoulage.jpg', alt: 'Vaches des Belles Comtoises en chocolat au lait, démoulage en cours' },
+  { src: '/images/galerie/ecureuils-chocolat-moules.jpg', alt: 'Écureuils en chocolat noir dans leurs moules' },
+  { src: '/videos/galerie/poissons-demoulage.mp4', alt: 'Démoulage des poissons en chocolat' },
+  { src: '/videos/galerie/emballage-machine.mp4', alt: 'Emballage automatique des chocolats sur la ligne de production' },
 ]
 
 export const metadata: Metadata = {
