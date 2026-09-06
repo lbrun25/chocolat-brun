@@ -103,15 +103,15 @@ export default function BellesComtoisesPage() {
             initial={{ opacity: 0, y: 20, scale: 0.96 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             transition={{ duration: 0.9, ease: EASE_OUT, delay: 0.08 }}
-            className="relative mt-6 h-[240px] w-[240px] sm:h-[320px] sm:w-[320px] md:h-[380px] md:w-[380px]"
+            className="relative mt-6 aspect-[3/2] w-[300px] overflow-hidden rounded-3xl shadow-xl shadow-ink/10 sm:w-[420px] md:w-[480px]"
           >
             <Image
               src="/images/comtoises/logo-belles-comtoises.png"
-              alt="Les Belles Comtoises — chocolat franc-comtois de fabrication artisanale"
+              alt="Les Belles Comtoises — marque déposée, elles sont inimitables et inoubliables"
               fill
               priority
-              sizes="(max-width: 640px) 240px, (max-width: 768px) 320px, 380px"
-              className="object-contain"
+              sizes="(max-width: 640px) 300px, (max-width: 768px) 420px, 480px"
+              className="object-cover"
             />
           </motion.div>
           <motion.p
@@ -325,12 +325,12 @@ export default function BellesComtoisesPage() {
         <section className="bg-ink py-16 md:py-20">
           <div className="mx-auto max-w-2xl px-5 text-center md:px-8">
             <Reveal>
-              <div className="relative mx-auto aspect-[3/2] w-full max-w-md overflow-hidden rounded-2xl">
+              <div className="relative mx-auto h-[180px] w-[180px] overflow-hidden">
                 <Image
-                  src="/images/comtoises/marque-federation.png"
+                  src="/images/comtoises/logo-belles-comtoises-simple.png"
                   alt="Logo Les Belles Comtoises"
                   fill
-                  sizes="(max-width: 768px) 90vw, 448px"
+                  sizes="180px"
                   className="object-contain"
                 />
               </div>
