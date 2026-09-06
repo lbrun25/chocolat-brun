@@ -14,7 +14,7 @@ export default function PoissonsPage() {
           <em className="font-light italic text-cacao">poissons</em>
         </>
       }
-      accroche="Le chocolat qui accompagne le café de vos clients. Emballé un à un, fabriqué dans notre atelier de Charquemont."
+      accroche="Le chocolat qui accompagne le café de vos clients. Emballé individuellement, fabriqué dans notre atelier de Charquemont."
       heroImage="/images/poissons/poisson-lait.png"
       heroAlt="Poisson en chocolat au lait Cédric Brun"
       heroVisual={<HeroTerrasse />}

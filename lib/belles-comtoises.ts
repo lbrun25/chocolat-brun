@@ -63,8 +63,7 @@ const POIDS_PIECE_G = 10
  * Reprise de l'étiquette officielle transmise par la cliente
  * (ingrédients belles_comtoises.pdf, reçue le 1er septembre 2026).
  */
-export const ALLERGENES =
-  'Contient : NOISETTES (fruits à coque), LAIT. Fabriqué dans un atelier qui utilise également des arachides : des traces sont possibles.'
+export const ALLERGENES = 'Contient : NOISETTES (fruits à coque), LAIT. Traces de coques.'
 
 export const COMPOSITION =
   'Intérieur praliné 75 % : noisettes, sucre, beurre de cacao. Enrobage chocolat 25 % : pâte de cacao, beurre de cacao, lait en poudre, matières grasses de lait, lécithine, vanilline. Fabrication artisanale à Charquemont (Doubs).'
@@ -113,10 +112,8 @@ export const coffrets: Coffret[] = [
     pieces: 30,
     poidsG: 30 * POIDS_PIECE_G,
     prixTTC: 35,
-    // ⚠️ Le dossier client ne contient aucune photo du coffret de 30 : on réutilise une autre prise
-    // de vue d'un grand coffret ouvert, distincte de celle du coffret de 20. À remplacer dès réception.
-    image: '/images/comtoises/coffret-20-ouvert.jpg',
-    imageAlt: 'Grand coffret de Belles Comtoises ouvert dans l’herbe',
+    image: '/images/comtoises/coffret-30-ouvert.jpg',
+    imageAlt: 'Coffret de 30 Belles Comtoises ouvert dans l’herbe, cinq rangées de six vaches',
   },
 ]
 

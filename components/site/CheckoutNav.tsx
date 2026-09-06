@@ -15,7 +15,7 @@ export default function CheckoutNav() {
           <span className="flex flex-col leading-none">
             <span className="font-display text-[1.35rem] tracking-[-0.01em] text-ink md:text-2xl">Cédric Brun</span>
             <span className="mt-1 hidden text-[10px] font-medium uppercase tracking-eyebrow text-bark sm:block">
-              Maître Artisan · depuis 1999
+              Maître Artisan Pâtissier · depuis 1999
             </span>
           </span>
         </Link>

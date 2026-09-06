@@ -47,7 +47,7 @@ export const CONTACT = {
   raisonSociale: 'Pâtisserie Brun Cédric',
   marque: 'Cédric Brun',
   /** Signature officielle de la maison */
-  signature: 'Maître Artisan Chocolatier depuis 1999',
+  signature: 'Maître Artisan Pâtissier Chocolatier depuis 1999',
   adresse: '2 rue du Chalet',
   codePostal: '25140',
   ville: 'Charquemont',

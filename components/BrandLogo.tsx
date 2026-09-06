@@ -23,7 +23,7 @@ export default function BrandLogo() {
             Cédric Brun
           </span>
           <span className="hidden md:inline text-chocolate-light text-[10px] md:text-xs lg:text-sm font-cinzel uppercase tracking-wider whitespace-nowrap ml-2 md:ml-3 pt-1 md:pt-1.5">
-            MAÎTRE ARTISAN
+            MAÎTRE ARTISAN PÂTISSIER
           </span>
         </div>
         <p className="hidden md:block text-chocolate-light text-[10px] md:text-xs lg:text-sm font-cinzel uppercase tracking-wider">

@@ -35,8 +35,9 @@ const CHAPITRES = [
   {
     titre: 'Cédric & Mélanie',
     image: '/images/comtoises/melanie-cedric-facade.jpg',
-    alt: 'Mélanie et Cédric Brun devant la boutique, avec une vache des Belles Comtoises',
-    position: 'object-bottom',
+    alt: 'Mélanie et Cédric Brun devant la boutique, avec une vache montbéliarde et leurs coffrets',
+    // Photo en 4/3, comme le cadre : elle s'affiche en entier, sans recadrage.
+    position: 'object-center',
     texte: (
       <>
         Cette belle aventure, je la partage avec mon épouse, <strong className="font-medium text-ink">Mélanie</strong>,
@@ -235,22 +236,32 @@ export default function HistoirePage() {
               </h2>
             </Reveal>
 
-            <div className="mt-10 grid gap-6 md:mt-14 lg:grid-cols-2 lg:gap-8">
+            {/* Une ligne par chapitre, photo et texte côte à côte : les photos sont
+                affichées en 4/3, leur format d'origine, donc sans recadrage. */}
+            <div className="mt-10 space-y-12 md:mt-14 md:space-y-16">
               {CHAPITRES.map((c, i) => (
-                <Reveal key={c.titre} delay={i * 0.08} className="h-full">
-                  <article className="flex h-full flex-col overflow-hidden rounded-2xl border border-ink/[0.08] bg-paper">
-                    <div className="relative aspect-[16/10] overflow-hidden bg-cream">
+                <Reveal key={c.titre}>
+                  <article
+                    className={`grid items-center gap-8 lg:gap-14 ${
+                      i % 2 === 1 ? 'lg:grid-cols-[1fr_1.45fr]' : 'lg:grid-cols-[1.45fr_1fr]'
+                    }`}
+                  >
+                    <figure
+                      className={`relative aspect-[4/3] overflow-hidden rounded-2xl bg-cream ${
+                        i % 2 === 1 ? 'lg:order-2' : ''
+                      }`}
+                    >
                       <Image
                         src={c.image}
                         alt={c.alt}
                         fill
-                        sizes="(max-width: 1024px) 100vw, 50vw"
+                        sizes="(max-width: 1024px) 100vw, 60vw"
                         className={`object-cover ${c.position}`}
                       />
-                    </div>
-                    <div className="flex flex-1 flex-col p-7 md:p-9">
-                      <h3 className="font-display text-[1.6rem] leading-tight text-ink md:text-[1.8rem]">{c.titre}</h3>
-                      <p className="mt-4 text-[15px] leading-relaxed text-bark">{c.texte}</p>
+                    </figure>
+                    <div>
+                      <h3 className="font-display text-[1.7rem] leading-tight text-ink md:text-[2.1rem]">{c.titre}</h3>
+                      <p className="mt-5 text-[15.5px] leading-relaxed text-bark">{c.texte}</p>
                     </div>
                   </article>
                 </Reveal>

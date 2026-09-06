@@ -8,7 +8,7 @@ import type { Metadata } from 'next'
 export const metadata: Metadata = {
   title: 'Napolitains artisanaux',
   description:
-    'Napolitains artisanaux de Cédric Brun, Maître Artisan Chocolatier à Charquemont (Haut-Doubs).',
+    'Napolitains artisanaux de Cédric Brun, Maître Artisan Pâtissier Chocolatier à Charquemont (Haut-Doubs).',
   robots: {
     index: false,
     follow: false,

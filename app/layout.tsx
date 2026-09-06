@@ -29,9 +29,9 @@ const fraunces = Fraunces({
   display: 'swap',
 })
 
-const SITE_TITLE = 'Les Belles Comtoises – Cédric Brun, Maître Artisan Chocolatier'
+const SITE_TITLE = 'Les Belles Comtoises – Cédric Brun, Maître Artisan Pâtissier Chocolatier'
 const SITE_DESCRIPTION =
-  'Les Belles Comtoises : les petites vaches montbéliardes en chocolat praliné noisette de Mélanie et Cédric Brun, Maître Artisan Chocolatier à Charquemont (Doubs). Gammes professionnelles : petits poissons, petits beurres en chocolat et orangettes.'
+  'Les Belles Comtoises : les petites vaches montbéliardes en chocolat praliné noisette de Mélanie et Cédric Brun, Maître Artisan Pâtissier Chocolatier à Charquemont (Doubs). Gammes professionnelles : petits poissons, petits beurres en chocolat et orangettes.'
 
 export async function generateMetadata(): Promise<Metadata> {
   const baseUrl = await getBaseUrl()
@@ -69,7 +69,7 @@ export async function generateMetadata(): Promise<Metadata> {
       description: SITE_DESCRIPTION,
       type: 'website',
       locale: 'fr_FR',
-      siteName: 'Cédric Brun – Maître Artisan Chocolatier',
+      siteName: 'Cédric Brun – Maître Artisan Pâtissier Chocolatier',
       images: [
         {
           url: '/images/og-comtoises.jpg',
@@ -100,7 +100,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       '@type': 'LocalBusiness',
       name: `${CONTACT.marque} – ${CONTACT.signature}`,
       description:
-        'Maître Artisan Chocolatier depuis 1999 à Charquemont (Haut-Doubs). Les Belles Comtoises pour les particuliers ; petits poissons, petits beurres en chocolat et orangettes pour les professionnels.',
+        'Maître Artisan Pâtissier Chocolatier depuis 1999 à Charquemont (Haut-Doubs). Les Belles Comtoises pour les particuliers ; petits poissons, petits beurres en chocolat et orangettes pour les professionnels.',
       address: {
         '@type': 'PostalAddress',
         streetAddress: CONTACT.adresse,

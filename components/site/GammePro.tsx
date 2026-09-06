@@ -20,8 +20,13 @@ interface GammeProProps {
   heroDecoupe?: boolean
   /** Visuel de hero sur mesure (ex. la scène animée des poissons) ; remplace heroImage */
   heroVisual?: React.ReactNode
-  /** Photo panoramique affichée pleine largeur sous le hero */
-  bandeau?: { image: string; alt: string }
+  /**
+   * Visuel affiché sous le hero.
+   * `panoramique` (défaut) : photo pleine largeur, recadrée en bandeau.
+   * `affiche` : visuel portrait montré en entier, centré — pour les affiches
+   * dont le texte serait tronqué par un recadrage panoramique.
+   */
+  bandeau?: { image: string; alt: string; format?: 'panoramique' | 'affiche' }
 }
 
 export default function GammePro({
@@ -124,7 +129,7 @@ export default function GammePro({
                     className="object-contain"
                   />
                 </span>
-                Emballé un à un
+                Emballé individuellement
               </li>
               <li className="tabular-nums">{refs[0].poidsG} g la pièce</li>
               <li className="tabular-nums">Carton de {CONDITIONNEMENT} pièces</li>
@@ -133,19 +138,36 @@ export default function GammePro({
           </div>
         </section>
 
-        {bandeau && (
-          <section aria-hidden className="relative">
-            <div className="relative aspect-[16/9] w-full sm:aspect-[2.6/1] lg:aspect-[3.4/1]">
-              <Image
-                src={bandeau.image}
-                alt={bandeau.alt}
-                fill
-                sizes="100vw"
-                className="object-cover"
-              />
-            </div>
-          </section>
-        )}
+        {bandeau &&
+          (bandeau.format === 'affiche' ? (
+            <section className="bg-ink py-14 md:py-20">
+              <div className="mx-auto max-w-7xl px-5 md:px-8">
+                <Reveal>
+                  <div className="relative mx-auto aspect-[2/3] w-full max-w-[22rem] overflow-hidden rounded-2xl shadow-card sm:max-w-[26rem]">
+                    <Image
+                      src={bandeau.image}
+                      alt={bandeau.alt}
+                      fill
+                      sizes="(max-width: 640px) 88vw, 416px"
+                      className="object-cover"
+                    />
+                  </div>
+                </Reveal>
+              </div>
+            </section>
+          ) : (
+            <section aria-hidden className="relative">
+              <div className="relative aspect-[16/9] w-full sm:aspect-[2.6/1] lg:aspect-[3.4/1]">
+                <Image
+                  src={bandeau.image}
+                  alt={bandeau.alt}
+                  fill
+                  sizes="100vw"
+                  className="object-cover"
+                />
+              </div>
+            </section>
+          ))}
 
         {/* Les recettes, en photos */}
         <section className="bg-ivory py-14 md:py-20">
