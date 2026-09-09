@@ -73,6 +73,14 @@ test.describe('Connexion', () => {
     await creerCompteSansProfil(admin, email, MOT_DE_PASSE)
     await confirmerEmail(admin, email)
 
+    // Un compte sans profil est un cas normal : il ne doit rien écrire en
+    // console (régression : `loadProfile` utilisait `single()`, qui remonte
+    // PGRST116 « 0 rows » comme une erreur).
+    const erreurs: string[] = []
+    page.on('console', (m) => {
+      if (m.type() === 'error') erreurs.push(m.text())
+    })
+
     await page.goto('/espace-pro/connexion')
     await page.getByLabel(/^Email/).fill(email)
     await page.getByLabel(/Mot de passe/).fill(MOT_DE_PASSE)
@@ -92,6 +100,11 @@ test.describe('Connexion', () => {
       .maybeSingle()
     expect(profil, 'La connexion n’a pas créé le profil manquant').not.toBeNull()
     expect(profil!.is_guest).toBe(false)
+
+    expect(
+      erreurs.filter((e) => /Error loading profile|PGRST116/i.test(e)),
+      'un compte sans profil ne doit pas produire d’erreur en console'
+    ).toEqual([])
 
     await page.getByRole('button', { name: /Se déconnecter/i }).click()
     await expect(page.getByRole('button', { name: /^Se connecter$/ })).toBeVisible()

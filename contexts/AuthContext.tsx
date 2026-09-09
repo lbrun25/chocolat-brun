@@ -44,11 +44,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   // Charger le profil utilisateur depuis Supabase
   const loadProfile = useCallback(async (userId: string) => {
     try {
+      // `maybeSingle` et non `single` : un compte peut ne pas encore avoir de
+      // profil (inscription interrompue, compte créé avant la table). C'est un
+      // cas normal, traité juste après par `signIn` — pas une erreur à logguer.
       const { data, error } = await supabase
         .from('profiles')
         .select('*')
         .eq('user_id', userId)
-        .single()
+        .maybeSingle()
 
       if (error) {
         if (error?.name === 'AbortError' || (error?.message || '').includes('aborted')) {
