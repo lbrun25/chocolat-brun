@@ -1,5 +1,13 @@
 import { Product } from '@/types/product'
 
+/**
+ * Boutique historique (napolitains), conservée pour les clients existants.
+ *
+ * Les mentions d'allergènes reprennent la formulation de l'étiquetage en vigueur,
+ * identique à celle des CGU (§8.2) et de l'étiquette des Belles Comtoises :
+ * on déclare « Traces de coques » plutôt que « présence possible de fruits à coque ».
+ */
+
 // Données des produits avec prix
 export const products: Product[] = [
   {
@@ -9,7 +17,7 @@ export const products: Product[] = [
     description: 'Un chocolat noir pur et équilibré, révélant toute la richesse aromatique du cacao dans une dégustation authentique et raffinée.',
     notes: 'Rond • Très chocolaté • Subtil',
     ingredients: 'Sucre, fèves de cacao, beurre de cacao, émulsifiant : lécithine de tournesol, extrait naturel de vanille.',
-    allergens: 'Présence possible de : LAIT.',
+    allergens: 'Peut contenir des traces de LAIT. Traces de coques. Fabriqué dans un atelier utilisant également gluten et soja.',
     imageSrc: '/images/products/chocolat_noir_vrac.jpg',
     fallbackSrc: '/images/napolitain-noir.svg',
     imageAlt: 'Napolitain chocolat noir',
@@ -26,7 +34,7 @@ export const products: Product[] = [
     description: 'Un chocolat noir sublimé par ses éclats de grains de café bio de Tanzanie. Alliance parfaite entre l\'intensité du cacao et le café torréfié pour une dégustation riche et réconfortante.',
     notes: 'Cacaoté • Café torréfié • Corsé',
     ingredients: 'Sucre, fèves de cacao, beurre de cacao, café Tanzanie bio, émulsifiant : lécithine de tournesol, extrait naturel de vanille.',
-    allergens: 'Présence possible de : LAIT.',
+    allergens: 'Peut contenir des traces de LAIT. Traces de coques. Fabriqué dans un atelier utilisant également gluten et soja.',
     imageSrc: '/images/products/chocolat_noir_cafe_vrac.jpg',
     fallbackSrc: '/images/napolitain-noir.svg',
     imageAlt: 'Napolitain chocolat noir café',
@@ -60,7 +68,7 @@ export const products: Product[] = [
     description: 'Un chocolat au lait fondant et généreux, alliant douceur lactée et intensité cacaotée dans un parfait équilibre.',
     notes: 'Crémeux • Cacao • Lait',
     ingredients: 'Sucre, beurre de cacao, LAIT entier en poudre, fèves de cacao, émulsifiant : lécithine de tournesol, extrait naturel de vanille.',
-    allergens: 'LAIT. Présence possible de : fruits à coque, soja.',
+    allergens: 'Contient : LAIT. Traces de coques. Fabriqué dans un atelier utilisant également gluten et soja.',
     imageSrc: '/images/products/chocolat_lait_vrac.jpg',
     fallbackSrc: '/images/napolitain-lait.svg',
     imageAlt: 'Napolitain chocolat au lait',
@@ -77,7 +85,7 @@ export const products: Product[] = [
     description: 'Un chocolat blanc onctueux et délicat, aux notes de lait frais et de vanille naturelle, pour une dégustation tout en douceur.',
     notes: 'Vanillé • Onctueux • Peu sucré',
     ingredients: 'Sucre, beurre de cacao, LAIT entier en poudre, émulsifiant : lécithine de tournesol, extrait naturel de vanille.',
-    allergens: 'LAIT. Présence possible de : gluten, fruits à coque, soja.',
+    allergens: 'Contient : LAIT. Traces de coques. Fabriqué dans un atelier utilisant également gluten et soja.',
     imageSrc: '/images/products/chocolat_blanc_vrac.jpg',
     fallbackSrc: '/images/napolitain-blanc.svg',
     imageAlt: 'Napolitain chocolat blanc',
@@ -94,7 +102,7 @@ export const products: Product[] = [
     description: 'Un chocolat blond aux saveurs uniques de biscuit et de caramel, signature d\'une gourmandise intense et raffinée.',
     notes: 'Onctueux • Biscuité • Caramel',
     ingredients: 'Beurre de cacao, sucre, LAIT entier en poudre, LAIT écrémé en poudre, lactosérum (LAIT), beurre (LAIT), émulsifiant : lécithine de tournesol, extrait naturel de vanille.',
-    allergens: 'LAIT. Présence possible de : fruits à coque, soja.',
+    allergens: 'Contient : LAIT. Traces de coques. Fabriqué dans un atelier utilisant également gluten et soja.',
     imageSrc: '/images/products/chocolat_dulcey_vrac.jpg',
     fallbackSrc: '/images/napolitain-dulcey.svg',
     imageAlt: 'Napolitain chocolat Dulcey',
