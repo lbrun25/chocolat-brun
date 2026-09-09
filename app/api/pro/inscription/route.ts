@@ -84,7 +84,27 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // 3. Création du compte
+    // 3. Le SIRET est-il déjà rattaché à un autre compte ? Un index unique le
+    //    garantit en base ; le vérifier ici évite de créer un compte Auth qui
+    //    resterait orphelin, et de renvoyer un message incompréhensible.
+    const { data: siretDejaPris } = await supabase
+      .from('profiles')
+      .select('email')
+      .eq('siret', siret)
+      .maybeSingle()
+
+    if (siretDejaPris) {
+      return NextResponse.json(
+        {
+          error:
+            'Ce SIRET est déjà rattaché à un compte. Connectez-vous avec l’adresse utilisée à l’inscription, ' +
+            'ou appelez-nous au 03 81 44 07 36.',
+        },
+        { status: 409 }
+      )
+    }
+
+    // 4. Création du compte
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
@@ -128,22 +148,28 @@ export async function POST(request: NextRequest) {
         .eq('is_guest', true)
         .maybeSingle()
 
-      if (existingGuest) {
-        await supabase
-          .from('profiles')
-          .update({ ...profilePayload, user_id: data.user.id })
-          .eq('id', existingGuest.id)
-      } else {
-        const { error: insertError } = await supabase
-          .from('profiles')
-          .insert({ ...profilePayload, user_id: data.user.id })
-        if (insertError) {
-          console.error('Création profil pro:', insertError)
-          return NextResponse.json(
-            { error: 'Compte créé, mais le profil n’a pas pu être enregistré. Contactez-nous.' },
-            { status: 500 }
-          )
-        }
+      const { error: profileError } = existingGuest
+        ? await supabase
+            .from('profiles')
+            .update({ ...profilePayload, user_id: data.user.id })
+            .eq('id', existingGuest.id)
+        : await supabase.from('profiles').insert({ ...profilePayload, user_id: data.user.id })
+
+      if (profileError) {
+        // La colonne manquante (PGRST204 / 42703) signale une migration non
+        // appliquée : le message doit être explicite dans les logs, sans quoi
+        // l'incident ressemble à une panne générique côté client.
+        console.error('Création profil pro:', profileError.code, profileError.message)
+        const schemaIncomplet = profileError.code === 'PGRST204' || profileError.code === '42703'
+        return NextResponse.json(
+          {
+            error: schemaIncomplet
+              ? 'La création de comptes professionnels est momentanément indisponible. Appelez-nous au 03 81 44 07 36.'
+              : 'Votre compte a bien été créé, mais son profil professionnel n’a pas pu être enregistré. ' +
+                'Appelez-nous au 03 81 44 07 36 pour l’activer.',
+          },
+          { status: schemaIncomplet ? 503 : 500 }
+        )
       }
     }
 
