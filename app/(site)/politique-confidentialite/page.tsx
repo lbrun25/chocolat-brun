@@ -88,6 +88,15 @@ export default function PolitiqueConfidentialitePage() {
                       <td className="p-3">10 ans (obligations comptables)</td>
                     </tr>
                     <tr className="border-t border-chocolate-light/40">
+                      <td className="p-3">Numéro SIRET et raison sociale de l’établissement (comptes professionnels)</td>
+                      <td className="p-3">
+                        Vérification de la qualité de professionnel auprès du répertoire Sirene (INSEE), accès aux
+                        tarifs et à la commande réservés aux professionnels, facturation
+                      </td>
+                      <td className="p-3">Exécution du contrat</td>
+                      <td className="p-3">Compte actif + 3 ans après dernière activité</td>
+                    </tr>
+                    <tr className="border-t border-chocolate-light/40">
                       <td className="p-3">Contenu des commandes (produits, quantités, montants)</td>
                       <td className="p-3">Traitement des commandes, historique client</td>
                       <td className="p-3">Exécution du contrat</td>
@@ -138,8 +147,15 @@ export default function PolitiqueConfidentialitePage() {
                   <a href="https://vercel.com/legal/privacy-policy" target="_blank" rel="noopener noreferrer" className="text-chocolate-dark hover:underline ml-1">Politique de confidentialité</a>
                 </li>
                 <li>
-                  <strong>Resend</strong> : envoi des emails (confirmations de commande, demandes de devis, notifications propriétaire). 
+                  <strong>Resend</strong> : envoi des emails (confirmations de commande, demandes de devis, notifications propriétaire).
                   <a href="https://resend.com/legal/privacy-policy" target="_blank" rel="noopener noreferrer" className="text-chocolate-dark hover:underline ml-1">Politique de confidentialité</a>
+                </li>
+                <li>
+                  <strong>INSEE — répertoire Sirene</strong> : lors de la création d’un compte professionnel, le
+                  numéro SIRET saisi est transmis à l’API Sirene de l’INSEE pour vérifier l’existence de
+                  l’établissement et récupérer sa raison sociale. Il s’agit d’un service public français, dont les
+                  données sont hébergées en France.
+                  <a href="https://www.insee.fr/fr/information/1300614" target="_blank" rel="noopener noreferrer" className="text-chocolate-dark hover:underline ml-1">En savoir plus</a>
                 </li>
               </ul>
               <p className="font-sans mt-4">

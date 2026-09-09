@@ -94,16 +94,13 @@ export const coffrets: Coffret[] = [
   },
   {
     id: 'coffret-20',
-    nom: 'Coffret de 24',
+    nom: 'Coffret de 20',
     detail: 'Grand format',
-    pieces: 24,
-    poidsG: 24 * POIDS_PIECE_G,
+    pieces: 20,
+    poidsG: 20 * POIDS_PIECE_G,
     prixTTC: 26,
-    // ⚠️ Coffret passé de 20 à 24 pièces (info cliente, 1er sept. 2026) : les photos ci-dessous
-    // montrent encore l'ancien coffret de 20. À remplacer dès réception des nouvelles prises de vue.
-    // Le tarif TTC n'a pas été révisé pour les 4 pièces supplémentaires : à confirmer avec la cliente.
     image: '/images/comtoises/coffret-20-ouvert-3.jpg',
-    imageAlt: 'Coffret de 24 Belles Comtoises ouvert dans l’herbe',
+    imageAlt: 'Coffret de 20 Belles Comtoises ouvert dans l’herbe',
   },
   {
     id: 'coffret-30',

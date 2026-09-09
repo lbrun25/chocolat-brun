@@ -1,5 +1,10 @@
 import { Metadata } from 'next'
 import Link from 'next/link'
+import { CONDITIONNEMENT, FRAIS_PORT_HT, FRANCO_HT, TVA_RATE } from '@/lib/catalogue'
+import { FLAT_SHIPPING_COST, FREE_SHIPPING_THRESHOLD } from '@/lib/shipping'
+
+/** 5,5 → « 5,5 », pour que le texte légal suive toujours le taux réellement appliqué. */
+const TVA_PCT = (TVA_RATE * 100).toLocaleString('fr-FR')
 
 export const metadata: Metadata = {
   title: 'Conditions Générales d\'Utilisation – PATISSERIE BRUN CEDRIC',
@@ -68,9 +73,10 @@ export default function CGUPage() {
                 2. Objet et champ d'application
               </h2>
               <p className="font-sans">
-                Les présentes CGU/CGV ont pour objet de définir les droits et obligations des parties dans 
-                le cadre de la vente en ligne de napolitains en chocolat artisanaux et autres produits 
-                proposés par PATISSERIE BRUN CEDRIC.
+                Les présentes CGU/CGV ont pour objet de définir les droits et obligations des parties dans
+                le cadre de la vente en ligne des chocolats artisanaux fabriqués par PATISSERIE BRUN CEDRIC :
+                Les Belles Comtoises, vendues aux particuliers, ainsi que les petits poissons, les petits
+                beurres en chocolat et les orangettes, réservés aux professionnels.
               </p>
               <p className="font-sans mt-4">
                 Ces conditions s'appliquent à toute commande passée sur le site, tant pour les particuliers 
@@ -89,22 +95,27 @@ export default function CGUPage() {
               <ul className="list-disc pl-6 space-y-2 mt-2 font-sans">
                 <li>
                   <strong>Les Belles Comtoises</strong> — vaches en chocolat, pur beurre de cacao, praliné
-                  noisette, en coffrets de 6, 12, 24 ou 30 pièces. Vente aux particuliers, prix TTC.
+                  noisette, en coffrets de 6, 12, 20 ou 30 pièces. Vente aux particuliers, prix TTC.
                 </li>
                 <li>
                   <strong>Les petits poissons en chocolat</strong> (4 g) — lait, noir, noir au café, blanc.
-                  Vente aux professionnels, prix HT, par cartons de 200 pièces. Accès réservé aux comptes
-                  dont le SIRET est vérifié auprès du répertoire Sirene (INSEE).
+                  Vente aux professionnels, prix HT, par cartons de {CONDITIONNEMENT} pièces.
                 </li>
                 <li>
                   <strong>Les petits beurres en chocolat</strong> (6 g) — lait, noir, noir au café, blanc.
-                  Vente aux professionnels, prix HT, par cartons de 200 pièces.
+                  Vente aux professionnels, prix HT, par cartons de {CONDITIONNEMENT} pièces.
                 </li>
                 <li>
                   <strong>Les orangettes enrobées de chocolat noir</strong> (5 g) — écorces d’orange confites.
-                  Vente aux professionnels, prix HT, par cartons de 200 pièces.
+                  Vente aux professionnels, prix HT, par cartons de {CONDITIONNEMENT} pièces.
                 </li>
               </ul>
+              <p className="font-sans mt-4">
+                L’accès aux gammes professionnelles, à leurs tarifs et à la commande en ligne est réservé aux
+                comptes dont le numéro SIRET a été vérifié auprès du répertoire Sirene (INSEE). Les chocolats
+                emballés individuellement de ces gammes sont destinés à être offerts ou revendus par des
+                cafés, hôtels, restaurants et entreprises.
+              </p>
               <p className="font-sans mt-4">
                 Les produits sont présentés sur le site avec leurs caractéristiques essentielles : description, 
                 ingrédients, allergènes, poids, prix. Les photographies sont non contractuelles et peuvent 
@@ -172,11 +183,17 @@ export default function CGUPage() {
                 5.1. Prix
               </h3>
               <p className="font-sans">
-                Les prix de nos produits sont indiqués en euros (€) toutes taxes comprises (TTC), 
-                TVA à 5,5% incluse (taux applicable aux produits alimentaires).
+                <strong>Particuliers (Les Belles Comtoises) :</strong> les prix sont indiqués en euros (€)
+                toutes taxes comprises (TTC), TVA à {TVA_PCT} % incluse (taux applicable aux produits
+                alimentaires).
               </p>
               <p className="font-sans mt-4">
-                Les prix affichés sur le site n'incluent pas les frais de livraison, qui sont calculés 
+                <strong>Professionnels (petits poissons, petits beurres, orangettes) :</strong> les prix sont
+                indiqués hors taxes (HT), à la pièce et par carton de {CONDITIONNEMENT} pièces. La TVA à{' '}
+                {TVA_PCT} % est ajoutée au récapitulatif de commande et au moment du paiement.
+              </p>
+              <p className="font-sans mt-4">
+                Les prix affichés sur le site n'incluent pas les frais de livraison, qui sont calculés
                 et affichés avant la validation définitive de la commande.
               </p>
               <p className="font-sans mt-4">
@@ -243,7 +260,13 @@ export default function CGUPage() {
                   <strong>Délai d'acheminement :</strong> 2 jours ouvrés via Colissimo
                 </li>
                 <li>
-                  <strong>Livraison gratuite :</strong> À partir de 70€ en France métropolitaine
+                  <strong>Frais de port — particuliers :</strong> tarif unique de {FLAT_SHIPPING_COST} € en
+                  France métropolitaine, livraison offerte à partir de {FREE_SHIPPING_THRESHOLD} € d’achat
+                  (hors frais de port)
+                </li>
+                <li>
+                  <strong>Frais de port — professionnels :</strong> {FRAIS_PORT_HT} € HT par commande, franco
+                  de port à partir de {FRANCO_HT} € HT
                 </li>
                 <li>
                   <strong>Suivi de colis :</strong> Numéro de suivi communiqué par email
@@ -291,9 +314,9 @@ export default function CGUPage() {
                 6.4. Conservation des produits
               </h3>
               <p className="font-sans">
-                Nos napolitains en chocolat doivent être conservés dans un endroit frais et sec, 
-                à l'abri de la lumière et de la chaleur (température idéale : 15-18°C). 
-                La date limite de consommation est indiquée sur l'emballage.
+                Nos chocolats doivent être conservés dans un endroit frais et sec, à l'abri de la lumière
+                et de la chaleur (température idéale : 15 à 18 °C). La date limite de consommation est
+                indiquée sur l'emballage.
               </p>
             </section>
 
@@ -308,7 +331,7 @@ export default function CGUPage() {
                 se périmer rapidement.
               </p>
               <p className="font-sans mt-4">
-                <strong>Les produits alimentaires, dont font partie nos napolitains en chocolat, 
+                <strong>Les produits alimentaires, dont font partie l’ensemble de nos chocolats,
                 ne peuvent donc pas faire l'objet d'un droit de rétractation.</strong>
               </p>
               <p className="font-sans mt-4">
@@ -337,11 +360,28 @@ export default function CGUPage() {
                 8.2. Allergènes
               </h3>
               <p className="font-sans">
-                Les Belles Comtoises sont fourrées au praliné noisette : elles contiennent NOISETTES
-                (fruits à coque) et LAIT.
-                Les informations sur les allergènes sont indiquées sur chaque fiche produit. 
-                Nos produits sont fabriqués dans un atelier utilisant : LAIT, fruits à coque, gluten, 
-                soja. Des traces de ces allergènes peuvent être présentes dans tous nos produits.
+                <strong>Tous nos produits contiennent des allergènes.</strong> Ils sont fabriqués dans un
+                atelier qui travaille les fruits à coque : tous nos produits présentent des traces de coques.
+              </p>
+              <ul className="list-disc pl-6 space-y-2 mt-4 font-sans">
+                <li>
+                  <strong>Les Belles Comtoises</strong> — fourrées au praliné noisette : contiennent
+                  NOISETTES (fruits à coque) et LAIT. Traces de coques.
+                </li>
+                <li>
+                  <strong>Les petits poissons et les petits beurres en chocolat</strong> — les recettes au
+                  lait et au chocolat blanc contiennent du LAIT ; les recettes au chocolat noir et au
+                  chocolat noir au café peuvent en contenir des traces. Traces de coques.
+                </li>
+                <li>
+                  <strong>Les orangettes</strong> — enrobées de chocolat noir : peuvent contenir des traces
+                  de LAIT. Traces de coques.
+                </li>
+              </ul>
+              <p className="font-sans mt-4">
+                Notre atelier utilise également du gluten et du soja. Le détail des ingrédients et des
+                allergènes est indiqué sur chaque fiche produit ainsi que sur l’étiquetage de chaque
+                conditionnement.
               </p>
               <p className="font-sans mt-4">
                 <strong>Il est de la responsabilité du consommateur de vérifier la liste des ingrédients 

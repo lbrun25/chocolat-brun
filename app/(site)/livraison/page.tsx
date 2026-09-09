@@ -1,9 +1,11 @@
 import { Metadata } from 'next'
 import { FLAT_SHIPPING_COST, FREE_SHIPPING_THRESHOLD } from '@/lib/shipping'
+import { CONDITIONNEMENT, FRAIS_PORT_HT, FRANCO_HT } from '@/lib/catalogue'
 
 export const metadata: Metadata = {
   title: 'Livraison et frais de port – Cédric Brun',
-  description: 'Modalités de livraison et frais de port pour vos commandes de napolitains artisanaux.',
+  description:
+    'Modalités de livraison et frais de port pour vos commandes de chocolats artisanaux : Les Belles Comtoises, petits poissons, petits beurres et orangettes.',
 }
 
 export default function LivraisonPage() {
@@ -24,9 +26,10 @@ export default function LivraisonPage() {
                 Ils sont conditionnés dans un emballage fermé, résistant, approprié au contenu et aux exigences du transport.
               </p>
               <p className="text-lg leading-relaxed mt-4">
-                Pendant les périodes chaudes en France métropole ou pour toute autre expédition, où le délai 
-                d'acheminement est supérieur à 3 jours ouvrés, un emballage isotherme permet de garantir la qualité 
-                des produits pendant le temps de leur acheminement. Un surcoût est automatiquement ajouté au frais de transport.
+                Pendant les périodes chaudes en France métropole ou pour toute autre expédition, où le délai
+                d'acheminement est supérieur à 3 jours ouvrés, un emballage isotherme permet de garantir la qualité
+                des produits pendant le temps de leur acheminement. Le cas échéant, tout surcoût lié à cet emballage
+                vous est indiqué avant la validation définitive de votre commande.
               </p>
             </section>
 
@@ -87,9 +90,25 @@ export default function LivraisonPage() {
               <h2 className="text-2xl font-bold text-chocolate-dark mb-4 font-serif">
                 Frais de port
               </h2>
-              <p className="leading-relaxed mb-6">
+              <h3 className="text-xl font-semibold text-chocolate-dark mt-4 mb-2 font-serif">
+                Particuliers — Les Belles Comtoises
+              </h3>
+              <p className="leading-relaxed">
                 Les frais d&apos;expédition sont au <strong>tarif unique de {FLAT_SHIPPING_COST} €</strong> en France métropolitaine.
-                La livraison est <strong>gratuite</strong> pour toute commande (hors frais de port) égale ou supérieure à <strong>{FREE_SHIPPING_THRESHOLD} €</strong>.
+                La livraison est <strong>offerte</strong> pour toute commande (hors frais de port) égale ou supérieure à <strong>{FREE_SHIPPING_THRESHOLD} € TTC</strong>.
+              </p>
+
+              <h3 className="text-xl font-semibold text-chocolate-dark mt-6 mb-2 font-serif">
+                Professionnels — petits poissons, petits beurres et orangettes
+              </h3>
+              <p className="leading-relaxed">
+                Ces gammes sont vendues par cartons de {CONDITIONNEMENT} pièces, à des tarifs hors taxes.
+                Les frais de port sont de <strong>{FRAIS_PORT_HT} € HT par commande</strong> en France métropolitaine.
+                La commande est expédiée <strong>franco de port</strong> à partir de <strong>{FRANCO_HT} € HT</strong>.
+              </p>
+              <p className="leading-relaxed mt-4 mb-6">
+                L&apos;accès aux tarifs professionnels et à la commande en ligne est réservé aux comptes dont le
+                numéro SIRET a été vérifié auprès du répertoire Sirene (INSEE).
               </p>
             </section>
           </div>
