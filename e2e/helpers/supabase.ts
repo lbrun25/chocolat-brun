@@ -119,6 +119,59 @@ export async function confirmerEmail(admin: SupabaseClient, email: string): Prom
   if (error) throw new Error(`Confirmation email impossible : ${error.message}`)
 }
 
+/**
+ * Compte professionnel prêt à l'emploi : compte Auth confirmé + profil au SIRET
+ * vérifié. Court-circuite le formulaire d'inscription et l'appel INSEE, ce qui
+ * permet d'utiliser un SIRET fictif — donc un compte par test, sans se heurter
+ * à l'index unique sur `profiles.siret`.
+ */
+export async function creerComptePro(
+  admin: SupabaseClient,
+  email: string,
+  password: string,
+  options: { siret?: string; raisonSociale?: string } = {}
+): Promise<string> {
+  if (!email.includes('+e2e-')) throw new Error(`Email non-test : ${email}`)
+  const siret = options.siret ?? String(Date.now()).padStart(14, '0').slice(-14)
+
+  const { data, error } = await admin.auth.admin.createUser({
+    email,
+    password,
+    email_confirm: true,
+  })
+  if (error || !data.user) throw new Error(`Création du compte pro impossible : ${error?.message}`)
+
+  await admin.from('profiles').delete().eq('user_id', data.user.id)
+  const { error: profileError } = await admin.from('profiles').insert({
+    user_id: data.user.id,
+    email,
+    first_name: 'Lucien',
+    last_name: 'Brun',
+    is_guest: false,
+    siret,
+    raison_sociale: options.raisonSociale ?? 'ETABLISSEMENT DE TEST',
+    type_etablissement: 'Restaurant',
+    siret_verified_at: new Date().toISOString(),
+  })
+  if (profileError) throw new Error(`Profil pro de test impossible : ${profileError.message}`)
+  return data.user.id
+}
+
+/**
+ * Lien de confirmation d'inscription, tel qu'il figure dans l'email envoyé par
+ * Supabase — permet de tester le parcours réel sans accès à la boîte mail.
+ */
+export async function lienDeConfirmation(
+  admin: SupabaseClient,
+  email: string,
+  password: string
+): Promise<string> {
+  const { data, error } = await admin.auth.admin.generateLink({ type: 'signup', email, password })
+  const lien = data?.properties?.action_link
+  if (error || !lien) throw new Error(`Lien de confirmation indisponible : ${error?.message}`)
+  return lien
+}
+
 /** Alias jetable basé sur l'adresse du propriétaire (sous-adressage Gmail). */
 export function emailTest(suffixe = ''): string {
   const jeton = `${Date.now().toString(36)}${suffixe ? `-${suffixe}` : ''}`
