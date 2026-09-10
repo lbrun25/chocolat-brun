@@ -118,23 +118,26 @@ export default function GammePro({
           </div>
 
           <div className="mx-auto max-w-7xl px-5 pb-14 md:px-8 md:pb-20">
-            <ul className="flex flex-wrap items-center justify-center gap-x-8 gap-y-4 border-t border-ink/10 pt-6 text-[13px] text-bark">
-              <li className="flex items-center gap-2.5">
-                <span className="relative block h-8 w-8 shrink-0">
-                  <Image
-                    src="/images/emballage-individuel.png"
-                    alt=""
-                    fill
-                    sizes="32px"
-                    className="object-contain"
-                  />
-                </span>
-                Emballé individuellement
-              </li>
-              <li className="tabular-nums">{refs[0].poidsG} g la pièce</li>
-              <li className="tabular-nums">Carton de {CONDITIONNEMENT} pièces</li>
-              <li>Fabriqué à {CONTACT.ville}</li>
-            </ul>
+            {/* Le sachet est le produit tel qu'il arrive chez le client : montré
+                en grand plutôt qu'en puce de liste, avec le ratio du visuel
+                détouré — dans un carré, `object-contain` le réduirait d'un tiers. */}
+            <div className="flex flex-col items-center border-t border-ink/10 pt-8">
+              <span className="sachet relative block aspect-[837/499] w-44 sm:w-56">
+                <Image
+                  src="/images/emballage-individuel-detoure.png"
+                  alt="Le chocolat dans son sachet individuel"
+                  fill
+                  sizes="(max-width: 640px) 176px, 224px"
+                  className="object-contain"
+                />
+              </span>
+              <ul className="mt-7 flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-[13px] text-bark">
+                <li>Emballé individuellement</li>
+                <li className="tabular-nums">{refs[0].poidsG} g la pièce</li>
+                <li className="tabular-nums">Carton de {CONDITIONNEMENT} pièces</li>
+                <li>Fabriqué à {CONTACT.ville}</li>
+              </ul>
+            </div>
           </div>
         </section>
 

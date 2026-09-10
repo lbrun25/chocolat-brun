@@ -120,7 +120,7 @@ export default function BellesComtoisesPage() {
             transition={{ duration: 0.9, ease: EASE_OUT, delay: 0.16 }}
             className="mt-6 max-w-md text-[16px] leading-relaxed text-bark md:text-[17px]"
           >
-            Les petites vaches montbéliardes en chocolat, praliné noisette, de Mélanie &amp; Cédric Brun.
+            Les petites vaches montbéliardes en chocolat pur beurre de cacao praliné noisette
           </motion.p>
           <motion.div
             initial={{ opacity: 0, y: 16 }}

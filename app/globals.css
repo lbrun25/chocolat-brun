@@ -360,6 +360,25 @@ body:has(.landing) {
   .scene-terrasse .vapeur { animation: vapeur-monte 7s ease-out infinite; }
 }
 
+/* --- Le sachet « Emballé individuellement » ---------------------------------
+   Il se balance lentement, suspendu par son pli haut : de quoi attirer l'œil
+   sur le produit tel qu'il est livré, sans distraire de la lecture. */
+.sachet {
+  transform-origin: 50% 12%;
+  filter: drop-shadow(0 8px 12px rgba(27, 16, 11, 0.16));
+  /* Position au repos, identique au premier temps de l'animation. */
+  transform: rotate(-3.5deg);
+}
+
+@keyframes balancement-sachet {
+  0%, 100% { transform: rotate(-3.5deg) translateY(0); }
+  50%      { transform: rotate(3.5deg) translateY(-4px); }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .sachet { animation: balancement-sachet 5s ease-in-out infinite; }
+}
+
 /* Sans unités de conteneur (navigateur antérieur à 2023), on garde la photo seule. */
 @supports not (width: 1cqw) {
   .scene-terrasse .poisson,
