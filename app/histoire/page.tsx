@@ -31,6 +31,26 @@ const VALEURS = [
   },
 ]
 
+/** Aperçu de la galerie : photos d'atelier, toutes en paysage. */
+const ATELIER = [
+  {
+    image: '/images/galerie/poissons-lait-demoules-octobre.jpg',
+    alt: 'Poissons en chocolat au lait démoulés',
+  },
+  {
+    image: '/images/galerie/orangettes-enrobees-vermicelles.jpg',
+    alt: 'Orangettes enrobées de chocolat noir et vermicelles sur papier sulfurisé',
+  },
+  {
+    image: '/images/galerie/vaches-noir-coques-moules.jpg',
+    alt: 'Coques de vaches Belles Comtoises en chocolat noir dans leurs moules',
+  },
+  {
+    image: '/images/galerie/orangettes-grille-enrobage.jpg',
+    alt: 'Bâtonnets d’orange confits sur la grille de l’enrobeuse',
+  },
+]
+
 const CHAPITRES = [
   {
     titre: 'Cédric & Mélanie',
@@ -270,8 +290,55 @@ export default function HistoirePage() {
           </div>
         </section>
 
-        {/* Votre confiance */}
+        {/* Dans l'atelier : aperçu de la galerie */}
         <section className="bg-cream py-16 md:py-24">
+          <div className="mx-auto max-w-7xl px-5 md:px-8">
+            <Reveal>
+              <p className="text-[11px] font-medium uppercase tracking-eyebrow text-brass-deep">Dans l’atelier</p>
+              <h2 className="font-display mt-4 max-w-2xl text-[2rem] leading-tight tracking-[-0.015em] text-ink md:text-[2.6rem]">
+                Des gestes, du temps, de la matière
+              </h2>
+            </Reveal>
+
+            <ul className="mt-10 grid grid-cols-2 gap-3 md:mt-14 md:gap-5 lg:grid-cols-4">
+              {ATELIER.map((p, i) => (
+                <li key={p.image}>
+                  <Reveal delay={i * 0.07}>
+                    <Link
+                      href="/galerie"
+                      className="group relative block aspect-[4/3] overflow-hidden rounded-2xl bg-paper"
+                    >
+                      <Image
+                        src={p.image}
+                        alt={p.alt}
+                        fill
+                        sizes="(max-width: 1024px) 50vw, 25vw"
+                        className="object-cover transition-transform duration-500 group-hover:scale-105"
+                      />
+                    </Link>
+                  </Reveal>
+                </li>
+              ))}
+            </ul>
+
+            <Reveal delay={0.1}>
+              <Link
+                href="/galerie"
+                className="group mt-10 inline-flex items-center gap-2.5 text-[15px] font-medium text-ink underline-offset-4 hover:underline"
+              >
+                Voir toute la galerie
+                <ArrowRight
+                  className="h-4 w-4 transition-transform group-hover:translate-x-1"
+                  strokeWidth={1.75}
+                  aria-hidden
+                />
+              </Link>
+            </Reveal>
+          </div>
+        </section>
+
+        {/* Votre confiance */}
+        <section className="bg-ivory py-16 md:py-24">
           <div className="mx-auto max-w-3xl px-5 text-center md:px-8">
             <Reveal>
               <p className="text-[11px] font-medium uppercase tracking-eyebrow text-brass-deep">Depuis 1999</p>
