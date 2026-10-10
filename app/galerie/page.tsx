@@ -1,4 +1,7 @@
 import { Metadata } from 'next'
+import SiteHeader from '@/components/site/SiteHeader'
+import SiteFooter from '@/components/site/SiteFooter'
+import { Reveal } from '@/components/site/Reveal'
 import GalerieContent from './GalerieContent'
 
 const galerieMedia: Array<{ src: string; alt: string }> = [
@@ -46,32 +49,46 @@ const galerieMedia: Array<{ src: string; alt: string }> = [
 ]
 
 export const metadata: Metadata = {
-  title: 'Galerie – Napolitains Cédric BRUN',
-  description: 'Découvrez nos illustrations et croquis de napolitains artisanaux, emballages et créations Cédric BRUN.',
+  title: 'Galerie',
+  description:
+    'L’atelier Cédric Brun en images : moulage, enrobage et emballage des poissons, orangettes et Belles Comtoises, à Charquemont.',
 }
 
 export default function GaleriePage() {
   return (
-    <div className="min-h-screen bg-chocolate-light/30 pt-28 md:pt-36 pb-20 paper-texture">
-      <div className="container mx-auto px-4">
-        <div className="text-center mb-12 mt-6 md:mt-10">
-          <h1 className="text-5xl font-bold text-chocolate-dark mb-4 font-serif">
-            Galerie & Illustrations
-          </h1>
-          <p className="text-xl text-chocolate-dark/70 font-sans">
-            Découvrez nos créations, cabosses, emballages et processus artisanaux
-          </p>
-        </div>
+    <div className="landing bg-ivory font-sans text-ink">
+      <SiteHeader />
 
-        <GalerieContent media={galerieMedia} />
+      <main>
+        <section className="grain relative isolate overflow-hidden bg-cream pt-28 md:pt-36">
+          <div className="mx-auto max-w-7xl px-5 pb-14 md:px-8 md:pb-20">
+            <p className="flex items-center gap-3 text-[11px] font-medium uppercase tracking-eyebrow text-brass-deep">
+              <span aria-hidden className="hairline w-12" />
+              Dans l’atelier · Charquemont
+            </p>
+            <h1 className="font-display mt-5 text-[2.8rem] leading-[0.95] tracking-[-0.02em] text-ink sm:text-[3.8rem] md:text-[5.2rem]">
+              La <em className="font-light italic text-cacao">galerie</em>
+            </h1>
+            <p className="mt-6 max-w-lg text-[17px] leading-relaxed text-bark md:text-[18px]">
+              Moulage, enrobage, emballage : nos créations en images, du cacao jusqu’au sachet.
+            </p>
+          </div>
+        </section>
 
-        <div className="mt-12 text-center text-chocolate-dark/70">
-          <p className="text-lg font-sans">
-            Toutes nos illustrations reflètent l'âme artisanale et traditionnelle de Cédric BRUN
-          </p>
-        </div>
-      </div>
+        <section className="bg-ivory py-14 md:py-20">
+          <div className="mx-auto max-w-7xl px-5 md:px-8">
+            <GalerieContent media={galerieMedia} />
+
+            <Reveal>
+              <p className="mx-auto mt-14 max-w-xl text-center text-[15px] leading-relaxed text-bark">
+                Chaque pièce est fabriquée à la main, dans notre atelier du Haut-Doubs.
+              </p>
+            </Reveal>
+          </div>
+        </section>
+      </main>
+
+      <SiteFooter />
     </div>
   )
 }
-
