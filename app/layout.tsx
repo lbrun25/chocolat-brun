@@ -3,6 +3,7 @@ import { Inter, Fraunces } from 'next/font/google'
 import './globals.css'
 import { getBaseUrl } from '@/lib/get-base-url'
 import CookieBanner from '@/components/CookieBanner'
+import GoogleTagManager from '@/components/GoogleTagManager'
 import ScrollToTop from '@/components/ScrollToTop'
 import SupabaseKeepAlive from '@/components/SupabaseKeepAlive'
 import AuthErrorRedirect from '@/components/AuthErrorRedirect'
@@ -167,6 +168,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                   <AuthErrorRedirect />
                   {children}
                   <CookieBanner />
+                  <GoogleTagManager />
                 </ComtoisesCartProvider>
               </ProCartProvider>
             </CartProvider>

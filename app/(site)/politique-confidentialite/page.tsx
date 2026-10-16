@@ -114,6 +114,12 @@ export default function PolitiqueConfidentialitePage() {
                       <td className="p-3">Consentement</td>
                       <td className="p-3">13 mois</td>
                     </tr>
+                    <tr className="border-t border-chocolate-light/40">
+                      <td className="p-3">Données de navigation (pages vues, identifiant de cookie, adresse IP) via Google Tag Manager</td>
+                      <td className="p-3">Mesure d’audience et amélioration du site</td>
+                      <td className="p-3">Consentement</td>
+                      <td className="p-3">13 mois maximum</td>
+                    </tr>
                   </tbody>
                 </table>
               </div>
@@ -180,15 +186,24 @@ export default function PolitiqueConfidentialitePage() {
                   <strong>Stockage du consentement</strong> : mémorisation de votre choix concernant les cookies 
                   (via <code className="bg-chocolate-light/30 px-1 rounded">localStorage</code>).
                 </li>
+                <li>
+                  <strong>Mesure d&apos;audience</strong> (soumise à votre consentement) : nous utilisons{' '}
+                  <strong>Google Tag Manager</strong> (Google Ireland Limited) pour mesurer la fréquentation du site et 
+                  améliorer son contenu. Il n&apos;est chargé qu&apos;après votre acceptation et peut déposer des cookies 
+                  ou transférer des données (adresse IP, pages consultées) vers Google, y compris hors de l&apos;Union 
+                  européenne.
+                </li>
               </ul>
               <p className="font-sans mt-4">
-                Nous n&apos;utilisons actuellement <strong>pas</strong> de cookies analytiques (Google Analytics, etc.) 
-                ni de cookies marketing. Si cela venait à changer, nous mettrions à jour la présente politique et 
-                solliciterions votre consentement préalable.
+                Aucun cookie de mesure d&apos;audience ni service tiers de suivi n&apos;est chargé avant que vous 
+                ayez cliqué sur «&nbsp;Tout accepter&nbsp;» ou activé les cookies de mesure d&apos;audience dans 
+                «&nbsp;Personnaliser&nbsp;». Nous n&apos;utilisons pas de cookies marketing. Si cela venait à changer, 
+                nous mettrions à jour la présente politique et solliciterions votre consentement préalable.
               </p>
               <p className="font-sans mt-4">
-                Vous pouvez accepter ou refuser les cookies via la bannière affichée lors de votre première visite. 
-                Vous pouvez également modifier vos préférences à tout moment via les paramètres de votre navigateur.
+                Vous pouvez accepter ou refuser les cookies via la bannière affichée lors de votre première visite ; 
+                refuser est aussi simple qu&apos;accepter. Pour retirer votre consentement, supprimez les données du 
+                site dans votre navigateur : la bannière s&apos;affichera de nouveau. Vous pouvez également modifier vos préférences à tout moment via les paramètres de votre navigateur.
               </p>
             </section>
 

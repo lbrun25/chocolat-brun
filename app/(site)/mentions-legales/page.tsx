@@ -160,7 +160,8 @@ export default function MentionsLegalesPage() {
               </h2>
               <p className="font-sans">
                 Ce site utilise des cookies essentiels (session, panier) et stocke votre préférence de consentement. 
-                Nous n&apos;utilisons pas actuellement de cookies analytiques ni marketing. 
+                Avec votre consentement uniquement, nous utilisons Google Tag Manager (Google Ireland Limited) 
+                pour mesurer l&apos;audience du site ; nous n&apos;utilisons pas de cookies marketing. 
                 Vous pouvez accepter ou refuser via la bannière lors de votre première visite. Pour plus d&apos;informations :{' '}
                 <a
                   href="/politique-confidentialite"
