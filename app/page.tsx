@@ -91,7 +91,7 @@ export default function BellesComtoisesPage() {
 
       <main>
         {/* Hero — logo de la maison */}
-        <section className="relative isolate flex min-h-[88vh] flex-col items-center justify-center overflow-hidden bg-ivory px-5 py-20 text-center md:px-8">
+        <section className="relative isolate flex flex-col items-center justify-center overflow-hidden bg-ivory px-5 pb-12 pt-28 text-center md:px-8 md:pb-14 md:pt-32">
           <h1 className="sr-only">Les Belles Comtoises</h1>
           <motion.p
             initial={{ opacity: 0, y: 16 }}
@@ -105,14 +105,14 @@ export default function BellesComtoisesPage() {
             initial={{ opacity: 0, y: 20, scale: 0.96 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             transition={{ duration: 0.9, ease: EASE_OUT, delay: 0.08 }}
-            className="relative mt-6 aspect-[3/2] w-[300px] overflow-hidden rounded-3xl shadow-xl shadow-ink/10 sm:w-[420px] md:w-[480px]"
+            className="relative mt-4 aspect-[3/2] w-[340px] max-w-full overflow-hidden rounded-3xl shadow-xl shadow-ink/10 sm:w-[520px] md:w-[680px]"
           >
             <Image
               src="/images/comtoises/logo-belles-comtoises.png"
               alt="Les Belles Comtoises — marque déposée, elles sont inimitables et inoubliables"
               fill
               priority
-              sizes="(max-width: 640px) 300px, (max-width: 768px) 420px, 480px"
+              sizes="(max-width: 640px) 340px, (max-width: 768px) 520px, 680px"
               className="object-cover"
             />
           </motion.div>
@@ -120,7 +120,7 @@ export default function BellesComtoisesPage() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9, ease: EASE_OUT, delay: 0.16 }}
-            className="mt-6 max-w-md text-[16px] leading-relaxed text-bark md:text-[17px]"
+            className="mt-4 max-w-md text-[16px] leading-relaxed text-bark md:text-[17px]"
           >
             Les petites vaches montbéliardes en chocolat pur beurre de cacao praliné noisette
           </motion.p>
@@ -128,7 +128,7 @@ export default function BellesComtoisesPage() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9, ease: EASE_OUT, delay: 0.24 }}
-            className="mt-8"
+            className="mt-6"
           >
             <a
               href="#coffrets"
