@@ -119,7 +119,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       '@type': 'Product',
       name: 'Les Belles Comtoises – vaches en chocolat praliné noisette',
       description:
-        'Petites vaches montbéliardes en chocolat, pur beurre de cacao praliné noisette, présentées en coffret de 6, 12, 24 ou 30. Fabriquées artisanalement à Charquemont (Doubs).',
+        'Petites vaches montbéliardes en chocolat, pur beurre de cacao praliné noisette, présentées en réglette de 6 ou en boîtes de 12, 20 ou 30. Fabriquées artisanalement à Charquemont (Doubs).',
       brand: { '@type': 'Brand', name: 'Les Belles Comtoises' },
       image: [...coffrets.map((c) => c.image), '/images/comtoises/vache-lait.jpg'],
       offers: {

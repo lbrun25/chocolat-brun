@@ -3,7 +3,7 @@
  * Petites vaches montbéliardes en chocolat, pur beurre de cacao, praliné noisette.
  * « Les Belles Comtoises » est une marque déposée par la Fédération des Belles Comtoises de Franche-Comté.
  *
- * Tarifs TTC officiels communiqués par la cliente (août 2026).
+ * Tarifs TTC officiels communiqués par la cliente (août 2026, mis à jour le 16 octobre 2026).
  */
 
 /** Passe à `true` pour afficher un bandeau « tarifs provisoires » si la grille évolue. */
@@ -74,37 +74,37 @@ export const CONSERVATION =
 export const coffrets: Coffret[] = [
   {
     id: 'coffret-6',
-    nom: 'Coffret de 6',
+    nom: 'Réglette de 6',
     detail: 'Petit format',
     pieces: 6,
     poidsG: 6 * POIDS_PIECE_G,
-    prixTTC: 12,
+    prixTTC: 10,
     image: '/images/comtoises/coffret-6-ouvert.jpg',
     imageAlt: 'Coffret de 6 Belles Comtoises ouvert dans l’herbe',
   },
   {
     id: 'coffret-12',
-    nom: 'Coffret de 12',
+    nom: 'Boîte de 12',
     detail: 'Format découverte',
     pieces: 12,
     poidsG: 12 * POIDS_PIECE_G,
-    prixTTC: 18,
+    prixTTC: 16,
     image: '/images/comtoises/coffret-carre-ferme.jpg',
     imageAlt: 'Coffret carré de 12 Belles Comtoises fermé, au décor tacheté',
   },
   {
     id: 'coffret-20',
-    nom: 'Coffret de 20',
+    nom: 'Boîte de 20',
     detail: 'Grand format',
     pieces: 20,
     poidsG: 20 * POIDS_PIECE_G,
-    prixTTC: 26,
+    prixTTC: 24,
     image: '/images/comtoises/coffret-20-ouvert-3.jpg',
     imageAlt: 'Coffret de 20 Belles Comtoises ouvert dans l’herbe',
   },
   {
     id: 'coffret-30',
-    nom: 'Coffret de 30',
+    nom: 'Boîte de 30',
     detail: 'Très grand format',
     pieces: 30,
     poidsG: 30 * POIDS_PIECE_G,
@@ -113,6 +113,11 @@ export const coffrets: Coffret[] = [
     imageAlt: 'Coffret de 30 Belles Comtoises ouvert dans l’herbe, cinq rangées de six vaches',
   },
 ]
+
+/** Prix au kilo TTC, calculé sur le poids net du coffret. */
+export function prixAuKilo(c: Coffret): number {
+  return round2((c.prixTTC / c.poidsG) * 1000)
+}
 
 export function getCoffret(id: string): Coffret | undefined {
   return coffrets.find((c) => c.id === id)

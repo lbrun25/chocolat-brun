@@ -21,7 +21,7 @@ partagent le même composant), `Reveal.tsx`.
   conditionnement 200 pièces, **port 14 € HT**, **franco 290 € HT**, TVA 5,5 % (`TVA_RATE`).
   `CONTACT.signature` porte la signature de la maison : « Maître Artisan Chocolatier depuis 1999 ».
 - `lib/belles-comtoises.ts` — les 4 recettes et les 4 coffrets grand public (prix TTC officiels :
-  6 → 12 €, 12 → 18 €, 20 → 26 €, 30 → 35 €). `PRIX_PROVISOIRES = false` ; repasser à `true` afficherait
+  réglette de 6 → 10 €, boîtes de 12 → 16 €, 20 → 24 €, 30 → 35 €). `PRIX_PROVISOIRES = false` ; repasser à `true` afficherait
   un bandeau « tarifs provisoires » si la grille venait à changer.
   ⚠️ Le dossier client ne fournit aucune photo du coffret de 30 : une autre prise de vue de grand coffret
   est utilisée en attendant.

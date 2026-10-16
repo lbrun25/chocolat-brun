@@ -16,6 +16,7 @@ import {
   PRIX_PROVISOIRES,
   coffrets,
   formatEUR,
+  prixAuKilo,
   recettes,
 } from '@/lib/belles-comtoises'
 import { CONTACT, GAMMES_PRO } from '@/lib/catalogue'
@@ -54,6 +55,7 @@ function CoffretCard({ id }: { id: string }) {
         <p className="mt-1 text-[12.5px] text-bark">
           {coffret.detail} · {coffret.pieces} vaches · {coffret.poidsG} g net
         </p>
+        <p className="mb-4 mt-0.5 text-[12.5px] text-bark tabular-nums">{formatEUR(prixAuKilo(coffret))} / kg TTC</p>
         <button
           type="button"
           onClick={onAdd}
