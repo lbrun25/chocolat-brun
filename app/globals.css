@@ -387,3 +387,78 @@ body:has(.landing) {
     display: none;
   }
 }
+
+/* ============================================================
+   Blog — corps des articles (seuls les enfants directs sont stylés :
+   les encadrés, figures et galeries gèrent leur propre mise en forme)
+   ============================================================ */
+.article-prose {
+  color: #6b4a3a;
+  font-size: 17px;
+  line-height: 1.8;
+}
+/* Espacement des paragraphes et listes ; les blocs (figure, encadré…) gardent leurs marges */
+.article-prose > :is(p, ul, ol) {
+  margin-top: 1.25em;
+}
+.article-prose > :first-child {
+  margin-top: 0;
+}
+.article-prose > h2 {
+  margin-top: 2.4em;
+  font-family: var(--font-fraunces), Georgia, serif;
+  font-size: clamp(1.6rem, 3.2vw, 2.1rem);
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  color: #1b100b;
+}
+.article-prose > h3 {
+  margin-top: 2em;
+  font-family: var(--font-fraunces), Georgia, serif;
+  font-size: 1.3rem;
+  line-height: 1.3;
+  color: #1b100b;
+}
+.article-prose > :is(h2, h3) + :is(p, ul, ol) {
+  margin-top: 0.75em;
+}
+.article-prose > ul,
+.article-prose > ol {
+  padding-left: 1.4em;
+}
+.article-prose > ul {
+  list-style: disc;
+}
+.article-prose > ol {
+  list-style: decimal;
+}
+.article-prose > ul > li,
+.article-prose > ol > li {
+  margin-top: 0.5em;
+  padding-left: 0.25em;
+}
+.article-prose li::marker {
+  color: #b8924c;
+}
+.article-prose > :is(p, ul, ol) strong {
+  font-weight: 600;
+  color: #1b100b;
+}
+.article-prose > p a,
+.article-prose > ul a,
+.article-prose > ol a {
+  color: #3b1e12;
+  text-decoration: underline;
+  text-decoration-color: rgba(184, 146, 76, 0.7);
+  text-underline-offset: 3px;
+}
+.article-prose > p a:hover,
+.article-prose > ul a:hover,
+.article-prose > ol a:hover {
+  text-decoration-color: #3b1e12;
+}
+.article-prose > .lead {
+  font-size: 1.2rem;
+  line-height: 1.7;
+  color: #3b1e12;
+}

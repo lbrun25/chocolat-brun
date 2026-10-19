@@ -14,6 +14,7 @@ import { AuthProvider } from '@/contexts/AuthContext'
 import { ProSiretProvider } from '@/contexts/ProSiretContext'
 import { CONTACT, orangettes, petitsBeurres, poissons } from '@/lib/catalogue'
 import { coffrets } from '@/lib/belles-comtoises'
+import { absoluteUrl } from '@/lib/site-url'
 
 // Polices globales (landing + toutes les pages). Les polices « historiques » (Great Vibes, Cinzel,
 // Dancing Script) ne sont chargées que par le layout app/(site) pour alléger la landing.
@@ -98,7 +99,25 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   const jsonLd = [
     {
       '@context': 'https://schema.org',
+      '@type': 'WebSite',
+      '@id': absoluteUrl('/#site'),
+      url: absoluteUrl('/'),
+      name: CONTACT.marque,
+      inLanguage: 'fr-FR',
+      publisher: { '@id': absoluteUrl('/#organisation') },
+    },
+    {
+      '@context': 'https://schema.org',
       '@type': 'LocalBusiness',
+      '@id': absoluteUrl('/#organisation'),
+      url: absoluteUrl('/'),
+      logo: absoluteUrl('/images/logo.png'),
+      image: absoluteUrl('/images/comtoises/melanie-cedric-facade.jpg'),
+      founder: [
+        { '@type': 'Person', name: 'Cédric Brun' },
+        { '@type': 'Person', name: 'Mélanie Brun' },
+      ],
+      foundingDate: '1999',
       name: `${CONTACT.marque} – ${CONTACT.signature}`,
       description:
         'Maître Artisan Pâtissier Chocolatier depuis 1999 à Charquemont (Haut-Doubs). Les Belles Comtoises pour les particuliers ; petits poissons, petits beurres en chocolat et orangettes pour les professionnels.',

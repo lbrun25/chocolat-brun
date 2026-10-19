@@ -1,6 +1,7 @@
 import { MetadataRoute } from 'next'
 import { GAMMES_PRO } from '@/lib/catalogue'
 import { getBaseUrl } from '@/lib/get-base-url'
+import { articles } from '@/lib/blog'
 
 /**
  * Sitemap orienté « site professionnel » : la landing page est la page principale.
@@ -17,6 +18,19 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: now,
       changeFrequency: 'monthly' as const,
       priority: 0.9,
+    })),
+    {
+      url: `${baseUrl}/blog`,
+      lastModified: new Date(articles[0]?.datePublication ?? now),
+      changeFrequency: 'weekly',
+      priority: 0.8,
+    },
+    ...articles.map((a) => ({
+      url: `${baseUrl}/blog/${a.slug}`,
+      lastModified: new Date(a.dateMiseAJour ?? a.datePublication),
+      changeFrequency: 'monthly' as const,
+      priority: 0.7,
+      images: [`${baseUrl}${a.image.src}`],
     })),
     { url: `${baseUrl}/histoire`, lastModified: now, changeFrequency: 'yearly', priority: 0.6 },
     { url: `${baseUrl}/galerie`, lastModified: now, changeFrequency: 'yearly', priority: 0.4 },

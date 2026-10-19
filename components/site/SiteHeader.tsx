@@ -14,6 +14,7 @@ const NAV = [
   { href: '/', label: 'Belles Comtoises' },
   ...GAMMES_PRO.map((g) => ({ href: g.href, label: g.label })),
   { href: '/histoire', label: 'Notre histoire' },
+  { href: '/blog', label: 'Blog' },
 ]
 
 interface SiteHeaderProps {
@@ -96,7 +97,7 @@ export default function SiteHeader({ variant = 'clair' }: SiteHeaderProps = {}) 
                 <li key={item.href}>
                   <Link
                     href={item.href}
-                    className={`relative block whitespace-nowrap px-3.5 py-2 text-[13px] font-medium transition-colors ${
+                    className={`relative block whitespace-nowrap px-2.5 py-2 text-[13px] xl:px-3.5 font-medium transition-colors ${
                       active
                         ? surFondSombre
                           ? 'text-ivory'
@@ -108,7 +109,7 @@ export default function SiteHeader({ variant = 'clair' }: SiteHeaderProps = {}) 
                   >
                     {item.label}
                     <span
-                      className={`absolute inset-x-3.5 -bottom-0.5 h-px origin-left bg-brass transition-transform duration-300 ${
+                      className={`absolute inset-x-2.5 -bottom-0.5 xl:inset-x-3.5 h-px origin-left bg-brass transition-transform duration-300 ${
                         active ? 'scale-x-100' : 'scale-x-0'
                       }`}
                       aria-hidden

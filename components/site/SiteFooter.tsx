@@ -9,6 +9,8 @@ const GAMMES = [
 
 const LEGAL = [
   { href: '/histoire', label: 'Notre histoire' },
+  { href: '/blog', label: 'Blog' },
+  { href: '/galerie', label: 'Galerie' },
   { href: '/mentions-legales', label: 'Mentions légales' },
   { href: '/cgu', label: 'CGU / CGV' },
   { href: '/politique-confidentialite', label: 'Politique de confidentialité' },

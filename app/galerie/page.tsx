@@ -50,6 +50,7 @@ export const metadata: Metadata = {
   title: 'Galerie',
   description:
     'L’atelier Cédric Brun en images : moulage, enrobage et emballage des poissons, orangettes et Belles Comtoises, à Charquemont.',
+  alternates: { canonical: '/galerie' },
 }
 
 export default function GaleriePage() {
