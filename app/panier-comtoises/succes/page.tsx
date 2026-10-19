@@ -9,6 +9,7 @@ import SiteHeader from '@/components/site/SiteHeader'
 import SiteFooter from '@/components/site/SiteFooter'
 import { useComtoisesCart } from '@/contexts/ComtoisesCartContext'
 import { CONTACT } from '@/lib/catalogue'
+import { trackPurchase } from '@/lib/analytics'
 
 function Content() {
   const sessionId = useSearchParams().get('session_id')
@@ -36,6 +37,7 @@ function Content() {
       })
       .then((data) => {
         setOrderNumber(data.orderNumber ?? null)
+        trackPurchase(data.orderNumber ?? null)
         vider()
         setState('success')
       })

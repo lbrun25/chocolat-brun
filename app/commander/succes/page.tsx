@@ -9,6 +9,7 @@ import CheckoutNav from '@/components/site/CheckoutNav'
 import SiteFooter from '@/components/site/SiteFooter'
 import { useProCart } from '@/contexts/ProCartContext'
 import { CONTACT } from '@/lib/catalogue'
+import { trackPurchase } from '@/lib/analytics'
 
 type State = 'loading' | 'success' | 'error'
 
@@ -43,6 +44,7 @@ function Content() {
       })
       .then((data) => {
         setOrderNumber(data.orderNumber ?? null)
+        trackPurchase(data.orderNumber ?? null)
         clear()
         setState('success')
       })

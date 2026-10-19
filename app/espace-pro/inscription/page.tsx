@@ -8,6 +8,7 @@ import SiteHeader from '@/components/site/SiteHeader'
 import SiteFooter from '@/components/site/SiteFooter'
 import { useAuth } from '@/contexts/AuthContext'
 import { TYPES_ETABLISSEMENT } from '@/lib/catalogue'
+import { trackEvent } from '@/lib/analytics'
 
 export default function InscriptionProPage() {
   const router = useRouter()
@@ -43,6 +44,7 @@ export default function InscriptionProPage() {
       if (!res.ok || !data.success) throw new Error(data.error || 'La création du compte a échoué.')
 
       setRaisonSociale(data.raisonSociale ?? null)
+      trackEvent('sign_up', { method: 'espace_pro' })
 
       if (!data.requiresEmailConfirmation) {
         // Connexion immédiate : les tarifs sont accessibles tout de suite

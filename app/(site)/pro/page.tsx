@@ -5,6 +5,7 @@ import { motion } from 'framer-motion'
 import Link from 'next/link'
 import Image from 'next/image'
 import { Building2, Coffee, Hotel, Briefcase, Truck, Sparkles, Sprout } from 'lucide-react'
+import { trackEvent } from '@/lib/analytics'
 
 const gouts = [
   'Chocolat noir au café',
@@ -80,6 +81,7 @@ export default function ProPage() {
       })
       if (response.ok) {
         setSubmitStatus('success')
+        trackEvent('generate_lead', { lead_type: 'devis_pro' })
         setFormData({ nom: '', email: '', telephone: '', gouts: [], quantite: '', message: '' })
         window.scrollTo({ top: 0, behavior: 'smooth' })
       } else setSubmitStatus('error')

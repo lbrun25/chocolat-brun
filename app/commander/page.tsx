@@ -16,6 +16,7 @@ import {
   formatKg,
   prixCartonHT,
 } from '@/lib/catalogue'
+import { rememberPendingOrder, trackEvent } from '@/lib/analytics'
 
 const PAYS = [
   { code: 'FR', label: 'France' },
@@ -109,6 +110,9 @@ export default function CommanderPage() {
       if (!res.ok || !data.url) {
         throw new Error(data.error || 'La commande n’a pas pu être ouverte.')
       }
+      const items = estimate.lines.map((l) => ({ item_id: l.ref.id, item_name: l.ref.nom, quantity: l.cartons }))
+      trackEvent('begin_checkout', { currency: 'EUR', value: estimate.totalTTC, items })
+      rememberPendingOrder({ value: estimate.totalTTC, items })
       window.location.href = data.url
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Une erreur est survenue.')

@@ -9,6 +9,7 @@ import SiteFooter from '@/components/site/SiteFooter'
 import { useComtoisesCart } from '@/contexts/ComtoisesCartContext'
 import { PRIX_PROVISOIRES, formatEUR } from '@/lib/belles-comtoises'
 import { FREE_SHIPPING_THRESHOLD } from '@/lib/shipping'
+import { rememberPendingOrder, trackEvent } from '@/lib/analytics'
 
 export default function PanierComtoisesPage() {
   const { quantites, setQuantite, total, isEmpty, hydrated } = useComtoisesCart()
@@ -35,6 +36,9 @@ export default function PanierComtoisesPage() {
       })
       const data = await res.json()
       if (!res.ok || !data.url) throw new Error(data.error || 'Le paiement n’a pas pu être ouvert.')
+      const items = total.lignes.map((l) => ({ item_id: l.coffret.id, item_name: l.coffret.nom, quantity: l.quantite }))
+      trackEvent('begin_checkout', { currency: 'EUR', value: total.totalTTC, items })
+      rememberPendingOrder({ value: total.totalTTC, items })
       window.location.href = data.url
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Une erreur est survenue.')

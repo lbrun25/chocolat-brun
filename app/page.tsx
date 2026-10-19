@@ -20,6 +20,7 @@ import {
   recettes,
 } from '@/lib/belles-comtoises'
 import { CONTACT, GAMMES_PRO } from '@/lib/catalogue'
+import { trackEvent } from '@/lib/analytics'
 import { FLAT_SHIPPING_COST, FREE_SHIPPING_THRESHOLD } from '@/lib/shipping'
 
 function CoffretCard({ id }: { id: string }) {
@@ -30,6 +31,11 @@ function CoffretCard({ id }: { id: string }) {
 
   const onAdd = () => {
     ajouter(id, 1)
+    trackEvent('add_to_cart', {
+      currency: 'EUR',
+      value: coffret.prixTTC,
+      items: [{ item_id: coffret.id, item_name: coffret.nom, price: coffret.prixTTC, quantity: 1 }],
+    })
     setAdded(true)
     window.setTimeout(() => setAdded(false), 1800)
   }
