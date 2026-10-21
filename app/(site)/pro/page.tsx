@@ -2,7 +2,6 @@
 
 import { useState, FormEvent } from 'react'
 import { motion } from 'framer-motion'
-import Link from 'next/link'
 import Image from 'next/image'
 import { Building2, Coffee, Hotel, Briefcase, Truck, Sparkles, Sprout } from 'lucide-react'
 import { trackEvent } from '@/lib/analytics'
@@ -143,12 +142,6 @@ export default function ProPage() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                   </svg>
                 </a>
-                <Link
-                  href="/prix"
-                  className="inline-flex items-center justify-center bg-transparent border-2 border-chocolate-light text-chocolate-light px-8 py-4 rounded-lg text-lg font-semibold hover:bg-chocolate-light hover:text-chocolate-dark transition-all duration-300"
-                >
-                  Voir les tarifs
-                </Link>
               </div>
             </motion.div>
 
@@ -249,12 +242,6 @@ export default function ProPage() {
               <p className="text-lg md:text-xl text-chocolate-dark/70 font-sans">
                 Des prix compétitifs pour vos commandes professionnelles
               </p>
-              <Link
-                href="/prix"
-                className="inline-block mt-3 text-sm font-medium text-chocolate-dark/60 hover:text-chocolate-dark underline underline-offset-2 transition-colors font-sans"
-              >
-                Voir les tarifs
-              </Link>
             </motion.div>
 
             <motion.div
@@ -525,12 +512,6 @@ export default function ProPage() {
               >
                 Passer une commande
               </a>
-              <Link
-                href="/prix"
-                className="inline-block bg-transparent border-2 border-chocolate-light text-chocolate-light px-8 py-4 rounded-lg text-lg font-semibold hover:bg-chocolate-light hover:text-chocolate-dark transition-all duration-300"
-              >
-                Voir les tarifs détaillés
-              </Link>
             </div>
           </motion.div>
         </div>

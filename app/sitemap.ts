@@ -5,7 +5,6 @@ import { articles } from '@/lib/blog'
 
 /**
  * Sitemap orienté « site professionnel » : la landing page est la page principale.
- * Les pages boutique particuliers (produits, panier, prix…) ne sont volontairement plus listées.
  */
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = await getBaseUrl()

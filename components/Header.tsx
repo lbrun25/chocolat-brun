@@ -5,7 +5,6 @@ import { usePathname } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import { memo, useState, useEffect } from 'react'
 import { useAuth } from '@/contexts/AuthContext'
-import CartIcon from './CartIcon'
 import BrandLogo from './BrandLogo'
 
 const navItems = [
@@ -142,17 +141,10 @@ function HeaderComponent() {
                   </svg>
                 )}
               </Link>
-              <motion.div
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.5 }}
-              >
-                <CartIcon />
-              </motion.div>
             </div>
           </div>
 
-          {/* Mobile Menu Button & Cart */}
+          {/* Mobile Menu Button */}
           <div className="flex md:hidden items-center space-x-4">
             <Link
               href="/compte"
@@ -163,13 +155,6 @@ function HeaderComponent() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
               </svg>
             </Link>
-            <motion.div
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.5 }}
-            >
-              <CartIcon />
-            </motion.div>
             <button
               type="button"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}

@@ -7,7 +7,6 @@ import GoogleTagManager from '@/components/GoogleTagManager'
 import ScrollToTop from '@/components/ScrollToTop'
 import SupabaseKeepAlive from '@/components/SupabaseKeepAlive'
 import AuthErrorRedirect from '@/components/AuthErrorRedirect'
-import { CartProvider } from '@/contexts/CartContext'
 import { ProCartProvider } from '@/contexts/ProCartContext'
 import { ComtoisesCartProvider } from '@/contexts/ComtoisesCartContext'
 import { AuthProvider } from '@/contexts/AuthContext'
@@ -179,7 +178,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className={`${inter.variable} ${fraunces.variable} font-sans`}>
         <AuthProvider>
           <ProSiretProvider>
-            <CartProvider>
               <ProCartProvider>
                 <ComtoisesCartProvider>
                   <ScrollToTop />
@@ -190,7 +188,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                   <GoogleTagManager />
                 </ComtoisesCartProvider>
               </ProCartProvider>
-            </CartProvider>
           </ProSiretProvider>
         </AuthProvider>
       </body>
