@@ -98,65 +98,16 @@ export default function LandingBellesComtoises() {
       <SiteHeader />
 
       <main>
-        {/* Hero — logo de la maison */}
-        <section className="relative isolate flex flex-col items-center justify-center overflow-hidden bg-ivory px-5 pb-12 pt-28 text-center md:px-8 md:pb-14 md:pt-32">
-          <motion.p
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: EASE_OUT }}
-            className="text-[11px] font-medium uppercase tracking-eyebrow text-brass-deep"
-          >
-            Chocolats artisanaux francs-comtois
-          </motion.p>
-          <motion.div
-            initial={{ opacity: 0, y: 20, scale: 0.96 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            transition={{ duration: 0.9, ease: EASE_OUT, delay: 0.08 }}
-            className="relative mt-4 aspect-[3/2] w-[340px] max-w-full overflow-hidden rounded-3xl shadow-xl shadow-ink/10 sm:w-[520px] md:w-[680px]"
-          >
-            <Image
-              src="/images/comtoises/logo-belles-comtoises.png"
-              alt="Les Belles Comtoises — marque déposée, elles sont inimitables et inoubliables"
-              fill
-              priority
-              sizes="(max-width: 640px) 340px, (max-width: 768px) 520px, 680px"
-              className="object-cover"
-            />
-          </motion.div>
-          <motion.h1
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.9, ease: EASE_OUT, delay: 0.16 }}
-            className="mt-4 max-w-md text-[16px] leading-relaxed text-bark md:text-[17px]"
-          >
-            <span className="sr-only">Les Belles Comtoises : </span>
-            Les petites vaches montbéliardes en chocolat pur beurre de cacao praliné noisette
-          </motion.h1>
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.9, ease: EASE_OUT, delay: 0.24 }}
-            className="mt-6"
-          >
-            <a
-              href="#coffrets"
-              className="group inline-flex h-14 items-center gap-2.5 rounded-full bg-ink px-7 text-[15px] font-medium text-ivory transition-all hover:-translate-y-0.5 hover:bg-cacao"
-            >
-              Voir les coffrets
-              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" strokeWidth={1.75} aria-hidden />
-            </a>
-          </motion.div>
-        </section>
-
         {/* Les quatre recettes — visuel avant tout */}
-        <section className="bg-ivory py-16 md:py-24">
+        <section className="bg-ivory pb-16 pt-24 md:pb-24 md:pt-32">
           <div className="mx-auto max-w-7xl px-5 md:px-8">
             <Reveal>
-              <h2 className="font-display text-center text-[2rem] leading-tight text-ink md:text-[2.6rem]">
+              <h1 className="font-display text-center text-[2rem] leading-tight text-ink md:text-[2.6rem]">
+                <span className="sr-only">Les Belles Comtoises : </span>
                 Quatre recettes
-              </h2>
+              </h1>
             </Reveal>
-            <ul className="mt-10 grid grid-cols-2 gap-4 md:mt-14 lg:grid-cols-4 lg:gap-6">
+            <ul className="mt-6 grid grid-cols-2 gap-4 md:mt-8 lg:grid-cols-4 lg:gap-6">
               {recettes.map((r, i) => (
                 <Reveal key={r.id} delay={i * 0.06}>
                   <li className="group overflow-hidden rounded-2xl border border-ink/[0.06] bg-paper">
@@ -274,6 +225,55 @@ export default function LandingBellesComtoises() {
               </p>
             </Reveal>
           </div>
+        </section>
+
+        {/* Hero — logo de la maison */}
+        <section className="relative isolate flex flex-col items-center justify-center overflow-hidden bg-cream px-5 pb-12 pt-16 text-center md:px-8 md:pb-14 md:pt-24">
+          <motion.p
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: EASE_OUT }}
+            className="text-[11px] font-medium uppercase tracking-eyebrow text-brass-deep"
+          >
+            Chocolats artisanaux francs-comtois
+          </motion.p>
+          <motion.div
+            initial={{ opacity: 0, y: 20, scale: 0.96 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ duration: 0.9, ease: EASE_OUT, delay: 0.08 }}
+            className="relative mt-4 aspect-[3/2] w-[340px] max-w-full overflow-hidden rounded-3xl shadow-xl shadow-ink/10 sm:w-[520px] md:w-[680px]"
+          >
+            <Image
+              src="/images/comtoises/logo-belles-comtoises.png"
+              alt="Les Belles Comtoises — marque déposée, elles sont inimitables et inoubliables"
+              fill
+              priority
+              sizes="(max-width: 640px) 340px, (max-width: 768px) 520px, 680px"
+              className="object-cover"
+            />
+          </motion.div>
+          <motion.p
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9, ease: EASE_OUT, delay: 0.16 }}
+            className="mt-4 max-w-md text-[16px] leading-relaxed text-bark md:text-[17px]"
+          >
+            Les petites vaches montbéliardes en chocolat pur beurre de cacao praliné noisette
+          </motion.p>
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9, ease: EASE_OUT, delay: 0.24 }}
+            className="mt-6"
+          >
+            <a
+              href="#coffrets"
+              className="group inline-flex h-14 items-center gap-2.5 rounded-full bg-ink px-7 text-[15px] font-medium text-ivory transition-all hover:-translate-y-0.5 hover:bg-cacao"
+            >
+              Voir les coffrets
+              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" strokeWidth={1.75} aria-hidden />
+            </a>
+          </motion.div>
         </section>
 
         {/* Passerelle vers les gammes pros */}
