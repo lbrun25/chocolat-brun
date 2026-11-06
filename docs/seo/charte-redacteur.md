@@ -77,6 +77,11 @@ Trois fichiers à toucher, sur le modèle de `content/blog/comment-conserver-le-
 - `titreSeo` 35–60 caractères, requête au début. `titre` (H1) 110 max. `description` 110–160. `extrait` 320 max.
 - Corps de 700 à 1 600 mots. Les deux ou trois premières phrases RÉPONDENT à la question. Un `<h2>` par
   sous-question. FAQ de 3 à 5 vraies questions voisines. `tempsLectureMin` ≈ mots / 200.
+- **Écrire pour être cité par les IA** (ChatGPT, Perplexity, Claude, Gemini) autant que par Google : la phrase
+  de réponse est autonome (elle se comprend sans le titre), chaque `<h2>` est formulé comme la question que
+  quelqu'un taperait, chaque section se lit seule, les définitions et chiffres sont précis, datés et attribués
+  (« selon le décret de 2003… ») avec leur source consignée. Une FAQ vraie, des listes courtes, pas de
+  remplissage : les IA citent les passages denses et exacts, pas les introductions.
 - Au moins DEUX liens internes `href="/blog/<slug>"` vers des articles EXISTANTS et en ligne, plus un lien vers
   une page du site quand c'est naturel : `/` (Belles Comtoises, ancre `/#coffrets`), `/poissons`,
   `/petits-beurres`, `/orangettes`, `/grains-de-cafe`, `/histoire`, `/galerie`. `liens` (meta) : 2 slugs liés.
@@ -123,7 +128,10 @@ node_modules/.bin/tsc --noEmit -p .     # vert, sinon corriger
    `curl -s https://www.cedric-brun.com/sitemap.xml | grep <slug>` doit répondre.
 3. Si la page reste en erreur après 10 minutes : NE PAS pousser autre chose. Le dire en tête du rapport
    (le déploiement a peut-être échoué : l'article sera le rattrapage de la prochaine session, §2.2.3).
-4. Passer le sujet en `publié` dans le plan (date, slug) — dans un second commit poussé à la fin.
+4. Prévenir Bing et les moteurs IndexNow (la recherche de ChatGPT s'appuie sur l'index de Bing) :
+   `node scripts/indexnow.mjs https://www.cedric-brun.com/blog/<slug>` — HTTP 200 ou 202 attendu. Un échec
+   n'est pas bloquant : le signaler dans le rapport.
+5. Passer le sujet en `publié` dans le plan (date, slug) — dans un second commit poussé à la fin.
 
 ### 2.8 S'arrêter
 

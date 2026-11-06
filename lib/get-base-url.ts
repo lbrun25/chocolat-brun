@@ -1,5 +1,6 @@
 import type { NextRequest } from 'next/server'
 import { headers } from 'next/headers'
+import { versDomaineCanonique } from '@/lib/site-url'
 
 /**
  * Récupère l'URL de base du site à partir de la requête (headers).
@@ -30,7 +31,7 @@ export function getBaseUrlFromRequest(request: NextRequest): string {
  */
 export async function getBaseUrl(): Promise<string> {
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL
-  if (siteUrl) return siteUrl
+  if (siteUrl) return versDomaineCanonique(siteUrl)
 
   try {
     const headersList = await headers()
