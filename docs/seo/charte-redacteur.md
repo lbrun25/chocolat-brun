@@ -112,13 +112,17 @@ Trois fichiers à toucher, sur le modèle de `content/blog/comment-conserver-le-
 
 ### 2.7 Vérifier, publier, contrôler
 
-Dans cet ordre, chaque étape seulement si la précédente a réussi :
+Dans cet ordre, chaque étape seulement si la précédente a réussi (le vérificateur plafonne aussi à UN article
+par jour et refuse les quasi-doublons : s'il bloque pour ça, le sujet est trop proche d'un article existant,
+en choisir un autre) :
 
 ```bash
 node scripts/verifier-blog.mjs          # vert, sinon corriger
 node_modules/.bin/tsc --noEmit -p .     # vert, sinon corriger
 ```
 
+0. Avant de committer : `node scripts/garde-perimetre.mjs` doit être vert (aucun fichier hors `content/blog/`,
+   `lib/blog.ts`, `docs/seo/`). Sinon annuler le fichier fautif.
 1. Committer UNIQUEMENT ses fichiers (article, `lib/blog.ts`, `content/blog/index.ts`, plan, sources) :
    `git commit -m "feat(blog): <titre court>"` — puis `git push origin main`. Si le push est refusé (main a
    avancé) : `git pull --rebase origin main`, relancer le vérificateur, repousser une fois. Deuxième échec :
@@ -126,8 +130,10 @@ node_modules/.bin/tsc --noEmit -p .     # vert, sinon corriger
 2. Vercel déploie seul. Attendre puis contrôler, jusqu'à 10 minutes (une tentative par minute) :
    `curl -s -o /dev/null -w '%{http_code}' https://www.cedric-brun.com/blog/<slug>` doit rendre 200, et
    `curl -s https://www.cedric-brun.com/sitemap.xml | grep <slug>` doit répondre.
-3. Si la page reste en erreur après 10 minutes : NE PAS pousser autre chose. Le dire en tête du rapport
-   (le déploiement a peut-être échoué : l'article sera le rattrapage de la prochaine session, §2.2.3).
+3. Si la page reste en erreur après 10 minutes, ou si l'ACCUEIL (`/`) ou `/blog` ne répond plus 200 :
+   RETOUR ARRIÈRE immédiat — `git revert --no-edit <commit de l'article>` puis `git push origin main`, contrôler
+   que `/`, `/blog` et `/sitemap.xml` répondent 200 de nouveau, et le dire en tête du rapport. Un article raté
+   ne doit jamais laisser le site cassé ; le sujet repasse `à écrire` dans le plan avec la raison.
 4. Prévenir Bing et les moteurs IndexNow (la recherche de ChatGPT s'appuie sur l'index de Bing) :
    `node scripts/indexnow.mjs https://www.cedric-brun.com/blog/<slug>` — HTTP 200 ou 202 attendu. Un échec
    n'est pas bloquant : le signaler dans le rapport.

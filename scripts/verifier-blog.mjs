@@ -117,6 +117,36 @@ for (const a of articles) {
   }
 }
 
+// --- Plafond de publication : jamais plus d'un article par jour (contenu en masse) ---
+const parJour = {}
+for (const a of articles) if (a.datePublication >= DEPUIS) parJour[a.datePublication] = (parJour[a.datePublication] ?? 0) + 1
+for (const [jour, n] of Object.entries(parJour)) if (n > 1) echec(jour, `${n} articles publiés le même jour (1 maximum)`)
+
+// --- Quasi-doublons : mêmes suites de 6 mots entre deux articles ---
+function empreinte(slug) {
+  const f = join(RACINE, 'content/blog', `${slug}.tsx`)
+  if (!existsSync(f)) return new Set()
+  const m = (texteDe(readFileSync(f, 'utf8')).toLowerCase().match(/[\p{L}\p{N}]+/gu) ?? [])
+  const g = new Set()
+  for (let i = 0; i + 6 <= m.length; i++) g.add(m.slice(i, i + 6).join(' '))
+  return g
+}
+const nouveaux = articles.filter((a) => a.datePublication >= DEPUIS)
+if (nouveaux.length) {
+  const emp = Object.fromEntries(articles.map((a) => [a.slug, empreinte(a.slug)]))
+  for (const n of nouveaux) {
+    for (const a of articles) {
+      if (a.slug === n.slug || (a.datePublication >= DEPUIS && a.slug < n.slug)) continue
+      const [x, y] = [emp[n.slug], emp[a.slug]]
+      if (!x.size || !y.size) continue
+      let commun = 0
+      for (const g of x) if (y.has(g)) commun++
+      const part = commun / Math.min(x.size, y.size)
+      if (part > 0.12) echec(n.slug, `${Math.round(part * 100)} % de passages communs avec « ${a.slug} » (12 % max) : quasi-doublon`)
+    }
+  }
+}
+
 console.log(`${articles.length} articles contrôlés (règles éditoriales à partir du ${DEPUIS}).`)
 if (erreurs.length) {
   console.error(`\n${erreurs.length} problème(s) :`)
