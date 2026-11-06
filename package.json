@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "test:e2e": "playwright test",
-    "test:e2e:ui": "playwright test --ui"
+    "test:e2e:ui": "playwright test --ui",
+    "blog:verifier": "node scripts/verifier-blog.mjs"
   },
   "dependencies": {
     "@react-three/drei": "^9.114.6",
