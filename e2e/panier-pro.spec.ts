@@ -48,7 +48,7 @@ test.describe('Tarifs et panier professionnels', () => {
     ).toBeVisible()
   })
 
-  test('les trois gammes affichent leurs références et prix au compte pro', async ({ page }) => {
+  test('chaque gamme affiche ses références et prix au compte pro', async ({ page }) => {
     await compteProConnecte(page)
 
     for (const gamme of GAMMES_PRO) {

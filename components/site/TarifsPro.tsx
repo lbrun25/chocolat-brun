@@ -7,12 +7,12 @@ import { Reveal } from '@/components/site/Reveal'
 import { MAX_CARTONS, useProCart } from '@/contexts/ProCartContext'
 import { useProAccess } from '@/hooks/useProAccess'
 import {
-  CONDITIONNEMENT,
   FRAIS_PORT_HT,
   FRANCO_HT,
   formatEUR,
   getReference,
   prixCartonHT,
+  unite,
   type Reference,
 } from '@/lib/catalogue'
 
@@ -34,7 +34,7 @@ function LigneTarif({ id }: { id: string }) {
         <div className="min-w-0">
           <p className={`text-[14.5px] leading-snug ${v > 0 ? 'font-medium text-ink' : 'text-ink'}`}>{ref.court}</p>
           <p className="mt-0.5 text-[12.5px] text-bark tabular-nums">
-            {ref.poidsG} g · {formatEUR(ref.prixPieceHT)} HT / pièce · {formatEUR(ref.prixKgHT)} HT / kg
+            {ref.poidsG} g · {formatEUR(ref.prixPieceHT)} HT / {unite(ref)} · {formatEUR(ref.prixKgHT)} HT / kg
           </p>
         </div>
       </div>
@@ -87,6 +87,8 @@ function LigneTarif({ id }: { id: string }) {
 export default function TarifsPro({ refs }: { refs: Reference[] }) {
   const { hasAccess, loading } = useProAccess()
   const { estimate, isEmpty } = useProCart()
+  /** Toutes les références d'une gamme partagent le même conditionnement. */
+  const carton = refs[0]
 
   return (
     <section id="tarifs" className="scroll-mt-20 bg-cream py-16 md:py-24">
@@ -96,7 +98,7 @@ export default function TarifsPro({ refs }: { refs: Reference[] }) {
             Tarifs professionnels
           </h2>
           <p className="mt-4 text-center text-[14.5px] text-bark">
-            Vendus par cartons de {CONDITIONNEMENT} pièces. Prix hors taxes.
+            Vendus par cartons de {carton.conditionnement} {unite(carton, carton.conditionnement)}. Prix hors taxes.
           </p>
         </Reveal>
 

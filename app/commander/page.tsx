@@ -8,13 +8,13 @@ import CheckoutNav from '@/components/site/CheckoutNav'
 import SiteFooter from '@/components/site/SiteFooter'
 import { useProCart } from '@/contexts/ProCartContext'
 import {
-  CONDITIONNEMENT,
   FRANCO_HT,
   TVA_RATE,
   TYPES_ETABLISSEMENT,
   formatEUR,
   formatKg,
   prixCartonHT,
+  unite,
 } from '@/lib/catalogue'
 import { rememberPendingOrder, trackEvent } from '@/lib/analytics'
 
@@ -145,7 +145,7 @@ export default function CommanderPage() {
           <div className="mt-10 rounded-2xl border border-dashed border-ink/20 bg-paper px-6 py-14 text-center">
             <p className="font-display text-[1.5rem] text-ink">Votre panier est vide.</p>
             <p className="mx-auto mt-3 max-w-md text-[15px] leading-relaxed text-bark">
-              Composez votre sélection par cartons de {CONDITIONNEMENT} pièces, puis revenez ici pour régler.
+              Composez votre sélection par cartons sur les pages de nos gammes, puis revenez ici pour régler.
             </p>
             <Link
               href="/poissons#tarifs"
@@ -543,7 +543,8 @@ export default function CommanderPage() {
                       <div className="min-w-0">
                         <p className="text-[14px] leading-snug">{l.ref.nom}</p>
                         <p className="mt-0.5 text-[12px] text-ivory/55 tabular-nums">
-                          {l.cartons} × carton de {l.ref.conditionnement} · {l.pieces.toLocaleString('fr-FR')} pièces
+                          {l.cartons} × carton de {l.ref.conditionnement} · {l.pieces.toLocaleString('fr-FR')}{' '}
+                          {unite(l.ref, l.pieces)}
                         </p>
                         <div className="mt-2 inline-flex h-8 items-center rounded-full border border-ivory/20">
                           <button

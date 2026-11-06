@@ -1,12 +1,13 @@
 /**
- * Catalogue professionnel — trois gammes vendues aux professionnels :
- * les petits poissons (4 g), les biscuits petits beurres (6 g) et les
- * orangettes enrobées de chocolat noir (5 g).
+ * Catalogue professionnel — quatre gammes vendues aux professionnels :
+ * les petits poissons (4 g), les biscuits petits beurres (6 g), les
+ * orangettes enrobées de chocolat noir (5 g) et les grains de café enrobés
+ * de chocolat noir (sachets de 3 grains, 2 g).
  * Source : listes de prix officielles Cédric Brun.
  * Tous les prix sont exprimés HORS TAXES (TVA en vigueur en supplément).
  */
 
-export type Gamme = 'poisson' | 'petit-beurre' | 'orangette'
+export type Gamme = 'poisson' | 'petit-beurre' | 'orangette' | 'grain-cafe'
 export type Chocolat = 'lait' | 'noir' | 'noir-cafe' | 'blanc'
 
 export interface Reference {
@@ -23,15 +24,17 @@ export interface Reference {
   prixPieceHT: number
   /** Prix HT au kilo, en euros */
   prixKgHT: number
-  /** Nombre de pièces par conditionnement */
+  /** Nombre d'unités (pièces ou sachets) par conditionnement */
   conditionnement: number
+  /** Unité vendue dans le carton, « pièce » par défaut */
+  unite?: 'pièce' | 'sachet'
   /** Visuel détouré (fond transparent) */
   image: string
   /** Note de dégustation, une ligne */
   note: string
 }
 
-/** Conditionnement standard : 200 pièces par référence */
+/** Conditionnement standard : 200 pièces par référence (sauf grains de café : 500 sachets) */
 export const CONDITIONNEMENT = 200
 /** Frais de port HT par commande, France métropolitaine */
 export const FRAIS_PORT_HT = 14
@@ -182,11 +185,28 @@ export const references: Reference[] = [
     image: '/images/orangettes/orangette.png',
     note: 'Écorce d’orange confite et cacao intense',
   },
+
+  // ---------------- Grains de café enrobés chocolat noir — sachet de 3 grains, 2 g ----------------
+  {
+    id: 'grains-cafe-noir',
+    gamme: 'grain-cafe',
+    nom: 'Grains de café enrobés chocolat noir',
+    court: 'Sachet de 3 grains',
+    chocolat: 'noir',
+    poidsG: 2,
+    prixPieceHT: 0.1,
+    prixKgHT: 50,
+    conditionnement: 500,
+    unite: 'sachet',
+    image: '/images/grains-de-cafe/sachet-grains-cafe.png',
+    note: 'Trois grains de café enrobés, pour la sous-tasse de vos expressos',
+  },
 ]
 
 export const poissons = references.filter((r) => r.gamme === 'poisson')
 export const petitsBeurres = references.filter((r) => r.gamme === 'petit-beurre')
 export const orangettes = references.filter((r) => r.gamme === 'orangette')
+export const grainsCafe = references.filter((r) => r.gamme === 'grain-cafe')
 
 /**
  * Les gammes professionnelles et leur page. Source unique : la navigation, la
@@ -197,6 +217,7 @@ export const GAMMES_PRO = [
   { gamme: 'poisson', href: '/poissons', label: 'Poissons', labelLong: 'Les poissons', image: '/images/poissons/poisson-lait.png' },
   { gamme: 'petit-beurre', href: '/petits-beurres', label: 'Petits beurres', labelLong: 'Les petits beurres', image: '/images/petits-beurres/biscuit-lait.png' },
   { gamme: 'orangette', href: '/orangettes', label: 'Orangettes', labelLong: 'Les orangettes', image: '/images/orangettes/orangette.png' },
+  { gamme: 'grain-cafe', href: '/grains-de-cafe', label: 'Grains de café', labelLong: 'Les grains de café', image: '/images/grains-de-cafe/sachet-grains-cafe.png' },
 ] as const satisfies ReadonlyArray<{ gamme: Gamme; href: string; label: string; labelLong: string; image: string }>
 
 /** Vrai si l'URL est une page de gamme professionnelle (donc rattachée au panier pro). */
@@ -212,9 +233,15 @@ export function getReference(id: string): Reference | undefined {
   return references.find((r) => r.id === id)
 }
 
-/** Prix HT d’un conditionnement complet (200 pièces) */
+/** Prix HT d’un conditionnement complet (200 pièces, 500 sachets…) */
 export function prixCartonHT(ref: Reference): number {
   return round2(ref.prixPieceHT * ref.conditionnement)
+}
+
+/** Unité de vente d’une référence, accordée au nombre : « pièce », « sachets »… */
+export function unite(ref: Reference, n = 1): string {
+  const u = ref.unite ?? 'pièce'
+  return n > 1 ? `${u}s` : u
 }
 
 export function round2(n: number): number {

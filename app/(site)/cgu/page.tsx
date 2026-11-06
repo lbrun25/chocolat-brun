@@ -1,6 +1,6 @@
 import { Metadata } from 'next'
 import Link from 'next/link'
-import { CONDITIONNEMENT, FRAIS_PORT_HT, FRANCO_HT, TVA_RATE } from '@/lib/catalogue'
+import { CONDITIONNEMENT, FRAIS_PORT_HT, FRANCO_HT, TVA_RATE, grainsCafe } from '@/lib/catalogue'
 import { FLAT_SHIPPING_COST, FREE_SHIPPING_THRESHOLD } from '@/lib/shipping'
 
 /** 5,5 → « 5,5 », pour que le texte légal suive toujours le taux réellement appliqué. */
@@ -76,7 +76,8 @@ export default function CGUPage() {
                 Les présentes CGU/CGV ont pour objet de définir les droits et obligations des parties dans
                 le cadre de la vente en ligne des chocolats artisanaux fabriqués par PATISSERIE BRUN CEDRIC :
                 Les Belles Comtoises, vendues aux particuliers, ainsi que les petits poissons, les petits
-                beurres en chocolat et les orangettes, réservés aux professionnels.
+                beurres en chocolat, les orangettes et les grains de café enrobés de chocolat noir, réservés
+                aux professionnels.
               </p>
               <p className="font-sans mt-4">
                 Ces conditions s'appliquent à toute commande passée sur le site, tant pour les particuliers 
@@ -108,6 +109,10 @@ export default function CGUPage() {
                 <li>
                   <strong>Les orangettes enrobées de chocolat noir</strong> (5 g) — écorces d’orange confites.
                   Vente aux professionnels, prix HT, par cartons de {CONDITIONNEMENT} pièces.
+                </li>
+                <li>
+                  <strong>Les grains de café enrobés de chocolat noir</strong> — sachets individuels de 3 grains
+                  (2 g). Vente aux professionnels, prix HT, par cartons de {grainsCafe[0].conditionnement} sachets.
                 </li>
               </ul>
               <p className="font-sans mt-4">
@@ -188,8 +193,9 @@ export default function CGUPage() {
                 alimentaires).
               </p>
               <p className="font-sans mt-4">
-                <strong>Professionnels (petits poissons, petits beurres, orangettes) :</strong> les prix sont
-                indiqués hors taxes (HT), à la pièce et par carton de {CONDITIONNEMENT} pièces. La TVA à{' '}
+                <strong>Professionnels (petits poissons, petits beurres, orangettes, grains de café) :</strong>{' '}
+                les prix sont indiqués hors taxes (HT), à l’unité (pièce ou sachet) et par carton de{' '}
+                {CONDITIONNEMENT} pièces ({grainsCafe[0].conditionnement} sachets pour les grains de café). La TVA à{' '}
                 {TVA_PCT} % est ajoutée au récapitulatif de commande et au moment du paiement.
               </p>
               <p className="font-sans mt-4">

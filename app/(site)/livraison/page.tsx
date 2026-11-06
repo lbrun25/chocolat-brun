@@ -1,11 +1,11 @@
 import { Metadata } from 'next'
 import { FLAT_SHIPPING_COST, FREE_SHIPPING_THRESHOLD } from '@/lib/shipping'
-import { CONDITIONNEMENT, FRAIS_PORT_HT, FRANCO_HT } from '@/lib/catalogue'
+import { CONDITIONNEMENT, FRAIS_PORT_HT, FRANCO_HT, grainsCafe } from '@/lib/catalogue'
 
 export const metadata: Metadata = {
   title: 'Livraison et frais de port – Cédric Brun',
   description:
-    'Modalités de livraison et frais de port pour vos commandes de chocolats artisanaux : Les Belles Comtoises, petits poissons, petits beurres et orangettes.',
+    'Modalités de livraison et frais de port pour vos commandes de chocolats artisanaux : Les Belles Comtoises, petits poissons, petits beurres, orangettes et grains de café.',
 }
 
 export default function LivraisonPage() {
@@ -99,10 +99,11 @@ export default function LivraisonPage() {
               </p>
 
               <h3 className="text-xl font-semibold text-chocolate-dark mt-6 mb-2 font-serif">
-                Professionnels — petits poissons, petits beurres et orangettes
+                Professionnels — petits poissons, petits beurres, orangettes et grains de café
               </h3>
               <p className="leading-relaxed">
-                Ces gammes sont vendues par cartons de {CONDITIONNEMENT} pièces, à des tarifs hors taxes.
+                Ces gammes sont vendues par cartons de {CONDITIONNEMENT} pièces ({grainsCafe[0].conditionnement}{' '}
+                sachets pour les grains de café), à des tarifs hors taxes.
                 Les frais de port sont de <strong>{FRAIS_PORT_HT} € HT par commande</strong> en France métropolitaine.
                 La commande est expédiée <strong>franco de port</strong> à partir de <strong>{FRANCO_HT} € HT</strong>.
               </p>

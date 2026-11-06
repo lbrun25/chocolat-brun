@@ -283,7 +283,7 @@ export default function LandingBellesComtoises() {
               <p className="text-center text-[11px] font-medium uppercase tracking-eyebrow text-brass-deep">
                 Vous êtes professionnel ?
               </p>
-              <div className="mt-6 grid gap-4 lg:grid-cols-3">
+              <div className="mt-6 grid gap-4 sm:grid-cols-2">
                 {GAMMES_PRO.map((g) => (
                   <Link
                     key={g.href}

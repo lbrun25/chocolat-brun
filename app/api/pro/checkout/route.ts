@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import Stripe from 'stripe'
 import { getBaseUrlFromRequest } from '@/lib/get-base-url'
-import { TVA_RATE, computeEstimate, prixCartonHT, toTTC } from '@/lib/catalogue'
+import { TVA_RATE, computeEstimate, prixCartonHT, toTTC, unite } from '@/lib/catalogue'
 import { writeOrderItemsMetadata, type OrderItemMetadata } from '@/lib/order-items-metadata'
 
 export const dynamic = 'force-dynamic'
@@ -115,7 +115,7 @@ export async function POST(request: NextRequest) {
         currency: 'eur',
         product_data: {
           name: `${l.ref.nom} — carton de ${l.ref.conditionnement}`,
-          description: `${l.pieces} pièces · ${l.ref.poidsG} g l'unité · prix HT`,
+          description: `${l.pieces} ${unite(l.ref, l.pieces)} · ${l.ref.poidsG} g l'unité · prix HT`,
         },
         unit_amount: Math.round(prixCartonHT(l.ref) * 100),
       },
@@ -154,7 +154,7 @@ export async function POST(request: NextRequest) {
     const orderItems: OrderItemMetadata[] = estimate.lines.map((l) => ({
       productId: l.ref.id,
       productName: l.ref.nom,
-      packaging: `${l.ref.conditionnement} pièces`,
+      packaging: `${l.ref.conditionnement} ${unite(l.ref, l.ref.conditionnement)}`,
       quantity: l.cartons,
       priceTTC: toTTC(prixCartonHT(l.ref)),
     }))
