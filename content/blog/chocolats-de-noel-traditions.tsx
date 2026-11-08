@@ -39,8 +39,8 @@ export default function ChocolatsDeNoelTraditions() {
       <p>
         Il n’existe pas une origine unique, mais un calendrier. Décembre est, en France, le mois des petits cadeaux
         sucrés : on en reçoit le 6 décembre pour la Saint-Nicolas, on en découvre un chaque matin dans le calendrier de
-        l’Avent, on en partage le soir du réveillon. Le chocolat a pris dans ces rituels la place qu’occupaient les
-        fruits secs, les oranges et le pain d’épices.
+        l’Avent, on en partage le soir du réveillon. Le chocolat s’est installé dans ces rituels, à côté du pain
+        d’épices et des fruits secs.
       </p>
       <p>
         Il a aussi des atouts pratiques. Il se moule en toutes formes, du père Noël au sapin, il se partage par petites
