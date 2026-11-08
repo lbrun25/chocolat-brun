@@ -1,6 +1,6 @@
 # Plan éditorial du blog
 
-Tenu à jour par l'agent rédacteur (voir `charte-redacteur.md`). Statuts : `à écrire` · `publié` · `bloqué`.
+Tenu à jour par l'agent rédacteur (voir `charte-redacteur.md`). Statuts : `à écrire` · `en cours` (poussé, déploiement à contrôler) · `publié` · `bloqué`.
 L'agent prend le premier sujet `à écrire` dont la saison est ouverte (colonne « Saison »).
 
 ## Vague 1 (créée le 06/11/2026)

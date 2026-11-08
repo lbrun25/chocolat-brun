@@ -29,17 +29,21 @@ par la routine planifiée, pas par l'agent : ne jamais « rattraper » des sessi
 git checkout main && git pull --ff-only origin main
 yarn install --frozen-lockfile        # Node : voir .nvmrc s'il existe, sinon ≥ 20.9
 node scripts/verifier-blog.mjs        # doit être vert AVANT d'écrire ; sinon : s'arrêter et le dire
-curl -s -o /dev/null -w '%{http_code}\n' https://www.cedric-brun.com/sitemap.xml    # doit rendre 200
 ```
 
-Un échec de l'un de ces trois points : s'arrêter, ne rien écrire, le dire dans le rapport final.
+Un échec de l'un de ces points : s'arrêter, ne rien écrire, le dire dans le rapport final.
+
+**Le réseau vers le site n'est PAS un prérequis.** L'environnement cloud peut refuser `cedric-brun.com`
+(proxy 403, constaté le 06/11/2026). La source de vérité de « ce qui est publié » est `lib/blog.ts` sur `main`,
+et la preuve qu'un article ne casse pas le déploiement est `node scripts/controle-build.mjs` (§2.7). Les
+contrôles sur le site en ligne sont faits quand le réseau le permet, sinon signalés dans le rapport.
 
 ### 2.2 Choisir le sujet
 
 1. Lire `docs/seo/plan-editorial.md`.
-2. Lister ce qui est en ligne : `curl -s https://www.cedric-brun.com/sitemap.xml`.
-3. Rattrapage d'abord : si un article est dans `lib/blog.ts` mais que son adresse n'est pas en ligne
-   (publication ratée à une session précédente), c'est LUI l'article de la session : reprendre au §2.6.
+2. Lister ce qui est publié : les `slug` de `lib/blog.ts` (la vérité du dépôt).
+3. Rattrapage d'abord : si un sujet du plan est marqué `en cours` (session précédente interrompue après le
+   push), contrôler son déploiement (§2.7 étape 2) et finir ses étapes 4 et 5 ; ne pas écrire un autre article.
 4. Sinon, prendre le PREMIER sujet `à écrire` du plan dont la fenêtre de saison est ouverte.
 5. Plan épuisé : composer la vague suivante (§5), la committer, écrire son premier sujet.
 
@@ -119,6 +123,7 @@ en choisir un autre) :
 ```bash
 node scripts/verifier-blog.mjs          # vert, sinon corriger
 node_modules/.bin/tsc --noEmit -p .     # vert, sinon corriger
+node scripts/controle-build.mjs         # build complet + pages d'articles générées ; 1 à 2 min ; vert, sinon corriger
 ```
 
 0. Avant de committer : `node scripts/garde-perimetre.mjs` doit être vert (aucun fichier hors `content/blog/`,
@@ -127,22 +132,28 @@ node_modules/.bin/tsc --noEmit -p .     # vert, sinon corriger
    `git commit -m "feat(blog): <titre court>"` — puis `git push origin main`. Si le push est refusé (main a
    avancé) : `git pull --rebase origin main`, relancer le vérificateur, repousser une fois. Deuxième échec :
    s'arrêter et le dire.
-2. Vercel déploie seul. Attendre puis contrôler, jusqu'à 10 minutes (une tentative par minute) :
-   `curl -s -o /dev/null -w '%{http_code}' https://www.cedric-brun.com/blog/<slug>` doit rendre 200, et
-   `curl -s https://www.cedric-brun.com/sitemap.xml | grep <slug>` doit répondre.
-3. Si la page reste en erreur après 10 minutes, ou si l'ACCUEIL (`/`) ou `/blog` ne répond plus 200 :
-   RETOUR ARRIÈRE immédiat — `git revert --no-edit <commit de l'article>` puis `git push origin main`, contrôler
-   que `/`, `/blog` et `/sitemap.xml` répondent 200 de nouveau, et le dire en tête du rapport. Un article raté
+2. Vercel déploie seul. Contrôler le déploiement, jusqu'à 10 minutes (une tentative par minute), par le premier
+   moyen disponible :
+   a. `gh api repos/lbrun25/chocolat-brun/commits/<sha du push>/status --jq .state` → `success` (échec : `failure`
+      ou `error`) ;
+   b. sinon `curl -s -o /dev/null -w '%{http_code}' https://www.cedric-brun.com/blog/<slug>` → 200, ou l'outil
+      WebFetch sur la même adresse ;
+   c. sinon, si aucun moyen ne répond : le build local (§2.7) a prouvé la compilation ; le dire en tête du
+      rapport (« déploiement non vérifié ») et marquer le sujet `en cours` dans le plan pour que la session
+      suivante contrôle.
+3. Si le déploiement est en échec (état `failure`/`error`, page en erreur après 10 minutes, ou accueil ou `/blog`
+   qui ne répond plus 200) : RETOUR ARRIÈRE immédiat — `git revert --no-edit <commit de l'article>` puis `git push origin main`, contrôler
+   que le déploiement repasse au vert (même méthode qu'à l'étape 2), et le dire en tête du rapport. Un article raté
    ne doit jamais laisser le site cassé ; le sujet repasse `à écrire` dans le plan avec la raison.
 4. Prévenir Bing et les moteurs IndexNow (la recherche de ChatGPT s'appuie sur l'index de Bing) :
    `node scripts/indexnow.mjs https://www.cedric-brun.com/blog/<slug>` — HTTP 200 ou 202 attendu. Un échec
-   n'est pas bloquant : le signaler dans le rapport.
+   (réseau refusé compris) n'est pas bloquant : le signaler dans le rapport.
 5. Passer le sujet en `publié` dans le plan (date, slug) — dans un second commit poussé à la fin.
 
 ### 2.8 S'arrêter
 
-S'arrêter sans rien publier, avec un rapport clair, dans tous ces cas : vérificateur rouge au départ, sitemap
-injoignable, fait impossible à sourcer et plus aucun sujet de rechange, conflit de fusion, ou envie de
+S'arrêter sans rien publier, avec un rapport clair, dans tous ces cas : vérificateur ou build rouge au départ,
+fait impossible à sourcer et plus aucun sujet de rechange, conflit de fusion, ou envie de
 toucher à autre chose que le blog. L'agent ne modifie JAMAIS le reste du site (boutique, paiement, auth, API,
 Supabase, `lib/catalogue.ts`…) : seuls `content/blog/`, `lib/blog.ts`, `docs/seo/` sont dans son périmètre.
 
