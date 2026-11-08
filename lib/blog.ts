@@ -59,6 +59,26 @@ export const SITE_NAME = 'Cédric Brun – Maître Artisan Pâtissier Chocolatie
 
 const ARTICLES: ArticleMeta[] = [
   {
+    slug: 'chocolats-de-noel-traditions',
+    titre: 'Pourquoi offre-t-on des chocolats à Noël ? L’origine des traditions, de l’Avent aux papillotes',
+    titreSeo: 'Chocolats de Noël : l’origine des traditions',
+    description:
+      'Avent, Saint-Nicolas, papillotes lyonnaises, truffes : d’où viennent les traditions du chocolat de Noël, ce qui est attesté et ce qui relève de la légende.',
+    extrait:
+      'Calendrier de l’Avent, friandises de la Saint-Nicolas, papillotes nées à Lyon : comment le chocolat est devenu le cadeau de décembre, sources à l’appui.',
+    categorie: 'Terroir',
+    datePublication: '2026-11-08',
+    image: {
+      src: '/images/comtoises/coffret-20-ouvert.jpg',
+      alt: 'Coffret ouvert de vingt Belles Comtoises en chocolat noir, lait, caramel et blanc, posé sur l’herbe',
+      width: 1200,
+      height: 1600,
+    },
+    tempsLectureMin: 5,
+    motsCles: ['chocolats de Noël', 'tradition chocolat Noël', 'origine papillote', 'calendrier de l’Avent chocolat', 'Saint-Nicolas friandises'],
+    liens: ['cadeau-gourmand-franche-comte', 'comment-conserver-le-chocolat'],
+  },
+  {
     slug: 'super-comice-morteau-2026',
     titre: 'Retrouvez-nous au Super Comice du patrimoine de Morteau, le 24 octobre 2026',
     titreSeo: 'Super Comice de Morteau 2026 : venez nous rencontrer',
