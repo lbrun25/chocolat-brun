@@ -59,6 +59,26 @@ export const SITE_NAME = 'Cédric Brun – Maître Artisan Pâtissier Chocolatie
 
 const ARTICLES: ArticleMeta[] = [
   {
+    slug: 'difference-chocolat-noir-lait-blanc',
+    titre: 'Chocolat noir, au lait ou blanc : quelles différences ? Composition, seuils légaux et goût',
+    titreSeo: 'Différence chocolat noir, lait et blanc : le guide',
+    description:
+      'Chocolat noir, au lait, blanc : ce que chacun garde de la fève de cacao, les teneurs minimales fixées par la loi et comment les reconnaître sur l’étiquette.',
+    extrait:
+      'Beurre de cacao, cacao sec, lait : ce qui distingue vraiment le chocolat noir, le chocolat au lait et le chocolat blanc, seuils de la directive européenne à l’appui.',
+    categorie: 'Conseils',
+    datePublication: '2026-11-09',
+    image: {
+      src: '/images/comtoises/coffret-30-ouvert.jpg',
+      alt: 'Coffret ouvert de trente Belles Comtoises rangées en colonnes, du chocolat blanc ivoire au chocolat noir',
+      width: 1086,
+      height: 1448,
+    },
+    tempsLectureMin: 5,
+    motsCles: ['différence chocolat noir lait blanc', 'chocolat blanc cacao', 'teneur en cacao chocolat au lait', 'définition légale chocolat', 'chocolat de couverture'],
+    liens: ['comment-conserver-le-chocolat', 'chocolat-cafe-restaurant-hotel'],
+  },
+  {
     slug: 'chocolats-de-noel-traditions',
     titre: 'Pourquoi offre-t-on des chocolats à Noël ? L’origine des traditions, de l’Avent aux papillotes',
     titreSeo: 'Chocolats de Noël : l’origine des traditions',

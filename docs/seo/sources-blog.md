@@ -18,3 +18,20 @@ présentée comme non attestée ; ancienneté du mot « papillote », histoire d
 - Fêtes de Saint-Nicolas à Nancy à l'Inventaire national du PCI (2018) ; vitrines de saint Nicolas et d'ânes en pain d'épices et chocolat ; sucre ou carotte pour l'âne → https://www.pci-lab.fr/fiche-d-inventaire/fiche/443-les-fetes-de-saint-nicolas-a-nancy et https://www.culture.gouv.fr/Media/Thematiques/Patrimoine-culturel-immateriel/Files/liste_inventaire-national-du-pci_juillet2024 → 08/11/2026
 - Saint-Nicolas à Villeneuve-d'Ascq, fiche d'inventaire du PCI → https://www.culture.gouv.fr/Media/Thematiques/Patrimoine-culturel-immateriel/Files/Fiches-inventaire-du-PCI/Villeneuve-d-Ascq → 08/11/2026
 - Chocolaterie Thomas et Pelen (Révillon), Lyon, fondée en 1898 par J.-B. Thomas et C. Pelen, spécialisée dans les papillotes de Noël ; rue Victor-Lagrange (Gerland) ; agrandissement en 1904 ; portail à feuilles et cabosses de cacaoyer → https://pop.culture.gouv.fr/notice/merimee/IA69000090 → 08/11/2026
+
+## difference-chocolat-noir-lait-blanc (09/11/2026)
+
+Accès direct aux sites toujours refusé (Légifrance, EUR-Lex, economie.gouv.fr, legislation.gov.uk : hôte non résolu) :
+sources primaires consultées par les extraits de l'outil de recherche. Retirés faute de source : étapes de
+transformation de la fève (fermentation, séchage, torréfaction), fourchette usuelle de cacao des chocolats noirs,
+propriétés de fluidité de la couverture.
+
+- Directive 2000/36/CE du 23 juin 2000 ; dénominations réservées aux produits conformes à l'annexe I → https://eur-lex.europa.eu/legal-content/FR/TXT/HTML/?uri=CELEX:02000L0036-20131118 → 09/11/2026
+- Transposition par le décret n° 2003-702 du 29 juillet 2003 modifiant le décret n° 76-692 → https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000000239746 → 09/11/2026
+- « Chocolat » : ≥ 35 % matière sèche totale de cacao, dont ≥ 18 % beurre de cacao et ≥ 14 % cacao sec dégraissé → https://eur-lex.europa.eu/legal-content/FR/TXT/HTML/?uri=CELEX%3A32000L0036 et https://www.legifrance.gouv.fr/loda/article_lc/LEGIARTI000006586596 → 09/11/2026
+- Mentions de qualité dès 43 % de cacao dont 26 % de beurre de cacao ; mention « noir » à ce seuil selon Bercy → https://www.economie.gouv.fr/particuliers/mes-droits-conso/alimentation/chocolat-au-lait-gianduja-chocolat-noir-comment-sy → 09/11/2026
+- Chocolat au lait : ≥ 25 % cacao, dont ≥ 2,5 % cacao sec dégraissé ; ≥ 14 % matière sèche de lait, dont ≥ 3,5 % matière grasse lactique ; ≥ 25 % matières grasses totales ; « extra » : 30 % / 18 % / 4,5 % → https://eur-lex.europa.eu/LexUriServ/LexUriServ.do?uri=CONSLEG%3A2000L0036%3A20081211%3AFR%3APDF et https://www.legifrance.gouv.fr/jorf/article_jo/JORFARTI000001277344 → 09/11/2026
+- Chocolat blanc : ≥ 20 % beurre de cacao, ≥ 14 % matière sèche de lait dont ≥ 3,5 % matière grasse lactique → https://eur-lex.europa.eu/legal-content/FR/TXT/PDF/?uri=CELEX:32000L0036 → 09/11/2026
+- Chocolat de couverture : ≥ 35 % cacao, dont ≥ 31 % beurre de cacao et ≥ 2,5 % cacao sec dégraissé → https://eur-lex.europa.eu/legal-content/FR/TXT/HTML/?uri=CELEX:02000L0036-20131118 → 09/11/2026
+- Étiquetage « cacao : … % minimum » (article 3) → https://eur-lex.europa.eu/legal-content/FR/TXT/HTML/?uri=CELEX:02000L0036-20131118 → 09/11/2026
+- Matières grasses végétales autres que beurre de cacao : ≤ 5 % du produit fini, liste limitée (illipé, palme, sal, karité, kokum gurgi, noyaux de mangue), mention « contient des matières grasses végétales en plus du beurre de cacao » ; « pur beurre de cacao » réservé aux produits sans ajout → https://www.economie.gouv.fr/dgccrf/les-fiches-pratiques/chocolat-consultez-les-etiquettes et https://eur-lex.europa.eu/legal-content/FR/TXT/HTML/?uri=CELEX%3A32000L0036 → 09/11/2026
