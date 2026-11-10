@@ -9,7 +9,7 @@ L'agent prend le premier sujet `à écrire` dont la saison est ouverte (colonne 
 |---|-----------|---------|----------|--------|--------|
 | 1 | `chocolats-de-noel-traditions` | traditions chocolat de Noël, origine des chocolats de Noël | Terroir | nov.–déc. | publié le 08/11/2026 (`chocolats-de-noel-traditions`) |
 | 2 | `difference-chocolat-noir-lait-blanc` | différence chocolat noir lait blanc | Conseils | — | publié le 09/11/2026 (`difference-chocolat-noir-lait-blanc`) |
-| 3 | `pur-beurre-de-cacao-signification` | chocolat pur beurre de cacao, qu’est-ce que ça veut dire | Conseils | — | en cours (poussé le 10/11/2026, déploiement à contrôler) |
+| 3 | `pur-beurre-de-cacao-signification` | chocolat pur beurre de cacao, qu’est-ce que ça veut dire | Conseils | — | publié le 10/11/2026 (`pur-beurre-de-cacao-signification`) |
 | 4 | `chocolat-noir-pourcentage-cacao-etiquette` | pourcentage de cacao chocolat noir, lire l’étiquette | Conseils | — | à écrire |
 | 5 | `praline-gianduja-difference` | différence praliné gianduja | Conseils | — | à écrire |
 | 6 | `du-cacao-au-chocolat-etapes-fabrication` | comment fabrique-t-on le chocolat, de la fève à la tablette | Conseils | — | à écrire |
