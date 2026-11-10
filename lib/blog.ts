@@ -59,6 +59,27 @@ export const SITE_NAME = 'Cédric Brun – Maître Artisan Pâtissier Chocolatie
 
 const ARTICLES: ArticleMeta[] = [
   {
+    // Texte et photos de la maison : hors règles éditoriales de l'agent (ARTICLES_MAISON, scripts/verifier-blog.mjs)
+    slug: 'retour-super-comice-morteau-2026',
+    titre: 'Les Belles Comtoises au Super Comice du Val de Morteau',
+    titreSeo: 'Les Belles Comtoises au Super Comice de Morteau 2026',
+    description:
+      'Retour sur le Super Comice du Val de Morteau 2026 : les Belles Comtoises, chocolats artisanaux de Mélanie et Cédric Brun à Charquemont.',
+    extrait: 'Un rendez-vous au cœur du Haut-Doubs, entre traditions, rencontres et gourmandises chocolatées.',
+    categorie: 'Actualités',
+    datePublication: '2026-11-11',
+    image: {
+      src: '/images/blog/retour-super-comice-morteau-2026/stand-chocolats.jpg',
+      alt: 'Mélanie et Cédric Brun devant les chocolats Les Belles Comtoises sur leur stand au Super Comice',
+      width: 1600,
+      height: 1200,
+    },
+    ogImage: '/images/blog/retour-super-comice-morteau-2026/og-retour-super-comice-morteau-2026.jpg',
+    tempsLectureMin: 2,
+    motsCles: ['Super Comice Morteau', 'comice Morteau 2026', 'Val de Morteau', 'Belles Comtoises', 'marché des producteurs'],
+    liens: ['super-comice-morteau-2026', 'vache-montbeliarde-franche-comte'],
+  },
+  {
     slug: 'pur-beurre-de-cacao-signification',
     titre: 'Chocolat « pur beurre de cacao » : que signifie la mention, et que dit la loi ?',
     titreSeo: 'Pur beurre de cacao : ce que veut dire la mention',
@@ -128,6 +149,7 @@ const ARTICLES: ArticleMeta[] = [
       'Le samedi 24 octobre 2026, nous vous donnons rendez-vous à Morteau pour une journée dédiée aux traditions franc-comtoises… et à nos Belles Comtoises.',
     categorie: 'Actualités',
     datePublication: '2026-10-19',
+    dateMiseAJour: '2026-11-11',
     image: {
       src: '/images/blog/super-comice-morteau-2026/affiche-super-comice-morteau-2026.jpg',
       alt: 'Affiche du Super Comice du patrimoine, Val de Morteau 2026 : vaches montbéliardes dans la rue de Morteau, samedi 24 octobre',

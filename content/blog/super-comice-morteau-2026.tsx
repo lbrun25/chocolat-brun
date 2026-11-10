@@ -6,6 +6,19 @@ const DOSSIER = '/images/blog/super-comice-morteau-2026'
 export default function SuperComiceMorteau2026() {
   return (
     <>
+      <Encadre titre="Le Super Comice a eu lieu">
+        <p>
+          Merci à tous pour vos visites le 24 octobre ! Découvrez{' '}
+          <Link
+            href="/blog/retour-super-comice-morteau-2026"
+            className="font-medium text-cacao underline decoration-brass/70 underline-offset-[3px] hover:decoration-cacao"
+          >
+            notre retour en images
+          </Link>{' '}
+          sur cette belle journée.
+        </p>
+      </Encadre>
+
       <p className="lead">
         Nous avons le plaisir de vous annoncer que <strong>Mélanie et Cédric Brun seront présents au Super Comice du
         patrimoine de Morteau, le samedi 24 octobre 2026</strong>, pour vous faire découvrir leurs spécialités chocolatées
