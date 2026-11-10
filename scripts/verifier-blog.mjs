@@ -21,6 +21,12 @@ const ts = require(join(RACINE, 'node_modules/typescript'))
 
 /** Les articles antérieurs ont été écrits à la main : on ne leur applique que les règles globales. */
 const DEPUIS = '2026-11-06'
+/**
+ * Articles fournis par la maison (texte et photos de Mélanie et Cédric Brun), publiés tels quels :
+ * règles globales seulement, hors plafond journalier. Liste tenue à la main, hors du périmètre de l'agent.
+ */
+const ARTICLES_MAISON = new Set(['retour-super-comice-morteau-2026'])
+const parAgent = (a) => a.datePublication >= DEPUIS && !ARTICLES_MAISON.has(a.slug)
 
 // --- Chargement des métadonnées (lib/blog.ts, transpilé à la volée) ---
 const source = readFileSync(join(RACINE, 'lib/blog.ts'), 'utf8')
@@ -89,7 +95,7 @@ for (const a of articles) {
   const blogLinks = [...code.matchAll(/href=["']\/blog\/([a-z0-9-]+)["']/g)].map((m) => m[1])
   for (const l of blogLinks) if (!existants.has(l)) echec(s, `lien interne cassé : /blog/${l}`)
 
-  if (a.datePublication < DEPUIS) continue
+  if (!parAgent(a)) continue
 
   // --- Règles éditoriales (articles de l'agent) ---
   if (s.length > 60) echec(s, `slug de ${s.length} caractères (60 max)`)
@@ -119,7 +125,7 @@ for (const a of articles) {
 
 // --- Plafond de publication : jamais plus d'un article par jour (contenu en masse) ---
 const parJour = {}
-for (const a of articles) if (a.datePublication >= DEPUIS) parJour[a.datePublication] = (parJour[a.datePublication] ?? 0) + 1
+for (const a of articles) if (parAgent(a)) parJour[a.datePublication] = (parJour[a.datePublication] ?? 0) + 1
 for (const [jour, n] of Object.entries(parJour)) if (n > 1) echec(jour, `${n} articles publiés le même jour (1 maximum)`)
 
 // --- Quasi-doublons : mêmes suites de 6 mots entre deux articles ---
@@ -131,12 +137,12 @@ function empreinte(slug) {
   for (let i = 0; i + 6 <= m.length; i++) g.add(m.slice(i, i + 6).join(' '))
   return g
 }
-const nouveaux = articles.filter((a) => a.datePublication >= DEPUIS)
+const nouveaux = articles.filter(parAgent)
 if (nouveaux.length) {
   const emp = Object.fromEntries(articles.map((a) => [a.slug, empreinte(a.slug)]))
   for (const n of nouveaux) {
     for (const a of articles) {
-      if (a.slug === n.slug || (a.datePublication >= DEPUIS && a.slug < n.slug)) continue
+      if (a.slug === n.slug || (parAgent(a) && a.slug < n.slug)) continue
       const [x, y] = [emp[n.slug], emp[a.slug]]
       if (!x.size || !y.size) continue
       let commun = 0

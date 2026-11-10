@@ -109,7 +109,9 @@ Trois fichiers à toucher, sur le modèle de `content/blog/comment-conserver-le-
 - Nommer un client, un restaurant, un concurrent ; témoignages et chiffres d'usage inventés ; « le meilleur ».
 - Reprendre ce que la cliente a fait retirer : tablettes et carrés de chocolat, tarifs dégressifs, « format
   unique de 4 g ». `lesbellescomtoises.com` n'est pas le site de la maison : les CTA pointent vers `/#coffrets`.
-- Événements datés et actualités : seule la maison les annonce. L'agent n'en invente pas.
+- Événements datés et actualités : seule la maison les annonce. L'agent n'en invente pas. Les articles fournis
+  par la maison (liste `ARTICLES_MAISON` de `scripts/verifier-blog.mjs`) sont publiés tels quels : l'agent ne
+  les modifie pas, ne les prend pas pour modèle, et ils ne comptent pas dans son plafond d'un article par jour.
 - Conseil personnalisé (« dans votre cas… ») : l'article informe, il ne prescrit pas.
 - Quasi-doublon : relire titres et descriptions de TOUS les articles existants ; un nouvel article vise une
   requête distincte et ne reprend aucun paragraphe d'un autre.
