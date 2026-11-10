@@ -2,7 +2,7 @@
 
 import Image from 'next/image'
 import { motion, useReducedMotion } from 'framer-motion'
-import { ArrowRight, Bean, Candy, ChefHat, Citrus, Coffee, HandHeart, Sparkles } from 'lucide-react'
+import { ArrowRight, Bean, ChefHat, Citrus, Coffee, HandHeart, Sparkles } from 'lucide-react'
 import SiteHeader from '@/components/site/SiteHeader'
 import SiteFooter from '@/components/site/SiteFooter'
 import TarifsPro from '@/components/site/TarifsPro'
@@ -11,26 +11,24 @@ import { CONDITIONNEMENT, orangettes } from '@/lib/catalogue'
 
 const ref = orangettes[0]
 
-/** Les quatre garanties du produit, reprises du visuel de la gamme. */
+/** Les trois garanties du produit, reprises de la fiche de la gamme (public/images/orangettes/fiche-orangette.webp). */
 const GARANTIES = [
-  { icone: Citrus, texte: 'Écorces d’orange confites de qualité' },
+  { icone: Citrus, texte: 'Orange confite' },
   { icone: Bean, texte: 'Chocolat noir pur beurre de cacao' },
-  { icone: ChefHat, texte: 'Fabrication artisanale française' },
-  { icone: Candy, texte: 'Emballage individuel hygiénique' },
+  { icone: ChefHat, texte: 'Fabrication artisanale' },
 ]
 
 const CHIFFRES = [
   { valeur: `${ref.poidsG} g`, legende: 'par pièce' },
-  { valeur: `${CONDITIONNEMENT}`, legende: 'pièces par conditionnement' },
-  { valeur: 'Emballées', legende: 'individuellement' },
-  { valeur: 'Sans colorant', legende: 'ni conservateur' },
+  { valeur: `${CONDITIONNEMENT}`, legende: 'pièces par carton' },
+  { valeur: 'Sachet', legende: 'individuel' },
 ]
 
 const MOMENTS = [
   {
     icone: Coffee,
     titre: 'L’accompagnement idéal',
-    texte: 'Parfaites avec le café, pour offrir à vos clients une attention gourmande et mémorable.',
+    texte: 'Parfaites avec le café ou le thé, pour offrir à vos clients une attention gourmande et mémorable.',
   },
   {
     icone: HandHeart,
@@ -84,8 +82,8 @@ export default function OrangettesPage() {
               >
                 <span aria-hidden className="mt-7 block h-px w-16 bg-brass/50" />
                 <p className="mt-6 max-w-md text-[16px] leading-relaxed text-ivory/80 md:text-[17px]">
-                  De fines écorces d’orange confites enrobées d’un chocolat noir intense pour une gourmandise raffinée
-                  qui accompagne vos cafés.
+                  Une écorce d’orange confite, délicatement enrobée de chocolat noir, pour une pause gourmande pleine
+                  de fraîcheur.
                 </p>
               </motion.div>
 
@@ -93,7 +91,7 @@ export default function OrangettesPage() {
                 initial={ouverture(16)}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.85, ease: EASE_OUT, delay: 0.2 }}
-                className="mt-10 grid grid-cols-2 gap-x-5 gap-y-7 sm:grid-cols-4"
+                className="mt-10 grid grid-cols-3 gap-x-5 gap-y-7"
               >
                 {GARANTIES.map((g) => {
                   const Icone = g.icone
@@ -153,7 +151,7 @@ export default function OrangettesPage() {
               <div>
                 <p className="text-[11px] font-medium uppercase tracking-eyebrow text-brass-deep">Le produit</p>
                 <h2 className="font-display mt-4 text-[2rem] leading-tight tracking-[-0.015em] text-ink md:text-[2.6rem]">
-                  L’alliance parfaite de l’orange et du chocolat
+                  L’alliance parfaite entre l’orange et le chocolat
                 </h2>
                 <p className="mt-6 max-w-xl text-[15.5px] leading-relaxed text-bark">
                   Nos orangettes sont élaborées avec soin à partir d’écorces d’orange sélectionnées, lentement confites
@@ -161,10 +159,10 @@ export default function OrangettesPage() {
                   supérieure pour un mariage parfait entre l’intensité du cacao et la fraîcheur fruitée de l’orange.
                 </p>
 
-                <ul className="mt-9 grid grid-cols-2 gap-3 sm:grid-cols-4">
+                <ul className="mt-9 grid grid-cols-3 gap-3">
                   {CHIFFRES.map((c) => (
-                    <li key={c.legende} className="rounded-xl border border-ink/[0.07] bg-cream px-4 py-5 text-center">
-                      <p className="font-display text-[1.4rem] leading-none text-ink tabular-nums">{c.valeur}</p>
+                    <li key={c.legende} className="rounded-xl border border-ink/[0.07] bg-cream px-2 py-5 text-center sm:px-4">
+                      <p className="font-display text-[1.1rem] leading-none text-ink tabular-nums sm:text-[1.4rem]">{c.valeur}</p>
                       <p className="mt-2 text-[12px] leading-snug text-bark">{c.legende}</p>
                     </li>
                   ))}
@@ -173,12 +171,12 @@ export default function OrangettesPage() {
             </Reveal>
 
             <Reveal delay={0.08}>
-              <div className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-paper">
+              <div className="relative mx-auto aspect-[1224/1285] w-full max-w-[34rem] overflow-hidden rounded-2xl shadow-card">
                 <Image
-                  src="/images/orangettes/orangette-coupe.jpg"
-                  alt="Deux orangettes, dont une coupée laissant voir l’écorce d’orange confite"
+                  src="/images/orangettes/fiche-orangette.webp"
+                  alt="Fiche produit Orangette chocolat noir : écorce d’orange confite enrobée de chocolat noir pur beurre de cacao, fabrication artisanale, 5 g la pièce, conditionnement par 200"
                   fill
-                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  sizes="(max-width: 1024px) 92vw, 544px"
                   className="object-cover"
                 />
               </div>
