@@ -383,6 +383,11 @@ export default function CGUPage() {
                   <strong>Les orangettes</strong> — enrobées de chocolat noir : peuvent contenir des traces
                   de LAIT. Traces de coques.
                 </li>
+                <li>
+                  <strong>Les grains de café enrobés de chocolat noir</strong> — composition : sucre, grains
+                  de café, fèves de cacao (55 % de cacao), beurre de cacao, émulsifiant : lécithine de
+                  tournesol, extrait de vanille. Présence possible de FRUITS À COQUE.
+                </li>
               </ul>
               <p className="font-sans mt-4">
                 Notre atelier utilise également du gluten et du soja. Le détail des ingrédients et des

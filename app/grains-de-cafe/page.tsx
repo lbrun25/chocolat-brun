@@ -149,6 +149,12 @@ export default function GrainsDeCafePage() {
                     </li>
                   ))}
                 </ul>
+
+                <p className="mt-6 max-w-xl text-[12.5px] leading-relaxed text-bark/80">
+                  <strong className="font-medium text-ink">Composition :</strong> sucre, grains de café, fèves de cacao
+                  (55 % de cacao), beurre de cacao, émulsifiant : lécithine de tournesol, extrait de vanille. Présence
+                  possible de fruits à coque.
+                </p>
               </div>
             </Reveal>
 
