@@ -35,3 +35,17 @@ propriétés de fluidité de la couverture.
 - Chocolat de couverture : ≥ 35 % cacao, dont ≥ 31 % beurre de cacao et ≥ 2,5 % cacao sec dégraissé → https://eur-lex.europa.eu/legal-content/FR/TXT/HTML/?uri=CELEX:02000L0036-20131118 → 09/11/2026
 - Étiquetage « cacao : … % minimum » (article 3) → https://eur-lex.europa.eu/legal-content/FR/TXT/HTML/?uri=CELEX:02000L0036-20131118 → 09/11/2026
 - Matières grasses végétales autres que beurre de cacao : ≤ 5 % du produit fini, liste limitée (illipé, palme, sal, karité, kokum gurgi, noyaux de mangue), mention « contient des matières grasses végétales en plus du beurre de cacao » ; « pur beurre de cacao » réservé aux produits sans ajout → https://www.economie.gouv.fr/dgccrf/les-fiches-pratiques/chocolat-consultez-les-etiquettes et https://eur-lex.europa.eu/legal-content/FR/TXT/HTML/?uri=CELEX%3A32000L0036 → 09/11/2026
+
+## pur-beurre-de-cacao-signification (10/11/2026)
+
+Accès direct aux sites toujours refusé (economie.gouv.fr : hôte non résolu) : sources primaires consultées par les
+extraits de l'outil de recherche. Retirés faute de source : point de fusion du beurre de cacao, critères techniques
+des graisses de substitution (annexe II), comparaison de coût, statut du beurre de lait dans la mention.
+
+- « Chocolat pur beurre de cacao », « chocolat traditionnel » ou toute dénomination équivalente réservés aux chocolats sans autre matière grasse végétale, article R. 412-48 du code de la consommation → https://www.economie.gouv.fr/particuliers/mes-droits-conso/alimentation/chocolat-au-lait-gianduja-chocolat-noir-comment-sy et https://www.economie.gouv.fr/dgccrf/les-fiches-pratiques/chocolat-consultez-les-etiquettes → 10/11/2026
+- Mention introduite par la loi NRE, utilisable sur l'étiquetage depuis mai 2001 (réponse ministérielle, question n° 11113, 2003) → https://www.assemblee-nationale.fr/dyn/12/questions/QANR5L12QE11113.pdf → 10/11/2026
+- Mention « contient des matières grasses végétales en plus du beurre de cacao » dans le même champ visuel que la liste des ingrédients, nettement distincte (question n° 24895, 2003) → https://questions.assemblee-nationale.fr/dyn/12/questions/QANR5L12QE24895.pdf → 10/11/2026
+- Six graisses admises (illipé, palme, sal, karité, kokum gurgi, noyaux de mangue), 5 % au plus → https://www.economie.gouv.fr/dgccrf/les-fiches-pratiques/chocolat-consultez-les-etiquettes → 10/11/2026 (déjà consigné le 09/11)
+- Considérants 5 et 6 de la directive 2000/36/CE : ajout jusqu'à 5 % déjà admis dans certains États membres, étendu à tous → https://eur-lex.europa.eu/eli/dir/2000/36/oj/fra → 10/11/2026
+- CJUE, 25 novembre 2010, C-47/09 Commission c/ Italie : « cioccolato puro » contraire au droit de l'Union ; harmonisation complète des dénominations ; mention en gras ; information sur l'absence de graisses de substitution permise si exacte, neutre, objective → https://curia.europa.eu/jcms/jcms/P_70588/en → 10/11/2026
+- Transposition par le décret n° 2003-702 du 29 juillet 2003 → https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000000239746 → 09/11/2026 (déjà consigné)

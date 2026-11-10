@@ -59,6 +59,26 @@ export const SITE_NAME = 'Cédric Brun – Maître Artisan Pâtissier Chocolatie
 
 const ARTICLES: ArticleMeta[] = [
   {
+    slug: 'pur-beurre-de-cacao-signification',
+    titre: 'Chocolat « pur beurre de cacao » : que signifie la mention, et que dit la loi ?',
+    titreSeo: 'Pur beurre de cacao : ce que veut dire la mention',
+    description:
+      'Chocolat « pur beurre de cacao » : ce que garantit la mention, les six graisses végétales autorisées à 5 % et comment les repérer sur l’étiquette.',
+    extrait:
+      'Mention facultative mais encadrée depuis 2001, graisses de substitution autorisées, « chocolat pur » refusé par la justice européenne : ce que dit vraiment l’étiquette.',
+    categorie: 'Conseils',
+    datePublication: '2026-11-10',
+    image: {
+      src: '/images/galerie/cabosse_ouverte.jpg',
+      alt: 'Deux cabosses de cacao séchées sur une toile de jute : l’une entière, l’autre ouverte sur ses rangées de fèves',
+      width: 6000,
+      height: 4000,
+    },
+    tempsLectureMin: 6,
+    motsCles: ['pur beurre de cacao', 'chocolat pur beurre de cacao signification', 'matières grasses végétales chocolat', 'chocolat traditionnel mention', 'huile de palme chocolat étiquette'],
+    liens: ['difference-chocolat-noir-lait-blanc', 'comment-conserver-le-chocolat'],
+  },
+  {
     slug: 'difference-chocolat-noir-lait-blanc',
     titre: 'Chocolat noir, au lait ou blanc : quelles différences ? Composition, seuils légaux et goût',
     titreSeo: 'Différence chocolat noir, lait et blanc : le guide',

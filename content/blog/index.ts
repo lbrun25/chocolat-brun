@@ -6,6 +6,7 @@ import CommentConserverLeChocolat, { faq as faqConserver } from './comment-conse
 import ChocolatCafeRestaurantHotel, { faq as faqChr } from './chocolat-cafe-restaurant-hotel'
 import ChocolatsDeNoelTraditions, { faq as faqNoel } from './chocolats-de-noel-traditions'
 import DifferenceChocolatNoirLaitBlanc, { faq as faqNoirLaitBlanc } from './difference-chocolat-noir-lait-blanc'
+import PurBeurreDeCacaoSignification, { faq as faqPurBeurre } from './pur-beurre-de-cacao-signification'
 
 /** Corps des articles, par slug (voir lib/blog.ts pour les métadonnées). Usage serveur uniquement. */
 export const contenus: Record<string, ContenuArticle> = {
@@ -16,4 +17,5 @@ export const contenus: Record<string, ContenuArticle> = {
   'chocolat-cafe-restaurant-hotel': { Corps: ChocolatCafeRestaurantHotel, faq: faqChr },
   'chocolats-de-noel-traditions': { Corps: ChocolatsDeNoelTraditions, faq: faqNoel },
   'difference-chocolat-noir-lait-blanc': { Corps: DifferenceChocolatNoirLaitBlanc, faq: faqNoirLaitBlanc },
+  'pur-beurre-de-cacao-signification': { Corps: PurBeurreDeCacaoSignification, faq: faqPurBeurre },
 }
