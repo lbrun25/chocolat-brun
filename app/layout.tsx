@@ -37,9 +37,10 @@ const fraunces = localFont({
   fallback: ['Georgia', 'serif'],
 })
 
-const SITE_TITLE = 'Les Belles Comtoises – Cédric Brun, Maître Artisan Pâtissier Chocolatier'
+// Valeurs de l'accueil (la maison et ses deux espaces), reprises par défaut sur les pages sans valeur propre.
+const SITE_TITLE = 'Cédric Brun – Maître Artisan Pâtissier Chocolatier à Charquemont'
 const SITE_DESCRIPTION =
-  'Les Belles Comtoises : les petites vaches montbéliardes en chocolat praliné noisette de Mélanie et Cédric Brun, Maître Artisan Pâtissier Chocolatier à Charquemont (Doubs). Gammes professionnelles : petits poissons, petits beurres en chocolat, orangettes et grains de café enrobés.'
+  'Mélanie et Cédric Brun, Maître Artisan Pâtissier Chocolatier depuis 1999 à Charquemont (Doubs). Pour les particuliers, Les Belles Comtoises ; pour les restaurateurs, petits chocolats emballés pour le café.'
 
 export async function generateMetadata(): Promise<Metadata> {
   const baseUrl = await getBaseUrl()
@@ -80,10 +81,10 @@ export async function generateMetadata(): Promise<Metadata> {
       siteName: 'Cédric Brun – Maître Artisan Pâtissier Chocolatier',
       images: [
         {
-          url: '/images/og-comtoises.jpg',
+          url: '/images/og-accueil.jpg',
           width: 1200,
           height: 630,
-          alt: 'Les Belles Comtoises – vaches en chocolat de Mélanie et Cédric Brun',
+          alt: 'Cédric Brun, le chocolat, une passion depuis 1999 – trois cabosses de cacao',
         },
       ],
     },
@@ -91,7 +92,7 @@ export async function generateMetadata(): Promise<Metadata> {
       card: 'summary_large_image',
       title: SITE_TITLE,
       description: SITE_DESCRIPTION,
-      images: ['/images/og-comtoises.jpg'],
+      images: ['/images/og-accueil.jpg'],
     },
     robots: {
       index: true,

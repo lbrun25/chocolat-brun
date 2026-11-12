@@ -1,10 +1,10 @@
 import { MetadataRoute } from 'next'
-import { GAMMES_PRO } from '@/lib/catalogue'
 import { getBaseUrl } from '@/lib/get-base-url'
 import { articles } from '@/lib/blog'
+import { LISTE_ESPACES } from '@/lib/espaces'
 
 /**
- * Sitemap orienté « site professionnel » : la landing page est la page principale.
+ * Sitemap : l'accueil, puis chaque espace (particuliers, professionnels) et ses produits.
  */
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = await getBaseUrl()
@@ -12,12 +12,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   return [
     { url: baseUrl, lastModified: now, changeFrequency: 'monthly', priority: 1 },
-    ...GAMMES_PRO.map((g) => ({
-      url: `${baseUrl}${g.href}`,
-      lastModified: now,
-      changeFrequency: 'monthly' as const,
-      priority: 0.9,
-    })),
+    ...LISTE_ESPACES.flatMap((espace) => [
+      { url: `${baseUrl}${espace.href}`, lastModified: now, changeFrequency: 'monthly' as const, priority: 0.9 },
+      ...espace.produits.map((p) => ({
+        url: `${baseUrl}${p.href}`,
+        lastModified: now,
+        changeFrequency: 'monthly' as const,
+        priority: 0.9,
+      })),
+    ]),
     {
       url: `${baseUrl}/blog`,
       lastModified: new Date(articles[0]?.datePublication ?? now),

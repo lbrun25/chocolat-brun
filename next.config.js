@@ -7,9 +7,13 @@ const nextConfig = {
   // Ancienne boutique (napolitains) supprimée : les anciens liens et favoris
   // renvoient vers l'accueil au lieu d'afficher une 404.
   async redirects() {
-    return ['/produits', '/produits/:path*', '/panier', '/checkout', '/prix', '/napolitains', '/commande/:path*'].map(
-      (source) => ({ source, destination: '/', permanent: true }),
-    )
+    return [
+      ...['/produits', '/produits/:path*', '/panier', '/checkout', '/prix', '/napolitains', '/commande/:path*'].map(
+        (source) => ({ source, destination: '/', permanent: true }),
+      ),
+      // Ancienne page pro (napolitains) : remplacée par l'espace professionnels.
+      { source: '/pro', destination: '/professionnels', permanent: true },
+    ]
   },
   // En-têtes de sécurité : le site encaisse des paiements et affiche des pages
   // Stripe en redirection. On protège contre le détournement de cadre, le

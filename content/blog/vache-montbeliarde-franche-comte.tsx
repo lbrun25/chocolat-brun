@@ -27,7 +27,7 @@ export default function VacheMontbeliarde() {
         Impossible de traverser le Haut-Doubs sans la croiser : robe blanche tachée de rouge, clarine qui tinte au cou,
         silhouette paisible dans les prés d’altitude. La vache montbéliarde est bien plus qu’une race laitière, c’est un
         symbole de la Franche-Comté. Au point que nous lui avons consacré nos{' '}
-        <Link href="/">Belles Comtoises</Link>, de petites vaches en chocolat.
+        <Link href="/belles-comtoises">Belles Comtoises</Link>, de petites vaches en chocolat.
       </p>
 
       <h2>Une race née aux portes de la Suisse</h2>
@@ -104,7 +104,7 @@ export default function VacheMontbeliarde() {
           petites vaches en sont l’hommage chocolaté, fabriqué artisanalement dans le Haut-Doubs.
         </p>
         <div className="pt-2">
-          <Cta href="/#coffrets">Voir les coffrets</Cta>
+          <Cta href="/belles-comtoises#coffrets">Voir les coffrets</Cta>
         </div>
       </Encadre>
     </>

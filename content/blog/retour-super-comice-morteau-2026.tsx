@@ -15,7 +15,7 @@ export default function RetourSuperComiceMorteau2026() {
       <p>
         Pour cette fête du patrimoine franc-comtois, nous avions préparé un stand aux couleurs des{' '}
         <strong>
-          <Link href="/">Belles Comtoises</Link>
+          <Link href="/belles-comtoises">Belles Comtoises</Link>
         </strong>
         , nos vaches montbéliardes en chocolat, clin d’œil gourmand à notre région et à ses traditions.
       </p>

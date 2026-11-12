@@ -70,7 +70,7 @@ export default function CadeauGourmandFrancheComte() {
       <h2>7. Les chocolats, pour finir en douceur</h2>
       <p>
         Pour un cadeau qui plaît à toute la famille, le chocolat reste imbattable. Nos{' '}
-        <Link href="/">Belles Comtoises</Link> en sont la version la plus franc-comtoise qui soit : de petites vaches
+        <Link href="/belles-comtoises">Belles Comtoises</Link> en sont la version la plus franc-comtoise qui soit : de petites vaches
         montbéliardes en chocolat pur beurre de cacao, garnies de praliné noisette et fabriquées artisanalement dans notre
         atelier de Charquemont, dans le Haut-Doubs.
       </p>
@@ -112,7 +112,7 @@ export default function CadeauGourmandFrancheComte() {
           {FREE_SHIPPING_THRESHOLD} € d’achat.
         </p>
         <div className="pt-2">
-          <Cta href="/#coffrets">Choisir un coffret</Cta>
+          <Cta href="/belles-comtoises#coffrets">Choisir un coffret</Cta>
         </div>
       </Encadre>
     </>

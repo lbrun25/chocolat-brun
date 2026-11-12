@@ -209,9 +209,9 @@ export const orangettes = references.filter((r) => r.gamme === 'orangette')
 export const grainsCafe = references.filter((r) => r.gamme === 'grain-cafe')
 
 /**
- * Les gammes professionnelles et leur page. Source unique : la navigation, la
- * passerelle de l'accueil, l'espace pro et le panier de l'en-tête s'y réfèrent,
- * pour qu'ajouter une gamme ne demande plus de penser à chaque endroit.
+ * Les gammes professionnelles et leur page. Source unique : l'espace professionnels
+ * (lib/espaces.ts), donc la navigation, le pied de page et le panier de l'en-tête
+ * s'y réfèrent, pour qu'ajouter une gamme ne demande plus de penser à chaque endroit.
  */
 export const GAMMES_PRO = [
   { gamme: 'poisson', href: '/poissons', label: 'Poissons', labelLong: 'Les poissons', image: '/images/poissons/poisson-lait.png' },
@@ -219,11 +219,6 @@ export const GAMMES_PRO = [
   { gamme: 'orangette', href: '/orangettes', label: 'Orangettes', labelLong: 'Les orangettes', image: '/images/orangettes/orangette.png' },
   { gamme: 'grain-cafe', href: '/grains-de-cafe', label: 'Grains de café', labelLong: 'Les grains de café', image: '/images/grains-de-cafe/sachet-grains-cafe.png' },
 ] as const satisfies ReadonlyArray<{ gamme: Gamme; href: string; label: string; labelLong: string; image: string }>
-
-/** Vrai si l'URL est une page de gamme professionnelle (donc rattachée au panier pro). */
-export function estPageGammePro(pathname: string): boolean {
-  return GAMMES_PRO.some((g) => pathname.startsWith(g.href))
-}
 
 export function referencesDeGamme(gamme: Gamme): Reference[] {
   return references.filter((r) => r.gamme === gamme)

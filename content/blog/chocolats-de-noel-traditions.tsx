@@ -148,7 +148,7 @@ export default function ChocolatsDeNoelTraditions() {
         </li>
       </ul>
       <p>
-        Pour un cadeau franc-comtois, nos <Link href="/#coffrets">Belles Comtoises</Link> sont des vaches montbéliardes
+        Pour un cadeau franc-comtois, nos <Link href="/belles-comtoises#coffrets">Belles Comtoises</Link> sont des vaches montbéliardes
         en chocolat pur beurre de cacao, fourrées d’un praliné noisette, en quatre recettes : lait, noir, blanc et
         caramel. Elles existent en coffrets de 6, 12, 20 et 30 pièces. L’histoire de la race qui les a inspirées est à
         lire dans <Link href="/blog/vache-montbeliarde-franche-comte">notre portrait de la vache montbéliarde</Link>.

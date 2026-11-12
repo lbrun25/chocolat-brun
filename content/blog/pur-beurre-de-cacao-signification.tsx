@@ -145,7 +145,7 @@ export default function PurBeurreDeCacaoSignification() {
       </p>
       <p>
         C’est le choix que nous avons fait pour nos{' '}
-        <Link href="/#coffrets">Belles Comtoises</Link> : des vaches montbéliardes en chocolat pur beurre de cacao,
+        <Link href="/belles-comtoises#coffrets">Belles Comtoises</Link> : des vaches montbéliardes en chocolat pur beurre de cacao,
         fourrées de praliné noisette, moulées et enrobées dans notre atelier de Charquemont, en lait, noir, blanc et
         caramel. Une fois chez vous, quelques gestes simples les gardent en bon état, comme nous l’expliquons dans{' '}
         <Link href="/blog/comment-conserver-le-chocolat">notre article sur la conservation du chocolat</Link>.

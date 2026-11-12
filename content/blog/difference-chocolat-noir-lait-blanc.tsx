@@ -169,7 +169,7 @@ export default function DifferenceChocolatNoirLaitBlanc() {
       </p>
       <p>
         Pour un cadeau, le plus simple est souvent de ne pas choisir. Nos{' '}
-        <Link href="/#coffrets">Belles Comtoises</Link>, des vaches montbéliardes en chocolat pur beurre de cacao
+        <Link href="/belles-comtoises#coffrets">Belles Comtoises</Link>, des vaches montbéliardes en chocolat pur beurre de cacao
         fourrées de praliné noisette, existent en quatre recettes : lait, noir, blanc et caramel, moulées et enrobées
         dans notre atelier de Charquemont. Et si vous cherchez d’autres idées régionales, voyez{' '}
         <Link href="/blog/cadeau-gourmand-franche-comte">nos cadeaux gourmands de Franche-Comté</Link>.

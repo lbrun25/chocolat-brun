@@ -87,8 +87,9 @@ Trois fichiers à toucher, sur le modèle de `content/blog/comment-conserver-le-
   (« selon le décret de 2003… ») avec leur source consignée. Une FAQ vraie, des listes courtes, pas de
   remplissage : les IA citent les passages denses et exacts, pas les introductions.
 - Au moins DEUX liens internes `href="/blog/<slug>"` vers des articles EXISTANTS et en ligne, plus un lien vers
-  une page du site quand c'est naturel : `/` (Belles Comtoises, ancre `/#coffrets`), `/poissons`,
-  `/petits-beurres`, `/orangettes`, `/grains-de-cafe`, `/histoire`, `/galerie`. `liens` (meta) : 2 slugs liés.
+  une page du site quand c'est naturel : `/belles-comtoises` (ancre `/belles-comtoises#coffrets`), `/poissons`,
+  `/petits-beurres`, `/orangettes`, `/grains-de-cafe`, `/particuliers`, `/professionnels`, `/histoire`, `/galerie`.
+  L'accueil `/` présente la maison et ses deux espaces : il ne vend rien directement, n'y renvoyez pas pour un produit. `liens` (meta) : 2 slugs liés.
 - Image : UNE image déjà présente dans `public/images/` (galerie, comtoises, poissons, orangettes…), choisie pour
   son rapport réel avec le sujet ; largeur/hauteur lues avec `sips -g pixelWidth -g pixelHeight <fichier>`.
   `alt` descriptif de ce qu'on voit réellement (ouvrir l'image avec Read avant de la décrire). Jamais d'image

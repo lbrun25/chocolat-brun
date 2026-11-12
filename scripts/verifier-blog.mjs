@@ -94,6 +94,8 @@ for (const a of articles) {
   const code = readFileSync(fichier, 'utf8')
   const blogLinks = [...code.matchAll(/href=["']\/blog\/([a-z0-9-]+)["']/g)].map((m) => m[1])
   for (const l of blogLinks) if (!existants.has(l)) echec(s, `lien interne cassé : /blog/${l}`)
+  // Depuis le 12/11/2026, l'accueil présente les deux espaces : les coffrets sont sur /belles-comtoises.
+  if (/href=["']\/#/.test(code)) echec(s, 'ancre « /#… » de l’ancienne accueil : utiliser /belles-comtoises#coffrets')
 
   if (!parAgent(a)) continue
 

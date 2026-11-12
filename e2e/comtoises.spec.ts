@@ -7,7 +7,7 @@ import { FREE_SHIPPING_THRESHOLD, calculateShippingCost } from '../lib/shipping'
 
 /**
  * Tunnel grand public « Les Belles Comtoises » :
- * accueil → panier → Stripe → /panier-comtoises/succes.
+ * page Belles Comtoises → panier → Stripe → /panier-comtoises/succes.
  */
 
 const COFFRET = coffrets[0]
@@ -44,22 +44,22 @@ async function remplirContact(page: Page, email: string) {
 }
 
 test.describe('Les Belles Comtoises', () => {
-  test('les coffrets sont présentés avec leur prix sur l’accueil', async ({ page }) => {
-    await page.goto('/')
+  test('les coffrets sont présentés avec leur prix sur la page Belles Comtoises', async ({ page }) => {
+    await page.goto('/belles-comtoises')
     const section = page.locator('#coffrets')
     await expect(section).toBeVisible()
 
     for (const c of coffrets) {
       await expect(
         section.getByRole('button', { name: `Ajouter le ${c.nom} au panier` }),
-        `${c.nom} manque sur l’accueil`
+        `${c.nom} manque sur la page Belles Comtoises`
       ).toBeVisible()
       await expect(section.getByText(formatEUR(c.prixTTC)).first()).toBeVisible()
     }
   })
 
-  test('ajouter un coffret depuis l’accueil alimente le panier', async ({ page }) => {
-    await page.goto('/#coffrets')
+  test('ajouter un coffret depuis la page Belles Comtoises alimente le panier', async ({ page }) => {
+    await page.goto('/belles-comtoises#coffrets')
     await page.getByRole('button', { name: `Ajouter le ${COFFRET.nom} au panier` }).click()
 
     await page.goto('/panier-comtoises')

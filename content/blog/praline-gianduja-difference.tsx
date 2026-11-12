@@ -162,7 +162,7 @@ export default function PralineGiandujaDifference() {
       </p>
       <p>
         Chez nous, c’est le praliné noisette qui a été retenu pour les{' '}
-        <Link href="/#coffrets">Belles Comtoises</Link>, nos vaches montbéliardes en chocolat pur beurre de cacao,
+        <Link href="/belles-comtoises#coffrets">Belles Comtoises</Link>, nos vaches montbéliardes en chocolat pur beurre de cacao,
         moulées et enrobées dans notre atelier de Charquemont. Elles existent en quatre recettes, lait, noir, blanc et
         caramel, et la composition de chacune figure sur son étiquette.
       </p>

@@ -1,11 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import { CONTACT, GAMMES_PRO } from '@/lib/catalogue'
-
-const GAMMES = [
-  { href: '/', label: 'Les Belles Comtoises' },
-  ...GAMMES_PRO.map((g) => ({ href: g.href, label: g.labelLong })),
-]
+import { CONTACT } from '@/lib/catalogue'
+import { LISTE_ESPACES } from '@/lib/espaces'
 
 const LEGAL = [
   { href: '/histoire', label: 'Notre histoire' },
@@ -35,17 +31,26 @@ export default function SiteFooter() {
             </div>
           </div>
 
-          <div>
-            <p className="text-[11px] font-medium uppercase tracking-eyebrow text-brass-pale/80">Nos gammes</p>
-            <ul className="mt-4 space-y-2 text-[14.5px] text-ivory/75">
-              {GAMMES.map((g) => (
-                <li key={g.href}>
-                  <Link href={g.href} className="hover:text-ivory">
-                    {g.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
+          <div className="space-y-7">
+            {LISTE_ESPACES.map((espace) => (
+              <div key={espace.id}>
+                <Link
+                  href={espace.href}
+                  className="text-[11px] font-medium uppercase tracking-eyebrow text-brass-pale/80 hover:text-ivory"
+                >
+                  {espace.titre}
+                </Link>
+                <ul className="mt-4 space-y-2 text-[14.5px] text-ivory/75">
+                  {espace.produits.map((p) => (
+                    <li key={p.href}>
+                      <Link href={p.href} className="hover:text-ivory">
+                        {p.labelLong}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
           </div>
 
           <div>
@@ -81,7 +86,7 @@ export default function SiteFooter() {
               ))}
               <li>
                 <Link href="/espace-pro/connexion" className="hover:text-ivory">
-                  Espace professionnel
+                  Compte professionnel
                 </Link>
               </li>
             </ul>

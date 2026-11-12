@@ -1,5 +1,6 @@
 import { articles, absoluteUrl, AUTEUR } from '@/lib/blog'
 import { CONTACT, GAMMES_PRO } from '@/lib/catalogue'
+import { ESPACES } from '@/lib/espaces'
 
 export const dynamic = 'force-static'
 export const revalidate = 3600
@@ -18,7 +19,10 @@ export function GET() {
       'pour les professionnels (restaurants, hôtels, cafés).',
     '',
     '## Pages principales',
-    `- [Les Belles Comtoises](${absoluteUrl('/')}): coffrets de vaches en chocolat, quatre recettes (lait, noir, blanc, caramel)`,
+    `- [Accueil](${absoluteUrl('/')}): la maison et ses deux espaces, particuliers et professionnels`,
+    `- [${ESPACES.particuliers.titre}](${absoluteUrl(ESPACES.particuliers.href)}): les créations vendues aux particuliers`,
+    `- [Les Belles Comtoises](${absoluteUrl('/belles-comtoises')}): coffrets de vaches en chocolat, quatre recettes (lait, noir, blanc, caramel)`,
+    `- [${ESPACES.professionnels.titre}](${absoluteUrl(ESPACES.professionnels.href)}): les gammes vendues aux restaurants, hôtels et cafés`,
     ...GAMMES_PRO.map((g) => `- [${g.labelLong}](${absoluteUrl(g.href)}): gamme professionnelle, tarifs réservés aux comptes SIRET vérifiés`),
     `- [Notre histoire](${absoluteUrl('/histoire')}): la maison, Mélanie et Cédric Brun`,
     `- [Galerie](${absoluteUrl('/galerie')}): photos de l'atelier`,

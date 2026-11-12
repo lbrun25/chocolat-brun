@@ -1,7 +1,7 @@
 import localFont from 'next/font/local'
-import Header from '@/components/Header'
+import SiteHeader from '@/components/site/SiteHeader'
+import SiteFooter from '@/components/site/SiteFooter'
 import MadeInFranceSection from '@/components/MadeInFranceSection'
-import Footer from '@/components/Footer'
 
 // Polices de l’identité « historique » (logo script + petites capitales), utilisées uniquement ici.
 // Hébergées dans app/fonts (voir app/layout.tsx) : aucun téléchargement chez Google Fonts au build.
@@ -28,16 +28,17 @@ const cinzel = localFont({
 })
 
 /**
- * Layout des pages « historiques » (galerie, histoire, mentions légales, boutique…).
- * La landing page (app/page.tsx) possède sa propre navigation et son propre pied de page.
+ * Layout des pages « historiques » (mentions légales, CGU, livraison, compte…) : elles gardent
+ * leur mise en page d'origine, mais l'en-tête et le pied de page sont ceux du reste du site
+ * (menu par espace et menu « Produits »).
  */
 export default function SiteLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className={`${dancingScript.variable} ${greatVibes.variable} ${cinzel.variable}`}>
-      <Header />
+      <SiteHeader />
       <main>{children}</main>
       <MadeInFranceSection />
-      <Footer />
+      <SiteFooter />
     </div>
   )
 }

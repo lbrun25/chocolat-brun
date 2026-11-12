@@ -5,8 +5,11 @@ maison est interdit. Compléter ce fichier (par Lucien ou une session principale
 
 - Maison : Mélanie et Cédric Brun, atelier à Charquemont (Doubs, Haut-Doubs), maître artisan chocolatier depuis 1999.
 - Fabrication : moulage, enrobage et emballage dans l'atelier de Charquemont.
+- Le site a deux espaces, présentés sur l'accueil (`/`) : particuliers (`/particuliers`) et professionnels
+  (`/professionnels`).
 - Particuliers : Les Belles Comtoises, vaches montbéliardes en chocolat pur beurre de cacao praliné noisette,
-  coffrets de 6, 12, 20 et 30 (page `/`, ancre `/#coffrets`). Quatre recettes : lait, noir, blanc, caramel.
+  coffrets de 6, 12, 20 et 30 (page `/belles-comtoises`, ancre `/belles-comtoises#coffrets`). Quatre recettes :
+  lait, noir, blanc, caramel.
 - Professionnels (tarifs réservés aux comptes SIRET vérifiés) : petits poissons (`/poissons`), petits beurres en
   chocolat (`/petits-beurres`), orangettes enrobées de chocolat noir (`/orangettes`), grains de café enrobés de
   chocolat noir en sachet de 3 grains (`/grains-de-cafe`), tous emballés individuellement.

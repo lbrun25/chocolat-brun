@@ -114,7 +114,7 @@ export default function CommentConserverLeChocolat() {
           peu moins longtemps.
         </li>
         <li>
-          <strong>Les pralinés</strong>, comme nos <Link href="/">Belles Comtoises</Link>, contiennent des noisettes qui
+          <strong>Les pralinés</strong>, comme nos <Link href="/belles-comtoises">Belles Comtoises</Link>, contiennent des noisettes qui
           finissent par rancir : mieux vaut les déguster dans les semaines qui suivent l’achat.
         </li>
       </ul>

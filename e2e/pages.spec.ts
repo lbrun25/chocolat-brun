@@ -1,6 +1,7 @@
 import { test, expect } from '@playwright/test'
 import { products } from '../lib/products'
 import { GAMMES_PRO } from '../lib/catalogue'
+import { LISTE_ESPACES } from '../lib/espaces'
 
 /**
  * Contrôle transverse de toutes les pages publiques : statut HTTP, titre, un
@@ -9,9 +10,9 @@ import { GAMMES_PRO } from '../lib/catalogue'
 
 const PAGES_PUBLIQUES = [
   '/',
+  ...LISTE_ESPACES.flatMap((e) => [e.href, ...e.produits.map((p) => p.href)]),
   '/histoire',
   '/galerie',
-  ...GAMMES_PRO.map((g) => g.href),
   '/napolitains',
   '/produits',
   `/produits/${products[0].slug}`,
@@ -78,6 +79,14 @@ test.describe('Pages publiques', () => {
     const xml = await sitemap.text()
     expect(xml).toContain('<urlset')
     for (const gamme of GAMMES_PRO) expect(xml, `${gamme.href} absent du sitemap`).toContain(gamme.href)
+    for (const espace of LISTE_ESPACES) expect(xml, `${espace.href} absent du sitemap`).toContain(espace.href)
+    // Une règle Disallow est un préfixe : « /pro » bloquerait aussi « /professionnels ».
+    const interdits = [...(await robots.text()).matchAll(/^Disallow: (\S+)/gm)].map((m) => m[1])
+    for (const espace of LISTE_ESPACES) {
+      for (const chemin of [espace.href, ...espace.produits.map((p) => p.href)]) {
+        for (const regle of interdits) expect(chemin.startsWith(regle), `robots.txt « ${regle} » bloque ${chemin}`).toBe(false)
+      }
+    }
   })
 
   test('une page inexistante renvoie 404', async ({ page }) => {

@@ -40,7 +40,7 @@ export default function SuperComiceMorteau2026() {
 
       <h2>Les Belles Comtoises à l’honneur</h2>
       <p>
-        À cette occasion, nous aurons le plaisir de vous présenter <Link href="/">Les Belles Comtoises</Link>, nos
+        À cette occasion, nous aurons le plaisir de vous présenter <Link href="/belles-comtoises">Les Belles Comtoises</Link>, nos
         petites vaches montbéliardes en chocolat pur beurre de cacao, garnies d’un délicieux praliné noisette.
       </p>
       <p>
@@ -123,7 +123,7 @@ export default function SuperComiceMorteau2026() {
           </li>
         </ul>
         <div className="pt-3">
-          <Cta href="/#coffrets" clair>
+          <Cta href="/belles-comtoises#coffrets" clair>
             Découvrir Les Belles Comtoises
           </Cta>
         </div>
@@ -131,7 +131,7 @@ export default function SuperComiceMorteau2026() {
 
       <p>
         Vous ne pouvez pas vous déplacer ? Nos coffrets sont aussi{' '}
-        <Link href="/#coffrets">disponibles en ligne</Link>, livrés partout en France métropolitaine.
+        <Link href="/belles-comtoises#coffrets">disponibles en ligne</Link>, livrés partout en France métropolitaine.
       </p>
       <p>
         <strong>À très bientôt au Super Comice !</strong>

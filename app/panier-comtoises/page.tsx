@@ -52,7 +52,7 @@ export default function PanierComtoisesPage() {
 
       <main className="mx-auto max-w-4xl px-5 pb-20 pt-28 md:px-8 md:pt-36">
         <Link
-          href="/#coffrets"
+          href="/belles-comtoises#coffrets"
           className="inline-flex items-center gap-2 text-[13px] font-medium text-bark transition-colors hover:text-ink"
         >
           <ArrowLeft className="h-4 w-4" strokeWidth={1.75} aria-hidden />
@@ -71,7 +71,7 @@ export default function PanierComtoisesPage() {
           <div className="mt-10 rounded-2xl border border-dashed border-ink/20 bg-paper px-6 py-14 text-center">
             <p className="font-display text-[1.5rem] text-ink">Votre panier est vide.</p>
             <Link
-              href="/#coffrets"
+              href="/belles-comtoises#coffrets"
               className="mt-7 inline-flex h-12 items-center justify-center rounded-full bg-ink px-7 text-sm font-medium text-ivory transition-all hover:-translate-y-0.5 hover:bg-cacao"
             >
               Voir les coffrets

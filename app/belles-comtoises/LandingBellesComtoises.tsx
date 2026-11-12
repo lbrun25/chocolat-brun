@@ -281,7 +281,9 @@ export default function LandingBellesComtoises() {
           <div className="mx-auto max-w-5xl px-5 md:px-8">
             <Reveal>
               <p className="text-center text-[11px] font-medium uppercase tracking-eyebrow text-brass-deep">
-                Vous êtes professionnel ?
+                <Link href="/professionnels" className="hover:text-ink">
+                  Vous êtes professionnel ?
+                </Link>
               </p>
               <div className="mt-6 grid gap-4 sm:grid-cols-2">
                 {GAMMES_PRO.map((g) => (

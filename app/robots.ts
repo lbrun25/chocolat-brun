@@ -18,7 +18,8 @@ const ROBOTS_IA = [
   'Google-Extended',
   'Applebot-Extended',
 ]
-const EXCLUS = ['/pro', '/compte', '/api/']
+// Attention : une règle est un préfixe (« /pro » bloquerait aussi « /professionnels »).
+const EXCLUS = ['/compte', '/api/']
 
 export default async function robots(): Promise<MetadataRoute.Robots> {
   const baseUrl = await getBaseUrl()
