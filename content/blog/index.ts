@@ -8,7 +8,6 @@ import ChocolatCafeRestaurantHotel, { faq as faqChr } from './chocolat-cafe-rest
 import ChocolatsDeNoelTraditions, { faq as faqNoel } from './chocolats-de-noel-traditions'
 import DifferenceChocolatNoirLaitBlanc, { faq as faqNoirLaitBlanc } from './difference-chocolat-noir-lait-blanc'
 import PurBeurreDeCacaoSignification, { faq as faqPurBeurre } from './pur-beurre-de-cacao-signification'
-import PralineGiandujaDifference, { faq as faqPralineGianduja } from './praline-gianduja-difference'
 
 /** Corps des articles, par slug (voir lib/blog.ts pour les métadonnées). Usage serveur uniquement. */
 export const contenus: Record<string, ContenuArticle> = {
@@ -21,5 +20,4 @@ export const contenus: Record<string, ContenuArticle> = {
   'chocolats-de-noel-traditions': { Corps: ChocolatsDeNoelTraditions, faq: faqNoel },
   'difference-chocolat-noir-lait-blanc': { Corps: DifferenceChocolatNoirLaitBlanc, faq: faqNoirLaitBlanc },
   'pur-beurre-de-cacao-signification': { Corps: PurBeurreDeCacaoSignification, faq: faqPurBeurre },
-  'praline-gianduja-difference': { Corps: PralineGiandujaDifference, faq: faqPralineGianduja },
 }
