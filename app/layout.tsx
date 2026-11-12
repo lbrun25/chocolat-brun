@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Inter, Fraunces } from 'next/font/google'
+import localFont from 'next/font/local'
 import './globals.css'
 import { getBaseUrl } from '@/lib/get-base-url'
 import CookieBanner from '@/components/CookieBanner'
@@ -17,17 +17,24 @@ import { absoluteUrl } from '@/lib/site-url'
 
 // Polices globales (landing + toutes les pages). Les polices « historiques » (Great Vibes, Cinzel,
 // Dancing Script) ne sont chargées que par le layout app/(site) pour alléger la landing.
-const inter = Inter({
-  subsets: ['latin'],
+// Fichiers hébergés dans app/fonts (Fontsource, licence OFL) : le build ne télécharge rien chez Google Fonts.
+// Le 12/11/2026, une réponse inhabituelle de Google Fonts (URL « /l/font?kit=…&skey=… ») a fait échouer
+// le build Turbopack sur Vercel. Les fichiers variables gardent tous les axes (Fraunces : opsz, SOFT, wght).
+const inter = localFont({
+  src: './fonts/inter-latin-wght-normal.woff2',
+  weight: '100 900',
+  style: 'normal',
   variable: '--font-inter',
   display: 'swap',
 })
-const fraunces = Fraunces({
-  subsets: ['latin'],
-  style: ['normal', 'italic'],
-  axes: ['opsz', 'SOFT'],
+const fraunces = localFont({
+  src: [
+    { path: './fonts/fraunces-latin-full-normal.woff2', weight: '100 900', style: 'normal' },
+    { path: './fonts/fraunces-latin-full-italic.woff2', weight: '100 900', style: 'italic' },
+  ],
   variable: '--font-fraunces',
   display: 'swap',
+  fallback: ['Georgia', 'serif'],
 })
 
 const SITE_TITLE = 'Les Belles Comtoises – Cédric Brun, Maître Artisan Pâtissier Chocolatier'

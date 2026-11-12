@@ -1,24 +1,28 @@
-import { Dancing_Script, Great_Vibes, Cinzel } from 'next/font/google'
+import localFont from 'next/font/local'
 import Header from '@/components/Header'
 import MadeInFranceSection from '@/components/MadeInFranceSection'
 import Footer from '@/components/Footer'
 
 // Polices de l’identité « historique » (logo script + petites capitales), utilisées uniquement ici.
-const dancingScript = Dancing_Script({
-  subsets: ['latin'],
-  weight: ['400', '500', '600', '700'],
+// Hébergées dans app/fonts (voir app/layout.tsx) : aucun téléchargement chez Google Fonts au build.
+const dancingScript = localFont({
+  src: '../fonts/dancing-script-latin-wght-normal.woff2',
+  weight: '400 700',
+  style: 'normal',
   variable: '--font-dancing-script',
   display: 'swap',
 })
-const greatVibes = Great_Vibes({
-  subsets: ['latin', 'latin-ext'],
-  weight: ['400'],
+const greatVibes = localFont({
+  src: '../fonts/great-vibes-latin-400-normal.woff2',
+  weight: '400',
+  style: 'normal',
   variable: '--font-great-vibes',
   display: 'swap',
 })
-const cinzel = Cinzel({
-  subsets: ['latin', 'latin-ext'],
-  weight: ['400', '500', '600', '700'],
+const cinzel = localFont({
+  src: '../fonts/cinzel-latin-wght-normal.woff2',
+  weight: '400 900',
+  style: 'normal',
   variable: '--font-cinzel',
   display: 'swap',
 })
