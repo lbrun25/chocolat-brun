@@ -50,7 +50,7 @@ des graisses de substitution (annexe II), comparaison de coût, statut du beurre
 - CJUE, 25 novembre 2010, C-47/09 Commission c/ Italie : « cioccolato puro » contraire au droit de l'Union ; harmonisation complète des dénominations ; mention en gras ; information sur l'absence de graisses de substitution permise si exacte, neutre, objective → https://curia.europa.eu/jcms/jcms/P_70588/en → 10/11/2026
 - Transposition par le décret n° 2003-702 du 29 juillet 2003 → https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000000239746 → 09/11/2026 (déjà consigné)
 
-## praline-gianduja-difference (12/11/2026 — article retiré après échec du déploiement, faits conservés)
+## praline-gianduja-difference (12/11/2026)
 
 Accès direct aux sites toujours refusé (eur-lex.europa.eu, alliance7.com, legislation.gov.uk, economie.gouv.fr : hôte non
 résolu ou connexion refusée par le proxy) : sources primaires consultées par les extraits de l'outil de recherche.
