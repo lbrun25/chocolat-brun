@@ -80,6 +80,26 @@ const ARTICLES: ArticleMeta[] = [
     liens: ['super-comice-morteau-2026', 'vache-montbeliarde-franche-comte'],
   },
   {
+    slug: 'praline-gianduja-difference',
+    titre: 'Praliné ou gianduja : quelle différence ? Ingrédients, définitions et étiquette',
+    titreSeo: 'Différence praliné gianduja : ce qui les distingue',
+    description:
+      'Praliné et gianduja : l’un est fait de fruits à coque et de sucre, l’autre de chocolat et de noisettes. Définitions, seuils et lecture de l’étiquette.',
+    extrait:
+      'Au moins 50 % de fruits à coque pour le praliné selon le code de la profession, 20 à 40 g de noisettes pour 100 g de gianduja selon la directive européenne : deux pâtes de noisette qui ne se confondent pas.',
+    categorie: 'Conseils',
+    datePublication: '2026-11-12',
+    image: {
+      src: '/images/galerie/vaches-coques-chocolat-detail.jpg',
+      alt: 'Gros plan sur des moules en plastique vert où sèchent des coques de chocolat au lait en forme de vache, encore creuses',
+      width: 1200,
+      height: 1600,
+    },
+    tempsLectureMin: 5,
+    motsCles: ['différence praliné gianduja', 'gianduja définition', 'praliné définition', 'chocolat au gianduja noisettes', 'praliné à l’ancienne'],
+    liens: ['pur-beurre-de-cacao-signification', 'difference-chocolat-noir-lait-blanc'],
+  },
+  {
     slug: 'pur-beurre-de-cacao-signification',
     titre: 'Chocolat « pur beurre de cacao » : que signifie la mention, et que dit la loi ?',
     titreSeo: 'Pur beurre de cacao : ce que veut dire la mention',

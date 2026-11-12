@@ -49,3 +49,18 @@ des graisses de substitution (annexe II), comparaison de coût, statut du beurre
 - Considérants 5 et 6 de la directive 2000/36/CE : ajout jusqu'à 5 % déjà admis dans certains États membres, étendu à tous → https://eur-lex.europa.eu/eli/dir/2000/36/oj/fra → 10/11/2026
 - CJUE, 25 novembre 2010, C-47/09 Commission c/ Italie : « cioccolato puro » contraire au droit de l'Union ; harmonisation complète des dénominations ; mention en gras ; information sur l'absence de graisses de substitution permise si exacte, neutre, objective → https://curia.europa.eu/jcms/jcms/P_70588/en → 10/11/2026
 - Transposition par le décret n° 2003-702 du 29 juillet 2003 → https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000000239746 → 09/11/2026 (déjà consigné)
+
+## praline-gianduja-difference (12/11/2026)
+
+Accès direct aux sites toujours refusé (eur-lex.europa.eu, alliance7.com, legislation.gov.uk, economie.gouv.fr : hôte non
+résolu ou connexion refusée par le proxy) : sources primaires consultées par les extraits de l'outil de recherche.
+Retirés faute de source primaire : histoire et origine turinoise du gianduja, distinction pralin / praliné, texture
+comparée, seuil de praliné dans un « fourrage au praliné », praline rose.
+
+- Praliné : produit de confiserie, généralement utilisé comme fourrage ; teneur en fruits à coque non inférieure à 50 % → https://www.alliance7.com/wp-content/uploads/2023/06/Code-dusages-praline-24-sept-2020-VF.pdf (code d'usages du Syndicat du chocolat, version du 24/09/2020 révisée le 14/10/2020) → 12/11/2026
+- Mélange intime et broyé d'amandes douces et/ou de noisettes, décortiquées et éventuellement torréfiées, et de sucre (saccharose) → https://www.alliance7.com/wp-content/uploads/2020/01/Code-dusages-Pralin%C3%A9.pdf et https://www.alliance7.com/wp-content/uploads/2023/06/Code-dusages-praline-24-sept-2020-VF.pdf → 12/11/2026
+- Autres fruits à coque : nom à faire figurer dans la dénomination (« praliné pistache ») ; arômes naturels n'imitant pas la saveur du praliné ou des fruits à coque seuls admis ; pourcentage de praliné dans l'étiquetage → https://www.alliance7.com/wp-content/uploads/2023/06/Code-dusages-praline-24-sept-2020-VF.pdf → 12/11/2026
+- « Praliné à l'ancienne » ou « praliné traditionnel » : sans ingrédient facultatif ni arôme, fruits à coque entiers torréfiés et sucre cuit → https://www.alliance7.com/wp-content/uploads/2023/06/Code-dusages-praline-24-sept-2020-VF.pdf → 12/11/2026
+- Chocolat au gianduja : chocolat d'au moins 32 % de matière sèche totale de cacao dont 8 % de cacao sec dégraissé, 20 à 40 g de noisettes finement broyées pour 100 g ; chocolat au lait gianduja : chocolat au lait d'au moins 10 % de matière sèche de lait, 15 à 40 g de noisettes pour 100 g (directive 2000/36/CE, annexe I) → https://eur-lex.europa.eu/LexUriServ/LexUriServ.do?uri=CONSLEG:2000L0036:20081211:EN:PDF et https://legislation.gov.uk/eudr/2000/36/annex/I/division/A → 12/11/2026
+- Gianduja : chocolat et noisettes finement broyées, peut contenir du lait (fiche « Chocolat au lait, gianduja, chocolat noir… comment s'y retrouver ? ») → https://www.economie.gouv.fr/particuliers/mes-droits-conso/alimentation/chocolat-au-lait-gianduja-chocolat-noir-comment-sy → 12/11/2026
+- Transposition par le décret n° 2003-702 du 29 juillet 2003 → https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000000239746 → 09/11/2026 (déjà consigné)
