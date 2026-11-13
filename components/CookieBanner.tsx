@@ -1,31 +1,31 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion, AnimatePresence, useReducedMotion } from 'framer-motion'
 import Link from 'next/link'
 import { saveCookieConsent } from '@/lib/cookie-consent'
 
+/**
+ * Bandeau de consentement : petite carte en bas à gauche (pleine largeur en bas sur mobile).
+ * « Refuser » et « Accepter » ont le même poids visuel (recommandation CNIL : refuser aussi simple qu'accepter).
+ */
 export default function CookieBanner() {
   const [isVisible, setIsVisible] = useState(false)
   const [showCustomize, setShowCustomize] = useState(false)
   const [mounted, setMounted] = useState(false)
   const [analytics, setAnalytics] = useState(false)
+  const reduireAnimations = useReducedMotion()
 
   useEffect(() => {
     setMounted(true)
-    // Vérifier si l'utilisateur a déjà fait un choix (uniquement côté client)
-    if (typeof window !== 'undefined') {
-      try {
-        const cookieConsent = localStorage.getItem('cookie-consent')
-        if (!cookieConsent) {
-          // Afficher la bannière après un court délai pour une meilleure UX
-          const timer = setTimeout(() => setIsVisible(true), 1000)
-          return () => clearTimeout(timer)
-        }
-      } catch (error) {
-        // Ignorer les erreurs localStorage
-        console.warn('Erreur localStorage:', error)
+    try {
+      if (!localStorage.getItem('cookie-consent')) {
+        // Court délai : le bandeau n'apparaît pas en même temps que le contenu de la page
+        const timer = setTimeout(() => setIsVisible(true), 1000)
+        return () => clearTimeout(timer)
       }
+    } catch {
+      // localStorage indisponible : pas de bandeau, aucune mesure d'audience
     }
   }, [])
 
@@ -39,10 +39,6 @@ export default function CookieBanner() {
     setIsVisible(false)
   }, [])
 
-  const handleCustomize = useCallback(() => {
-    setShowCustomize(prev => !prev)
-  }, [])
-
   const handleSavePreferences = useCallback(() => {
     saveCookieConsent(analytics ? 'accepted' : 'customized')
     setIsVisible(false)
@@ -50,160 +46,94 @@ export default function CookieBanner() {
 
   if (!mounted) return null
 
+  const bouton =
+    'inline-flex h-10 items-center justify-center rounded-full px-4 text-[14px] font-medium transition-colors touch-manipulation'
+  const boutonPlein = `${bouton} bg-ink text-ivory hover:bg-cacao`
+  const boutonClair = `${bouton} bg-ink/[0.06] text-ink hover:bg-ink/[0.11]`
+
   return (
-    <AnimatePresence mode="wait">
+    <AnimatePresence>
       {isVisible && (
         <motion.div
           key="cookie-banner"
-          initial={{ y: 100, opacity: 0 }}
+          role="dialog"
+          aria-live="polite"
+          aria-labelledby="cookie-titre"
+          initial={reduireAnimations ? { opacity: 0 } : { y: 16, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          exit={{ y: 100, opacity: 0 }}
-          transition={{ duration: 0.5, ease: 'easeOut' }}
-          className="fixed bottom-0 left-0 right-0 z-50 p-4 md:p-6"
+          exit={reduireAnimations ? { opacity: 0 } : { y: 16, opacity: 0 }}
+          transition={{ duration: 0.25, ease: 'easeOut' }}
+          className="fixed inset-x-3 bottom-3 z-50 font-sans sm:inset-x-auto sm:bottom-5 sm:left-5 sm:w-[360px]"
         >
-          <div className="max-w-7xl mx-auto">
-            <div className="bg-gradient-to-br from-chocolate-light via-chocolate-light/95 to-chocolate-light/90 rounded-2xl shadow-2xl border-2 border-chocolate-dark/20 p-6 md:p-8">
-              {/* Contenu principal */}
-              <div className="flex flex-col md:flex-row items-start md:items-center gap-6">
-                {/* Icône ou décoration */}
-                <div className="flex-shrink-0">
-                  <div className="w-16 h-16 bg-chocolate-dark/10 rounded-full flex items-center justify-center">
-                    <svg
-                      className="w-8 h-8 text-chocolate-dark"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"
-                      />
-                    </svg>
-                  </div>
-                </div>
+          <div className="rounded-2xl bg-paper p-5 text-ink shadow-lift ring-1 ring-ink/[0.08]">
+            <p id="cookie-titre" className="font-display text-[17px] leading-tight">
+              {showCustomize ? 'Vos préférences' : 'Cookies'}
+            </p>
 
-                {/* Texte */}
-                <div className="flex-1">
-                  <p className="text-chocolate-dark text-base md:text-lg leading-relaxed mb-4">
-                    Nous utilisons des cookies pour améliorer votre expérience. Vous pouvez{' '}
-                    <span className="font-semibold">accepter</span>,{' '}
-                    <span className="font-semibold">refuser</span> ou{' '}
-                    <span className="font-semibold">personnaliser</span> vos choix.
-                  </p>
+            {showCustomize ? (
+              <fieldset className="mt-3 space-y-2.5 text-[13.5px] leading-snug text-bark">
+                <legend className="sr-only">Catégories de cookies</legend>
+                <label className="flex items-start gap-2.5 opacity-70">
+                  <input type="checkbox" checked disabled className="mt-0.5 h-4 w-4 shrink-0 accent-[#1B100B]" />
+                  <span>Essentiels, nécessaires au fonctionnement du site (panier, compte). Toujours actifs.</span>
+                </label>
+                <label className="flex cursor-pointer items-start gap-2.5">
+                  <input
+                    type="checkbox"
+                    checked={analytics}
+                    onChange={(e) => setAnalytics(e.target.checked)}
+                    className="mt-0.5 h-4 w-4 shrink-0 cursor-pointer accent-[#1B100B]"
+                  />
+                  <span>Mesure d’audience (Google Tag Manager), pour savoir quelles pages sont lues.</span>
+                </label>
+              </fieldset>
+            ) : (
+              <p className="mt-2 text-[13.5px] leading-relaxed text-bark">
+                Le site utilise des cookies nécessaires à son fonctionnement et, avec votre accord, des cookies de
+                mesure d’audience.{' '}
+                <Link
+                  href="/politique-confidentialite"
+                  className="text-ink underline decoration-brass/60 underline-offset-2 hover:decoration-brass"
+                >
+                  En savoir plus
+                </Link>
+              </p>
+            )}
 
-                  {/* Options personnalisées (si activées) */}
-                  <AnimatePresence initial={false}>
-                    {showCustomize && (
-                      <motion.div
-                        key="customize-options"
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: 'auto', opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.3, ease: 'easeInOut' }}
-                        className="mb-4 overflow-hidden"
-                      >
-                        <div className="p-4 bg-white/50 rounded-lg border border-chocolate-dark/10">
-                          <div className="space-y-3">
-                            <label className="flex items-center space-x-3 cursor-pointer">
-                              <input
-                                type="checkbox"
-                                defaultChecked
-                                className="w-4 h-4 text-chocolate-dark border-chocolate-dark/30 rounded focus:ring-chocolate-dark"
-                              />
-                              <span className="text-chocolate-dark text-sm">
-                                Cookies essentiels (nécessaires au fonctionnement du site)
-                              </span>
-                            </label>
-                            <label className="flex items-center space-x-3 cursor-pointer">
-                              <input
-                                type="checkbox"
-                                checked={analytics}
-                                onChange={(e) => setAnalytics(e.target.checked)}
-                                className="w-4 h-4 text-chocolate-dark border-chocolate-dark/30 rounded focus:ring-chocolate-dark"
-                              />
-                              <span className="text-chocolate-dark text-sm">
-                                Cookies de mesure d&apos;audience (Google Tag Manager)
-                              </span>
-                            </label>
-                            <label className="flex items-center space-x-3 cursor-pointer opacity-60">
-                              <input type="checkbox" disabled className="w-4 h-4 rounded" />
-                              <span className="text-chocolate-dark text-sm">
-                                Cookies marketing (non utilisés actuellement)
-                              </span>
-                            </label>
-                          </div>
-                        </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-
-                  {/* Lien politique de confidentialité */}
-                  <Link
-                    href="/politique-confidentialite"
-                    className="text-chocolate-dark/70 hover:text-chocolate-dark text-sm underline transition-colors"
-                  >
-                    En savoir plus – Politique de confidentialité
-                  </Link>
-                </div>
-
-                {/* Boutons */}
-                <div className="flex flex-col sm:flex-row gap-3 flex-shrink-0 w-full md:w-auto">
-                  <AnimatePresence mode="wait">
-                    {showCustomize ? (
-                      <motion.button
-                        type="button"
-                        key="save-button"
-                        initial={{ opacity: 0, scale: 0.9 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        exit={{ opacity: 0, scale: 0.9 }}
-                        transition={{ duration: 0.2 }}
-                        onClick={handleSavePreferences}
-                        className="min-h-[44px] px-6 py-3 bg-chocolate-dark text-chocolate-light rounded-lg font-semibold hover:bg-chocolate-dark/90 transition-colors shadow-lg touch-manipulation"
-                      >
-                        Enregistrer mes préférences
-                      </motion.button>
-                    ) : (
-                      <motion.div
-                        key="action-buttons"
-                        initial={{ opacity: 0, scale: 0.9 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        exit={{ opacity: 0, scale: 0.9 }}
-                        transition={{ duration: 0.2 }}
-                        className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto"
-                      >
-                        <button
-                          type="button"
-                          onClick={handleAccept}
-                          className="min-h-[44px] px-6 py-3 bg-chocolate-dark text-chocolate-light rounded-lg font-semibold hover:bg-chocolate-dark/90 transition-colors shadow-lg touch-manipulation"
-                        >
-                          Tout accepter
-                        </button>
-                        <button
-                          type="button"
-                          onClick={handleReject}
-                          className="min-h-[44px] px-6 py-3 bg-white text-chocolate-dark border-2 border-chocolate-dark/30 rounded-lg font-semibold hover:bg-chocolate-light/50 transition-colors shadow-md touch-manipulation"
-                        >
-                          Tout refuser
-                        </button>
-                        <button
-                          type="button"
-                          onClick={handleCustomize}
-                          className="min-h-[44px] px-6 py-3 bg-chocolate-medium/20 text-chocolate-dark border-2 border-chocolate-medium/40 rounded-lg font-semibold hover:bg-chocolate-medium/30 transition-colors shadow-md touch-manipulation"
-                        >
-                          Personnaliser
-                        </button>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </div>
-              </div>
+            <div className="mt-4 grid grid-cols-2 gap-2">
+              {showCustomize ? (
+                <>
+                  <button type="button" onClick={() => setShowCustomize(false)} className={boutonClair}>
+                    Retour
+                  </button>
+                  <button type="button" onClick={handleSavePreferences} className={boutonPlein}>
+                    Enregistrer
+                  </button>
+                </>
+              ) : (
+                <>
+                  <button type="button" onClick={handleReject} className={boutonClair}>
+                    Refuser
+                  </button>
+                  <button type="button" onClick={handleAccept} className={boutonPlein}>
+                    Accepter
+                  </button>
+                </>
+              )}
             </div>
+
+            {!showCustomize && (
+              <button
+                type="button"
+                onClick={() => setShowCustomize(true)}
+                className="mt-3 w-full text-center text-[12.5px] text-bark underline decoration-ink/20 underline-offset-2 hover:text-ink hover:decoration-ink/50"
+              >
+                Personnaliser
+              </button>
+            )}
           </div>
         </motion.div>
       )}
     </AnimatePresence>
   )
 }
-
