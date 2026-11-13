@@ -148,9 +148,10 @@ node scripts/controle-build.mjs         # build complet + pages d'articles gén�
    qui ne répond plus 200) : RETOUR ARRIÈRE immédiat — `git revert --no-edit <commit de l'article>` puis `git push origin main`, contrôler
    que le déploiement repasse au vert (même méthode qu'à l'étape 2), et le dire en tête du rapport. Un article raté
    ne doit jamais laisser le site cassé ; le sujet repasse `à écrire` dans le plan avec la raison.
-4. Prévenir Bing et les moteurs IndexNow (la recherche de ChatGPT s'appuie sur l'index de Bing) :
-   `node scripts/indexnow.mjs https://www.cedric-brun.com/blog/<slug>` — HTTP 200 ou 202 attendu. Un échec
-   (réseau refusé compris) n'est pas bloquant : le signaler dans le rapport.
+4. IndexNow (Bing et moteurs partenaires, dont dépend la recherche de ChatGPT) : RIEN À FAIRE. GitHub Actions
+   (`.github/workflows/indexnow.yml`) annonce l'article dès que Vercel l'a mis en production ;
+   `api.indexnow.org` n'est de toute façon pas joignable depuis l'environnement de l'agent. Google, lui, lit
+   le sitemap, dont la date de chaque article est celle de `lib/blog.ts`.
 5. Passer le sujet en `publié` dans le plan (date, slug) — dans un second commit poussé à la fin.
 
 ### 2.8 S'arrêter

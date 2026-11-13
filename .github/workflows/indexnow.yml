@@ -1,0 +1,28 @@
+# Après chaque mise en production par Vercel, annonce à IndexNow (Bing, Yandex, Seznam…) les articles du blog
+# ajoutés ou modifiés. Voir scripts/indexnow-deploiement.mjs.
+name: IndexNow
+
+on: deployment_status
+
+permissions:
+  contents: read
+  deployments: read
+
+jobs:
+  indexnow:
+    if: github.event.deployment_status.state == 'success' && github.event.deployment.environment == 'Production'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.deployment.sha }}
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: node scripts/indexnow-deploiement.mjs
+        env:
+          SHA: ${{ github.event.deployment.sha }}
+          DEPLOYMENT_ID: ${{ github.event.deployment.id }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
