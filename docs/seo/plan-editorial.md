@@ -12,7 +12,7 @@ L'agent prend le premier sujet `à écrire` dont la saison est ouverte (colonne 
 | 3 | `pur-beurre-de-cacao-signification` | chocolat pur beurre de cacao, qu’est-ce que ça veut dire | Conseils | — | publié le 10/11/2026 (`pur-beurre-de-cacao-signification`) |
 | 4 | `chocolat-noir-pourcentage-cacao-etiquette` | pourcentage de cacao chocolat noir, lire l’étiquette | Conseils | — | bloqué le 12/11/2026 : quasi-doublon — seuils de 35 et 43 %, mention « cacao : … % minimum » et lecture de l’étiquette déjà traités par `difference-chocolat-noir-lait-blanc` (section étiquette et FAQ) et `pur-beurre-de-cacao-signification` |
 | 5 | `praline-gianduja-difference` | différence praliné gianduja | Conseils | — | publié le 12/11/2026 (`praline-gianduja-difference`) — 1er essai (fba59c3) annulé : build Vercel en échec à cause de Google Fonts, sans lien avec l’article ; polices désormais hébergées dans le site |
-| 6 | `du-cacao-au-chocolat-etapes-fabrication` | comment fabrique-t-on le chocolat, de la fève à la tablette | Conseils | — | à écrire |
+| 6 | `du-cacao-au-chocolat-etapes-fabrication` | comment fabrique-t-on le chocolat, de la fève à la tablette | Conseils | — | en cours (poussé le 13/11/2026, déploiement à contrôler) |
 | 7 | `chocolat-et-cafe-accords` | accord café chocolat, quel chocolat avec quel café | Conseils | — | à écrire |
 | 8 | `cadeau-clients-fin-d-annee-chocolat-entreprise` | cadeau clients fin d’année chocolat entreprise | Professionnels | nov.–déc. | à écrire |
 | 9 | `chocolat-oreiller-hotel-attention-client` | chocolat sur l’oreiller hôtel, attention client | Professionnels | — | à écrire |

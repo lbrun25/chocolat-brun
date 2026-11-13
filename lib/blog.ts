@@ -59,6 +59,26 @@ export const SITE_NAME = 'Cédric Brun – Maître Artisan Pâtissier Chocolatie
 
 const ARTICLES: ArticleMeta[] = [
   {
+    slug: 'du-cacao-au-chocolat-etapes-fabrication',
+    titre: 'Comment fabrique-t-on le chocolat ? Les étapes, de la cabosse au chocolat moulé',
+    titreSeo: 'Fabrication du chocolat : les étapes, de la fève au moule',
+    description:
+      'Récolte, fermentation, séchage, torréfaction, broyage, conchage, tempérage, moulage : chaque étape de fabrication du chocolat et ce qu’elle change au goût.',
+    extrait:
+      'Cinq jours de fermentation, des fèves séchées jusqu’à 7,5 % d’humidité, une pâte pressée à 550 bars, un beurre de cacao à faire cristalliser sous la bonne forme : le chemin de la fève au chocolat, étape par étape.',
+    categorie: 'Conseils',
+    datePublication: '2026-11-13',
+    image: {
+      src: '/images/galerie/troix_cabosses.jpg',
+      alt: 'Trois cabosses de cacao décoratives, rouge, verte et jaune, alignées sur un fond brun',
+      width: 6000,
+      height: 4000,
+    },
+    tempsLectureMin: 6,
+    motsCles: ['fabrication du chocolat', 'étapes fabrication chocolat', 'fermentation cacao', 'conchage chocolat', 'tempérage chocolat', 'pâte de cacao'],
+    liens: ['difference-chocolat-noir-lait-blanc', 'pur-beurre-de-cacao-signification'],
+  },
+  {
     // Texte et photos de la maison : hors règles éditoriales de l'agent (ARTICLES_MAISON, scripts/verifier-blog.mjs)
     slug: 'retour-super-comice-morteau-2026',
     titre: 'Les Belles Comtoises au Super Comice du Val de Morteau',

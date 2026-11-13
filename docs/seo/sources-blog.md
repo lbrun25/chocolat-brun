@@ -64,3 +64,24 @@ comparée, seuil de praliné dans un « fourrage au praliné », praline rose.
 - Chocolat au gianduja : chocolat d'au moins 32 % de matière sèche totale de cacao dont 8 % de cacao sec dégraissé, 20 à 40 g de noisettes finement broyées pour 100 g ; chocolat au lait gianduja : chocolat au lait d'au moins 10 % de matière sèche de lait, 15 à 40 g de noisettes pour 100 g (directive 2000/36/CE, annexe I) → https://eur-lex.europa.eu/LexUriServ/LexUriServ.do?uri=CONSLEG:2000L0036:20081211:EN:PDF et https://legislation.gov.uk/eudr/2000/36/annex/I/division/A → 12/11/2026
 - Gianduja : chocolat et noisettes finement broyées, peut contenir du lait (fiche « Chocolat au lait, gianduja, chocolat noir… comment s'y retrouver ? ») → https://www.economie.gouv.fr/particuliers/mes-droits-conso/alimentation/chocolat-au-lait-gianduja-chocolat-noir-comment-sy → 12/11/2026
 - Transposition par le décret n° 2003-702 du 29 juillet 2003 → https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000000239746 → 09/11/2026 (déjà consigné)
+
+## du-cacao-au-chocolat-etapes-fabrication (13/11/2026)
+
+Accès direct aux sites toujours refusé (icco.org, eur-lex.europa.eu, cedric-brun.com : hôte non résolu par le proxy) :
+sources primaires consultées par les extraits de l'outil de recherche. Retirés faute de source primaire : températures et
+durées de torréfaction et de tempérage, invention du conchage (Lindt, 1879), nombre de fèves par cabosse, durée de
+maturation, température de la pâte à l'entrée des presses (chiffre incohérent dans l'extrait), rôle de la torréfaction
+dans le décorticage, affiliation des auteurs de l'étude sur le tempérage.
+
+- Cabosses portées par le tronc et les branches ; cabosses ouvertes dans la semaine à 10 jours après récolte ; gourdin de bois préférable, la machette peut abîmer les fèves → https://www.icco.org/harvesting-post-harvest-new/ → 13/11/2026
+- Récolte étalée sur plusieurs mois, avec une saison principale et une secondaire → https://www.icco.org/faq/ → 13/11/2026
+- Fermentation en tas couverts de feuilles de bananier (petits producteurs) ou en caisses de bois (grands producteurs) → https://www.icco.org/faq/ et https://www.icco.org/harvesting-post-harvest-new/ → 13/11/2026
+- Fèves brassées pour une fermentation homogène ; caisses à fentes pour drainer la pulpe → https://www.icco.org/wp-content/uploads/Global-Review-of-Cocoa-Farming-Systems_Final.pdf → 13/11/2026
+- Fermentation : environ 5 jours (Forastero), 2 à 3 jours (Criollo) ; séchage d'environ 60 % à environ 7,5 % d'humidité ; trop rapide → fèves acides et amères, trop lent → moisissures → https://www.icco.org/harvesting-post-harvest-new/ → 13/11/2026
+- Arôme développé en deux temps : fermentation à la ferme, torréfaction chez le transformateur ; vannage = séparation coque / amande ; mélange pâte, sucre, lait en poudre, beurre de cacao, arômes selon la recette ; réduction de la taille des particules ; conchage, étape complexe toujours étudiée, notamment pour la saveur ; pressage hydraulique jusqu'à 550 bars → beurre de cacao (le plus coûteux des grands ingrédients) et tourteau, refroidi puis broyé en poudre → https://www.icco.org/processing-cocoa/ → 13/11/2026
+- Ajustement de la viscosité en fin de fabrication avec du beurre de cacao et des émulsifiants, arômes ajoutables à ce stade → https://www.icco.org/faq/ → 13/11/2026
+- Fèves nettoyées, décortiquées, vannées, torréfiées ; grué broyé et affiné en pâte (liqueur) ; 1 t de pâte → environ 55 % de beurre et 45 % de tourteau → https://www.icco.org/wp-content/uploads/3-FEASIBILITY-STUDY-ON-AFRICA-COCOA-EXCHANGE__Annex_GHANA.pdf → 13/11/2026
+- Beurre de cacao : six formes cristallines, seule la forme V donne texture, brillant, cassure, fonte et stabilité au blanchiment ; tempérage mal conduit → produit cireux ou friable (Chen et al., Nature Communications 12, 5018, 2021) → https://pmc.ncbi.nlm.nih.gov/articles/PMC8408162 → 13/11/2026
+- Tempérage = refroidissement contrôlé à températures et durées fixées pour une cristallisation stable du beurre de cacao → https://www.icco.org/processing-cocoa/ → 13/11/2026
+- Chocolat blanc sans pâte de cacao mais avec beurre de cacao (≥ 20 %) → directive 2000/36/CE, déjà consigné le 09/11/2026
+- Maison : moulage, enrobage, emballage à Charquemont ; poissons, orangettes, Belles Comtoises praliné noisette → docs/seo/faits-maison.md
