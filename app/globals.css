@@ -462,8 +462,3 @@ body:has(.landing) {
   line-height: 1.7;
   color: #3b1e12;
 }
-
-/* Accueil (deux espaces) : fond chocolat, y compris en overscroll */
-body:has(.accueil) {
-  background: #25150f;
-}
