@@ -1,6 +1,8 @@
 /**
- * Crée une commande en base à partir d'une session Stripe checkout complétée.
- * Utilisé par le webhook et par l'API sync-order (fallback si le webhook n'a pas encore tourné).
+ * Crée une commande en base à partir d'une session Stripe checkout complétée, puis envoie les emails
+ * (client et maison). Appelée par le webhook ET par l'API sync-order (page de confirmation), en parallèle :
+ * seul l'appel qui crée la commande envoie les emails. L'index unique de
+ * supabase/migrations/20261114000000_orders_stripe_session_unique.sql ferme la course entre les deux.
  */
 import type Stripe from 'stripe'
 import { supabase } from '@/lib/supabase'
@@ -12,64 +14,19 @@ import { adresseLivraison } from '@/lib/stripe-shipping'
 export async function createOrderFromStripeSession(session: Stripe.Checkout.Session): Promise<{ orderId?: string; orderNumber?: string; created: boolean; error?: string }> {
   try {
     // Vérifier si la commande existe déjà (idempotence)
-    const { data: existingOrder } = await supabase
+    // limit(1) et non maybeSingle() : s'il existe déjà des doublons, maybeSingle() renverrait une erreur
+    // (data null) et une commande de plus serait créée.
+    const { data: dejaCreees } = await supabase
       .from('orders')
       .select('id, order_number')
       .eq('stripe_session_id', session.id)
-      .maybeSingle()
+      .order('created_at', { ascending: true })
+      .limit(1)
+    const existingOrder = dejaCreees?.[0]
 
     if (existingOrder) {
-      // Commande déjà créée (ex. par le webhook) : renvoyer l'email de confirmation au cas où l'envoi aurait échoué
-      const email = session.customer_email || (session.metadata?.customerEmail as string) || ''
-      if (email) {
-        const customerFirstName = (session.metadata?.customerFirstName as string) || ''
-        const customerLastName = (session.metadata?.customerLastName as string) || ''
-        const customerPhone = (session.metadata?.customerPhone as string) || ''
-        const customerCompany = (session.metadata?.customerCompany as string) || ''
-        const deliveryNotes = (session.metadata?.deliveryNotes as string) || ''
-        const {
-          ligne: shippingAddressLine,
-          ville: shippingCity,
-          codePostal: shippingPostalCode,
-          pays: shippingCountry,
-        } = adresseLivraison(session)
-        const orderItems = readOrderItemsMetadata(session.metadata as Record<string, string> | null)
-        const totalHT = parseFloat((session.metadata?.totalHT as string) || '0')
-        const totalTTC = parseFloat((session.metadata?.totalTTC as string) || '0')
-        const shippingCost = parseFloat((session.metadata?.shippingCost as string) || '0')
-        const totalWithShipping = parseFloat((session.metadata?.totalWithShipping as string) || '0')
-        const emailPayload = {
-          customerFirstName,
-          customerLastName,
-          customerEmail: email,
-          customerPhone: customerPhone || undefined,
-          customerCompany: customerCompany || undefined,
-          shippingAddressLine,
-          shippingCity,
-          shippingPostalCode,
-          shippingCountry: shippingCountry || 'France',
-          deliveryNotes: deliveryNotes || undefined,
-          orderItems: orderItems.map((item) => ({
-            product_name: item.productName,
-            packaging: item.packaging,
-            quantity: item.quantity,
-            price_ttc: item.priceTTC,
-          })),
-          totalHT,
-          totalTTC,
-          shippingCost,
-          totalWithShipping,
-          orderReference: existingOrder?.order_number || session.id?.substring(0, 24) || existingOrder.id,
-          orderDate: new Date().toLocaleDateString('fr-FR', {
-            weekday: 'long',
-            day: 'numeric',
-            month: 'long',
-            year: 'numeric',
-          }),
-        }
-        const emailResult = await sendOrderConfirmationEmail(emailPayload)
-        if (!emailResult.ok) console.error('Email de confirmation (commande existante) non envoyé:', emailResult.error)
-      }
+      // Déjà créée par l'autre chemin (webhook ou page de confirmation), qui a envoyé les emails.
+      // Ne rien renvoyer : la page de confirmation rappelle cette fonction à chaque chargement.
       return { orderId: existingOrder.id, orderNumber: existingOrder.order_number, created: false }
     }
 
@@ -231,6 +188,17 @@ export async function createOrderFromStripeSession(session: Stripe.Checkout.Sess
       .insert(orderInsert)
       .select('id, order_number')
       .single()
+
+    if (orderError?.code === '23505') {
+      // Index unique sur stripe_session_id : l'autre chemin a créé la commande au même instant
+      // et envoie les emails. Rien à faire ici.
+      const { data: gagnantes } = await supabase
+        .from('orders')
+        .select('id, order_number')
+        .eq('stripe_session_id', session.id)
+        .limit(1)
+      return { orderId: gagnantes?.[0]?.id, orderNumber: gagnantes?.[0]?.order_number, created: false }
+    }
 
     if (orderError) {
       // Le paiement est encaissé : on poursuit pour que le client et la maison

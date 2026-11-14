@@ -1,0 +1,12 @@
+-- Une seule commande par session Stripe.
+-- Le webhook Stripe et la page de confirmation (/api/sync-order) créent la commande au même moment :
+-- sans cet index, les deux peuvent l'insérer, et la commande comme ses emails partent en double.
+-- Le code traite le conflit (code 23505) : seul le premier insert envoie les emails.
+--
+-- 1. Vérifier d'abord qu'il n'y a pas déjà des doublons (sinon la création de l'index échoue) :
+--      select stripe_session_id, count(*), array_agg(order_number order by created_at)
+--      from public.orders where stripe_session_id is not null
+--      group by stripe_session_id having count(*) > 1;
+--    Garder la première commande de chaque groupe, supprimer les suivantes (et leurs order_items).
+-- 2. Puis créer l'index :
+create unique index if not exists orders_stripe_session_id_key on public.orders (stripe_session_id);
