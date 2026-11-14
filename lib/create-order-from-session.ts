@@ -7,12 +7,9 @@ import { supabase } from '@/lib/supabase'
 import { sendOrderConfirmationEmail } from '@/lib/order-confirmation-email'
 import { sendOrderNotificationToOwner } from '@/lib/order-notification-owner-email'
 import { readOrderItemsMetadata } from '@/lib/order-items-metadata'
+import { adresseLivraison } from '@/lib/stripe-shipping'
 
-type SessionWithShipping = Stripe.Checkout.Session & {
-  shipping_details?: { address?: { line1?: string; city?: string; postal_code?: string; country?: string } }
-}
-
-export async function createOrderFromStripeSession(session: SessionWithShipping): Promise<{ orderId?: string; orderNumber?: string; created: boolean; error?: string }> {
+export async function createOrderFromStripeSession(session: Stripe.Checkout.Session): Promise<{ orderId?: string; orderNumber?: string; created: boolean; error?: string }> {
   try {
     // Vérifier si la commande existe déjà (idempotence)
     const { data: existingOrder } = await supabase
@@ -30,11 +27,12 @@ export async function createOrderFromStripeSession(session: SessionWithShipping)
         const customerPhone = (session.metadata?.customerPhone as string) || ''
         const customerCompany = (session.metadata?.customerCompany as string) || ''
         const deliveryNotes = (session.metadata?.deliveryNotes as string) || ''
-        const stripeAddr = session.shipping_details?.address
-        const shippingAddressLine = stripeAddr?.line1 || (session.metadata?.shippingAddress as string) || ''
-        const shippingCity = stripeAddr?.city || (session.metadata?.shippingCity as string) || ''
-        const shippingPostalCode = stripeAddr?.postal_code || (session.metadata?.shippingPostalCode as string) || ''
-        const shippingCountry = stripeAddr?.country || (session.metadata?.shippingCountry as string) || 'France'
+        const {
+          ligne: shippingAddressLine,
+          ville: shippingCity,
+          codePostal: shippingPostalCode,
+          pays: shippingCountry,
+        } = adresseLivraison(session)
         const orderItems = readOrderItemsMetadata(session.metadata as Record<string, string> | null)
         const totalHT = parseFloat((session.metadata?.totalHT as string) || '0')
         const totalTTC = parseFloat((session.metadata?.totalTTC as string) || '0')
@@ -92,16 +90,13 @@ export async function createOrderFromStripeSession(session: SessionWithShipping)
     const billingPostalCode = (session.metadata?.bPostalCode as string) || ''
     const billingCountry = (session.metadata?.bCountry as string) || ''
 
-    // Adresse : priorité à Stripe shipping_details, sinon metadata (saisie au checkout)
-    const stripeAddress = session.shipping_details?.address
-    const shippingAddressLine = stripeAddress?.line1
-      || (session.metadata?.shippingAddress as string) || ''
-    const shippingCity = stripeAddress?.city
-      || (session.metadata?.shippingCity as string) || ''
-    const shippingPostalCode = stripeAddress?.postal_code
-      || (session.metadata?.shippingPostalCode as string) || ''
-    const shippingCountry = stripeAddress?.country
-      || (session.metadata?.shippingCountry as string) || 'France'
+    // Adresse : page de paiement Stripe (Belles Comtoises) ou metadata (commandes pros)
+    const {
+      ligne: shippingAddressLine,
+      ville: shippingCity,
+      codePostal: shippingPostalCode,
+      pays: shippingCountry,
+    } = adresseLivraison(session)
 
     const orderItems = readOrderItemsMetadata(session.metadata as Record<string, string> | null)
 

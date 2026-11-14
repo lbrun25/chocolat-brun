@@ -4,6 +4,7 @@ import { supabase } from '@/lib/supabase'
 import { sendOrderConfirmationEmail } from '@/lib/order-confirmation-email'
 import { sendOrderNotificationToOwner } from '@/lib/order-notification-owner-email'
 import { readOrderItemsMetadata } from '@/lib/order-items-metadata'
+import { adresseLivraison } from '@/lib/stripe-shipping'
 
 export const dynamic = 'force-dynamic'
 
@@ -42,9 +43,6 @@ export async function POST(request: NextRequest) {
   switch (event.type) {
     case 'checkout.session.completed': {
       const session = event.data.object as Stripe.Checkout.Session
-      const sessionWithShipping = session as Stripe.Checkout.Session & {
-        shipping_details?: { address?: { line1?: string; city?: string; postal_code?: string; country?: string } }
-      }
 
       try {
         const email = session.customer_email || session.metadata?.customerEmail || ''
@@ -69,17 +67,14 @@ export async function POST(request: NextRequest) {
         const profileLastName = customerLastName
         const profilePhone = customerPhone
 
-        // Adresse : priorité à Stripe shipping_details, sinon metadata (saisie au checkout)
-        const stripeAddress = sessionWithShipping.shipping_details?.address
-        const shippingAddressLine = stripeAddress?.line1
-          || (session.metadata?.shippingAddress as string) || ''
-        const shippingCity = stripeAddress?.city
-          || (session.metadata?.shippingCity as string) || ''
-        const shippingPostalCode = stripeAddress?.postal_code
-          || (session.metadata?.shippingPostalCode as string) || ''
-        const shippingCountry = stripeAddress?.country
-          || (session.metadata?.shippingCountry as string) || 'France'
-        
+        // Adresse : page de paiement Stripe (Belles Comtoises) ou metadata (commandes pros)
+        const {
+          ligne: shippingAddressLine,
+          ville: shippingCity,
+          codePostal: shippingPostalCode,
+          pays: shippingCountry,
+        } = adresseLivraison(session)
+
         // Parser les items de commande
         const orderItems = readOrderItemsMetadata(session.metadata as Record<string, string> | null)
         
