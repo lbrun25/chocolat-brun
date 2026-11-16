@@ -85,3 +85,31 @@ dans le décorticage, affiliation des auteurs de l'étude sur le tempérage.
 - Tempérage = refroidissement contrôlé à températures et durées fixées pour une cristallisation stable du beurre de cacao → https://www.icco.org/processing-cocoa/ → 13/11/2026
 - Chocolat blanc sans pâte de cacao mais avec beurre de cacao (≥ 20 %) → directive 2000/36/CE, déjà consigné le 09/11/2026
 - Maison : moulage, enrobage, emballage à Charquemont ; poissons, orangettes, Belles Comtoises praliné noisette → docs/seo/faits-maison.md
+
+## chocolat-et-cafe-accords (16/11/2026)
+
+Accès direct aux sites toujours refusé (pmc.ncbi.nlm.nih.gov, sca.coffee, ico.org, icco.org, cedric-brun.com : hôte
+non résolu par le proxy) : sources primaires consultées par les extraits de l'outil de recherche. Les conseils d'accord
+(intensités, contraste, ordre de dégustation) sont présentés comme des repères de dégustation, pas comme des faits.
+Retirés faute de source primaire : teneurs chiffrées en caféine de l'arabica et du robusta, parts de marché exactes,
+amertume comparée des deux espèces, origine du mot « moka », température de fonte du beurre de cacao.
+
+- Pyrazines du cacao formées pour l'essentiel à la torréfaction, par réaction de Maillard et dégradation de Strecker ;
+  leur teneur croît avec la durée et la température de torréfaction (Barišić et al., « The Chemistry behind Chocolate
+  Production », Molecules 24(17), 3163, 2019) → https://pmc.ncbi.nlm.nih.gov/articles/PMC6749277/ et
+  https://www.mdpi.com/1420-3049/24/17/3163 → 16/11/2026
+- Café : pyrazines formées à la torréfaction à partir de sucres et d'acides aminés ; méthylpyrazine décrite avec des notes
+  de noisette, de grillé et de chocolat ; une torréfaction plus longue augmente la plupart des pyrazines →
+  https://pmc.ncbi.nlm.nih.gov/articles/PMC10453331/ et https://pmc.ncbi.nlm.nih.gov/articles/PMC4914823/ → 16/11/2026
+- 2-méthylpyrazine parmi les méthylpyrazines les plus abondantes du café torréfié →
+  https://pmc.ncbi.nlm.nih.gov/articles/PMC12430174 → 16/11/2026
+- Roue des arômes du café (Coffee Taster's Flavor Wheel) : 1995, révisée en 2016 par la SCA avec World Coffee Research,
+  à partir du WCR Sensory Lexicon ; une famille principale « Nutty/Cocoa » → https://sca.coffee/store/flavor-wheel et
+  https://worldcoffeeresearch.org/resources/sensory-lexicon → 16/11/2026
+- Genre Coffea : plus de 120 espèces ; robusta plus riche en caféine que l'arabica (USITC, Executive Briefing on Trade
+  « Robusta on the rise ») → https://usitc.gov/publications/332/executive_briefings/ebot_robusta_on_the_rise.pdf → 16/11/2026
+- Arabica et canephora (robusta) assurent l'essentiel de la production mondiale (environ 70 et 30 %) ; robusta plus riche
+  en caféine → https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7125137/ et https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4282694/ → 16/11/2026
+- Chocolat blanc : beurre de cacao, sucre, lait, sans pâte de cacao → directive 2000/36/CE, déjà consigné le 09/11/2026
+- Maison : poissons et petits beurres « noir au café » (« Cacao et café torréfié »), grains de café enrobés de chocolat
+  noir en sachet de 3 grains pour la sous-tasse de l'expresso → lib/catalogue.ts ; atelier de Charquemont → docs/seo/faits-maison.md

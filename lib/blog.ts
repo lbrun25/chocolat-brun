@@ -59,6 +59,26 @@ export const SITE_NAME = 'Cédric Brun – Maître Artisan Pâtissier Chocolatie
 
 const ARTICLES: ArticleMeta[] = [
   {
+    slug: 'chocolat-et-cafe-accords',
+    titre: 'Accord café chocolat : quel chocolat avec quel café ? Expresso, filtre, café au lait',
+    titreSeo: 'Accord café chocolat : quel chocolat avec quel café ?',
+    description:
+      'Chocolat noir, au lait ou blanc : lequel servir avec un expresso, un café filtre ou un cappuccino, pourquoi ils s’accordent et comment les déguster ensemble.',
+    extrait:
+      'Noir avec l’expresso, lait avec le café filtre, blanc par contraste avec un café très torréfié : les règles simples pour accorder café et chocolat, et les arômes de torréfaction qui les rapprochent.',
+    categorie: 'Conseils',
+    datePublication: '2026-11-16',
+    image: {
+      src: '/images/grains-de-cafe/cafe-et-sachet.webp',
+      alt: 'Tasse d’expresso sur sa soucoupe, à côté d’un sachet transparent de trois grains de café enrobés de chocolat noir et de grains de café torréfiés',
+      width: 1055,
+      height: 529,
+    },
+    tempsLectureMin: 6,
+    motsCles: ['accord café chocolat', 'quel chocolat avec un café', 'chocolat et expresso', 'chocolat noir café', 'déguster café et chocolat'],
+    liens: ['du-cacao-au-chocolat-etapes-fabrication', 'difference-chocolat-noir-lait-blanc'],
+  },
+  {
     slug: 'du-cacao-au-chocolat-etapes-fabrication',
     titre: 'Comment fabrique-t-on le chocolat ? Les étapes, de la cabosse au chocolat moulé',
     titreSeo: 'Fabrication du chocolat : les étapes, de la fève au moule',
