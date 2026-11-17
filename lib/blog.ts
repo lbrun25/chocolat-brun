@@ -59,6 +59,26 @@ export const SITE_NAME = 'Cédric Brun – Maître Artisan Pâtissier Chocolatie
 
 const ARTICLES: ArticleMeta[] = [
   {
+    slug: 'cadeau-clients-fin-d-annee-chocolat-entreprise',
+    titre: 'Cadeau clients de fin d’année : comment offrir du chocolat quand on est une entreprise',
+    titreSeo: 'Cadeau clients fin d’année : offrir du chocolat',
+    description:
+      'Coffret par client ou chocolats à partager, date de commande, présentation et transport : le guide pour réussir vos cadeaux clients de fin d’année en chocolat.',
+    extrait:
+      'Une boîte pour vos interlocuteurs principaux, un grand format pour les équipes, des chocolats emballés un à un pour l’accueil et les envois : comment choisir, quand commander et comment présenter vos cadeaux clients de fin d’année.',
+    categorie: 'Professionnels',
+    datePublication: '2026-11-17',
+    image: {
+      src: '/images/atelier/emballages-cadre.jpg',
+      alt: 'Chocolats emballés un à un dans des sachets marron marqués « Chocolat » et d’une cabosse, posés en vrac sur un plateau doré',
+      width: 2000,
+      height: 1500,
+    },
+    tempsLectureMin: 6,
+    motsCles: ['cadeau clients fin d’année', 'cadeau entreprise chocolat', 'cadeau d’affaires chocolat', 'chocolat de Noël entreprise', 'cadeau client Noël'],
+    liens: ['chocolat-cafe-restaurant-hotel', 'chocolats-de-noel-traditions'],
+  },
+  {
     slug: 'chocolat-et-cafe-accords',
     titre: 'Accord café chocolat : quel chocolat avec quel café ? Expresso, filtre, café au lait',
     titreSeo: 'Accord café chocolat : quel chocolat avec quel café ?',

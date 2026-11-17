@@ -113,3 +113,21 @@ amertume comparée des deux espèces, origine du mot « moka », température de
 - Chocolat blanc : beurre de cacao, sucre, lait, sans pâte de cacao → directive 2000/36/CE, déjà consigné le 09/11/2026
 - Maison : poissons et petits beurres « noir au café » (« Cacao et café torréfié »), grains de café enrobés de chocolat
   noir en sachet de 3 grains pour la sous-tasse de l'expresso → lib/catalogue.ts ; atelier de Charquemont → docs/seo/faits-maison.md
+
+## cadeau-clients-fin-d-annee-chocolat-entreprise (17/11/2026)
+
+Article pratique (format, calendrier, présentation, transport) : les conseils sont des repères d'usage, pas des faits
+sourcés. Fiscalité des cadeaux d'affaires : bofip.impots.gouv.fr et entreprendre.service-public.fr injoignables (hôte
+non résolu par le proxy) ; seuls des sites secondaires (legifiscal.fr, CCI Paris) ont été vus par l'outil de recherche,
+ce qui n'est pas une source primaire. Retirés : seuil de valeur unitaire pour la récupération de la TVA (CGI, ann. II,
+art. 206, IV-2-3°), seuil du relevé des frais généraux, conditions de déduction. L'article se borne à dire que des
+règles et des seuils existent et renvoie à l'expert-comptable.
+
+- Pièces emballées à l'unité ; cartons de CONDITIONNEMENT pièces, grains de café par cartons de sachets
+  (`grainsCafe[0].conditionnement`), valeurs importées dans l'article → lib/catalogue.ts, app/(site)/cgu/page.tsx
+- Gammes pro « destinées à être offertes ou revendues par des cafés, hôtels, restaurants et entreprises » ; type
+  d'établissement « Entreprise · Comité d'entreprise » ; SIRET vérifié auprès du répertoire Sirene (INSEE) →
+  app/(site)/cgu/page.tsx, lib/catalogue.ts (TYPES_ETABLISSEMENT), app/espace-pro/inscription/page.tsx
+- Belles Comtoises : praliné noisette, quatre recettes, coffrets de 6, 12, 20, 30 ; moulage, enrobage, emballage à
+  Charquemont → docs/seo/faits-maison.md
+- Voile blanc du chocolat après écart de température, sans danger → déjà publié dans comment-conserver-le-chocolat

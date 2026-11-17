@@ -11,6 +11,7 @@ import PurBeurreDeCacaoSignification, { faq as faqPurBeurre } from './pur-beurre
 import PralineGiandujaDifference, { faq as faqPralineGianduja } from './praline-gianduja-difference'
 import DuCacaoAuChocolatEtapesFabrication, { faq as faqFabrication } from './du-cacao-au-chocolat-etapes-fabrication'
 import ChocolatEtCafeAccords, { faq as faqCafeAccords } from './chocolat-et-cafe-accords'
+import CadeauClientsFinDAnnee, { faq as faqCadeauClients } from './cadeau-clients-fin-d-annee-chocolat-entreprise'
 
 /** Corps des articles, par slug (voir lib/blog.ts pour les métadonnées). Usage serveur uniquement. */
 export const contenus: Record<string, ContenuArticle> = {
@@ -26,4 +27,5 @@ export const contenus: Record<string, ContenuArticle> = {
   'praline-gianduja-difference': { Corps: PralineGiandujaDifference, faq: faqPralineGianduja },
   'du-cacao-au-chocolat-etapes-fabrication': { Corps: DuCacaoAuChocolatEtapesFabrication, faq: faqFabrication },
   'chocolat-et-cafe-accords': { Corps: ChocolatEtCafeAccords, faq: faqCafeAccords },
+  'cadeau-clients-fin-d-annee-chocolat-entreprise': { Corps: CadeauClientsFinDAnnee, faq: faqCadeauClients },
 }
