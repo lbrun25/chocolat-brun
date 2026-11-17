@@ -14,7 +14,7 @@ L'agent prend le premier sujet `à écrire` dont la saison est ouverte (colonne 
 | 5 | `praline-gianduja-difference` | différence praliné gianduja | Conseils | — | publié le 12/11/2026 (`praline-gianduja-difference`) — 1er essai (fba59c3) annulé : build Vercel en échec à cause de Google Fonts, sans lien avec l’article ; polices désormais hébergées dans le site |
 | 6 | `du-cacao-au-chocolat-etapes-fabrication` | comment fabrique-t-on le chocolat, de la fève à la tablette | Conseils | — | publié le 13/11/2026 (`du-cacao-au-chocolat-etapes-fabrication`) |
 | 7 | `chocolat-et-cafe-accords` | accord café chocolat, quel chocolat avec quel café | Conseils | — | publié le 16/11/2026 (`chocolat-et-cafe-accords`) |
-| 8 | `cadeau-clients-fin-d-annee-chocolat-entreprise` | cadeau clients fin d’année chocolat entreprise | Professionnels | nov.–déc. | en cours (poussé le 17/11/2026, déploiement à contrôler) |
+| 8 | `cadeau-clients-fin-d-annee-chocolat-entreprise` | cadeau clients fin d’année chocolat entreprise | Professionnels | nov.–déc. | publié le 17/11/2026 (`cadeau-clients-fin-d-annee-chocolat-entreprise`) |
 | 9 | `chocolat-oreiller-hotel-attention-client` | chocolat sur l’oreiller hôtel, attention client | Professionnels | — | à écrire |
 | 10 | `chocolat-emballe-individuellement-restauration-hygiene` | chocolat emballé individuellement restaurant, pourquoi | Professionnels | — | à écrire |
 | 11 | `mignardises-cafe-gourmand-restaurant` | café gourmand mignardises restaurant, comment le composer | Professionnels | — | à écrire |
