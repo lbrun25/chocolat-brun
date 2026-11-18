@@ -114,6 +114,9 @@ for (const a of articles) {
   if (n < 700 || n > 1800) echec(s, `${n} mots (700 à 1 800 attendus)`)
   if (new Set(blogLinks).size < 2) echec(s, 'moins de 2 liens internes vers d’autres articles (href="/blog/…")')
   if (!/<h2[ >]/.test(code)) echec(s, 'aucun <h2>')
+  // Décision de Lucien (18/11/2026) : chaque article met en avant un produit qu'on peut acheter (charte §2.5).
+  if (!/href=["']\/(belles-comtoises|poissons|petits-beurres|orangettes|grains-de-cafe)(#[a-z-]+)?["']/.test(code))
+    echec(s, 'aucun lien vers une page produit dans le corps (/belles-comtoises#coffrets, /poissons…) : chaque article mène à un produit')
   if (!/export const faq/.test(code) || (code.match(/question:/g) ?? []).length < 3) echec(s, 'FAQ de 3 questions au moins (export const faq)')
   if (/<h1[ >]/.test(code)) echec(s, '<h1> interdit dans le corps : le titre est affiché par la page')
   if (/[Dd]ernière mise à jour/.test(code)) echec(s, 'date écrite en dur dans le texte')

@@ -8,6 +8,12 @@ export { absoluteUrl } from '@/lib/site-url'
 
 export type CategorieArticle = 'Actualités' | 'Terroir' | 'Conseils' | 'Professionnels'
 
+/**
+ * Produit présenté en vitrine à la fin de l'article (components/blog/VitrineProduit) :
+ * les coffrets de Belles Comtoises (particuliers) ou les gammes pros.
+ */
+export type ProduitVitrine = 'belles-comtoises' | 'gammes-pro'
+
 export interface ArticleImage {
   src: string
   alt: string
@@ -38,6 +44,8 @@ export interface ArticleMeta {
   motsCles: string[]
   /** Articles liés, par slug */
   liens?: string[]
+  /** Vitrine de fin d'article ; par défaut, les gammes pros pour la rubrique Professionnels, les Belles Comtoises sinon */
+  produit?: ProduitVitrine
   /** Événement annoncé par l'article (données structurées schema.org/Event) */
   evenement?: {
     nom: string
@@ -344,6 +352,10 @@ export const articles: ArticleMeta[] = ARTICLES.map((a, i) => ({ a, i }))
 
 export function getArticle(slug: string): ArticleMeta | undefined {
   return articles.find((a) => a.slug === slug)
+}
+
+export function produitDe(article: ArticleMeta): ProduitVitrine {
+  return article.produit ?? (article.categorie === 'Professionnels' ? 'gammes-pro' : 'belles-comtoises')
 }
 
 export function articlesLies(article: ArticleMeta, max = 2): ArticleMeta[] {

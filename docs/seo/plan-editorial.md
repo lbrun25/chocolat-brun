@@ -1,7 +1,29 @@
 # Plan éditorial du blog
 
 Tenu à jour par l'agent rédacteur (voir `charte-redacteur.md`). Statuts : `à écrire` · `en cours` (poussé, déploiement à contrôler) · `publié` · `bloqué`.
-L'agent prend le premier sujet `à écrire` dont la saison est ouverte (colonne « Saison »).
+L'agent prend le premier sujet `à écrire` dont la saison est ouverte (colonne « Saison »), en lisant le plan de
+haut en bas : l’ordre est la priorité.
+
+## Vague Noël 2026 (créée le 18/11/2026, PRIORITAIRE jusqu’au 20/12)
+
+Idées cadeaux, à la demande de Lucien : un article par jour, chacun mène au produit indiqué (charte §2.5,
+« Vendre »). Chaque article traite VRAIMENT de son destinataire ou de son occasion (charte §2.6, pages
+satellites) : il ne recycle pas l’argumentaire d’un autre article cadeau en changeant le destinataire.
+Après le 20/12, ou une fois cette vague épuisée, reprendre la vague 1.
+
+| # | Slug visé | Requête | Rubrique | Saison | Angle et produit | Statut |
+|---|-----------|---------|----------|--------|------------------|--------|
+| N1 | `idee-cadeau-agriculteur-eleveur` | idée cadeau agriculteur, cadeau pour un éleveur à Noël | Conseils | nov.–déc. | Ce qui touche quelqu’un dont la ferme est le métier : clin d’œil au troupeau, produits du terroir, cadeau à partager en famille ou avec ceux qui aident à la ferme. Belles Comtoises : une montbéliarde en chocolat pour un éleveur, boîte de 20 ou 30 à partager. Lien vers `vache-montbeliarde-franche-comte`. | à écrire |
+| N2 | `cadeau-collegue-noel-secret-santa` | cadeau collègue Noël, idée cadeau Secret Santa | Conseils | nov.–déc. | Règles du Secret Santa (tirage, budget fixé d’avance sans chiffre, anonymat), cadeau qui plaît sans connaître la personne, le gourmand comme valeur sûre. Réglette de 6. Distinct de `cadeau-clients-fin-d-annee-chocolat-entreprise` (entreprise → clients). | à écrire |
+| N3 | `cadeau-maitresse-noel-fin-d-annee` | cadeau maîtresse Noël, cadeau ATSEM nounou fin d’année | Conseils | nov.–déc. | Cadeau individuel ou collectif de la classe, cadeau qui se partage en salle des maîtres. Règles sur les cadeaux aux agents publics seulement si sourcées (§2.3), sinon ne pas en parler. Réglette de 6 ou boîte de 12. | à écrire |
+| N4 | `cadeau-noel-made-in-france-artisanal` | cadeau de Noël made in France, cadeau fabriqué en France artisanal | Conseils | nov.–déc. | Comment vérifier qu’un produit est vraiment fabriqué en France (règles d’origine, mentions et labels, sources DGCCRF / douane obligatoires), acheter à l’atelier qui fabrique. Belles Comtoises fabriquées à Charquemont. Ne pas traiter le titre de maître artisan (sujet 17). | à écrire |
+| N5 | `menu-de-fetes-restaurant-attention-clients` | attention clients restaurant Noël, mignardise menu de fêtes | Professionnels | nov.–déc. | Pour les restaurants, hôtels, traiteurs : la touche chocolat des menus de fêtes (avec le café, au départ des clients du réveillon), prévoir les quantités et la conservation. Gammes pros (poissons, orangettes, petits beurres, grains de café). Distinct des sujets 9 et 11 (hors saison). | à écrire |
+| N6 | `cadeau-noel-grands-parents-a-distance` | cadeau grands-parents Noël, envoyer un cadeau à ses grands-parents | Conseils | nov.–déc. | Offrir quand on ne sera pas là : livraison chez eux, déballage en appel vidéo, cadeau à partager avec les petits-enfants, choisir les recettes selon les goûts. Belles Comtoises livrées à leur adresse. Ne pas reprendre l’encadré « à distance » de `cadeau-gourmand-franche-comte`. | à écrire |
+| N7 | `cadeau-invite-repas-de-noel` | que offrir quand on est invité à Noël, cadeau pour l’hôte | Conseils | nov.–déc. | Savoir-vivre : fleurs, vin ou chocolats, quand les offrir, ce que l’hôte n’est pas obligé d’ouvrir ou de servir. Boîte de 12 ou de 20 pour le café du repas. | à écrire |
+| N8 | `etrennes-facteur-gardien-voisins-noel` | étrennes facteur gardien, petit cadeau voisins Noël | Terroir | nov.–déc. | Origine des étrennes (sources primaires), qui l’on remercie aujourd’hui (gardien, facteur, voisins, aide à domicile), argent ou petit cadeau. Aucun montant. Réglette de 6. | à écrire |
+| N9 | `que-mettre-dans-chaussette-de-noel` | que mettre dans une chaussette de Noël, idées petits souliers | Terroir | nov.–déc. | Origine des chaussettes et des souliers de Noël (sources primaires), idées de petites choses qui y tiennent, pour enfants et adultes. Réglette de 6. Ne pas refaire `chocolats-de-noel-traditions` (Saint-Nicolas, papillotes déjà traités). | à écrire |
+| N10 | `idee-cadeau-amoureux-des-vaches` | idée cadeau vache, cadeau pour quelqu’un qui aime les vaches | Terroir | nov.–déc. | Pour les amoureux des vaches (enfants, citadins, collectionneurs) : idées variées (sorties, objets, parrainage si sourcé), puis la version gourmande. Belles Comtoises. Angle différent de N1 (passion, pas métier) : relire N1 avant d’écrire. | à écrire |
+| N11 | `envoyer-des-chocolats-par-la-poste` | envoyer des chocolats par la poste, colis de chocolats | Conseils | nov.–déc. | Ce qui abîme le chocolat en transit, le colis, la réception ; commander chez un artisan qui expédie. Belles Comtoises livrées en France métropolitaine. Relire `comment-conserver-le-chocolat` : ne pas en reprendre les passages. | à écrire |
 
 ## Vague 1 (créée le 06/11/2026)
 

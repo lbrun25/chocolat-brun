@@ -6,6 +6,7 @@ import { ChevronRight } from 'lucide-react'
 import SiteHeader from '@/components/site/SiteHeader'
 import SiteFooter from '@/components/site/SiteFooter'
 import ArticleCard from '@/components/blog/ArticleCard'
+import VitrineProduit from '@/components/blog/VitrineProduit'
 import JsonLd from '@/components/JsonLd'
 import { contenus } from '@/content/blog'
 import {
@@ -16,6 +17,7 @@ import {
   articlesLies,
   formatDateArticle,
   getArticle,
+  produitDe,
   type ArticleMeta,
 } from '@/lib/blog'
 import { CONTACT } from '@/lib/catalogue'
@@ -231,6 +233,8 @@ export default async function ArticlePage({ params }: Props) {
             <div className="article-prose mx-auto max-w-[720px] px-5 md:px-0">
               <Corps />
             </div>
+
+            <VitrineProduit produit={produitDe(article)} />
 
             {faq && faq.length > 0 && (
               <section className="mx-auto mt-16 max-w-[720px] px-5 md:px-0" aria-labelledby="faq-titre">

@@ -8,11 +8,17 @@ Décision de Lucien (06/11/2026) : publication DIRECTE sur `main`, sans relectur
 une erreur avant qu'un lecteur la voie : les règles ci-dessous ne se négocient pas, et en cas de doute on
 n'écrit pas.
 
+Décision de Lucien (18/11/2026) : un article PAR JOUR (la routine tourne tous les matins), et chaque article doit
+donner envie d'acheter un produit de la maison (§2.5, « Vendre »). Jusqu'à Noël, priorité aux idées cadeaux
+(vague Noël du plan).
+
 ## 1. Mission
 
-Faire venir sur le site des gens qui cherchent une réponse précise sur le chocolat, la Franche-Comté ou le
-chocolat en restauration, et leur donner la meilleure réponse disponible en français. Un article réussi répond
-mieux que les pages déjà classées et mène naturellement vers une page du site (Belles Comtoises, gammes pro).
+Faire venir sur le site des gens qui cherchent une réponse précise sur le chocolat, la Franche-Comté, une idée de
+cadeau ou le chocolat en restauration, leur donner la meilleure réponse disponible en français, et leur donner
+envie d'acheter. Le blog est là pour VENDRE : un article réussi répond mieux que les pages déjà classées ET fait
+passer le lecteur sur une page produit (coffrets de Belles Comtoises pour les particuliers, gammes pros pour la
+restauration). Un article qui ne mène à aucun produit est raté, même bien classé.
 
 Le site est celui d'une petite maison artisanale (Mélanie et Cédric Brun, Charquemont, Doubs). Il n'a pas
 des centaines de sujets : un sujet qui ressemble à un déjà-écrit ne s'écrit pas.
@@ -21,7 +27,8 @@ des centaines de sujets : un sujet qui ressemble à un déjà-écrit ne s'écrit
 
 AU PLUS un article par session, jamais deux. Google sanctionne les contenus produits en masse
 (« scaled content abuse ») et c'est le site entier, pages produits comprises, qui en pâtit. Le rythme est fixé
-par la routine planifiée, pas par l'agent : ne jamais « rattraper » des sessions manquées.
+par la routine planifiée (une session par jour depuis le 18/11/2026), pas par l'agent : ne jamais « rattraper »
+des sessions manquées.
 
 ### 2.1 Préparer
 
@@ -44,7 +51,8 @@ contrôles sur le site en ligne sont faits quand le réseau le permet, sinon sig
 2. Lister ce qui est publié : les `slug` de `lib/blog.ts` (la vérité du dépôt).
 3. Rattrapage d'abord : si un sujet du plan est marqué `en cours` (session précédente interrompue après le
    push), contrôler son déploiement (§2.7 étape 2) et finir ses étapes 4 et 5 ; ne pas écrire un autre article.
-4. Sinon, prendre le PREMIER sujet `à écrire` du plan dont la fenêtre de saison est ouverte.
+4. Sinon, prendre le PREMIER sujet `à écrire` du plan dont la fenêtre de saison est ouverte. Le plan se lit de
+   haut en bas : l'ordre des vagues et des lignes EST la priorité.
 5. Plan épuisé : composer la vague suivante (§5), la committer, écrire son premier sujet.
 
 ### 2.3 Vérifier les faits — avant d'écrire une ligne
@@ -98,6 +106,26 @@ Trois fichiers à toucher, sur le modèle de `content/blog/comment-conserver-le-
   seulement pour ce que le code ou `faits-maison.md` confirme. Typographie : apostrophe `’`, guillemets « … ».
 - Catégorie : `Actualités` | `Terroir` | `Conseils` | `Professionnels`.
 
+**Vendre** (décision de Lucien, 18/11/2026)
+- Chaque article met en avant UN produit qu'on peut acheter, celui qui répond au besoin du lecteur : les
+  Belles Comtoises (coffrets, particuliers) ou les gammes pros (`/poissons`, `/petits-beurres`, `/orangettes`,
+  `/grains-de-cafe`, pour cafés, restaurants, hôtels, traiteurs).
+- La réponse d'abord, mais le produit ne doit pas attendre la fin : un lien vers sa page dans la PREMIÈRE moitié,
+  à l'endroit où il répond au besoin (« pour un éleveur, une montbéliarde en chocolat… »), puis une section `<h2>`
+  qui montre concrètement comment il répond à la question : quel coffret pour qui, quelle recette pour quel goût,
+  pourquoi c'est un bon cadeau. Le vérificateur exige au moins un lien vers une page produit
+  (`/belles-comtoises#coffrets`, `/poissons`…).
+- Donner envie avec du concret VRAI : la forme de vache montbéliarde, le praliné noisette, les quatre recettes et
+  leurs notes (`recettes` de `lib/belles-comtoises.ts`), les formats de coffret (`coffrets`), la fabrication dans
+  l'atelier de Charquemont, la livraison à l'adresse de la personne à qui l'on offre (`faits-maison.md`). Pas de
+  superlatif vide, pas de fausse urgence (« stock limité », « plus que 3 jours »), pas de date limite de commande
+  pour Noël tant que la maison ne l'a pas donnée dans `faits-maison.md`.
+- La page article ajoute seule, après le corps, une vitrine du produit (photo, formats, prix « à partir de »,
+  bouton ; composant `VitrineProduit`) : gammes pros pour la rubrique Professionnels, Belles Comtoises sinon. Le
+  champ `produit` de `lib/blog.ts` (`'belles-comtoises'` | `'gammes-pro'`) la change quand la rubrique ne suffit
+  pas (ex. un article Conseils écrit pour les restaurateurs). Ne pas recopier cette vitrine dans le corps.
+- Toujours aucun prix dans le texte : la vitrine les affiche depuis le catalogue (§2.6).
+
 ### 2.6 Interdits (le vérificateur en attrape une partie, le reste repose sur vous)
 
 - **Aucun prix** ni montant en euros, public ou pro (les tarifs pros sont réservés aux comptes SIRET). Les
@@ -109,13 +137,19 @@ Trois fichiers à toucher, sur le modèle de `content/blog/comment-conserver-le-
 - **Durée de conservation chiffrée d'un produit de la maison**, DLC, promesses de fraîcheur.
 - Nommer un client, un restaurant, un concurrent ; témoignages et chiffres d'usage inventés ; « le meilleur ».
 - Reprendre ce que la cliente a fait retirer : tablettes et carrés de chocolat, tarifs dégressifs, « format
-  unique de 4 g ». `lesbellescomtoises.com` n'est pas le site de la maison : les CTA pointent vers `/#coffrets`.
+  unique de 4 g ». `lesbellescomtoises.com` n'est pas le site de la maison : les CTA pointent vers
+  `/belles-comtoises#coffrets`.
 - Événements datés et actualités : seule la maison les annonce. L'agent n'en invente pas. Les articles fournis
   par la maison (liste `ARTICLES_MAISON` de `scripts/verifier-blog.mjs`) sont publiés tels quels : l'agent ne
   les modifie pas, ne les prend pas pour modèle, et ils ne comptent pas dans son plafond d'un article par jour.
 - Conseil personnalisé (« dans votre cas… ») : l'article informe, il ne prescrit pas.
 - Quasi-doublon : relire titres et descriptions de TOUS les articles existants ; un nouvel article vise une
   requête distincte et ne reprend aucun paragraphe d'un autre.
+- Pages satellites (« doorway pages ») : une série d'articles « cadeau pour X » qui ne changent que le
+  destinataire et répètent le même argumentaire est sanctionnée par Google comme le contenu en masse. Chaque
+  article cadeau apporte ce qui est propre à son destinataire ou à son occasion (usages, contraintes, ce qui se
+  fait ou non, idées autres que nos produits) ; notre produit n'en est qu'une partie, présentée sous l'angle de
+  ce destinataire.
 
 ### 2.7 Vérifier, publier, contrôler
 
@@ -167,9 +201,9 @@ Quatre lignes : slug publié et URL, sujet traité, sources consultées (nombre)
 
 ## 4. Mesure
 
-Lucien regarde Search Console : pages indexées, impressions, clics par article. Quand les chiffres montrent que
-les pages sont indexées et lues, le rythme peut monter ; s'ils montrent l'inverse (pages « explorées, non
-indexées »), le rythme baisse. C'est la routine qui change, jamais cette charte.
+Lucien regarde Search Console : pages indexées, impressions, clics par article. Le rythme est d'un article par
+jour depuis le 18/11/2026 ; si les chiffres montrent des pages « explorées, non indexées », il baisse. C'est la
+routine qui change, jamais l'agent.
 
 ## 5. Composer une vague
 
