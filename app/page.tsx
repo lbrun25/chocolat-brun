@@ -171,21 +171,13 @@ export default function Accueil() {
         </section>
 
         <section aria-labelledby="maison" className="bg-cream py-16 md:py-24">
-          <div className="mx-auto grid max-w-6xl items-center gap-10 px-5 md:px-8 lg:grid-cols-[0.8fr_1fr] lg:gap-16">
-            <div className="relative mx-auto aspect-[4/5] w-full max-w-sm overflow-hidden rounded-[28px] lg:max-w-none">
-              <Image
-                src="/images/comtoises/melanie-cedric.jpg"
-                alt="Mélanie et Cédric Brun dans un pré du Haut-Doubs, des coffrets de Belles Comtoises à la main, devant des vaches montbéliardes"
-                fill
-                sizes="(max-width: 1024px) 384px, 440px"
-                className="object-cover object-top"
-              />
-            </div>
+          {/* Sans photo : celle de Mélanie et Cédric est déjà dans le hero */}
+          <div className="mx-auto max-w-3xl px-5 text-center md:px-8">
             <div>
               <h2 id="maison" className="font-display text-[2rem] leading-[1.05] text-ink md:text-[2.8rem]">
                 Un savoir-faire artisanal, <em className="font-light italic text-cacao">en famille</em>
               </h2>
-              <p className="mt-5 max-w-lg text-[16px] leading-relaxed text-bark">
+              <p className="mx-auto mt-5 max-w-lg text-[16px] leading-relaxed text-bark">
                 À {CONTACT.ville}, Mélanie et Cédric Brun partagent leur passion du chocolat et le plaisir des belles
                 créations artisanales. Tout est fabriqué dans leur atelier.
               </p>
