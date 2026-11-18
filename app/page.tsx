@@ -16,13 +16,17 @@ export const metadata: Metadata = {
 const pieces = coffrets.map((c) => c.pieces)
 const prixMin = Math.min(...coffrets.map((c) => c.prixTTC))
 
-/** Les quatre recettes, photos détourées (public/images/accueil). L'ordre donne le chevauchement. */
-const VACHES = [
-  { src: '/images/accueil/vache-noir.webp', w: 640, h: 534, classe: 'w-[28%] translate-y-[4%]' },
-  { src: '/images/accueil/vache-lait.webp', w: 640, h: 523, classe: 'z-10 -ml-[6%] w-[33%]' },
-  { src: '/images/accueil/vache-blanc.webp', w: 640, h: 543, classe: '-ml-[6%] w-[27%] translate-y-[6%]' },
-  { src: '/images/accueil/vache-caramel.webp', w: 640, h: 540, classe: '-ml-[7%] w-[24%] translate-y-[10%]' },
-]
+/**
+ * Photo en tête de porte, bord à bord. Les deux photos sont en 3:2 : elles s'affichent entières
+ * et les deux cartes gardent la même hauteur d'image côte à côte.
+ */
+function PhotoPorte({ src, alt }: { src: string; alt: string }) {
+  return (
+    <div className="relative aspect-[3/2] w-full">
+      <Image src={src} alt={alt} fill sizes="(min-width: 1024px) 600px, 100vw" className="object-cover" />
+    </div>
+  )
+}
 
 /** Liens directs vers les produits d'un espace, sous le bouton principal de sa porte. */
 function LiensProduits({ espace }: { espace: Espace }) {
@@ -98,19 +102,10 @@ export default function Accueil() {
 
             <div className="mt-9 grid gap-6 md:mt-12 lg:grid-cols-2 lg:gap-8">
               <article className="group relative flex flex-col overflow-hidden rounded-[28px] bg-sable transition-shadow duration-300 hover:shadow-lift">
-                <div className="flex h-48 items-end justify-center px-[5%] pt-8 sm:h-60 md:h-72 md:pt-10" aria-hidden>
-                  {VACHES.map((v) => (
-                    <Image
-                      key={v.src}
-                      src={v.src}
-                      alt=""
-                      width={v.w}
-                      height={v.h}
-                      sizes="(max-width: 1024px) 30vw, 200px"
-                      className={`h-auto drop-shadow-[0_14px_14px_rgba(59,30,18,0.28)] ${v.classe}`}
-                    />
-                  ))}
-                </div>
+                <PhotoPorte
+                  src="/images/accueil/belles-comtoises-chocolat.webp"
+                  alt="Quatre Belles Comtoises en chocolat blanc, caramel, au lait et noir, avec des copeaux de chocolat et des fèves de cacao"
+                />
                 <div className="flex flex-1 flex-col p-7 pt-9 md:p-10 md:pt-10">
                   <p className="text-[11px] font-medium uppercase tracking-eyebrow text-brass-deep">Pour les gourmands</p>
                   <h3 className="font-display mt-3 text-[2rem] leading-[1.05] text-ink md:text-[2.5rem]">
@@ -131,16 +126,10 @@ export default function Accueil() {
               </article>
 
               <article className="group relative flex flex-col overflow-hidden rounded-[28px] bg-white ring-1 ring-ink/[0.07] transition-shadow duration-300 hover:shadow-lift">
-                <div className="flex h-48 items-end justify-center px-[5%] pt-8 sm:h-60 md:h-72 md:pt-10" aria-hidden>
-                  <Image
-                    src="/images/accueil/cafe.webp"
-                    alt=""
-                    width={900}
-                    height={700}
-                    sizes="(max-width: 1024px) 60vw, 330px"
-                    className="h-full w-auto object-contain"
-                  />
-                </div>
+                <PhotoPorte
+                  src="/images/accueil/tasse-cafe-chocolat.webp"
+                  alt="Tasse d'expresso sur sa soucoupe, accompagnée d'un petit chocolat emballé individuellement et de grains de café"
+                />
                 <div className="flex flex-1 flex-col p-7 pt-9 md:p-10 md:pt-10">
                   <p className="text-[11px] font-medium uppercase tracking-eyebrow text-brass-deep">
                     Restaurants, hôtels, cafés, traiteurs
