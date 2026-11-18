@@ -17,11 +17,6 @@ export default function PetitsBeurresPage() {
       heroImage="/images/petits-beurres/biscuit-lait.png"
       heroAlt="Petit beurre en chocolat au lait Cédric Brun"
       heroDecoupe
-      bandeau={{
-        image: '/images/petits-beurres/affiche.jpg',
-        alt: 'Affiche « Le petit chocolat, le grand plaisir » : petits beurres en chocolat et sachet individuel, avec un café et un thé',
-        format: 'affiche',
-      }}
     />
   )
 }
