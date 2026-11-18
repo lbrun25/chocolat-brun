@@ -67,6 +67,26 @@ export const SITE_NAME = 'Cédric Brun – Maître Artisan Pâtissier Chocolatie
 
 const ARTICLES: ArticleMeta[] = [
   {
+    slug: 'idee-cadeau-agriculteur-eleveur',
+    titre: 'Idée cadeau pour un agriculteur ou un éleveur : ce qui fait vraiment plaisir à Noël',
+    titreSeo: 'Idée cadeau agriculteur : quoi offrir à un éleveur ?',
+    description:
+      'Cadeaux utiles dehors, clin d’œil au troupeau, gourmandise à partager à la ferme : nos idées pour offrir à un agriculteur ou un éleveur à Noël.',
+    extrait:
+      'Gants et lampe frontale, photo du troupeau, sortie compatible avec les soins des bêtes, grande boîte à partager en famille : comment choisir un cadeau qui tient compte du métier d’agriculteur ou d’éleveur.',
+    categorie: 'Conseils',
+    datePublication: '2026-11-18',
+    image: {
+      src: '/images/comtoises/coffret-20-ouvert-3.jpg',
+      alt: 'Boîte de 20 Belles Comtoises ouverte sur l’herbe : quatre rangées de vaches en chocolat au lait, caramel, blanc et noir',
+      width: 1200,
+      height: 1600,
+    },
+    tempsLectureMin: 5,
+    motsCles: ['idée cadeau agriculteur', 'cadeau éleveur', 'cadeau Noël agriculteur', 'cadeau éleveur de vaches', 'vache en chocolat'],
+    liens: ['vache-montbeliarde-franche-comte', 'cadeau-gourmand-franche-comte'],
+  },
+  {
     slug: 'cadeau-clients-fin-d-annee-chocolat-entreprise',
     titre: 'Cadeau clients de fin d’année : comment offrir du chocolat quand on est une entreprise',
     titreSeo: 'Cadeau clients fin d’année : offrir du chocolat',

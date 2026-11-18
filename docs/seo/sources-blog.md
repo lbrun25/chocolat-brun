@@ -131,3 +131,16 @@ règles et des seuils existent et renvoie à l'expert-comptable.
 - Belles Comtoises : praliné noisette, quatre recettes, coffrets de 6, 12, 20, 30 ; moulage, enrobage, emballage à
   Charquemont → docs/seo/faits-maison.md
 - Voile blanc du chocolat après écart de température, sans danger → déjà publié dans comment-conserver-le-chocolat
+
+## idee-cadeau-agriculteur-eleveur (18/11/2026)
+
+Article d'idées cadeaux : conseils d'usage, pas de fait historique, réglementaire ni technique chiffré. Recherche
+(WebSearch « idée cadeau agriculteur éleveur Noël ») : pages classées surtout composées de listes de produits
+(reussir.fr, pleinchamp.com, terre-net.fr) ; angle retenu : contraintes du métier (soins quotidiens, absence
+difficile), cadeau à partager à la ferme. Retirés faute de source primaire joignable (servicederemplacement.fr et
+agriculture.gouv.fr non résolus par le proxy) : le Service de remplacement agricole, ses motifs et aides
+(crédit d'impôt congés) ; l'article dit seulement qu'un éleveur doit faire soigner ses bêtes pendant son absence.
+
+- Belles Comtoises : vaches montbéliardes en chocolat pur beurre de cacao, praliné noisette, quatre recettes et leurs
+  notes, coffrets de 6, 12, 20, 30 ; moulage, enrobage, emballage à Charquemont ; livraison en France métropolitaine,
+  Colissimo avec suivi, adresse et nom du destinataire saisis au paiement → docs/seo/faits-maison.md, lib/belles-comtoises.ts
