@@ -11,7 +11,7 @@ import { CONDITIONNEMENT, orangettes } from '@/lib/catalogue'
 
 const ref = orangettes[0]
 
-/** Les trois garanties du produit, reprises de la fiche de la gamme (public/images/orangettes/fiche-orangette.webp). */
+/** Les trois garanties du produit, reprises de la fiche produit de la gamme fournie par la cliente. */
 const GARANTIES = [
   { icone: Citrus, texte: 'Orange confite' },
   { icone: Bean, texte: 'Chocolat noir pur beurre de cacao' },
@@ -146,20 +146,20 @@ export default function OrangettesPage() {
 
         {/* Le produit */}
         <section className="bg-ivory py-16 md:py-24">
-          <div className="mx-auto grid max-w-7xl items-center gap-10 px-5 md:px-8 lg:grid-cols-2 lg:gap-16">
+          <div className="mx-auto max-w-3xl px-5 text-center md:px-8">
             <Reveal>
               <div>
                 <p className="text-[11px] font-medium uppercase tracking-eyebrow text-brass-deep">Le produit</p>
                 <h2 className="font-display mt-4 text-[2rem] leading-tight tracking-[-0.015em] text-ink md:text-[2.6rem]">
                   L’alliance parfaite entre l’orange et le chocolat
                 </h2>
-                <p className="mt-6 max-w-xl text-[15.5px] leading-relaxed text-bark">
+                <p className="mx-auto mt-6 max-w-xl text-[15.5px] leading-relaxed text-bark">
                   Nos orangettes sont élaborées avec soin à partir d’écorces d’orange sélectionnées, lentement confites
                   pour révéler toutes leurs saveurs. Elles sont ensuite enrobées d’un chocolat noir de qualité
                   supérieure pour un mariage parfait entre l’intensité du cacao et la fraîcheur fruitée de l’orange.
                 </p>
 
-                <ul className="mt-9 grid grid-cols-3 gap-3">
+                <ul className="mx-auto mt-9 grid max-w-xl grid-cols-3 gap-3">
                   {CHIFFRES.map((c) => (
                     <li key={c.legende} className="rounded-xl border border-ink/[0.07] bg-cream px-2 py-5 text-center sm:px-4">
                       <p className="font-display text-[1.1rem] leading-none text-ink tabular-nums sm:text-[1.4rem]">{c.valeur}</p>
@@ -167,18 +167,6 @@ export default function OrangettesPage() {
                     </li>
                   ))}
                 </ul>
-              </div>
-            </Reveal>
-
-            <Reveal delay={0.08}>
-              <div className="relative mx-auto aspect-[1224/1285] w-full max-w-[34rem] overflow-hidden rounded-2xl shadow-card">
-                <Image
-                  src="/images/orangettes/fiche-orangette.webp"
-                  alt="Fiche produit Orangette chocolat noir : écorce d’orange confite enrobée de chocolat noir pur beurre de cacao, fabrication artisanale, 5 g la pièce, conditionnement par 200"
-                  fill
-                  sizes="(max-width: 1024px) 92vw, 544px"
-                  className="object-cover"
-                />
               </div>
             </Reveal>
           </div>
@@ -212,10 +200,10 @@ export default function OrangettesPage() {
             </Reveal>
 
             <Reveal delay={0.08}>
-              <div className="relative aspect-[4/3] overflow-hidden rounded-2xl">
+              <div className="relative aspect-[3/2] overflow-hidden rounded-2xl">
                 <Image
-                  src="/images/orangettes/orangette-cafe.jpg"
-                  alt="Tasse de café expresso accompagnée d’orangettes en chocolat noir"
+                  src="/images/orangettes/orangette-the.webp"
+                  alt="Tasse de thé en verre et une orangette en chocolat noir dans son sachet individuel transparent"
                   fill
                   sizes="(max-width: 1024px) 100vw, 40vw"
                   className="object-cover"
