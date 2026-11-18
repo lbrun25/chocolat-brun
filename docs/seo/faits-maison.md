@@ -22,5 +22,8 @@ maison est interdit. Compléter ce fichier (par Lucien ou une session principale
   L'adresse de livraison (avec le nom du destinataire) est saisie au paiement : on peut faire livrer le coffret
   directement chez la personne à qui on l'offre. Frais de port et seuil de livraison offerte : constantes de
   `lib/shipping.ts`, jamais recopiées en euros dans le texte (la vitrine de fin d'article les affiche).
+- Délais (constantes de `lib/shipping.ts`, page `/livraison`) : colis préparés sous 24 à 48 h, du mercredi au
+  vendredi, envoyés en Colissimo avec suivi, 2 jours ouvrés d'acheminement en France métropolitaine. On peut
+  conseiller de commander tôt avant une fête, sans inventer de date limite.
 - Pas d'emballage cadeau en option, pas de message personnalisé, pas de date limite de commande pour Noël
   communiquée : n'en rien dire.

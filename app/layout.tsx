@@ -11,8 +11,7 @@ import { ProCartProvider } from '@/contexts/ProCartContext'
 import { ComtoisesCartProvider } from '@/contexts/ComtoisesCartContext'
 import { AuthProvider } from '@/contexts/AuthContext'
 import { ProSiretProvider } from '@/contexts/ProSiretContext'
-import { CONTACT, orangettes, petitsBeurres, poissons } from '@/lib/catalogue'
-import { coffrets } from '@/lib/belles-comtoises'
+import { CONTACT } from '@/lib/catalogue'
 import { absoluteUrl } from '@/lib/site-url'
 
 // Polices globales (landing + toutes les pages). Les polices « historiques » (Great Vibes, Cinzel,
@@ -102,7 +101,8 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-  const prixPro = [...poissons, ...petitsBeurres, ...orangettes].map((r) => r.prixPieceHT)
+  // La fiche produit des Belles Comtoises est sur /belles-comtoises. Les prix pros ne sont jamais publiés
+  // (réservés aux comptes SIRET vérifiés), pas même dans les données structurées.
   const jsonLd = [
     {
       '@context': 'https://schema.org',
@@ -140,41 +140,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       email: CONTACT.email,
       priceRange: '€€',
       areaServed: { '@type': 'Country', name: 'France' },
-    },
-    {
-      '@context': 'https://schema.org',
-      '@type': 'Product',
-      name: 'Les Belles Comtoises – vaches en chocolat praliné noisette',
-      description:
-        'Petites vaches montbéliardes en chocolat, pur beurre de cacao praliné noisette, présentées en réglette de 6 ou en boîtes de 12, 20 ou 30. Fabriquées artisanalement à Charquemont (Doubs).',
-      brand: { '@type': 'Brand', name: 'Les Belles Comtoises' },
-      image: [...coffrets.map((c) => c.image), '/images/comtoises/vache-lait.jpg'],
-      offers: {
-        '@type': 'AggregateOffer',
-        priceCurrency: 'EUR',
-        lowPrice: Math.min(...coffrets.map((c) => c.prixTTC)).toFixed(2),
-        highPrice: Math.max(...coffrets.map((c) => c.prixTTC)).toFixed(2),
-        offerCount: coffrets.length,
-        availability: 'https://schema.org/InStock',
-      },
-    },
-    {
-      '@context': 'https://schema.org',
-      '@type': 'Product',
-      name: 'Petits chocolats pour professionnels – poissons, petits beurres et orangettes',
-      description:
-        'Poissons en chocolat de 4 g, petits beurres en chocolat de 6 g et orangettes enrobées de chocolat noir de 5 g, emballés individuellement, vendus par cartons de 200 pièces aux professionnels.',
-      brand: { '@type': 'Brand', name: CONTACT.marque },
-      image: [...poissons, ...petitsBeurres, ...orangettes].map((r) => r.image),
-      offers: {
-        '@type': 'AggregateOffer',
-        priceCurrency: 'EUR',
-        lowPrice: Math.min(...prixPro).toFixed(2),
-        highPrice: Math.max(...prixPro).toFixed(2),
-        offerCount: prixPro.length,
-        availability: 'https://schema.org/InStock',
-        eligibleCustomerType: 'https://schema.org/Business',
-      },
     },
   ]
 

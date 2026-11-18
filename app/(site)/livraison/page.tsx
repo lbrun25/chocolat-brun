@@ -1,5 +1,5 @@
 import { Metadata } from 'next'
-import { FLAT_SHIPPING_COST, FREE_SHIPPING_THRESHOLD } from '@/lib/shipping'
+import { DELAI_ACHEMINEMENT_JOURS, DELAI_PREPARATION, FLAT_SHIPPING_COST, FREE_SHIPPING_THRESHOLD } from '@/lib/shipping'
 import { CONDITIONNEMENT, FRAIS_PORT_HT, FRANCO_HT, grainsCafe } from '@/lib/catalogue'
 
 export const metadata: Metadata = {
@@ -22,7 +22,7 @@ export default function LivraisonPage() {
             {/* Section préparation */}
             <section>
               <p className="text-lg leading-relaxed">
-                Les colis sont préparés par <strong>Cédric Brun</strong> sous 24h à 48h du mercredi au vendredi. 
+                Les colis sont préparés par <strong>Cédric Brun</strong> {DELAI_PREPARATION}. 
                 Ils sont conditionnés dans un emballage fermé, résistant, approprié au contenu et aux exigences du transport.
               </p>
               <p className="text-lg leading-relaxed mt-4">
@@ -72,7 +72,7 @@ export default function LivraisonPage() {
                 Ce suivi est effectué jusqu'à la livraison en France métropolitaine.
               </p>
               <p className="leading-relaxed mt-4">
-                Pour une livraison en France métropolitaine, le délai d'acheminement est de 2 jours ouvrés.
+                Pour une livraison en France métropolitaine, le délai d'acheminement est de {DELAI_ACHEMINEMENT_JOURS} jours ouvrés.
               </p>
               <p className="leading-relaxed mt-4">
                 <strong>Cédric Brun</strong>, après confirmation de la commande, s'engage à traiter et à acheminer 

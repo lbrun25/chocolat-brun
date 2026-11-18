@@ -8,6 +8,12 @@ export const FREE_SHIPPING_THRESHOLD = 70 // € TTC
 /** Frais de port en prix unique (€) */
 export const FLAT_SHIPPING_COST = 10
 
+/** Délais de livraison (page /livraison, llms.txt, données structurées) */
+export const DELAI_PREPARATION = 'sous 24 à 48 h, du mercredi au vendredi'
+export const TRANSPORTEUR = 'Colissimo'
+/** Délai d'acheminement en France métropolitaine, en jours ouvrés */
+export const DELAI_ACHEMINEMENT_JOURS = 2
+
 /**
  * Calcule les frais de port (tarif unique).
  * @param _weightInGrams Poids total en grammes (ignoré, conservé pour compatibilité d’API)

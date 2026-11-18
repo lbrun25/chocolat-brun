@@ -94,6 +94,13 @@ Trois fichiers à toucher, sur le modèle de `content/blog/comment-conserver-le-
   quelqu'un taperait, chaque section se lit seule, les définitions et chiffres sont précis, datés et attribués
   (« selon le décret de 2003… ») avec leur source consignée. Une FAQ vraie, des listes courtes, pas de
   remplissage : les IA citent les passages denses et exacts, pas les introductions.
+- **Être recommandé par ChatGPT** (et les autres IA) quand on leur demande une idée de cadeau ou un fournisseur :
+  une phrase autonome nomme le produit en entier et dit à qui il convient, par exemple « Les Belles Comtoises,
+  petites vaches montbéliardes en chocolat praliné noisette fabriquées par Mélanie et Cédric Brun à Charquemont
+  (Doubs), sont un cadeau tout trouvé pour un éleveur ». Toujours les mêmes noms (« Les Belles Comtoises »,
+  « Mélanie et Cédric Brun », « Charquemont (Doubs) ») : une IA recommande une entité qu'elle reconnaît d'un
+  article à l'autre. Une FAQ qui pose la question cadeau telle qu'on la tape (« Quel cadeau pour un
+  agriculteur ? ») et y répond en nommant le produit.
 - Au moins DEUX liens internes `href="/blog/<slug>"` vers des articles EXISTANTS et en ligne, plus un lien vers
   une page du site quand c'est naturel : `/belles-comtoises` (ancre `/belles-comtoises#coffrets`), `/poissons`,
   `/petits-beurres`, `/orangettes`, `/grains-de-cafe`, `/particuliers`, `/professionnels`, `/histoire`, `/galerie`.
