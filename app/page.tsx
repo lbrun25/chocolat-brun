@@ -91,10 +91,7 @@ export default function Accueil() {
           <div className="absolute inset-x-0 top-0 -z-10 h-36 bg-gradient-to-b from-ink/55 to-transparent" aria-hidden />
           <div className="mx-auto w-full max-w-7xl px-5 pb-14 pt-32 md:px-8 md:pb-20 lg:py-32">
             <div className="max-w-2xl">
-              <p className="text-[11px] font-medium uppercase tracking-eyebrow text-brass-pale">
-                {CONTACT.marque}, Maître Artisan Pâtissier Chocolatier
-              </p>
-              <h1 className="font-display mt-4 text-[2.6rem] leading-[1.02] tracking-[-0.02em] text-ivory sm:text-[3.4rem] md:text-[4.4rem] lg:text-[4rem] xl:text-[4.6rem]">
+              <h1 className="font-display text-[2.6rem] leading-[1.02] tracking-[-0.02em] text-ivory sm:text-[3.4rem] md:text-[4.4rem] lg:text-[4rem] xl:text-[4.6rem]">
                 Le chocolat, <em className="font-light italic text-brass-pale">une passion depuis 1999</em>
               </h1>
               <p className="mt-5 max-w-xl text-[16px] leading-relaxed text-ivory/85 md:text-[18px]">
