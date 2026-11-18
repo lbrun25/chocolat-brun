@@ -116,7 +116,7 @@ function MenuProduits({ pathname, surFondSombre }: { pathname: string; surFondSo
                           }`}
                         >
                           <span className="relative block h-10 w-12 shrink-0 overflow-hidden rounded-lg bg-white">
-                            <Image src={p.image} alt="" fill sizes="48px" className="object-contain p-1" />
+                            <Image src={p.imageMenu ?? p.image} alt="" fill sizes="48px" className="object-contain p-1" />
                           </span>
                           <span className="text-[14px] text-ink">{p.labelLong}</span>
                         </Link>

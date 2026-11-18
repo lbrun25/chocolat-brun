@@ -17,6 +17,8 @@ export interface ProduitEspace {
   /** Libellé long, pour les listes et le pied de page */
   labelLong: string
   image: string
+  /** Vignette du menu « Produits », si elle diffère de l'image de la gamme */
+  imageMenu?: string
 }
 
 export interface Espace {
