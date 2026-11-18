@@ -18,7 +18,8 @@ const prixMin = Math.min(...coffrets.map((c) => c.prixTTC))
 
 /**
  * Photo en tête de porte, bord à bord. Les deux photos sont en 3:2 : elles s'affichent entières
- * et les deux cartes gardent la même hauteur d'image côte à côte.
+ * et les deux cartes gardent la même hauteur d'image côte à côte. Les coins du haut sont
+ * arrondis par la carte (overflow-hidden).
  */
 function PhotoPorte({ src, alt }: { src: string; alt: string }) {
   return (
@@ -59,52 +60,69 @@ function BoutonPorte({ href, children }: { href: string; children: React.ReactNo
 export default function Accueil() {
   return (
     <div className="landing bg-ivory font-sans text-ink">
-      <SiteHeader />
+      <SiteHeader variant="sombre" />
 
       <main>
-        <section className="bg-cream pt-28 md:pt-36">
-          <div className="mx-auto max-w-3xl px-5 text-center md:px-8">
-            <p className="text-[11px] font-medium uppercase tracking-eyebrow text-brass-deep">{CONTACT.marque}, Maître Artisan Pâtissier Chocolatier</p>
-            <h1 className="font-display mt-4 text-[2.5rem] leading-[1.02] tracking-[-0.02em] text-ink sm:text-[3.2rem] md:text-[4rem]">
-              Le chocolat, <em className="font-light italic text-cacao">une passion depuis 1999</em>
-            </h1>
-            <p className="mx-auto mt-5 max-w-xl text-[16px] leading-relaxed text-bark md:text-[17px]">
-              Mélanie et Cédric Brun fabriquent leurs chocolats à {CONTACT.ville}, dans le Haut-Doubs : pour les gourmands
-              comme pour les professionnels de la restauration.
-            </p>
+        {/*
+          Hero plein écran, texte posé sur la photo de Mélanie et Cédric. La photo est en portrait :
+          sur mobile et tablette elle couvre tout l'écran ; sur grand écran elle occupe la droite,
+          fondue dans une version floutée d'elle-même qui remplit le reste de l'écran sous le texte.
+        */}
+        <section className="relative isolate flex min-h-[100svh] items-end overflow-hidden bg-ink text-ivory lg:items-center">
+          {/* Fond flou précalculé (bande gauche de la photo étirée puis floutée) : pas de filtre CSS à dessiner */}
+          <div className="absolute inset-0 -z-30 hidden lg:block" aria-hidden>
+            <Image src="/images/accueil/hero-fond-flou.webp" alt="" fill unoptimized className="object-cover" />
           </div>
-          {/* Les cabosses sont posées à cheval sur la limite entre le hero et la suite de la page */}
-          <div className="relative mt-8 md:mt-10">
-            <div className="absolute inset-x-0 bottom-0 h-[42%] bg-ivory" aria-hidden />
-            <div className="relative mx-auto max-w-[46rem] px-6">
-              <div
-                className="absolute inset-x-[8%] bottom-[2%] h-[14%] rounded-[50%] bg-ink/30 blur-xl"
-                aria-hidden
-              />
-              <Image
-                src="/images/accueil/cabosses.webp"
-                alt="Trois cabosses de cacao : une rouge, une verte et une jaune"
-                width={1400}
-                height={425}
-                priority
-                sizes="(max-width: 768px) 92vw, 690px"
-                className="relative h-auto w-full"
-              />
+          <div className="absolute inset-0 -z-20 lg:left-auto lg:w-[58%] lg:[mask-image:linear-gradient(to_right,transparent,black_24%)]">
+            <Image
+              src="/images/comtoises/melanie-cedric.jpg"
+              alt="Mélanie et Cédric Brun dans un pré du Haut-Doubs, des coffrets de Belles Comtoises à la main, devant des vaches montbéliardes"
+              fill
+              priority
+              sizes="(min-width: 1024px) 58vw, 100vw"
+              className="object-cover object-[50%_8%] lg:object-top"
+            />
+          </div>
+          <div
+            className="absolute inset-0 -z-10 bg-gradient-to-t from-ink/95 via-ink/60 to-ink/10 lg:bg-gradient-to-r lg:from-ink/85 lg:via-ink/55 lg:to-transparent"
+            aria-hidden
+          />
+          {/* Assombrit le haut pour garder le menu lisible sur le ciel */}
+          <div className="absolute inset-x-0 top-0 -z-10 h-36 bg-gradient-to-b from-ink/55 to-transparent" aria-hidden />
+          <div className="mx-auto w-full max-w-7xl px-5 pb-14 pt-32 md:px-8 md:pb-20 lg:py-32">
+            <div className="max-w-2xl">
+              <p className="text-[11px] font-medium uppercase tracking-eyebrow text-brass-pale">
+                {CONTACT.marque}, Maître Artisan Pâtissier Chocolatier
+              </p>
+              <h1 className="font-display mt-4 text-[2.6rem] leading-[1.02] tracking-[-0.02em] text-ivory sm:text-[3.4rem] md:text-[4.4rem] lg:text-[4rem] xl:text-[4.6rem]">
+                Le chocolat, <em className="font-light italic text-brass-pale">une passion depuis 1999</em>
+              </h1>
+              <p className="mt-5 max-w-xl text-[16px] leading-relaxed text-ivory/85 md:text-[18px]">
+                Mélanie et Cédric Brun fabriquent leurs chocolats à {CONTACT.ville}, dans le Haut-Doubs : pour les
+                gourmands comme pour les professionnels de la restauration.
+              </p>
+              <Link
+                href="#univers"
+                className="group mt-8 inline-flex h-14 items-center gap-2.5 rounded-full bg-ivory px-7 text-[15px] font-medium text-ink transition-colors hover:bg-brass-pale"
+              >
+                Découvrir nos chocolats
+                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1 motion-reduce:transition-none" strokeWidth={1.75} aria-hidden />
+              </Link>
             </div>
           </div>
         </section>
 
         <section aria-labelledby="univers" className="bg-ivory pb-16 pt-12 md:pb-24 md:pt-16">
           <div className="mx-auto max-w-7xl px-5 md:px-8">
-            <h2 id="univers" className="font-display text-center text-[1.9rem] leading-tight text-ink md:text-[2.6rem]">
+            <h2 id="univers" className="font-display scroll-mt-28 text-center text-[1.9rem] leading-tight text-ink md:text-[2.6rem]">
               Deux univers chocolatés
             </h2>
 
             <div className="mt-9 grid gap-6 md:mt-12 lg:grid-cols-2 lg:gap-8">
               <article className="group relative flex flex-col overflow-hidden rounded-[28px] bg-sable transition-shadow duration-300 hover:shadow-lift">
                 <PhotoPorte
-                  src="/images/accueil/belles-comtoises-chocolat.webp"
-                  alt="Quatre Belles Comtoises en chocolat blanc, caramel, au lait et noir, avec des copeaux de chocolat et des fèves de cacao"
+                  src="/images/accueil/belles-comtoises-paille.webp"
+                  alt="Quatre Belles Comtoises en chocolat blanc, caramel, au lait et noir, posées sur de la paille dorée"
                 />
                 <div className="flex flex-1 flex-col p-7 pt-9 md:p-10 md:pt-10">
                   <p className="text-[11px] font-medium uppercase tracking-eyebrow text-brass-deep">Pour les gourmands</p>
