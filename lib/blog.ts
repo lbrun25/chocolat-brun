@@ -67,6 +67,48 @@ export const SITE_NAME = 'Cédric Brun – Maître Artisan Pâtissier Chocolatie
 
 const ARTICLES: ArticleMeta[] = [
   {
+    // Texte, photo et vidéo de la maison : hors règles éditoriales de l'agent (ARTICLES_MAISON, scripts/verifier-blog.mjs)
+    slug: 'orangettes-chocolat-noir',
+    titre: 'Les orangettes au chocolat noir : une gourmandise artisanale à savourer pour les fêtes',
+    titreSeo: 'Orangettes au chocolat noir, une gourmandise de fêtes',
+    description:
+      'Orangettes au chocolat noir de Cédric Brun, à Charquemont : l’orange confite enrobée de chocolat noir, présentée pour Noël dans de jolies boîtes transparentes.',
+    extrait: 'Le mariage délicat de l’orange et du chocolat noir, une gourmandise intemporelle.',
+    categorie: 'Actualités',
+    datePublication: '2026-11-19',
+    image: {
+      src: '/images/blog/orangettes-chocolat-noir/boites-orangettes-noel.jpg',
+      alt: 'Boîtes transparentes remplies d’orangettes au chocolat noir, nouées de rubans rouges et blancs et décorées de poinsettias',
+      width: 1448,
+      height: 1086,
+    },
+    ogImage: '/images/blog/orangettes-chocolat-noir/og-orangettes-chocolat-noir.jpg',
+    tempsLectureMin: 2,
+    motsCles: ['orangettes chocolat noir', 'orangettes artisanales', 'orangettes Noël', 'cadeau gourmand Noël', 'chocolatier Charquemont'],
+    liens: ['chocolat-et-cafe-accords', 'chocolats-de-noel-traditions'],
+  },
+  {
+    // Texte et photo de la maison : hors règles éditoriales de l'agent (ARTICLES_MAISON, scripts/verifier-blog.mjs)
+    slug: 'calendrier-de-l-avent-chocolat',
+    titre: 'Calendrier de l’Avent chocolaté : 24 jours de gourmandise avant Noël',
+    titreSeo: 'Calendrier de l’Avent chocolaté à Charquemont',
+    description:
+      'Notre calendrier de l’Avent chocolaté, 24 fenêtres au décor bleu nuit enneigé : disponible dans notre boutique de Charquemont ou sur commande par e-mail.',
+    extrait: 'La magie de Noël commence par une petite douceur chocolatée…',
+    categorie: 'Actualités',
+    datePublication: '2026-11-19',
+    image: {
+      src: '/images/blog/calendrier-de-l-avent-chocolat/calendriers-boutique.jpg',
+      alt: 'Calendriers de l’Avent au décor bleu nuit et enneigé alignés sur les étagères en verre de la boutique, avec les pancartes « Calendrier de l’Avent 12 € »',
+      width: 1536,
+      height: 994,
+    },
+    ogImage: '/images/blog/calendrier-de-l-avent-chocolat/og-calendrier-de-l-avent-chocolat.jpg',
+    tempsLectureMin: 2,
+    motsCles: ['calendrier de l’Avent chocolat', 'calendrier de l’Avent Charquemont', 'calendrier de l’Avent Haut-Doubs', 'cadeau de Noël', 'chocolatier Charquemont'],
+    liens: ['chocolats-de-noel-traditions', 'cadeau-gourmand-franche-comte'],
+  },
+  {
     slug: 'cadeau-collegue-noel-secret-santa',
     titre: 'Cadeau collègue à Noël : les règles du Secret Santa et les idées qui plaisent sans connaître la personne',
     titreSeo: 'Cadeau collègue Noël : réussir son Secret Santa',
