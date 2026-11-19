@@ -13,6 +13,7 @@ import DuCacaoAuChocolatEtapesFabrication, { faq as faqFabrication } from './du-
 import ChocolatEtCafeAccords, { faq as faqCafeAccords } from './chocolat-et-cafe-accords'
 import CadeauClientsFinDAnnee, { faq as faqCadeauClients } from './cadeau-clients-fin-d-annee-chocolat-entreprise'
 import IdeeCadeauAgriculteurEleveur, { faq as faqAgriculteur } from './idee-cadeau-agriculteur-eleveur'
+import CadeauCollegueNoelSecretSanta, { faq as faqSecretSanta } from './cadeau-collegue-noel-secret-santa'
 
 /** Corps des articles, par slug (voir lib/blog.ts pour les métadonnées). Usage serveur uniquement. */
 export const contenus: Record<string, ContenuArticle> = {
@@ -30,4 +31,5 @@ export const contenus: Record<string, ContenuArticle> = {
   'chocolat-et-cafe-accords': { Corps: ChocolatEtCafeAccords, faq: faqCafeAccords },
   'cadeau-clients-fin-d-annee-chocolat-entreprise': { Corps: CadeauClientsFinDAnnee, faq: faqCadeauClients },
   'idee-cadeau-agriculteur-eleveur': { Corps: IdeeCadeauAgriculteurEleveur, faq: faqAgriculteur },
+  'cadeau-collegue-noel-secret-santa': { Corps: CadeauCollegueNoelSecretSanta, faq: faqSecretSanta },
 }

@@ -67,6 +67,26 @@ export const SITE_NAME = 'Cédric Brun – Maître Artisan Pâtissier Chocolatie
 
 const ARTICLES: ArticleMeta[] = [
   {
+    slug: 'cadeau-collegue-noel-secret-santa',
+    titre: 'Cadeau collègue à Noël : les règles du Secret Santa et les idées qui plaisent sans connaître la personne',
+    titreSeo: 'Cadeau collègue Noël : réussir son Secret Santa',
+    description:
+      'Tirage, plafond de dépense, anonymat : comment organiser un Secret Santa au bureau, quel cadeau offrir à un collègue qu’on connaît peu et ce qu’il faut éviter.',
+    extrait:
+      'Les trois règles du Secret Santa, les précautions qui évitent les fausses notes au bureau, les cadeaux neutres qui plaisent à un collègue qu’on connaît peu et ceux qu’il vaut mieux laisser en rayon.',
+    categorie: 'Conseils',
+    datePublication: '2026-11-19',
+    image: {
+      src: '/images/comtoises/coffret-6-ouvert.jpg',
+      alt: 'Réglette de 6 Belles Comtoises ouverte sur l’herbe : six petites vaches en chocolat noir, au lait, caramel et blanc alignées, couvercle tacheté posé en travers',
+      width: 1200,
+      height: 1600,
+    },
+    tempsLectureMin: 6,
+    motsCles: ['cadeau collègue Noël', 'idée cadeau Secret Santa', 'Secret Santa bureau', 'cadeau collègue pas cher', 'organiser un Secret Santa'],
+    liens: ['cadeau-clients-fin-d-annee-chocolat-entreprise', 'difference-chocolat-noir-lait-blanc'],
+  },
+  {
     slug: 'idee-cadeau-agriculteur-eleveur',
     titre: 'Idée cadeau pour un agriculteur ou un éleveur : ce qui fait vraiment plaisir à Noël',
     titreSeo: 'Idée cadeau agriculteur : quoi offrir à un éleveur ?',

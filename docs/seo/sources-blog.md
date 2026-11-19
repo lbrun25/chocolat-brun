@@ -144,3 +144,20 @@ agriculture.gouv.fr non résolus par le proxy) : le Service de remplacement agri
 - Belles Comtoises : vaches montbéliardes en chocolat pur beurre de cacao, praliné noisette, quatre recettes et leurs
   notes, coffrets de 6, 12, 20, 30 ; moulage, enrobage, emballage à Charquemont ; livraison en France métropolitaine,
   Colissimo avec suivi, adresse et nom du destinataire saisis au paiement → docs/seo/faits-maison.md, lib/belles-comtoises.ts
+
+## cadeau-collegue-noel-secret-santa (19/11/2026)
+
+Article d'usages (organisation d'un Secret Santa, choix d'un cadeau entre collègues) : conseils de savoir-vivre, pas
+de fait historique, réglementaire ni technique. Recherche (WebSearch « idée cadeau collègue Noël Secret Santa
+règles ») : pages classées surtout composées de listes de produits et de budgets chiffrés (welcometothejungle.com,
+pluxee.fr, moovijob.com, sites marchands) ; angle retenu : les règles à poser avant le tirage, les précautions au
+bureau (participation libre, absents, liste d'envies), ce qu'il faut éviter. Volontairement non traités faute de
+source primaire consultée : origine historique du Secret Santa, règles sur l'alcool au travail, cadeaux aux agents
+publics. Aucun montant de budget cité.
+
+- Belles Comtoises : vaches montbéliardes en chocolat pur beurre de cacao, praliné noisette, quatre recettes et leurs
+  notes, réglette de 6 (petit format), boîtes de 20 et 30 ; moulage, enrobage, emballage à Charquemont ; livraison en
+  France métropolitaine, Colissimo avec suivi, colis préparés du mercredi au vendredi → docs/seo/faits-maison.md,
+  lib/belles-comtoises.ts
+- Image de couverture : coffret-6-ouvert.jpg (1200 × 1600, lu avec identify). coffret-6-ferme.jpg écartée : son
+  étiquette affiche lesbellescomtoises.com, qui n'est pas le site de la maison.
