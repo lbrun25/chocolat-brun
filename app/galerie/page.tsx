@@ -15,7 +15,7 @@ const galerieMedia: Array<{ src: string; alt: string }> = [
   { src: '/images/galerie/machine_emballage.jpg', alt: 'Machine d\'emballage' },
   { src: '/images/galerie/sachet_chocolat_noir.png', alt: 'Sachet de chocolat noir' },
   { src: '/images/galerie/troix_cabosses.jpg', alt: 'Trois cabosses de cacao' },
-  { src: '/images/galerie/cafe_chocolat.png', alt: 'Tasse de café avec chocolat emballé' },
+  { src: '/images/accueil/tasse-cafe-chocolat.webp', alt: 'Tasse de café avec chocolat emballé' },
   { src: '/images/galerie/the_chocolat.jpg', alt: 'Tasse de thé avec chocolat et tablette' },
   { src: '/images/galerie/poissons-chocolat-demoules.jpg', alt: 'Poissons en chocolat au lait fraîchement démoulés' },
   { src: '/images/galerie/poissons-moules-refroidissement.jpg', alt: 'Moules à poissons vides sur grille de refroidissement, à côté de carrés de chocolat' },

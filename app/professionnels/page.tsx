@@ -71,7 +71,7 @@ export default function EspaceProfessionnels() {
             </div>
             <div className="relative mx-auto aspect-square w-full max-w-md overflow-hidden rounded-2xl bg-white">
               <Image
-                src="/images/galerie/cafe_chocolat.png"
+                src="/images/accueil/tasse-cafe-chocolat.webp"
                 alt="Tasse d’expresso sur sa sous-tasse, avec un chocolat dans son sachet individuel"
                 fill
                 priority
@@ -97,7 +97,7 @@ export default function EspaceProfessionnels() {
                     >
                       <span className="relative block aspect-square overflow-hidden">
                         <Image
-                          src={g.image}
+                          src={'imageCarte' in g ? g.imageCarte : g.image}
                           alt=""
                           fill
                           sizes="(max-width: 640px) 90vw, (max-width: 1024px) 45vw, 22vw"

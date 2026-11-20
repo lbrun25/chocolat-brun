@@ -430,9 +430,9 @@ const ARTICLES: ArticleMeta[] = [
     categorie: 'Professionnels',
     datePublication: '2026-10-19',
     image: {
-      src: '/images/galerie/cafe_chocolat.png',
+      src: '/images/accueil/tasse-cafe-chocolat.webp',
       alt: 'Tasse de café accompagnée d’un petit chocolat emballé individuellement',
-      width: 1024,
+      width: 1536,
       height: 1024,
     },
     tempsLectureMin: 6,
