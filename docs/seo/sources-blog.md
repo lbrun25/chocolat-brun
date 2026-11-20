@@ -161,3 +161,22 @@ publics. Aucun montant de budget cité.
   lib/belles-comtoises.ts
 - Image de couverture : coffret-6-ouvert.jpg (1200 × 1600, lu avec identify). coffret-6-ferme.jpg écartée : son
   étiquette affiche lesbellescomtoises.com, qui n'est pas le site de la maison.
+
+## cadeau-maitresse-noel-fin-d-annee (20/11/2026)
+
+Article d'usages (cadeau à l'enseignant, à l'ATSEM, à l'AESH, à la nounou ; cadeau collectif de la classe) : conseils
+de savoir-vivre, pas de fait historique, réglementaire ni technique. Recherche (WebSearch « cadeau maîtresse Noël idée
+cadeau collectif classe ATSEM nounou ») : pages classées surtout composées de listes de produits personnalisés et de
+budgets de cagnotte chiffrés (blogs, sites marchands), centrées sur la fin d'année scolaire ; angle retenu : Noël,
+cadeau qui ne s'accumule pas, organisation du cadeau collectif (participation libre et anonyme), adultes oubliés
+(ATSEM, AESH, crèche). Recherche « enseignant fonctionnaire accepter cadeau parents d'élèves » : aucune source primaire
+joignable (education.gouv.fr et service-public.fr non résolus par le proxy) → règles sur les cadeaux aux agents
+publics NON traitées, comme le demande le plan ; définitions statutaires de l'ATSEM et de l'AESH retirées. Aucun
+montant cité.
+
+- Belles Comtoises : vaches montbéliardes en chocolat pur beurre de cacao, praliné noisette, quatre recettes et leurs
+  notes, réglette de 6 (petit format), boîte de 12 (format découverte), boîtes de 20 et 30 ; moulage, enrobage,
+  emballage à Charquemont ; paiement par carte, livraison en France métropolitaine, Colissimo avec suivi, colis
+  préparés du mercredi au vendredi, nom et adresse du destinataire saisis au paiement → docs/seo/faits-maison.md,
+  lib/belles-comtoises.ts
+- Image de couverture : coffret-20-detail.jpg (1200 × 1600, lu avec identify), qui montre une boîte ouverte de 12 vaches.

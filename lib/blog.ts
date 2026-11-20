@@ -67,6 +67,26 @@ export const SITE_NAME = 'Cédric Brun – Maître Artisan Pâtissier Chocolatie
 
 const ARTICLES: ArticleMeta[] = [
   {
+    slug: 'cadeau-maitresse-noel-fin-d-annee',
+    titre: 'Cadeau pour la maîtresse à Noël : idées pour l’enseignant, l’ATSEM et la nounou, en individuel ou en collectif',
+    titreSeo: 'Cadeau maîtresse Noël : idées pour l’école et la nounou',
+    description:
+      'Faut-il offrir un cadeau à la maîtresse à Noël ? Idées qui ne s’accumulent pas, cadeau collectif de la classe, attention pour l’ATSEM et la nounou.',
+    extrait:
+      'Un petit geste porté par l’enfant plutôt qu’un objet de plus : quoi offrir à la maîtresse à Noël, comment organiser un cadeau collectif sans gêner personne, et comment ne pas oublier l’ATSEM, l’AESH ou la nounou.',
+    categorie: 'Conseils',
+    datePublication: '2026-11-20',
+    image: {
+      src: '/images/comtoises/coffret-20-detail.jpg',
+      alt: 'Boîte ouverte de douze Belles Comtoises sur l’herbe : vaches en chocolat au lait, blanc, caramel et noir rangées en trois colonnes, couvercle tacheté posé derrière',
+      width: 1200,
+      height: 1600,
+    },
+    tempsLectureMin: 6,
+    motsCles: ['cadeau maîtresse Noël', 'cadeau ATSEM Noël', 'cadeau nounou Noël', 'cadeau collectif maîtresse', 'cadeau fin d’année maîtresse'],
+    liens: ['cadeau-collegue-noel-secret-santa', 'vache-montbeliarde-franche-comte'],
+  },
+  {
     // Texte, photo et vidéo de la maison : hors règles éditoriales de l'agent (ARTICLES_MAISON, scripts/verifier-blog.mjs)
     slug: 'orangettes-chocolat-noir',
     titre: 'Les orangettes au chocolat noir : une gourmandise artisanale à savourer pour les fêtes',
