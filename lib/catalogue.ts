@@ -216,9 +216,9 @@ export const grainsCafe = references.filter((r) => r.gamme === 'grain-cafe')
 export const GAMMES_PRO = [
   { gamme: 'poisson', href: '/poissons', label: 'Poissons', labelLong: 'Les poissons', image: '/images/poissons/poisson-lait.png' },
   { gamme: 'petit-beurre', href: '/petits-beurres', label: 'Petits beurres', labelLong: 'Les petits beurres', image: '/images/petits-beurres/biscuit-lait.png' },
-  { gamme: 'orangette', href: '/orangettes', label: 'Orangettes', labelLong: 'Les orangettes', image: '/images/orangettes/orangette-sachet.webp', imageCarte: '/images/orangettes/orangette-the.webp' },
+  { gamme: 'orangette', href: '/orangettes', label: 'Orangettes', labelLong: 'Les orangettes', image: '/images/orangettes/orangette-sachet.webp' },
   { gamme: 'grain-cafe', href: '/grains-de-cafe', label: 'Grains de café', labelLong: 'Les grains de café', image: '/images/grains-de-cafe/sachet-grains-cafe.png' },
-] as const satisfies ReadonlyArray<{ gamme: Gamme; href: string; label: string; labelLong: string; image: string; imageCarte?: string }>
+] as const satisfies ReadonlyArray<{ gamme: Gamme; href: string; label: string; labelLong: string; image: string }>
 
 export function referencesDeGamme(gamme: Gamme): Reference[] {
   return references.filter((r) => r.gamme === gamme)

@@ -97,7 +97,7 @@ export default function EspaceProfessionnels() {
                     >
                       <span className="relative block aspect-square overflow-hidden">
                         <Image
-                          src={'imageCarte' in g ? g.imageCarte : g.image}
+                          src={g.image}
                           alt=""
                           fill
                           sizes="(max-width: 640px) 90vw, (max-width: 1024px) 45vw, 22vw"
