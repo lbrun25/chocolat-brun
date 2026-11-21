@@ -180,3 +180,30 @@ montant cité.
   préparés du mercredi au vendredi, nom et adresse du destinataire saisis au paiement → docs/seo/faits-maison.md,
   lib/belles-comtoises.ts
 - Image de couverture : coffret-20-detail.jpg (1200 × 1600, lu avec identify), qui montre une boîte ouverte de 12 vaches.
+
+## menu-de-fetes-restaurant-attention-clients (21/11/2026)
+
+Sujet N4 (`cadeau-noel-made-in-france-artisanal`) passé en `bloqué` le même jour : la DGCCRF (economie.gouv.fr,
+fiche « Le Fabriqué en France, la garantie de l'origine des produits »), la douane (dépliant « Fabriqué en France »)
+et EUR-Lex (règlement (UE) n° 952/2013, art. 60) ont été repérés par WebSearch mais n'ont pas pu être CONSULTÉS
+(hôtes non résolus par le proxy) : aucune règle d'origine n'est vérifiée.
+
+Article d'usages professionnels (place du chocolat dans un menu de fêtes, calcul des quantités, stockage, moment de
+commande) : conseils pratiques, pas de fait historique, réglementaire ni technique nouveau. Recherche (WebSearch
+« menu de fêtes restaurant mignardises café réveillon attention clients fin de repas ») : pages classées composées
+de menus de réveillon d'établissements (offices de tourisme, PDF de restaurants) et de sélections de presse ; beaucoup
+finissent par « café et mignardises », aucune n'explique au restaurateur comment organiser cette fin de repas ;
+angle retenu : les moments (café, minuit, départ, chambre, plateaux traiteur), un calcul de quantités par couvert,
+le stockage en période de rush, commander tôt sans date limite. Exemple de calcul (60 couverts) inventé et présenté
+comme tel, aucun chiffre d'usage réel. Aucun prix ni montant.
+
+- Blanchiment du chocolat au froid humide : repris de `comment-conserver-le-chocolat` (déjà sourcé), sans chiffre.
+- Gammes pros : orangettes enrobées de chocolat noir (note « écorce d'orange confite et cacao intense »), grains de
+  café enrobés de chocolat noir en sachet de 3 grains (« pour la sous-tasse de vos expressos »), poissons et petits
+  beurres au lait, noir, noir au café, blanc ; emballés individuellement ; cartons de CONDITIONNEMENT pièces (constante
+  importée, pas recopiée) ; tarifs réservés aux comptes SIRET ; livraison en France métropolitaine →
+  lib/catalogue.ts, docs/seo/faits-maison.md, app/professionnels/page.tsx
+- Maison : atelier de Charquemont (Haut-Doubs), moulage, enrobage, emballage ; maître artisan chocolatier depuis
+  1999 → docs/seo/faits-maison.md
+- Image de couverture : galerie/poissons-emballes-carton.jpg (1600 × 1200 stockée, EXIF orientation 6 → affichée
+  1200 × 1600, lu avec identify), poissons au lait en sachets individuels dans un carton ouvert.

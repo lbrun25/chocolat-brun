@@ -67,6 +67,26 @@ export const SITE_NAME = 'Cédric Brun – Maître Artisan Pâtissier Chocolatie
 
 const ARTICLES: ArticleMeta[] = [
   {
+    slug: 'menu-de-fetes-restaurant-attention-clients',
+    titre: 'Menu de fêtes au restaurant : où placer le chocolat, combien en prévoir et quelle attention offrir aux clients',
+    titreSeo: 'Menu de fêtes restaurant : chocolat et attention clients',
+    description:
+      'Réveillon au restaurant, à l’hôtel ou chez le traiteur : où placer le chocolat dans le menu de fêtes, combien de pièces prévoir par couvert, comment stocker.',
+    extrait:
+      'Avec le café, à minuit le 31 ou au départ des clients : les trois moments où le chocolat signe un menu de fêtes, le calcul des quantités par couvert, le stockage pendant le coup de feu et le bon moment pour commander.',
+    categorie: 'Professionnels',
+    datePublication: '2026-11-21',
+    image: {
+      src: '/images/galerie/poissons-emballes-carton.jpg',
+      alt: 'Carton ouvert rempli de petits poissons en chocolat au lait, chacun dans son sachet transparent individuel',
+      width: 1200,
+      height: 1600,
+    },
+    tempsLectureMin: 6,
+    motsCles: ['menu de fêtes restaurant', 'attention clients restaurant Noël', 'mignardise menu de fêtes', 'chocolat réveillon restaurant', 'mignardises Saint-Sylvestre'],
+    liens: ['chocolat-cafe-restaurant-hotel', 'chocolat-et-cafe-accords'],
+  },
+  {
     slug: 'cadeau-maitresse-noel-fin-d-annee',
     titre: 'Cadeau pour la maîtresse à Noël : idées pour l’enseignant, l’ATSEM et la nounou, en individuel ou en collectif',
     titreSeo: 'Cadeau maîtresse Noël : idées pour l’école et la nounou',
