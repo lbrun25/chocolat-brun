@@ -67,6 +67,26 @@ export const SITE_NAME = 'Cédric Brun – Maître Artisan Pâtissier Chocolatie
 
 const ARTICLES: ArticleMeta[] = [
   {
+    slug: 'cadeau-noel-grands-parents-a-distance',
+    titre: 'Cadeau de Noël pour des grands-parents éloignés : quoi offrir, comment le faire livrer et l’ouvrir ensemble',
+    titreSeo: 'Cadeau grands-parents Noël : offrir à distance',
+    description:
+      'Pas de Noël avec vos grands-parents cette année ? Quel cadeau leur envoyer, comment le faire livrer chez eux, associer les petits-enfants et l’ouvrir en visio.',
+    extrait:
+      'Livré chez eux avant le réveillon, accompagné d’un mot des petits-enfants et ouvert ensemble en appel vidéo : comment choisir et envoyer un cadeau de Noël à des grands-parents qu’on ne verra pas pendant les fêtes.',
+    categorie: 'Conseils',
+    datePublication: '2026-11-22',
+    image: {
+      src: '/images/comtoises/coffret-6-ferme.jpg',
+      alt: 'Réglette de six Belles Comtoises fermée sur l’herbe : étui blanc à grandes taches brunes, noué d’un lien de raphia avec une étiquette à tête de vache',
+      width: 1200,
+      height: 1600,
+    },
+    tempsLectureMin: 7,
+    motsCles: ['cadeau grands-parents Noël', 'envoyer un cadeau à ses grands-parents', 'cadeau Noël à distance', 'cadeau grands-parents éloignés', 'faire livrer un cadeau de Noël'],
+    liens: ['vache-montbeliarde-franche-comte', 'difference-chocolat-noir-lait-blanc'],
+  },
+  {
     slug: 'menu-de-fetes-restaurant-attention-clients',
     titre: 'Menu de fêtes au restaurant : où placer le chocolat, combien en prévoir et quelle attention offrir aux clients',
     titreSeo: 'Menu de fêtes restaurant : chocolat et attention clients',

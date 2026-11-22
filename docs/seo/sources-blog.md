@@ -207,3 +207,21 @@ comme tel, aucun chiffre d'usage réel. Aucun prix ni montant.
   1999 → docs/seo/faits-maison.md
 - Image de couverture : galerie/poissons-emballes-carton.jpg (1600 × 1200 stockée, EXIF orientation 6 → affichée
   1200 × 1600, lu avec identify), poissons au lait en sachets individuels dans un carton ouvert.
+
+## cadeau-noel-grands-parents-a-distance (22/11/2026)
+
+Article de conseils pratiques (choix du cadeau, livraison à l'adresse des grands-parents, participation des
+petits-enfants, déballage en appel vidéo) : aucun fait historique, réglementaire ni technique nouveau. Recherche
+(WebSearch « cadeau grands-parents Noël envoyer à distance idée », 22/11/2026) : pages classées = listes de produits
+(sites marchands, comparateurs, capretraite.fr, laposte.fr) ; aucune n'explique comment organiser le cadeau à distance
+(adresse, prévenir du colis, suivi, résidence, déballage en visio) ; angle retenu : l'organisation plutôt que le
+catalogue. Résidences et établissements : simple renvoi à l'accueil, aucune règle affirmée. Aucun montant cité.
+L'encadré « à distance » de `cadeau-gourmand-franche-comte` n'est pas repris.
+
+- Belles Comtoises : vaches montbéliardes en chocolat pur beurre de cacao, praliné noisette, quatre recettes et leurs
+  notes, réglette de 6 (petit format), boîtes de 12 (format découverte), 20 (grand format), 30 (très grand format) ;
+  moulage, enrobage, emballage à Charquemont ; maître artisan chocolatier ; paiement par carte, livraison en France
+  métropolitaine, Colissimo avec suivi, colis préparés du mercredi au vendredi, nom et adresse du destinataire saisis
+  au paiement → docs/seo/faits-maison.md, lib/belles-comtoises.ts, lib/shipping.ts
+- Image de couverture : comtoises/coffret-6-ferme.jpg (1200 × 1600, lu avec identify), réglette fermée à taches brunes
+  nouée de raphia, sur l'herbe.
