@@ -67,6 +67,26 @@ export const SITE_NAME = 'Cédric Brun – Maître Artisan Pâtissier Chocolatie
 
 const ARTICLES: ArticleMeta[] = [
   {
+    slug: 'cadeau-invite-repas-de-noel',
+    titre: 'Invité à un repas de Noël : quel cadeau offrir à l’hôte, quand le remettre et ce qu’il n’a pas à servir',
+    titreSeo: 'Invité à Noël : quel cadeau offrir à l’hôte ?',
+    description:
+      'Invité au réveillon ou au déjeuner de Noël ? Fleurs, vin ou chocolats : quoi offrir à l’hôte, plat ou cadeau, quand le remettre et ce qu’il n’a pas à servir.',
+    extrait:
+      'Un cadeau qui ne donne aucun travail, remis à l’arrivée avec un « pour plus tard » : que offrir quand on est invité à Noël, la différence entre apporter un plat et un cadeau, et pourquoi l’hôte n’est pas obligé d’ouvrir votre bouteille ou vos chocolats.',
+    categorie: 'Conseils',
+    datePublication: '2026-11-23',
+    image: {
+      src: '/images/comtoises/coffret-carre-ferme.jpg',
+      alt: 'Boîte de Belles Comtoises fermée, posée sur l’herbe : couvercle blanc à grandes taches brunes, noué d’un lien de raphia avec une étiquette à tête de vache',
+      width: 1200,
+      height: 1600,
+    },
+    tempsLectureMin: 6,
+    motsCles: ['que offrir quand on est invité à Noël', 'cadeau pour l’hôte Noël', 'cadeau invité repas de Noël', 'cadeau hôtesse Noël', 'apporter quoi chez ses beaux-parents à Noël'],
+    liens: ['chocolat-et-cafe-accords', 'cadeau-gourmand-franche-comte'],
+  },
+  {
     slug: 'cadeau-noel-grands-parents-a-distance',
     titre: 'Cadeau de Noël pour des grands-parents éloignés : quoi offrir, comment le faire livrer et l’ouvrir ensemble',
     titreSeo: 'Cadeau grands-parents Noël : offrir à distance',

@@ -17,6 +17,7 @@ import CadeauCollegueNoelSecretSanta, { faq as faqSecretSanta } from './cadeau-c
 import CadeauMaitresseNoelFinDAnnee, { faq as faqMaitresse } from './cadeau-maitresse-noel-fin-d-annee'
 import MenuDeFetesRestaurant, { faq as faqMenuDeFetes } from './menu-de-fetes-restaurant-attention-clients'
 import CadeauNoelGrandsParentsADistance, { faq as faqGrandsParents } from './cadeau-noel-grands-parents-a-distance'
+import CadeauInviteRepasDeNoel, { faq as faqInviteNoel } from './cadeau-invite-repas-de-noel'
 import CalendrierDeLAventChocolat from './calendrier-de-l-avent-chocolat'
 import OrangettesChocolatNoir from './orangettes-chocolat-noir'
 
@@ -40,6 +41,7 @@ export const contenus: Record<string, ContenuArticle> = {
   'menu-de-fetes-restaurant-attention-clients': { Corps: MenuDeFetesRestaurant, faq: faqMenuDeFetes },
   'cadeau-maitresse-noel-fin-d-annee': { Corps: CadeauMaitresseNoelFinDAnnee, faq: faqMaitresse },
   'cadeau-noel-grands-parents-a-distance': { Corps: CadeauNoelGrandsParentsADistance, faq: faqGrandsParents },
+  'cadeau-invite-repas-de-noel': { Corps: CadeauInviteRepasDeNoel, faq: faqInviteNoel },
   'calendrier-de-l-avent-chocolat': { Corps: CalendrierDeLAventChocolat },
   'orangettes-chocolat-noir': { Corps: OrangettesChocolatNoir },
 }

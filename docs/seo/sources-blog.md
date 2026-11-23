@@ -225,3 +225,22 @@ L'encadré « à distance » de `cadeau-gourmand-franche-comte` n'est pas repris
   au paiement → docs/seo/faits-maison.md, lib/belles-comtoises.ts, lib/shipping.ts
 - Image de couverture : comtoises/coffret-6-ferme.jpg (1200 × 1600, lu avec identify), réglette fermée à taches brunes
   nouée de raphia, sur l'herbe.
+
+## cadeau-invite-repas-de-noel (23/11/2026)
+
+Article de savoir-vivre (cadeau d'hôte, plat ou cadeau, moment de la remise, ce que l'hôte n'a pas à servir) :
+usages présentés comme tels, aucun fait historique, réglementaire ni technique. Recherche (WebSearch « que offrir
+quand on est invité à Noël cadeau pour l'hôte savoir-vivre fleurs vin chocolats », 23/11/2026) : pages classées =
+presse lifestyle belge et québécoise (parismatch.be, noovomoi.ca, slate.fr, doitinparis.com), listes d'idées ou
+faux pas isolés ; aucune ne distingue la part du repas répartie entre invités du cadeau d'hôte, ni ne traite le
+cas du Noël en famille (beaux-parents, plusieurs familles invitées) ; angle retenu : ces usages concrets, sans
+montant. Pas d'origine historique des usages affirmée.
+
+- Belles Comtoises : vaches montbéliardes en chocolat pur beurre de cacao, praliné noisette, quatre recettes et leurs
+  notes, réglette de 6 (petit format), boîtes de 12 (format découverte), 20 (grand format), 30 (très grand format) ;
+  moulage, enrobage, emballage à Charquemont ; maître artisan chocolatier ; paiement par carte, livraison en France
+  métropolitaine, Colissimo avec suivi, colis préparés du mercredi au vendredi, livraison possible à l'adresse d'un
+  tiers → docs/seo/faits-maison.md, lib/belles-comtoises.ts, lib/shipping.ts
+- Image de couverture : comtoises/coffret-carre-ferme.jpg (1200 × 1600, lu avec identify), boîte fermée à taches
+  brunes nouée de raphia, sur l'herbe. Figure : comtoises/coffret-20-ouvert.jpg (1200 × 1600), boîte de 20 ouverte,
+  quatre colonnes lait, caramel, blanc, noir.
