@@ -244,3 +244,22 @@ montant. Pas d'origine historique des usages affirmée.
 - Image de couverture : comtoises/coffret-carre-ferme.jpg (1200 × 1600, lu avec identify), boîte fermée à taches
   brunes nouée de raphia, sur l'herbe. Figure : comtoises/coffret-20-ouvert.jpg (1200 × 1600), boîte de 20 ouverte,
   quatre colonnes lait, caramel, blanc, noir.
+
+## idee-cadeau-amoureux-des-vaches (24/11/2026)
+
+Article de conseils cadeaux (profils de passionnés, objets, sorties, choix du coffret) : aucun fait historique,
+réglementaire ni technique nouveau. Recherche (WebSearch « idée cadeau vache pour quelqu'un qui aime les vaches »,
+24/11/2026) : pages classées = boutiques et comparateurs (peluches, mugs, chaussons, statues) ; aucune n'aide à choisir
+selon le type de passion ni ne propose de sortie ; angle retenu : partir du profil (enfant, citadin, collectionneur,
+amateur de race), distinct de `idee-cadeau-agriculteur-eleveur` (métier). Parrainage de vache non traité (non sourcé).
+Races autres que la montbéliarde non décrites (non sourcées). Comices : aucune date citée.
+
+- Montbéliarde : robe « pie rouge », lait des fromages comtois, comices et clarines → repris de
+  `vache-montbeliarde-franche-comte` (article existant), sans fait nouveau.
+- Belles Comtoises : vaches montbéliardes couchées en chocolat pur beurre de cacao, praliné noisette, quatre recettes et
+  leurs notes, réglette de 6, boîtes de 12 (format découverte), 20 et 30 ; moulage, enrobage, emballage à Charquemont ;
+  livraison en France métropolitaine, Colissimo avec suivi, nom et adresse du destinataire saisis au paiement →
+  docs/seo/faits-maison.md, lib/belles-comtoises.ts, lib/shipping.ts
+- Image de couverture : comtoises/vache-lait.jpg (900 × 746, lu avec identify), Belle Comtoise au lait seule, de face,
+  sur fond blanc. Figure : comtoises/coffret-6-ouvert.jpg (1200 × 1600), réglette ouverte sur l'herbe, six vaches des
+  quatre recettes.

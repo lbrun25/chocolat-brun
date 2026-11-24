@@ -67,6 +67,26 @@ export const SITE_NAME = 'Cédric Brun – Maître Artisan Pâtissier Chocolatie
 
 const ARTICLES: ArticleMeta[] = [
   {
+    slug: 'idee-cadeau-amoureux-des-vaches',
+    titre: 'Idée cadeau pour quelqu’un qui aime les vaches : objets, sorties et vaches en chocolat qui font plaisir',
+    titreSeo: 'Idée cadeau vache : pour les amoureux des vaches',
+    description:
+      'Un proche fan de vaches ? Comment choisir selon sa passion (enfant, collectionneur, amateur de race) : objets utiles, sorties à la ferme et vaches en chocolat.',
+    extrait:
+      'Enfant fasciné, citadin nostalgique des alpages ou collectionneur aux étagères pleines : quel cadeau offrir à quelqu’un qui aime les vaches, des objets qui vieillissent bien aux sorties pour les voir de près, sans oublier la seule vache qu’il n’a pas encore.',
+    categorie: 'Terroir',
+    datePublication: '2026-11-24',
+    image: {
+      src: '/images/comtoises/vache-lait.jpg',
+      alt: 'Une Belle Comtoise au chocolat au lait vue de face : petite vache couchée, tête relevée, cornes, oreilles et taches de la robe dessinées en relief',
+      width: 900,
+      height: 746,
+    },
+    tempsLectureMin: 6,
+    motsCles: ['idée cadeau vache', 'cadeau pour quelqu’un qui aime les vaches', 'cadeau fan de vaches', 'cadeau vache enfant', 'vache en chocolat'],
+    liens: ['vache-montbeliarde-franche-comte', 'idee-cadeau-agriculteur-eleveur'],
+  },
+  {
     slug: 'cadeau-invite-repas-de-noel',
     titre: 'Invité à un repas de Noël : quel cadeau offrir à l’hôte, quand le remettre et ce qu’il n’a pas à servir',
     titreSeo: 'Invité à Noël : quel cadeau offrir à l’hôte ?',
