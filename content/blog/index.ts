@@ -19,6 +19,7 @@ import MenuDeFetesRestaurant, { faq as faqMenuDeFetes } from './menu-de-fetes-re
 import CadeauNoelGrandsParentsADistance, { faq as faqGrandsParents } from './cadeau-noel-grands-parents-a-distance'
 import CadeauInviteRepasDeNoel, { faq as faqInviteNoel } from './cadeau-invite-repas-de-noel'
 import IdeeCadeauAmoureuxDesVaches, { faq as faqAmoureuxVaches } from './idee-cadeau-amoureux-des-vaches'
+import EnvoyerDesChocolatsParLaPoste, { faq as faqEnvoyerChocolats } from './envoyer-des-chocolats-par-la-poste'
 import CalendrierDeLAventChocolat from './calendrier-de-l-avent-chocolat'
 import OrangettesChocolatNoir from './orangettes-chocolat-noir'
 
@@ -44,6 +45,7 @@ export const contenus: Record<string, ContenuArticle> = {
   'cadeau-noel-grands-parents-a-distance': { Corps: CadeauNoelGrandsParentsADistance, faq: faqGrandsParents },
   'cadeau-invite-repas-de-noel': { Corps: CadeauInviteRepasDeNoel, faq: faqInviteNoel },
   'idee-cadeau-amoureux-des-vaches': { Corps: IdeeCadeauAmoureuxDesVaches, faq: faqAmoureuxVaches },
+  'envoyer-des-chocolats-par-la-poste': { Corps: EnvoyerDesChocolatsParLaPoste, faq: faqEnvoyerChocolats },
   'calendrier-de-l-avent-chocolat': { Corps: CalendrierDeLAventChocolat },
   'orangettes-chocolat-noir': { Corps: OrangettesChocolatNoir },
 }

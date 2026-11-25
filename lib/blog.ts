@@ -67,6 +67,26 @@ export const SITE_NAME = 'Cédric Brun – Maître Artisan Pâtissier Chocolatie
 
 const ARTICLES: ArticleMeta[] = [
   {
+    slug: 'envoyer-des-chocolats-par-la-poste',
+    titre: 'Envoyer des chocolats par la poste : emballage, moment d’envoi et réception sans mauvaise surprise',
+    titreSeo: 'Envoyer des chocolats par la poste : le bon colis',
+    description:
+      'Chaleur, buée, chocs : comment emballer des chocolats, quand poster le colis, que faire à la réception, et pourquoi les faire expédier par l’artisan.',
+    extrait:
+      'Boîte d’origine, carton rigide bien calé, envoi suivi en début de semaine et carton laissé fermé à l’arrivée : ce qui abîme des chocolats pendant le transport et comment leur faire passer le trajet en bon état, jusqu’au sapin.',
+    categorie: 'Conseils',
+    datePublication: '2026-11-25',
+    image: {
+      src: '/images/comtoises/coffret-20-detail.jpg',
+      alt: 'Boîte de Belles Comtoises ouverte sur l’herbe : vaches en chocolat au lait, blanc, caramel et noir rangées chacune dans son alvéole',
+      width: 1200,
+      height: 1600,
+    },
+    tempsLectureMin: 6,
+    motsCles: ['envoyer des chocolats par la poste', 'colis de chocolats', 'emballer des chocolats pour un envoi', 'expédier des chocolats', 'faire livrer des chocolats pour Noël'],
+    liens: ['comment-conserver-le-chocolat', 'cadeau-noel-grands-parents-a-distance'],
+  },
+  {
     slug: 'idee-cadeau-amoureux-des-vaches',
     titre: 'Idée cadeau pour quelqu’un qui aime les vaches : objets, sorties et vaches en chocolat qui font plaisir',
     titreSeo: 'Idée cadeau vache : pour les amoureux des vaches',

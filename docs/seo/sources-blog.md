@@ -263,3 +263,23 @@ Races autres que la montbéliarde non décrites (non sourcées). Comices : aucun
 - Image de couverture : comtoises/vache-lait.jpg (900 × 746, lu avec identify), Belle Comtoise au lait seule, de face,
   sur fond blanc. Figure : comtoises/coffret-6-ouvert.jpg (1200 × 1600), réglette ouverte sur l'herbe, six vaches des
   quatre recettes.
+
+## envoyer-des-chocolats-par-la-poste (25/11/2026)
+
+Article de conseils pratiques (ce qui abîme les chocolats en transit, emballage, moment d'envoi, réception, envoi par
+l'artisan) : aucun fait historique, réglementaire ni technique chiffré. Recherche (WebSearch « envoyer des chocolats par
+la poste colis chaleur conseils », 25/11/2026) : pages classées = laposte.fr (pages par destination, conseils généraux :
+papier journal, papier bulle, emballage d'origine) et eurosender.com ; aucune ne traite la buée d'un colis froid ouvert
+dans une pièce chauffée, la réception ni le choix des chocolats qui voyagent bien ; angle retenu : le trajet complet,
+de la boîte au sapin. Accès direct à laposte.fr refusé (hôte non résolu par le proxy). Règles douanières par pays non
+citées (non vérifiées sur source primaire) : simple renvoi au transporteur. Aucune température ni durée chiffrée ;
+aucun passage repris de `comment-conserver-le-chocolat` (lien seulement) ni de `cadeau-noel-grands-parents-a-distance`.
+
+- Belles Comtoises : vaches montbéliardes couchées en chocolat pur beurre de cacao, praliné noisette, quatre recettes et
+  leurs notes, réglette de 6 (petit format), boîtes de 12 (format découverte), 20 (grand format), 30 (très grand
+  format) ; moulage, enrobage, emballage à Charquemont ; paiement par carte, livraison en France métropolitaine,
+  Colissimo avec suivi (constante TRANSPORTEUR), colis préparés du mercredi au vendredi, 2 jours ouvrés d'acheminement
+  (constante DELAI_ACHEMINEMENT_JOURS, importée), nom et adresse du destinataire saisis au paiement →
+  docs/seo/faits-maison.md, lib/belles-comtoises.ts, lib/shipping.ts
+- Image de couverture et figure : comtoises/coffret-20-detail.jpg (1200 × 1600, lu avec identify), boîte ouverte sur
+  l'herbe, vaches lait, blanc, caramel et noir chacune dans son alvéole, couvercle à taches brunes derrière.
