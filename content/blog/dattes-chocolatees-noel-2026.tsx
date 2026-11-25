@@ -1,7 +1,11 @@
 import { Exergue, Figure } from '@/components/blog/ArticleBlocks'
 import { VideoArticle } from '@/components/blog/VideoArticle'
 import Link from 'next/link'
+import { ExternalLink, MapPin } from 'lucide-react'
 import { CONTACT } from '@/lib/catalogue'
+
+const ADRESSE = `${CONTACT.adresse}, ${CONTACT.codePostal} ${CONTACT.ville}`
+const PLAN = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${CONTACT.raisonSociale}, ${ADRESSE}`)}`
 
 /** Texte de la maison (25/11/2026), publié tel quel ; photos et vidéo de l’atelier ajoutées à la demande de Lucien (mêmes fichiers que la galerie). */
 export default function DattesChocolateesNoel2026() {
@@ -59,8 +63,19 @@ export default function DattesChocolateesNoel2026() {
       <p>À offrir ou à déguster pour le simple plaisir des fêtes.</p>
       <p>
         <strong>Nouveauté Noël 2026</strong>, nos dattes chocolatées sont vendues{' '}
-        <strong>uniquement en magasin</strong>, dans notre boutique à Charquemont, {CONTACT.adresse},{' '}
-        {CONTACT.codePostal} {CONTACT.ville}.
+        <strong>uniquement en magasin</strong>, dans notre boutique :{' '}
+        <a
+          href={PLAN}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-baseline gap-1 font-medium underline underline-offset-[3px]"
+        >
+          <MapPin className="h-4 w-4 translate-y-0.5 self-center" strokeWidth={1.75} aria-hidden />
+          {ADRESSE}
+          <ExternalLink className="h-3.5 w-3.5 self-center" strokeWidth={1.75} aria-hidden />
+          <span className="sr-only"> (voir sur Google Maps, nouvel onglet)</span>
+        </a>
+        .
       </p>
 
       <h2>Découvrez nos autres produits vendus en ligne</h2>
