@@ -72,7 +72,7 @@ const ARTICLES: ArticleMeta[] = [
     titre: 'Dattes chocolatées de Noël : au chocolat noir ou façon Dubaï, la nouveauté 2026',
     titreSeo: 'Dattes chocolatées façon Dubaï, nouveauté de Noël',
     description:
-      'Dattes enrobées de chocolat noir ou façon Dubaï, au cœur de praliné pistache et de kadaïf : la nouveauté de Noël 2026 de Cédric Brun, à Charquemont.',
+      'Dattes enrobées de chocolat noir ou façon Dubaï, au cœur de praliné pistache et de kadaïf : nouveauté de Noël 2026 de Cédric Brun, vendue en boutique à Charquemont.',
     extrait: 'Deux recettes de dattes chocolatées pour les fêtes : enrobées de chocolat noir, ou façon Dubaï, au praliné pistache et au kadaïf grillé.',
     categorie: 'Actualités',
     datePublication: '2026-11-25',

@@ -1,5 +1,6 @@
 import { Exergue, Figure } from '@/components/blog/ArticleBlocks'
 import { VideoArticle } from '@/components/blog/VideoArticle'
+import Link from 'next/link'
 import { CONTACT } from '@/lib/catalogue'
 
 /** Texte de la maison (25/11/2026), publié tel quel ; photos et vidéo de l’atelier ajoutées à la demande de Lucien (mêmes fichiers que la galerie). */
@@ -57,8 +58,16 @@ export default function DattesChocolateesNoel2026() {
       <h2>À offrir ou à déguster</h2>
       <p>À offrir ou à déguster pour le simple plaisir des fêtes.</p>
       <p>
-        <strong>Nouveauté Noël 2026</strong>, à découvrir dans notre boutique à Charquemont, {CONTACT.adresse},{' '}
+        <strong>Nouveauté Noël 2026</strong>, nos dattes chocolatées sont vendues{' '}
+        <strong>uniquement en magasin</strong>, dans notre boutique à Charquemont, {CONTACT.adresse},{' '}
         {CONTACT.codePostal} {CONTACT.ville}.
+      </p>
+
+      <h2>Découvrez nos autres produits vendus en ligne</h2>
+      <p>
+        Vous ne pouvez pas passer à la boutique ? Retrouvez en ligne{' '}
+        <Link href="/belles-comtoises#coffrets">Les Belles Comtoises</Link>, nos petites vaches montbéliardes en chocolat
+        praliné noisette, en coffrets livrés partout en France métropolitaine.
       </p>
       <p>
         <strong>Cédric Brun – Maître Artisan Pâtissier-Chocolatier</strong>
