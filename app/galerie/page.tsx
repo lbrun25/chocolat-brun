@@ -5,6 +5,10 @@ import { Reveal } from '@/components/site/Reveal'
 import GalerieContent from './GalerieContent'
 
 const galerieMedia: Array<{ src: string; alt: string }> = [
+  { src: '/images/galerie/dattes-dubai-enrobees-kadaif.jpg', alt: 'Dattes façon Dubaï enrobées de chocolat noir et parsemées de kadaïf grillé' },
+  { src: '/images/galerie/dattes-dubai-pistache-kadaif-avant-enrobage.jpg', alt: 'Dattes garnies de praliné pistache et de kadaïf avant l’enrobage' },
+  { src: '/images/galerie/dattes-enrobeuse-chocolat-noir.jpg', alt: 'Dattes sur le tapis de l’enrobeuse, sous le voile de chocolat noir' },
+  { src: '/videos/galerie/dattes-dubai-enrobeuse.mp4', alt: 'Enrobage des dattes façon Dubaï dans l’enrobeuse' },
   { src: '/images/galerie/cabosse_etagere.jpg', alt: 'Cabosses de cacao sur étagère' },
   { src: '/images/galerie/cabosse_half.jpg', alt: 'Demi-cabosse de cacao' },
   { src: '/images/galerie/cabosse_ouverte.jpg', alt: 'Cabosse de cacao ouverte' },

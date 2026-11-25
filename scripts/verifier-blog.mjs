@@ -25,7 +25,7 @@ const DEPUIS = '2026-11-06'
  * Articles fournis par la maison (texte et photos de Mélanie et Cédric Brun), publiés tels quels :
  * règles globales seulement, hors plafond journalier. Liste tenue à la main, hors du périmètre de l'agent.
  */
-const ARTICLES_MAISON = new Set(['retour-super-comice-morteau-2026', 'calendrier-de-l-avent-chocolat', 'orangettes-chocolat-noir'])
+const ARTICLES_MAISON = new Set(['retour-super-comice-morteau-2026', 'calendrier-de-l-avent-chocolat', 'orangettes-chocolat-noir', 'dattes-chocolatees-noel-2026'])
 const parAgent = (a) => a.datePublication >= DEPUIS && !ARTICLES_MAISON.has(a.slug)
 
 // --- Chargement des métadonnées (lib/blog.ts, transpilé à la volée) ---

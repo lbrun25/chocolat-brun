@@ -67,6 +67,27 @@ export const SITE_NAME = 'Cédric Brun – Maître Artisan Pâtissier Chocolatie
 
 const ARTICLES: ArticleMeta[] = [
   {
+    // Texte, photos et vidéo de la maison : hors règles éditoriales de l'agent (ARTICLES_MAISON, scripts/verifier-blog.mjs)
+    slug: 'dattes-chocolatees-noel-2026',
+    titre: 'Dattes chocolatées de Noël : au chocolat noir ou façon Dubaï, la nouveauté 2026',
+    titreSeo: 'Dattes chocolatées façon Dubaï, nouveauté de Noël',
+    description:
+      'Dattes enrobées de chocolat noir ou façon Dubaï, au cœur de praliné pistache et de kadaïf : la nouveauté de Noël 2026 de Cédric Brun, à Charquemont.',
+    extrait: 'Deux recettes de dattes chocolatées pour les fêtes : enrobées de chocolat noir, ou façon Dubaï, au praliné pistache et au kadaïf grillé.',
+    categorie: 'Actualités',
+    datePublication: '2026-11-25',
+    image: {
+      src: '/images/galerie/dattes-dubai-enrobees-kadaif.jpg',
+      alt: 'Dattes façon Dubaï enrobées de chocolat noir, parsemées d’éclats de kadaïf grillé, alignées sur du papier sulfurisé',
+      width: 1200,
+      height: 1600,
+      cadrage: 'center 65%',
+    },
+    tempsLectureMin: 2,
+    motsCles: ['dattes chocolatées', 'dattes chocolat Dubaï', 'chocolat Dubaï pistache kadaïf', 'dattes enrobées chocolat noir', 'chocolat de Noël', 'chocolatier Charquemont'],
+    liens: ['chocolats-de-noel-traditions', 'cadeau-gourmand-franche-comte'],
+  },
+  {
     slug: 'envoyer-des-chocolats-par-la-poste',
     titre: 'Envoyer des chocolats par la poste : emballage, moment d’envoi et réception sans mauvaise surprise',
     titreSeo: 'Envoyer des chocolats par la poste : le bon colis',

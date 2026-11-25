@@ -22,6 +22,7 @@ import IdeeCadeauAmoureuxDesVaches, { faq as faqAmoureuxVaches } from './idee-ca
 import EnvoyerDesChocolatsParLaPoste, { faq as faqEnvoyerChocolats } from './envoyer-des-chocolats-par-la-poste'
 import CalendrierDeLAventChocolat from './calendrier-de-l-avent-chocolat'
 import OrangettesChocolatNoir from './orangettes-chocolat-noir'
+import DattesChocolateesNoel2026 from './dattes-chocolatees-noel-2026'
 
 /** Corps des articles, par slug (voir lib/blog.ts pour les métadonnées). Usage serveur uniquement. */
 export const contenus: Record<string, ContenuArticle> = {
@@ -48,4 +49,5 @@ export const contenus: Record<string, ContenuArticle> = {
   'envoyer-des-chocolats-par-la-poste': { Corps: EnvoyerDesChocolatsParLaPoste, faq: faqEnvoyerChocolats },
   'calendrier-de-l-avent-chocolat': { Corps: CalendrierDeLAventChocolat },
   'orangettes-chocolat-noir': { Corps: OrangettesChocolatNoir },
+  'dattes-chocolatees-noel-2026': { Corps: DattesChocolateesNoel2026 },
 }
