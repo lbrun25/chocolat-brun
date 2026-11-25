@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import JsonLd from '@/components/JsonLd'
 import { ALLERGENES, COMPOSITION, PRIX_PROVISOIRES, coffrets, recettes } from '@/lib/belles-comtoises'
-import { FLAT_SHIPPING_COST } from '@/lib/shipping'
+import { DELAI_ACHEMINEMENT_JOURS, FLAT_SHIPPING_COST } from '@/lib/shipping'
 import { absoluteUrl } from '@/lib/site-url'
 import LandingBellesComtoises from './LandingBellesComtoises'
 
@@ -48,6 +48,12 @@ function ficheProduit() {
       '@type': 'OfferShippingDetails',
       shippingRate: { '@type': 'MonetaryAmount', value: FLAT_SHIPPING_COST.toFixed(2), currency: 'EUR' },
       shippingDestination: { '@type': 'DefinedRegion', addressCountry: 'FR' },
+      // Préparation sous 24 à 48 h (1 à 2 jours), puis acheminement Colissimo en jours ouvrés
+      deliveryTime: {
+        '@type': 'ShippingDeliveryTime',
+        handlingTime: { '@type': 'QuantitativeValue', minValue: 1, maxValue: 2, unitCode: 'DAY' },
+        transitTime: { '@type': 'QuantitativeValue', minValue: DELAI_ACHEMINEMENT_JOURS, maxValue: DELAI_ACHEMINEMENT_JOURS, unitCode: 'DAY' },
+      },
     },
     hasMerchantReturnPolicy: {
       '@type': 'MerchantReturnPolicy',
