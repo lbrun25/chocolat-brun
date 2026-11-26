@@ -19,7 +19,10 @@ const ROBOTS_IA = [
   'Applebot-Extended',
 ]
 // Attention : une règle est un préfixe (« /pro » bloquerait aussi « /professionnels »).
-const EXCLUS = ['/compte', '/api/']
+// /compte n'est volontairement PAS bloqué : ses pages portent « noindex » (app/(site)/compte/layout.tsx) et
+// Google ne peut le lire que s'il a le droit d'explorer la page. Bloqué dans robots.txt, il restait indexé
+// sans contenu (Search Console : « Indexée malgré le blocage par le fichier robots.txt »).
+const EXCLUS = ['/api/']
 
 export default async function robots(): Promise<MetadataRoute.Robots> {
   const baseUrl = await getBaseUrl()
