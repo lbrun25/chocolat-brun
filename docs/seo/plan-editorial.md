@@ -37,7 +37,7 @@ Après le 20/12, ou une fois cette vague épuisée, reprendre la vague 1.
 | 6 | `du-cacao-au-chocolat-etapes-fabrication` | comment fabrique-t-on le chocolat, de la fève à la tablette | Conseils | — | publié le 13/11/2026 (`du-cacao-au-chocolat-etapes-fabrication`) |
 | 7 | `chocolat-et-cafe-accords` | accord café chocolat, quel chocolat avec quel café | Conseils | — | publié le 16/11/2026 (`chocolat-et-cafe-accords`) |
 | 8 | `cadeau-clients-fin-d-annee-chocolat-entreprise` | cadeau clients fin d’année chocolat entreprise | Professionnels | nov.–déc. | publié le 17/11/2026 (`cadeau-clients-fin-d-annee-chocolat-entreprise`) |
-| 9 | `chocolat-oreiller-hotel-attention-client` | chocolat sur l’oreiller hôtel, attention client | Professionnels | — | à écrire |
+| 9 | `chocolat-oreiller-hotel-attention-client` | chocolat sur l’oreiller hôtel, attention client | Professionnels | — | publié le 26/11/2026 (`chocolat-oreiller-hotel-attention-client`) |
 | 10 | `chocolat-emballe-individuellement-restauration-hygiene` | chocolat emballé individuellement restaurant, pourquoi | Professionnels | — | à écrire |
 | 11 | `mignardises-cafe-gourmand-restaurant` | café gourmand mignardises restaurant, comment le composer | Professionnels | — | à écrire |
 | 12 | `orangettes-histoire-origine-accords` | orangettes histoire origine, avec quoi les déguster | Terroir | — | à écrire |
