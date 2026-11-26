@@ -67,6 +67,26 @@ export const SITE_NAME = 'Cédric Brun – Maître Artisan Pâtissier Chocolatie
 
 const ARTICLES: ArticleMeta[] = [
   {
+    slug: 'chocolat-oreiller-hotel-attention-client',
+    titre: 'Chocolat sur l’oreiller à l’hôtel : quand le poser, lequel choisir et combien en prévoir par chambre',
+    titreSeo: 'Chocolat sur l’oreiller à l’hôtel : le guide pratique',
+    description:
+      'Chocolat sur l’oreiller : à l’arrivée ou à la couverture du soir, quelle pièce choisir, où la poser, combien en prévoir par nuitée et comment la stocker.',
+    extrait:
+      'La petite pièce qui signe la couverture du soir : à quel moment la déposer, pourquoi la choisir emballée et d’une forme reconnaissable, où la poser dans la chambre, comment calculer les quantités par nuitée et où la ranger côté étages.',
+    categorie: 'Professionnels',
+    datePublication: '2026-11-26',
+    image: {
+      src: '/images/galerie/chocolat_emballage_vrac.jpg',
+      alt: 'Plateau doré à bords moulurés rempli de petits chocolats emballés un par un dans des sachets brun foncé brillants, marqués « Chocolat » et ornés d’une cabosse de cacao',
+      width: 4032,
+      height: 3024,
+    },
+    tempsLectureMin: 6,
+    motsCles: ['chocolat sur l’oreiller hôtel', 'chocolat oreiller', 'couverture du soir hôtel', 'turndown chocolat', 'attention client hôtel', 'chocolat d’accueil chambre d’hôtes'],
+    liens: ['chocolat-cafe-restaurant-hotel', 'comment-conserver-le-chocolat'],
+  },
+  {
     // Texte, photos et vidéo de la maison : hors règles éditoriales de l'agent (ARTICLES_MAISON, scripts/verifier-blog.mjs)
     slug: 'dattes-chocolatees-noel-2026',
     titre: 'Dattes chocolatées de Noël : au chocolat noir ou façon Dubaï, la nouveauté 2026',

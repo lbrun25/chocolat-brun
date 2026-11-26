@@ -20,6 +20,7 @@ import CadeauNoelGrandsParentsADistance, { faq as faqGrandsParents } from './cad
 import CadeauInviteRepasDeNoel, { faq as faqInviteNoel } from './cadeau-invite-repas-de-noel'
 import IdeeCadeauAmoureuxDesVaches, { faq as faqAmoureuxVaches } from './idee-cadeau-amoureux-des-vaches'
 import EnvoyerDesChocolatsParLaPoste, { faq as faqEnvoyerChocolats } from './envoyer-des-chocolats-par-la-poste'
+import ChocolatOreillerHotel, { faq as faqOreillerHotel } from './chocolat-oreiller-hotel-attention-client'
 import CalendrierDeLAventChocolat from './calendrier-de-l-avent-chocolat'
 import OrangettesChocolatNoir from './orangettes-chocolat-noir'
 import DattesChocolateesNoel2026 from './dattes-chocolatees-noel-2026'
@@ -47,6 +48,7 @@ export const contenus: Record<string, ContenuArticle> = {
   'cadeau-invite-repas-de-noel': { Corps: CadeauInviteRepasDeNoel, faq: faqInviteNoel },
   'idee-cadeau-amoureux-des-vaches': { Corps: IdeeCadeauAmoureuxDesVaches, faq: faqAmoureuxVaches },
   'envoyer-des-chocolats-par-la-poste': { Corps: EnvoyerDesChocolatsParLaPoste, faq: faqEnvoyerChocolats },
+  'chocolat-oreiller-hotel-attention-client': { Corps: ChocolatOreillerHotel, faq: faqOreillerHotel },
   'calendrier-de-l-avent-chocolat': { Corps: CalendrierDeLAventChocolat },
   'orangettes-chocolat-noir': { Corps: OrangettesChocolatNoir },
   'dattes-chocolatees-noel-2026': { Corps: DattesChocolateesNoel2026 },

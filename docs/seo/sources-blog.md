@@ -283,3 +283,25 @@ aucun passage repris de `comment-conserver-le-chocolat` (lien seulement) ni de `
   docs/seo/faits-maison.md, lib/belles-comtoises.ts, lib/shipping.ts
 - Image de couverture et figure : comtoises/coffret-20-detail.jpg (1200 × 1600, lu avec identify), boîte ouverte sur
   l'herbe, vaches lait, blanc, caramel et noir chacune dans son alvéole, couvercle à taches brunes derrière.
+
+## chocolat-oreiller-hotel-attention-client (26/11/2026)
+
+Article d'usages professionnels (moment de dépose, choix de la pièce, emplacement dans la chambre, calcul des
+quantités par nuitée, stockage côté étages, compléments) : conseils pratiques, aucun fait historique, réglementaire
+ni technique. Recherche (WebSearch « chocolat sur l'oreiller hôtel service de couverture », 26/11/2026) : pages
+classées = catalogues hôteliers de chocolatiers, articles anglophones (hospitalitynet.org, scmp.com), glossaire de
+traducteurs (proz.com) sur le terme « couverture » ; aucune page française n'explique à l'hôtelier comment organiser
+l'attention (moment, emplacement, quantités, stockage) ; angle retenu : le guide pratique. Origine du chocolat sur
+l'oreiller NON citée (anecdotes non vérifiables sur source primaire). Critères du classement hôtelier (Atout France)
+non cités : atout-france.fr non résolu par le proxy (WebFetch refusé). Exemple de calcul (20 chambres, 15 occupées,
+2 personnes) inventé et présenté comme tel ; nombre de soirs par carton calculé depuis la constante CONDITIONNEMENT.
+Aucun prix ni montant, aucun chiffre d'usage réel.
+
+- Gammes pros : poissons et petits beurres en lait, noir, noir au café, blanc ; notes « Fondant et généreux » (poisson
+  lait), « Puissant et équilibré » (poisson noir) ; poisson 4 g ; orangettes « écorce d'orange confite et cacao
+  intense » enrobées de chocolat noir ; grains de café enrobés de chocolat noir en sachet de 3 ; emballés
+  individuellement ; cartons de CONDITIONNEMENT pièces (constante importée) ; tarifs réservés aux comptes SIRET ;
+  livraison en France métropolitaine → lib/catalogue.ts, docs/seo/faits-maison.md
+- Maison : Mélanie et Cédric Brun, atelier de Charquemont (Doubs, Haut-Doubs), moulage et emballage → faits-maison.md
+- Image de couverture et figure : galerie/chocolat_emballage_vrac.jpg (4032 × 3024, sans orientation EXIF, lu avec
+  identify), plateau doré mouluré rempli de petits chocolats en sachets brun foncé marqués « Chocolat » à la cabosse.
