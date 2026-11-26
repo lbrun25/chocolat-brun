@@ -407,7 +407,7 @@ export default function LandingBellesComtoises() {
           >
             <span className="inline-flex items-center gap-2">
               <ShoppingBag className="h-4 w-4 text-brass-pale" strokeWidth={1.75} aria-hidden />
-              {nbArticles} {nbArticles > 1 ? 'coffrets' : 'coffret'} · {formatEUR(total.totalTTC)}
+              {nbArticles} {nbArticles > 1 ? 'articles' : 'article'} · {formatEUR(total.totalTTC)}
             </span>
             <span className="inline-flex items-center gap-1.5">
               Voir mon panier
