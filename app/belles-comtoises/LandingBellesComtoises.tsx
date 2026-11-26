@@ -82,8 +82,17 @@ function CoffretCard({ id }: { id: string }) {
             </>
           )}
         </button>
-        <p className="mt-2 h-4 text-center text-[12px] text-brass-deep tabular-nums" aria-live="polite">
-          {dansPanier > 0 ? `${dansPanier} dans le panier` : ''}
+        <p className="mt-2 flex h-5 items-center justify-center gap-1.5 text-[12.5px] text-brass-deep tabular-nums" aria-live="polite">
+          {dansPanier > 0 && (
+            <>
+              <span>{dansPanier} dans le panier</span>
+              <span aria-hidden>·</span>
+              <Link href="/panier-comtoises" className="inline-flex items-center gap-1 font-medium underline underline-offset-[3px] hover:text-ink">
+                Voir mon panier
+                <ArrowRight className="h-3 w-3" strokeWidth={2} aria-hidden />
+              </Link>
+            </>
+          )}
         </p>
       </div>
     </div>
@@ -91,10 +100,10 @@ function CoffretCard({ id }: { id: string }) {
 }
 
 export default function LandingBellesComtoises() {
-  const { isEmpty } = useComtoisesCart()
+  const { isEmpty, articles: nbArticles, total } = useComtoisesCart()
 
   return (
-    <div className="landing bg-ivory font-sans text-ink">
+    <div className={`landing bg-ivory font-sans text-ink ${isEmpty ? '' : 'pb-20 md:pb-0'}`}>
       <SiteHeader />
 
       <main>
@@ -390,6 +399,23 @@ export default function LandingBellesComtoises() {
         </section>
       </main>
 
+      {!isEmpty && (
+        <div className="fixed inset-x-0 bottom-0 z-40 border-t border-ink/10 bg-ivory/95 px-4 py-3 backdrop-blur md:hidden">
+          <Link
+            href="/panier-comtoises"
+            className="flex h-12 w-full items-center justify-between rounded-full bg-ink px-6 text-[14.5px] font-medium text-ivory"
+          >
+            <span className="inline-flex items-center gap-2">
+              <ShoppingBag className="h-4 w-4 text-brass-pale" strokeWidth={1.75} aria-hidden />
+              {nbArticles} {nbArticles > 1 ? 'coffrets' : 'coffret'} · {formatEUR(total.totalTTC)}
+            </span>
+            <span className="inline-flex items-center gap-1.5">
+              Voir mon panier
+              <ArrowRight className="h-4 w-4" strokeWidth={1.75} aria-hidden />
+            </span>
+          </Link>
+        </div>
+      )}
       <SiteFooter />
     </div>
   )
