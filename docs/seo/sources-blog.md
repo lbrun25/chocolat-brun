@@ -305,3 +305,25 @@ Aucun prix ni montant, aucun chiffre d'usage réel.
 - Maison : Mélanie et Cédric Brun, atelier de Charquemont (Doubs, Haut-Doubs), moulage et emballage → faits-maison.md
 - Image de couverture et figure : galerie/chocolat_emballage_vrac.jpg (4032 × 3024, sans orientation EXIF, lu avec
   identify), plateau doré mouluré rempli de petits chocolats en sachets brun foncé marqués « Chocolat » à la cabosse.
+
+## mignardises-cafe-gourmand-restaurant (27/11/2026)
+
+Article d'usages professionnels (nombre de pièces, équilibre des textures et des couleurs, place de la bouchée chocolat,
+préparation pendant le service, dressage, variante au thé) : conseils pratiques, aucun fait historique, réglementaire
+ni technique. Recherche (WebSearch « café gourmand restaurant comment le composer mignardises », 27/11/2026) : pages
+classées = Wikipédia, tastefrance.com, pages de marques et blogs de voyage anglophones ; elles décrivent le café
+gourmand (un expresso et quelques mignardises, pas de recette officielle, variantes au thé) mais aucune n'aide le
+restaurateur à le composer, le préparer avant le service et le dresser ; angle retenu : le guide pratique en
+cuisine et en salle. Origine du café gourmand NON citée : les sources secondaires se contredisent (1985, années 1990,
+vers 2005) et aucune source primaire n'est joignable (hôtes officiels non résolus par le proxy). « Trois ou quatre
+pièces » présenté comme un conseil de la maison, pas comme une règle. Aucun prix ni montant, aucun chiffre d'usage.
+
+- Gammes pros : poissons en lait « Fondant et généreux », noir « Puissant et équilibré », noir au café, blanc « Crémeux
+  et vanillé » ; petits beurres moulés comme le biscuit ; orangettes « écorce d'orange confite et cacao intense »
+  enrobées de chocolat noir ; grains de café enrobés de chocolat noir en sachet de 3 ; emballés individuellement ;
+  cartons de CONDITIONNEMENT pièces (constante importée) ; tarifs réservés aux comptes SIRET ; livraison en France
+  métropolitaine → lib/catalogue.ts, docs/seo/faits-maison.md
+- Maison : Mélanie et Cédric Brun, atelier de Charquemont (Doubs), moulage, enrobage et emballage → faits-maison.md
+- Image de couverture : poissons/terrasse-cafe.jpg (1400 × 1400, lu avec identify), tasse « Café » sur soucoupe avec
+  un chocolat en sachet brun marqué « Chocolat », table de terrasse au bord de la mer. Figure : orangettes/orangette-the.webp
+  (1535 × 1024), orangette en sachet transparent devant une tasse de thé en verre.

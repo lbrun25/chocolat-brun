@@ -67,6 +67,26 @@ export const SITE_NAME = 'Cédric Brun – Maître Artisan Pâtissier Chocolatie
 
 const ARTICLES: ArticleMeta[] = [
   {
+    slug: 'mignardises-cafe-gourmand-restaurant',
+    titre: 'Café gourmand au restaurant : combien de mignardises, comment les équilibrer et quelle place pour le chocolat',
+    titreSeo: 'Café gourmand : composer les mignardises au restaurant',
+    description:
+      'Café gourmand au restaurant : combien de mignardises servir, comment varier textures et couleurs, quelle bouchée chocolat choisir et comment tenir le service.',
+    extrait:
+      'Trois ou quatre pièces, des textures qui se répondent, une note fraîche et une bouchée chocolat prête à servir : comment composer un café gourmand qui ressemble à un vrai dessert, le préparer avant le service et le dresser, avec sa variante au thé.',
+    categorie: 'Professionnels',
+    datePublication: '2026-11-27',
+    image: {
+      src: '/images/poissons/terrasse-cafe.jpg',
+      alt: 'Tasse de café posée sur une soucoupe avec un petit chocolat dans son sachet brun marqué « Chocolat », sur une table de terrasse de restaurant au bord de la mer',
+      width: 1400,
+      height: 1400,
+    },
+    tempsLectureMin: 7,
+    motsCles: ['café gourmand', 'café gourmand restaurant', 'mignardises café gourmand', 'composer un café gourmand', 'thé gourmand', 'mignardise chocolat restaurant'],
+    liens: ['chocolat-et-cafe-accords', 'comment-conserver-le-chocolat'],
+  },
+  {
     slug: 'chocolat-oreiller-hotel-attention-client',
     titre: 'Chocolat sur l’oreiller à l’hôtel : quand le poser, lequel choisir et combien en prévoir par chambre',
     titreSeo: 'Chocolat sur l’oreiller à l’hôtel : le guide pratique',
